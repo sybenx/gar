@@ -77,9 +77,11 @@ message GarSettings {
   // the user turned off "Keep the screen on while GAR is open" (GarKeepScreenOn); stored the
   // other way round so that the switch is on for existing settings files too
   bool screen_may_sleep = 40;
-  // the user turned off "Voice log" (GarVoiceLog): stored the other way round so that the log is
-  // on for existing settings files too
+  // "Voice log" (GarVoiceLog.settingOn): the user turned it off, or on. With neither, the build
+  // decides: on in debug builds, off in releases. voice_log_off came first (the log was on by
+  // default everywhere), so a debug user who never touched the switch keeps the log on.
   bool voice_log_off = 41;
+  bool voice_log_on = 42;
   // the user turned off "Keep listening after answers" (GarContinuedListening): stored the other
   // way round so that it is on for existing settings files too
   bool continued_listening_off = 50;

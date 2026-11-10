@@ -164,6 +164,18 @@ class VoiceTurn internal constructor(
         }
     }
 
+    /**
+     * Dicio's ranker ran for [wallMillis] ([cpuMillis] of this thread's CPU, null if unknown),
+     * [modelLoading] if the model loaded or warmed up meanwhile; summed over alternatives.
+     */
+    fun ranked(wallMillis: Long, cpuMillis: Long?, modelLoading: Boolean) = update {
+        it.rankMillis = (it.rankMillis ?: 0L) + wallMillis
+        if (cpuMillis != null) {
+            it.rankCpuMillis = (it.rankCpuMillis ?: 0L) + cpuMillis
+        }
+        it.rankModelLoading = it.rankModelLoading || modelLoading
+    }
+
     /** Which path won: "sentence", "follow_up_answer", "online_gate", "model" or "fallback". */
     fun routedBy(path: String) {
         val now = owner.monoNow()

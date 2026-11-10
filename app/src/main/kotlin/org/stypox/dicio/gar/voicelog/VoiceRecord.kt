@@ -78,6 +78,10 @@ class VoiceRecord(
     var check: String? = null
     var checkedSkill: String? = null
     var path: String? = null
+    /** Wall and CPU time of Dicio's ranker, and whether the model loaded meanwhile. */
+    var rankMillis: Long? = null
+    var rankCpuMillis: Long? = null
+    var rankModelLoading: Boolean = false
 
     var model: Model? = null
     var followUp: VoiceFollowUp? = null
@@ -247,7 +251,7 @@ class VoiceRecord(
             put("alternatives", alternatives)
         }
         editedFrom?.let { put("edited_from", it) }
-        if (candidates.isNotEmpty() || check != null || path != null) {
+        if (candidates.isNotEmpty() || check != null || path != null || rankMillis != null) {
             putJsonObject("match") {
                 putJsonArray("candidates") {
                     candidates.forEach { c ->
@@ -260,6 +264,11 @@ class VoiceRecord(
                 check?.let { put("check", it) }
                 checkedSkill?.let { put("checked_skill", it) }
                 path?.let { put("path", it) }
+                rankMillis?.let { put("rank_ms", it) }
+                rankCpuMillis?.let { put("rank_cpu_ms", it) }
+                if (rankModelLoading) {
+                    put("rank_model_loading", true)
+                }
             }
         }
         model?.let { m ->

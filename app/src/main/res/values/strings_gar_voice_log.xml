@@ -2,7 +2,7 @@
 <!-- GAR: the voice log's settings, see GarVoiceLog. -->
 <resources>
     <string name="gar_voice_log_title">Voice log</string>
-    <string name="gar_voice_log_summary">Keeps a log of each voice command on this phone to help fix recognition. Nothing leaves the phone.</string>
+    <string name="gar_voice_log_summary">Keeps the text, timings and short audio clips of each command on this phone only, shared only when you tap Share</string>
     <string name="gar_voice_log_share">Share voice log</string>
     <string name="gar_voice_log_share_summary">Sends a zipped copy of the log and its recordings to an app you pick</string>
     <string name="gar_voice_log_share_failed">Could not zip the voice log</string>

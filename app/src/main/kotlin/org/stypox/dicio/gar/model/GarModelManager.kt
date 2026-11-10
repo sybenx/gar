@@ -18,6 +18,7 @@ import android.view.ViewTreeObserver
 import androidx.datastore.core.DataStore
 import cc.aaro.gar.llm.LlamaConfig
 import cc.aaro.gar.llm.LlamaEngine
+import cc.aaro.gar.llm.ThreadPriority
 import cc.aaro.gar.router.LlmRouter
 import cc.aaro.gar.router.MediaControlRewrite
 import cc.aaro.gar.router.RouterOutput
@@ -49,6 +50,7 @@ import org.stypox.dicio.di.SkillContextInternal
 import org.stypox.dicio.gar.GarFallbackImpl
 import org.stypox.dicio.gar.GarRouterSource
 import org.stypox.dicio.gar.call.garCallFilter
+import org.stypox.dicio.gar.perf.GarMatchPriority
 import org.stypox.dicio.gar.perf.garTraceSuspending
 import org.stypox.dicio.gar.voicelog.GarVoiceLog
 import org.stypox.dicio.gar.settings.GarModel
@@ -627,10 +629,13 @@ class GarModelManager @Inject constructor(
             // the load lock, which speech recognition may be waiting for.
             val tools = toolsProvider.awaitOfferedTools(skillContext, SKILLS_READY_TIMEOUT_MILLIS)
                 .map { it.tool }
+            // a command being matched gets the CPU first (gar/DESIGN.md, "Routing speed")
+            GarMatchPriority.awaitNoMatch()
             // one native load at a time, so the guard blames the model that was loading
             GarNativeLoadLock.shared.withLanguageModelLoad {
                 // throws if this file stopped the app while loading before
                 loadGuard.begin(selection.id)
+                GarMatchPriority.modelLoading = true
                 try {
                     garTraceSuspending("Gar:loadAndWarmUp") { loadAndWarmUp(selection, tools) }
                 } catch (e: CancellationException) {
@@ -639,6 +644,7 @@ class GarModelManager @Inject constructor(
                     Log.e(TAG, "Could not load ${selection.file}", t)
                     throw t
                 } finally {
+                    GarMatchPriority.modelLoading = false
                     // not reached when llama.cpp aborts the process or the system kills it
                     loadGuard.end()
                 }
@@ -665,6 +671,7 @@ class GarModelManager @Inject constructor(
         try {
             // evaluate the tool declarations now, so the first command only pays for itself
             if (tools.isNotEmpty()) {
+                GarMatchPriority.awaitNoMatch()
                 router.warmUp(tools)
             }
         } catch (e: CancellationException) {
@@ -673,6 +680,8 @@ class GarModelManager @Inject constructor(
         } catch (t: Throwable) {
             Log.w(TAG, "Could not warm up the model", t)
         }
+        // loaded and warmed up at a low priority: commands for the model run at the normal one
+        engine.background = false
         return LoadedModel(engine, router)
     }
 
@@ -690,7 +699,13 @@ class GarModelManager @Inject constructor(
             load = { contextSize ->
                 Log.i(TAG, "Loading ${selection.file.name} with a context of $contextSize tokens")
                 LlamaEngine.load(
-                    selection.file, LlamaConfig(contextSize = contextSize), prefixCacheDir
+                    selection.file,
+                    LlamaConfig(
+                        contextSize = contextSize,
+                        threadPriority = ThreadPriority(GarMatchPriority::applyModelPriority),
+                    ),
+                    prefixCacheDir,
+                    background = true,
                 )
             },
             contextNeeded = { engine ->

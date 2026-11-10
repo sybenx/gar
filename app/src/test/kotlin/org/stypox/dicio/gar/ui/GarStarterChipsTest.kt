@@ -8,8 +8,12 @@ import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import org.stypox.dicio.gar.voicelog.GarVoiceStart
+import io.kotest.matchers.ints.shouldBeLessThan
 import org.stypox.dicio.gar.voicelog.VoiceFollowUp
+import org.stypox.dicio.gar.voicelog.VoiceLogFiles
 import org.stypox.dicio.gar.voicelog.VoiceRecord
+import org.stypox.dicio.gar.voicelog.VoiceStarterIndex
+import java.nio.file.Files
 
 private const val DAY = 24L * 60 * 60 * 1000
 private const val NOW = 1_800_000_000_000L
@@ -198,5 +202,72 @@ class GarStarterChipsTest : StringSpec({
         GarStarterChips.parse(record.toJson().toString()).shouldBeNull()
         GarStarterChips.parse("{\"input\": \"what time").shouldBeNull()
         GarStarterChips.parse("").shouldBeNull()
+    }
+
+    "the starter index keeps only the turns that may teach a starter, in a line that reads back" {
+        val record = VoiceRecord("id", 1, wallStart = NOW - DAY, startMono = 0L, start = GarVoiceStart.TYPED)
+        record.input = "What time is it"
+        record.path = "sentence"
+        record.answer = VoiceRecord.Answer(outcome = "answered", skill = "current_time")
+        val line = GarStarterChips.indexLine(record.toJson().toString()).shouldNotBeNull()
+        GarStarterChips.parse(line) shouldBe GarStarterChips.parse(record.toJson().toString())
+        line.length shouldBeLessThan 200
+
+        record.path = "model"
+        GarStarterChips.indexLine(record.toJson().toString()).shouldBeNull()
+        record.path = "sentence"
+        record.answer = VoiceRecord.Answer(outcome = "answered", skill = "telephone")
+        GarStarterChips.indexLine(record.toJson().toString()).shouldBeNull()
+        GarStarterChips.indexLine("{\"input\": \"what").shouldBeNull()
+    }
+
+    "the starter index is built from the log once, then follows it, and drops the oldest lines" {
+        val dir = Files.createTempDirectory("gar-starters").toFile()
+        val files = VoiceLogFiles(dir)
+        fun line(input: String, skill: String = "current_time"): String {
+            val record = VoiceRecord("id", 1, wallStart = NOW - DAY, startMono = 0L, start = GarVoiceStart.MIC_BUTTON)
+            record.input = input
+            record.path = "sentence"
+            record.answer = VoiceRecord.Answer(outcome = "answered", skill = skill)
+            return record.toJson().toString()
+        }
+        files.append(line("what time is it"))
+        files.append(line("call mom", skill = "telephone"))
+        val index = VoiceStarterIndex(files, GarStarterChips::indexLine, maxLines = 3)
+        VoiceStarterIndex.read(dir).shouldBeNull()
+
+        // without an index a written line waits for the scheduled build, which reads the log
+        files.append(line("whats my battery", skill = "battery"))
+        index.add(line("whats my battery", skill = "battery"))
+        VoiceStarterIndex.read(dir).shouldBeNull()
+        index.buildIfMissing()
+        VoiceStarterIndex.read(dir).shouldNotBeNull().map { GarStarterChips.parse(it)!!.input } shouldBe
+            listOf("what time is it", "whats my battery")
+
+        index.add(line("call dad", skill = "telephone"))
+        VoiceStarterIndex.read(dir).shouldNotBeNull().size shouldBe 2
+        repeat(10) { index.add(line("what time is it")) }
+        val kept = VoiceStarterIndex.read(dir).shouldNotBeNull()
+        (kept.size <= 3 + 10) shouldBe true // pruned by bytes, not on every line
+        index.buildIfMissing() // there is one: nothing changes
+        VoiceStarterIndex.read(dir) shouldBe kept
+
+        files.clear()
+        VoiceStarterIndex.read(dir).shouldBeNull()
+        dir.deleteRecursively()
+    }
+
+    "a long index is pruned to its newest lines" {
+        val dir = Files.createTempDirectory("gar-starters").toFile()
+        val files = VoiceLogFiles(dir)
+        val index = VoiceStarterIndex(files, { it }, maxLines = 2)
+        index.buildIfMissing()
+        VoiceStarterIndex.read(dir) shouldBe listOf()
+        val long = "x".repeat(400)
+        index.add("$long 1")
+        index.add("$long 2")
+        index.add("$long 3")
+        VoiceStarterIndex.read(dir) shouldBe listOf("$long 2", "$long 3")
+        dir.deleteRecursively()
     }
 })

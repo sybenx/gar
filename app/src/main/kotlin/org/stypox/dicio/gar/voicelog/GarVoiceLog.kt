@@ -24,12 +24,14 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.dicio.skill.skill.SkillInfo
 import org.dicio.skill.skill.SkillOutput
+import org.stypox.dicio.BuildConfig
 import org.stypox.dicio.R
 import org.stypox.dicio.eval.SkillWithResult
 import org.stypox.dicio.gar.perf.GarJank
 import org.stypox.dicio.gar.settings.GarSettings
 import org.stypox.dicio.gar.stt.GarSttPromptNames
 import org.stypox.dicio.gar.stt.SttModelCatalog
+import org.stypox.dicio.gar.ui.GarStarterChips
 import org.stypox.dicio.io.graphical.MissingPermissionsSkillOutput
 import org.stypox.dicio.io.input.InputEvent
 import org.stypox.dicio.skills.fallback.text.TextFallbackOutput
@@ -47,8 +49,9 @@ import kotlin.coroutines.EmptyCoroutineContext
 /**
  * The voice log (gar/DESIGN.md, "Voice log"): one JSON line per turn in
  * `files/gar-voice-log/`, so that the developer can see from daily use at which stage a spoken
- * command worked or failed. On by default ("Voice log" in GAR's settings); nothing leaves the
- * phone unless the user shares it.
+ * command worked or failed. "Voice log" in GAR's settings, on by default in debug builds only
+ * ([settingOn]); nothing leaves the phone unless the user shares it, and turning it off deletes
+ * the recorded clips.
  *
  * The stages call these hooks; each returns at once and never throws, and does nothing until
  * [install] ran or while the setting is off. The evaluator carries a turn through its coroutine
@@ -91,8 +94,10 @@ object GarVoiceLog {
                 }
             }
             val current = AtomicReference<GarSettings?>(null)
+            val files = VoiceLogFiles(File(appContext.filesDir, VoiceLogFiles.DIR_NAME))
+            val starters = VoiceStarterIndex(files, GarStarterChips::indexLine)
             val created = VoiceTurns(
-                files = VoiceLogFiles(File(appContext.filesDir, VoiceLogFiles.DIR_NAME)),
+                files = files,
                 io = executor,
                 schedule = { delay, task -> executor.schedule(task, delay, TimeUnit.MILLISECONDS) },
                 log = { Log.i(TAG, it) },
@@ -114,8 +119,20 @@ object GarVoiceLog {
                 },
                 // the voice log's clock is System.nanoTime in milliseconds, GarJank's in nanos
                 frames = { from, to -> GarJank.summary(from * 1_000_000, to * 1_000_000) },
+                written = starters::add,
             )
             turns = created
+            // an update from before the index: build it once, on the log's thread, well after
+            // the start and its first commands
+            executor.schedule({
+                try {
+                    if (created.enabled) {
+                        starters.buildIfMissing()
+                    }
+                } catch (t: Throwable) {
+                    Log.w(TAG, "Could not index the starters", t)
+                }
+            }, STARTER_INDEX_DELAY_MILLIS, TimeUnit.MILLISECONDS)
             CoroutineScope(SupervisorJob() + Dispatchers.IO).launch {
                 try {
                     settings.data
@@ -132,8 +149,19 @@ object GarVoiceLog {
         }
     }
 
-    /** Whether "Voice log" is on: stored the other way round, so it is on by default. */
-    fun settingOn(settings: GarSettings): Boolean = !settings.voiceLogOff
+    /**
+     * Whether "Voice log" is on: as the user set it, else [debugBuild] (on in debug builds, off
+     * in releases, since it keeps what the user says and short clips of it).
+     */
+    fun settingOn(settings: GarSettings, debugBuild: Boolean = BuildConfig.DEBUG): Boolean = when {
+        settings.voiceLogOff -> false
+        settings.voiceLogOn -> true
+        else -> debugBuild
+    }
+
+    /** [settings] with "Voice log" set to [on] by the user. */
+    fun withSetting(settings: GarSettings.Builder, on: Boolean): GarSettings.Builder =
+        settings.setVoiceLogOff(!on).setVoiceLogOn(on)
 
     /** How the next turn starts (the mic button, the assist gesture, ...). */
     fun hint(start: GarVoiceStart) {
@@ -339,6 +367,9 @@ object GarVoiceLog {
             ).show()
         }
     }
+
+    /** How long after the start the starter index is built, if there is none. */
+    private const val STARTER_INDEX_DELAY_MILLIS = 60_000L
 
     /** Matches the `<provider>` in the manifest. */
     const val FILE_PROVIDER_SUFFIX = ".garvoicelog"

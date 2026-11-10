@@ -77,7 +77,7 @@ class GarSettingsViewModel @Inject constructor(
     fun setSttKeepRecordings(value: Boolean) =
         updateData { it.setSttKeepRecordings(value) }
     fun setVoiceLog(value: Boolean) =
-        updateData { it.setVoiceLogOff(!value) }
+        updateData { GarVoiceLog.withSetting(it, value) }
     fun setContinuedListening(value: Boolean) =
         updateData { it.setContinuedListeningOff(!value) }
     fun setSpeakTypedAnswers(value: Boolean) =

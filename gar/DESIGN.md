@@ -657,6 +657,15 @@ the phone's RAM, or than the free storage, are rejected. After the UI hides, the
 only while the process is not cached (assistant bound, wake word running); otherwise it is unloaded
 after 6 s, before Android's freezer stops the timer.
 
+The load and the warm-up give way to a command being matched ("Routing speed"): they wait for a
+running sentence match (2 s at most, before the native load lock), and the engine thread runs at
+`GarMatchPriority.MODEL_LOAD_PRIORITY` (nice 9: lower than normal, short of
+`THREAD_PRIORITY_BACKGROUND`, which would move it to the little cores) until the warm-up is done
+(`LlamaEngine.background`, applied through `LlamaConfig.threadPriority`, since `:gar:llm` has no
+`android.*` code). llama.cpp starts its worker threads from the engine thread for each
+evaluation (no OpenMP), so they inherit that priority. Routing a command and a warm-up for
+changed tools run at the normal priority; saving a prefix state file always runs low.
+
 Settings (`gar_settings.proto`, own DataStore file): LLM on/off (on), model (Qwen3-0.6B Q4_K_M
 default, FunctionGemma 270M Q8_0, custom GGUF), confirm model-understood commands (on).
 Downloads: pinned Hugging Face revision URLs, HTTP status check, resume with `Range`, size and
@@ -1093,10 +1102,21 @@ chips and the cards (spec: gar-notes/ui-makeover-design.md, sections 2 to 4; cod
     dropped.
   - The rest are filled from the defaults ("What's the weather", "Set a timer for 5 minutes",
     "What time is it", "What's my battery"). Flashlight was dropped because it acts.
-  - The log is read on Dispatchers.IO with kotlinx.serialization, the same library that writes
-    it (the spec said org.json, which is a stub in JVM unit tests), so `parse` is tested against
+  - They never read the whole log: it is up to 10 MB, and parsing it when GAR opens (which is
+    when the user talks) cost 3-4 CPU-s and 11-14 s of wall time on gartest and slowed the
+    first commands (see "Routing speed"). Instead the voice log's thread keeps
+    `starters.jsonl` (`VoiceStarterIndex`): as each turn is written,
+    `GarStarterChips.indexLine` keeps it, as a line of about 150 bytes with only the fields
+    `parse` reads, if it is `allowed` when asked; the 1000 newest lines stay. A phone updated
+    from before the index builds it once from the log, 60 s after the start, on the log's
+    lowest-priority thread; until then the defaults show.
+  - The index is read with kotlinx.serialization, the same library that writes the log (the
+    spec said org.json, which is a stub in JVM unit tests), so `parse` is tested against
     VoiceRecord.toJson. Lines cut short are skipped.
-  - Voice log off or unreadable: the defaults. Results are cached for 10 minutes.
+  - All of it, the re-check included, runs on the starters' own thread at the lowest priority
+    (`GarStarterChips.dispatcher`), not on Dispatchers.IO.
+  - Voice log off or unreadable: the defaults. Results are cached for 6 hours, or until the
+    index changes (its size and time) or the setting does.
 - **Home layout**:
   - 16 dp gutter: one GAR edit to MessageCard's horizontal padding (8 to 16 dp), which covers the
     first-run cards, WakeWordWidget and WhatICanDo (those files are untouched).
@@ -1404,10 +1424,19 @@ which stage a command worked or failed. One JSON object per turn (one activation
 reply) goes to `files/gar-voice-log/voice-log.jsonl`, which rotates at 2 MB into
 `voice-log.1.jsonl` .. `voice-log.4.jsonl`, so 5 files are kept (`VoiceLogFiles`).
 
-- **Setting:** "Voice log" in GAR's settings, Speech recognition section, on by default: "Keeps a
-  log of each voice command on this phone to help fix recognition. Nothing leaves the phone."
-  Stored inverted, `bool voice_log_off = 41` in `gar_settings.proto`, so existing settings files
-  have the log on.
+- **Setting:** "Voice log" in GAR's settings, Speech recognition section, one switch: "Keeps the
+  text, timings and short audio clips of each command on this phone only, shared only when you
+  tap Share". It keeps what the user says, so it is **off by default in release builds** and on
+  by default in debug builds (`BuildConfig.DEBUG`, `GarVoiceLog.settingOn`).
+  - Stored as two flags in `gar_settings.proto`: `bool voice_log_off = 41` (the user turned it
+    off; it came first, when the log was on everywhere) and `bool voice_log_on = 42` (the user
+    turned it on). With neither set (proto3 can't tell false from unset), the build decides. So
+    a debug user who never touched the switch keeps the log, one who turned it off keeps it off,
+    and a release user has no log until they turn it on. The switch sets both flags
+    (`GarVoiceLog.withSetting`).
+  - Off records nothing (no turn opens, so the Whisper device copies no clip) and deletes the
+    kept clips (`wav/`) on the log's thread, also at a start with the log off (a release user
+    of 1.0.0, where it was on). The text log stays until Clear.
 - **Share voice log** zips the logs and WAVs into `cacheDir/gar-voice-log-share/`, only when
   tapped, and opens the share sheet through a FileProvider (`${applicationId}.garvoicelog`,
   cache-path `gar-voice-log-share/` only). Only the newest zip is kept.
@@ -1477,6 +1506,9 @@ with neither a capture nor a hint.
 - `wav`, `spoken` and `written` (SpokenForm's output), `input` (the evaluator's utterance) and
   `edited_from`.
 - `match`: the first alternative's top 3 Dicio candidates (each skill with its best score);
+  `rank_ms` and `rank_cpu_ms`, the ranker's wall and thread CPU time summed over alternatives,
+  and `rank_model_loading` when the model loaded or warmed up meanwhile (wall far above CPU means
+  the ranker waited for a core, see "Routing speed");
   GarMatchCheck's verdict (accept, reject or off; a reject is kept unless a later match is
   accepted); the path that won: `sentence` (accepted by `acceptDefault`), `follow_up_answer`
   (any other batch match), `online_gate` (a `GarOnlineGateSkill` won), `model` or `fallback`.
@@ -1541,6 +1573,8 @@ writing, so each turn is still exactly one JSON line:
 ### Retention
 
 - Logs: 5 files of up to 2 MB.
+- Starter index: `starters.jsonl` in the same folder, one short line per turn that may teach a
+  starter chip (see "Home and chips"); deleted by Clear, not shared.
 - Recordings: while the log is on, the Whisper device copies each transcribed clip once (shared
   with the debug-only "Keep recordings", which stays separate) to
   `files/gar-voice-log/wav/<turn id>.wav`. The 20 newest are kept (`KEEP_RECENT_WAVS`). A suspect
@@ -1552,7 +1586,7 @@ writing, so each turn is still exactly one JSON line:
 - Logcat: one info line per turn under `GarVoice` when it is written, with stage outcomes and
   timings only, never what was said or any name, e.g. `turn 20261102-081500-120-1 start=mic
   locked=false stt=whisper end=vad_silence speech=1120ms level=-27dBFS prompt=9tok filter=accept
-  decode=230ms route=sentence check=accept answer=answered:telephone text=230ms routed=239ms
+  decode=230ms route=sentence check=accept rank=60ms/cpu=55ms answer=answered:telephone text=230ms routed=239ms
   word=700ms suspect=repeat`.
 
 ### Reading it
@@ -1570,7 +1604,8 @@ file until every clip says what was said. Replay it with `gar/stt/eval/run.py --
 DIR/clips.yml --modes none,recorded --label voice-log`: `recorded` gives Whisper the clip's
 prompt as the phone did; `make_clips.py` leaves clips with an absolute `wav` alone.
 
-- Tests: `GarVoiceLogTest` (a full Whisper turn's JSON and logcat line; the model's call, rewrite
+- Tests: `GarVoiceLogTest` (a full Whisper turn's JSON and logcat line; the ranker's times; the
+  setting's default per build and the user's choice; turning it off deletes the clips; the model's call, rewrite
   and filter; typed and button starts; turns without input; each signal and the similarity
   measure; commands said again and a stop or no a skill took, against the misheard-name retry;
   errors and the permissions card; hint edge cases; a capture without a hint (another app's
@@ -1779,6 +1814,46 @@ build before and after a change and never stand for the Pixel.
 - **jank.py fixes from this run**: `session` waits up to 40 s for GAR's window and opens the
   text field with the top bar's button (Dicio shows it only after that); `startup` waits for
   `Displayed` up to 30 s past `am start -W`'s timeout and reads API 35's "for user 0" form.
+
+## Routing speed
+
+On the Pixel 9a, builds with the sheet and the starter chips took 2-19 s from input to route for
+plain sentence matches (0.3-0.9 s before), with frame p50 doubled. Dicio's ranker runs once per
+input and costs 30-90 ms of CPU once warm; on cold turns its wall time was 3-4x its CPU time:
+the thread waited while other work ran. What changed (`GarMatchPriority`):
+
+- **Starter chips** read a small index (`starters.jsonl`, "Home and chips") on a thread of their
+  own at the lowest priority, not the whole voice log (up to 10 MB: 3-4 CPU-s on gartest) on
+  Dispatchers.IO each time GAR opened after 10 minutes.
+- **The ranker** runs at `THREAD_PRIORITY_DISPLAY` (its thread's priority comes back after),
+  in the trace section `Gar:rank`.
+- **The model's load and warm-up** wait for a running match and run at nice 9 ("Model lifecycle
+  and settings").
+- **The voice log** records `match.rank_ms`, `rank_cpu_ms` and `rank_model_loading`, and the
+  logcat line `rank=<wall>ms/cpu=<cpu>ms[/model_loading]`, so one phone turn shows whether the
+  ranker waited (wall far above CPU) and whether the model was loading.
+
+Measured on gartest (2026-11-10, debug builds, typed commands "set alarm for seven thirty am",
+"show my alarms", "what time is it", "flip a coin", "whats the weather", 3 rounds after 90 s,
+input to route in ms):
+
+| Build | Median | Cold first command (2 s after start) | Cold, 7 s after start |
+|---|---|---|---|
+| b9 (before the sheet) | 241 | 1430, 1828, 1706 | 725, 814, 855 |
+| b11 (sheet), from the measure step | 347-361 | 2682, 2973, 4274 | |
+| HEAD with these changes | 207 | 2601, 2875 | 1348, 1462, 1192 |
+
+- Warm turns are back at b9's speed or better (per command 72-421 ms, 1414 for the first alarm).
+- Cold first commands are still about 1.5x b9 on gartest. Their ranker wall time stayed about
+  3x its CPU (2574/798 ms and 2854/706 ms with the model loading, 1153/368 ms at 7 s without),
+  while `top -H` showed the raised ranker thread runnable at 24-40% CPU with CPU left idle: the
+  emulator's virtual CPUs, busy with software rendering and the model's page faults, rather than
+  threads in the app. b9 loads the model at the same moment, so that overlap is not new.
+- With a 10 MB synthetic log, b11's cold first command was 2946-3269 ms and HEAD's 3022-3390 ms:
+  on gartest's 4 cores the log parse never competed. Whether it did on the phone (the likely
+  cause of its 9-19 s) needs a phone turn with the new `rank_*` fields.
+- Not checked: the phone, Whisper turns, a release or benchmark build (debug builds run cold
+  code interpreted, with JIT at about 40% of CPU).
 
 ## Tests
 

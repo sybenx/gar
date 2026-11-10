@@ -52,6 +52,8 @@ class VoiceTurns(
     private val frames: (fromMono: Long, toMono: Long) -> GarFrameSummary? = { _, _ -> null },
     private val holdMillis: Long = HOLD_MILLIS,
     private val hintMillis: Long = HINT_MILLIS,
+    /** Each line once it is in the log, on [io] (the starter chips' index). */
+    private val written: (String) -> Unit = {},
 ) {
     @Volatile
     var enabled = false
@@ -60,6 +62,10 @@ class VoiceTurns(
                 synchronized(lock) { forget() }
             }
             field = value
+            if (!value) {
+                // off keeps no audio: the clips go now, the text log stays until Clear
+                safe(Unit) { io.execute { safe(Unit) { if (!enabled) files.deleteWavs() } } }
+            }
         }
 
     private val lock = Any()
@@ -472,6 +478,7 @@ class VoiceTurns(
                 if (enabled) {
                     files.append(json)
                     log(summary)
+                    safe(Unit) { written(json) }
                 }
             }
         }
@@ -599,6 +606,12 @@ class VoiceTurns(
             }
             r.path?.let { parts.add("route=$it") }
             r.check?.let { parts.add("check=$it") }
+            r.rankMillis?.let { wall ->
+                parts.add(
+                    "rank=${wall}ms" + (r.rankCpuMillis?.let { "/cpu=${it}ms" } ?: "") +
+                        (if (r.rankModelLoading) "/model_loading" else "")
+                )
+            }
             r.model?.let { parts.add("model=${it.outcome}" + (it.tool?.let { t -> ":$t" } ?: "")) }
             r.answer?.let { a ->
                 parts.add("answer=${a.outcome}" + (a.skill?.let { s -> ":$s" } ?: ""))

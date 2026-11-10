@@ -13,7 +13,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import dagger.hilt.android.EntryPointAccessors
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
@@ -22,6 +23,9 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
+import kotlinx.serialization.json.putJsonObject
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonObject
 import org.dicio.numbers.ParserFormatter
@@ -36,8 +40,12 @@ import org.stypox.dicio.gar.voicelog.GarVoiceLog
 import org.stypox.dicio.gar.voicelog.GarVoiceStart
 import org.stypox.dicio.gar.voicelog.VoiceLogFiles
 import org.stypox.dicio.gar.voicelog.VoiceSignals
+import org.stypox.dicio.gar.voicelog.VoiceStarterIndex
 import java.io.File
+import java.time.Instant
 import java.time.OffsetDateTime
+import java.time.ZoneOffset
+import java.util.concurrent.Executors
 import java.util.Locale
 
 /**
@@ -64,7 +72,8 @@ object GarStarterChips {
     const val MIN_COUNT = 2
     const val MIN_WORDS = 2
     const val MAX_WORDS = 6
-    const val CACHE_MILLIS = 10L * 60 * 1000
+    /** The starters are kept this long while the voice log writes no new starter turn. */
+    const val CACHE_MILLIS = 6L * 60 * 60 * 1000
 
     /** What the starters read of a voice-log line. */
     data class Turn(
@@ -249,6 +258,24 @@ object GarStarterChips {
 
     private fun JsonObject.string(key: String): String? = (this[key] as? JsonPrimitive)?.contentOrNull
 
+    /**
+     * The starter index's line for the voice log's [line] ([VoiceStarterIndex]): only the fields
+     * [parse] reads, of a turn [allowed] when it was asked; null for any other line.
+     */
+    fun indexLine(line: String): String? {
+        val turn = parse(line)?.takeIf { allowed(it, it.wallMillis) } ?: return null
+        return buildJsonObject {
+            put("input", turn.input)
+            put("t", Instant.ofEpochMilli(turn.wallMillis).atOffset(ZoneOffset.UTC).toString())
+            turn.start?.let { put("start", it) }
+            putJsonObject("answer") {
+                turn.outcome?.let { put("outcome", it) }
+                turn.skill?.let { put("skill", it) }
+            }
+            putJsonObject("match") { turn.path?.let { put("path", it) } }
+        }.toString()
+    }
+
     /** The default starters, in the app's language, with the skill each is for. */
     fun defaults(context: Context): List<Pair<GarChip, String>> = listOf(
         R.string.gar_starter_weather to "weather",
@@ -257,17 +284,34 @@ object GarStarterChips {
         R.string.gar_starter_battery to "battery",
     ).map { (text, skill) -> Pair(GarChip(context.getString(text)), skill) }
 
+    /** The starters at [time] (elapsed), for the voice log's state [stamp] ([indexStamp]). */
+    private class Cached(val time: Long, val stamp: String, val chips: List<GarChip>)
+
     @Volatile
-    private var cache: Pair<Long, List<GarChip>>? = null
+    private var cache: Cached? = null
 
     /** The cached starters if they are recent, else null. */
     fun cached(): List<GarChip>? =
-        cache?.takeIf { SystemClock.elapsedRealtime() - it.first < CACHE_MILLIS }?.second
+        cache?.takeIf { SystemClock.elapsedRealtime() - it.time < CACHE_MILLIS }?.chips
+
+    /**
+     * The starters' own thread, at the lowest priority: they are read when GAR opens, which is
+     * when the user starts talking, and the command must get the CPU first.
+     */
+    val dispatcher: CoroutineDispatcher by lazy {
+        Executors.newSingleThreadExecutor { runnable ->
+            Thread(runnable, "GarStarters").apply {
+                isDaemon = true
+                priority = Thread.MIN_PRIORITY
+            }
+        }.asCoroutineDispatcher()
+    }
 
     /**
      * The starters (none over the lock screen, none when the chips' language isn't the
-     * sentences' one), cached for [CACHE_MILLIS]. Reads files and scores sentences: call it off
-     * the main thread.
+     * sentences' one), cached for [CACHE_MILLIS] or until the voice log indexes a new starter
+     * turn. Reads the starter index (never the whole log) and scores sentences: call it on
+     * [dispatcher].
      */
     suspend fun get(context: Context): List<GarChip> {
         val appContext = context.applicationContext
@@ -279,11 +323,19 @@ object GarStarterChips {
         if (!GarChips.languageMatches(skillContext)) {
             return listOf()
         }
-        cached()?.let { return it }
+        val logOn = try {
+            GarVoiceLog.settingOn(entryPoint.garSettings().data.first())
+        } catch (e: CancellationException) {
+            throw e
+        } catch (t: Throwable) {
+            false
+        }
+        val stamp = indexStamp(appContext, logOn)
+        cache?.takeIf { SystemClock.elapsedRealtime() - it.time < CACHE_MILLIS && it.stamp == stamp }
+            ?.let { return it.chips }
 
         val defaults = defaults(appContext)
         val chips = try {
-            val logOn = GarVoiceLog.settingOn(entryPoint.garSettings().data.first())
             val turns = if (logOn) readTurns(appContext) else listOf()
             val candidates = learned(turns, System.currentTimeMillis(), defaults)
             val skills = if (candidates.isEmpty()) {
@@ -302,20 +354,29 @@ object GarStarterChips {
             Log.w(TAG, "Could not read the starters from the voice log", t)
             defaults.map { it.first }
         }
-        cache = Pair(SystemClock.elapsedRealtime(), chips)
+        cache = Cached(SystemClock.elapsedRealtime(), stamp, chips)
         return chips
     }
 
-    /** The voice log's turns, read-only, oldest file first. */
+    private fun indexFile(context: Context): File =
+        File(File(context.filesDir, VoiceLogFiles.DIR_NAME), VoiceStarterIndex.NAME)
+
+    /** What the starters depend on: the setting and the index's size and time. */
+    private fun indexStamp(context: Context, logOn: Boolean): String =
+        if (logOn) {
+            indexFile(context).let { "${it.length()}:${it.lastModified()}" }
+        } else {
+            "off"
+        }
+
+    /**
+     * The turns of the starter index, oldest first; none before the voice log built it (then
+     * the defaults show until it did, see `GarVoiceLog.install`).
+     */
     private fun readTurns(context: Context): List<Turn> =
-        VoiceLogFiles(File(context.filesDir, VoiceLogFiles.DIR_NAME)).logFiles()
-            .flatMap { file ->
-                try {
-                    file.useLines { lines -> lines.mapNotNull(::parse).toList() }
-                } catch (e: java.io.IOException) {
-                    listOf() // rotated away meanwhile
-                }
-            }
+        VoiceStarterIndex.read(File(context.filesDir, VoiceLogFiles.DIR_NAME))
+            ?.mapNotNull(::parse)
+            ?: listOf()
 
     /**
      * Whether the skill [skillId] (among the enabled [skills]) still matches [input] with its
@@ -390,6 +451,6 @@ fun rememberGarStarterChips(): State<List<GarChip>> {
         }
     }
     return produceState(initialValue = initial, context) {
-        value = withContext(Dispatchers.IO) { GarStarterChips.get(context) }
+        value = withContext(GarStarterChips.dispatcher) { GarStarterChips.get(context) }
     }
 }

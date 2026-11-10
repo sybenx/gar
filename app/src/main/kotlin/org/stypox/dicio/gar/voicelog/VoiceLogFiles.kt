@@ -135,6 +135,14 @@ class VoiceLogFiles(
         }
     }
 
+    /** Deletes the recordings only (the log was turned off). */
+    fun deleteWavs() {
+        val wavs = wavDir
+        if (wavs.exists() && !wavs.deleteRecursively()) {
+            throw IOException("Could not delete $wavs")
+        }
+    }
+
     /** Deletes the logs and the recordings. */
     fun clear() {
         if (dir.exists() && !dir.deleteRecursively()) {

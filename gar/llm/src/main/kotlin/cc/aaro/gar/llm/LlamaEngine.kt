@@ -63,6 +63,30 @@ class LlamaEngine private constructor(
     private var currentPrefix: String? = null
     private var cacheFilePrefix: String? = null
     private var cacheFile: File? = null
+    /** The priority the engine thread runs at now, see [background]; engine thread only. */
+    private var appliedBackground: Boolean? = null
+
+    /**
+     * Whether calls from now on run at a background priority ([LlamaConfig.threadPriority]):
+     * while loading and warming up, so that the work a user waits for (matching a command on
+     * other threads) gets the CPU first. llama.cpp starts its worker threads from the engine
+     * thread for each evaluation, so they run at its priority too.
+     */
+    @Volatile
+    var background: Boolean = false
+
+    /** Engine thread only: applies [background] (or [force]) through [LlamaConfig.threadPriority]. */
+    private fun applyPriority(force: Boolean = background) {
+        val priority = config.threadPriority ?: return
+        if (appliedBackground != force) {
+            appliedBackground = force
+            try {
+                priority.apply(force)
+            } catch (e: Exception) {
+                // a priority is a hint: the call runs anyway
+            }
+        }
+    }
 
     override suspend fun complete(request: CompletionRequest): Completion = submit { call ->
         if (call.cancelled) {
@@ -159,6 +183,7 @@ class LlamaEngine private constructor(
                 cont.invokeOnCancellation { call.cancel() }
                 try {
                     executor.execute {
+                        applyPriority()
                         synchronized(abortLock) {
                             abortFlag.put(0, 0)
                             running = call
@@ -240,6 +265,7 @@ class LlamaEngine private constructor(
         if (released || prefix != currentPrefix) {
             return // another prefix was evaluated in the meantime
         }
+        applyPriority(force = true) // nobody waits for the file; the next call sets its own
         val tmp = File(file.path + TMP_SUFFIX)
         try {
             // fsync before the rename: after a power loss, a file with the final name must not
@@ -333,12 +359,15 @@ class LlamaEngine private constructor(
          * Loads [modelFile] (GGUF) on the engine's own thread.
          * @param prefixCacheDir where to keep KV state files of evaluated prefixes, so the next
          * load can skip the prefill; null disables this
+         * @param background the engine's first [LlamaEngine.background], which the load itself
+         * runs at too
          * @throws LlamaException if the file can't be loaded
          */
         suspend fun load(
             modelFile: File,
             config: LlamaConfig = LlamaConfig(),
             prefixCacheDir: File? = null,
+            background: Boolean = false,
         ): LlamaEngine {
             require(config.contextSize > 0 && config.threads > 0 && config.batchSize > 0) {
                 "Invalid $config"
@@ -352,8 +381,16 @@ class LlamaEngine private constructor(
                 // aborts the native load through llama.cpp's progress callback
                 cont.invokeOnCancellation { abortFlag.put(0, 1) }
                 executor.execute {
+                    try {
+                        config.threadPriority?.apply(background)
+                    } catch (e: Exception) {
+                        // a priority is a hint
+                    }
                     val engine = try {
-                        open(executor, abortFlag, modelFile, config, prefixCacheDir)
+                        open(executor, abortFlag, modelFile, config, prefixCacheDir).also {
+                            it.background = background
+                            it.appliedBackground = background.takeIf { config.threadPriority != null }
+                        }
                     } catch (e: Throwable) {
                         executor.shutdown()
                         cont.resumeWithException(e)
@@ -429,6 +466,16 @@ data class LlamaConfig(
      * weights live in anonymous memory next to the mmapped file instead of being reclaimable.
      */
     val repackWeights: Boolean = true,
+    /**
+     * Sets the engine thread's scheduling priority (see [LlamaEngine.background]); null leaves
+     * it alone. The engine uses no `android.*` APIs, so Android passes one in.
+     */
+    val threadPriority: ThreadPriority? = null,
 )
+
+/** Sets the calling thread's priority: low while [background], else the normal one. */
+fun interface ThreadPriority {
+    fun apply(background: Boolean)
+}
 
 class LlamaException(message: String, cause: Throwable? = null) : Exception(message, cause)

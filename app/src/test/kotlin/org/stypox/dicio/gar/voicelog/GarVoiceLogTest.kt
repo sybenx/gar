@@ -30,6 +30,7 @@ import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.long
 import org.stypox.dicio.gar.perf.GarFrameSummary
+import org.stypox.dicio.gar.settings.GarSettings
 import org.stypox.dicio.gar.stt.GarWhisperInputDevice
 import java.io.File
 import java.nio.file.Files
@@ -415,6 +416,47 @@ class GarVoiceLogTest : StringSpec({
         h.turns.enabled = false
         h.endHold()
         h.lines().shouldBeEmpty()
+    }
+
+    "turning the log off deletes the clips and keeps the text log" {
+        val h = Harness()
+        h.spokenAnswer("hello", "small_talk")
+        h.endHold()
+        h.files.saveWav("20261102-081500-120-1.wav", FloatArray(1600))
+        h.files.wavDir.exists() shouldBe true
+        h.turns.enabled = false
+        h.files.wavDir.exists() shouldBe false
+        h.lines() shouldHaveSize 1
+    }
+
+    "the setting is on by default in debug builds only, and the user's choice wins" {
+        val empty = GarSettings.getDefaultInstance()
+        GarVoiceLog.settingOn(empty, debugBuild = true) shouldBe true
+        GarVoiceLog.settingOn(empty, debugBuild = false) shouldBe false
+        val off = GarVoiceLog.withSetting(empty.toBuilder(), false).build()
+        GarVoiceLog.settingOn(off, debugBuild = true) shouldBe false
+        off.voiceLogOff shouldBe true // what builds before voice_log_on read
+        val on = GarVoiceLog.withSetting(off.toBuilder(), true).build()
+        GarVoiceLog.settingOn(on, debugBuild = false) shouldBe true
+        on.voiceLogOff shouldBe false
+        // a settings file from before voice_log_on, with the log turned off
+        GarVoiceLog.settingOn(empty.toBuilder().setVoiceLogOff(true).build(), true) shouldBe false
+    }
+
+    "the ranker's times are in the match and the logcat line" {
+        val h = Harness()
+        h.turns.hint(GarVoiceStart.MIC_BUTTON)
+        val turn = h.speak("what time is it")
+        turn.ranked(wallMillis = 2_600, cpuMillis = 640, modelLoading = true)
+        turn.ranked(wallMillis = 40, cpuMillis = null, modelLoading = false)
+        turn.routedBy("sentence")
+        h.turns.answered(turn, "current_time", "It is noon", "TimeOutput", false, null)
+        h.endHold()
+        val match = h.lines()[0]["match"]!!.jsonObject
+        match["rank_ms"]!!.jsonPrimitive.long shouldBe 2_640
+        match["rank_cpu_ms"]!!.jsonPrimitive.long shouldBe 640
+        match["rank_model_loading"]!!.jsonPrimitive.boolean shouldBe true
+        h.logs.last() shouldContain "rank=2640ms/cpu=640ms/model_loading"
     }
 
     "the hooks never throw, whatever fails underneath" {

@@ -11,6 +11,7 @@ import org.stypox.dicio.gar.followup.GarFollowUpSkill
 import org.stypox.dicio.gar.followup.GarFollowUpStep
 import org.stypox.dicio.gar.followup.GarRewrite
 import org.stypox.dicio.gar.online.GarOnlineGateSkill
+import org.stypox.dicio.gar.perf.GarMatchPriority
 import org.stypox.dicio.gar.voicelog.GarVoiceLog
 import org.stypox.dicio.gar.voicelog.VoiceFollowUp
 import org.stypox.dicio.gar.voicelog.VoiceTurn
@@ -81,6 +82,8 @@ private suspend fun garMatchAlternatives(
         ctx.standardMatchHelper = MatchHelper(ctx.parserFormatter, input)
         GarVoiceLog.scoring(turn.takeIf { index == 0 && logScoring }) // the first alternative's candidates
         val best = try {
+            // GAR: the ranker gets the CPU first and the voice log its times (GarMatchPriority)
+            GarMatchPriority.ranking({ turn?.ranked(it.wallMillis, it.cpuMillis, it.modelLoading) }) {
             ranker.getBest(ctx, input) { match ->
                 // a follow-up is checked as its full command, when that is matched
                 val rejects = match.skill !is GarFollowUpSkill && check?.rejects(match, input) == true
@@ -93,6 +96,7 @@ private suspend fun garMatchAlternatives(
                     acceptedDefault = match
                 }
                 !rejects
+            }
             }
         } finally {
             GarVoiceLog.scoring(null)

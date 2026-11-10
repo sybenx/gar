@@ -576,7 +576,7 @@ private fun SttSettings(
     }
 }
 
-/** "Voice log" (on by default), "Share voice log" and "Clear voice log", see GarVoiceLog. */
+/** "Voice log" (on by default in debug builds only), "Share voice log" and "Clear voice log", see GarVoiceLog. */
 @Composable
 private fun VoiceLogSettings(viewModel: GarSettingsViewModel, settings: GarSettings) {
     var confirmClear by rememberSaveable { mutableStateOf(false) }
