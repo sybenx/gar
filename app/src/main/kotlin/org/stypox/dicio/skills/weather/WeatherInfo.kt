@@ -37,7 +37,8 @@ object WeatherInfo : SkillInfo("weather") {
 
     override fun build(ctx: SkillContext): Skill<*>? {
         val data = Sentences.Weather[ctx.sentencesLanguage] ?: return null
-        return WeatherSkill(WeatherInfo, data)
+        // GAR: forecasts from Breezy Weather or Open-Meteo instead of OpenWeatherMap (gar:weather)
+        return GarWeatherSkill(WeatherInfo, data)
     }
 
     // no need to use Hilt injection here, let DataStore take care of handling the singleton itself
@@ -67,9 +68,16 @@ object WeatherInfo : SkillInfo("weather") {
         val scope = rememberCoroutineScope()
 
         Column {
+            // GAR: how Breezy Weather shares its forecasts with GAR (gar:weather)
+            org.stypox.dicio.settings.ui.SettingsItem(
+                title = stringResource(R.string.gar_weather_breezy_title),
+                description = stringResource(R.string.gar_weather_breezy_summary),
+            )
+
             StringSetting(
                 title = stringResource(R.string.pref_weather_default_city),
-                descriptionWhenEmpty = stringResource(R.string.pref_weather_default_city_using_ip_info),
+                // GAR: no IPinfo; GAR asks for the city once (gar:weather)
+                descriptionWhenEmpty = stringResource(R.string.gar_weather_default_city_empty),
             ).Render(
                 value = data.defaultCity,
                 onValueChange = { defaultCity ->

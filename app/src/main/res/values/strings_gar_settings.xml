@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR: strings of the device settings skill (brightness, ringer, screen timeout, auto-rotate,
+     the settings only Android switches, status questions and settings pages). Spoken lines are
+     short; the card adds the details. -->
+<resources>
+    <string name="skill_name_device_settings">Device settings</string>
+    <string name="skill_sentence_example_device_settings">Turn up the brightness</string>
+
+    <!-- A setting's name inside a sentence: "Turned on %s.", "Here's %s." -->
+    <string name="gar_settings_name_wifi">Wi-Fi</string>
+    <string name="gar_settings_name_bluetooth">Bluetooth</string>
+    <string name="gar_settings_name_airplane_mode">airplane mode</string>
+    <string name="gar_settings_name_mobile_data">mobile data</string>
+    <string name="gar_settings_name_hotspot">the hotspot</string>
+    <string name="gar_settings_name_nfc">NFC</string>
+    <string name="gar_settings_name_location">location</string>
+    <string name="gar_settings_name_battery_saver">battery saver</string>
+    <string name="gar_settings_name_dark_mode">dark theme</string>
+    <string name="gar_settings_name_brightness">the brightness</string>
+    <string name="gar_settings_name_auto_brightness">adaptive brightness</string>
+    <string name="gar_settings_name_auto_rotate">auto-rotate</string>
+    <string name="gar_settings_name_screen_timeout">the screen timeout</string>
+    <string name="gar_settings_name_ringer">the ringer</string>
+    <string name="gar_settings_name_vibrate">vibrate</string>
+    <string name="gar_settings_name_night_light">night light</string>
+
+    <!-- A setting's name at the start of a sentence: "%s is on." -->
+    <string name="gar_settings_title_wifi">Wi-Fi</string>
+    <string name="gar_settings_title_bluetooth">Bluetooth</string>
+    <string name="gar_settings_title_airplane_mode">Airplane mode</string>
+    <string name="gar_settings_title_mobile_data">Mobile data</string>
+    <string name="gar_settings_title_hotspot">The hotspot</string>
+    <string name="gar_settings_title_nfc">NFC</string>
+    <string name="gar_settings_title_location">Location</string>
+    <string name="gar_settings_title_battery_saver">Battery saver</string>
+    <string name="gar_settings_title_dark_mode">Dark theme</string>
+    <string name="gar_settings_title_brightness">The brightness</string>
+    <string name="gar_settings_title_auto_brightness">Adaptive brightness</string>
+    <string name="gar_settings_title_auto_rotate">Auto-rotate</string>
+    <string name="gar_settings_title_screen_timeout">The screen timeout</string>
+    <string name="gar_settings_title_ringer">The ringer</string>
+    <string name="gar_settings_title_vibrate">Vibrate</string>
+
+    <!-- %1$s is a setting's name ("Airplane mode", "auto-rotate") -->
+    <string name="gar_settings_is_on">%1$s is on.</string>
+    <string name="gar_settings_is_off">%1$s is off.</string>
+    <string name="gar_settings_already_on">%1$s is already on.</string>
+    <string name="gar_settings_already_off">%1$s is already off.</string>
+    <string name="gar_settings_turned_on">Turned on %1$s.</string>
+    <string name="gar_settings_turned_off">Turned off %1$s.</string>
+    <string name="gar_settings_here">Here\'s %1$s.</string>
+    <string name="gar_settings_unknown">I can\'t tell whether %1$s is on.</string>
+    <string name="gar_settings_cant_read">I can\'t read %1$s right now.</string>
+    <string name="gar_settings_no_hardware">This phone has no %1$s.</string>
+    <!-- on the card under "Here's airplane mode.", when the user asked to switch it -->
+    <string name="gar_settings_system_only">Android only lets you switch %1$s yourself: tap its switch.</string>
+    <!-- %1$s is a page's name ("battery settings") -->
+    <string name="gar_settings_opening">Opening %1$s.</string>
+    <string name="gar_settings_failed">Couldn\'t change that setting.</string>
+
+    <!-- %1$d is the brightness slider's position, in percent -->
+    <string name="gar_settings_brightness">Brightness is at %1$d percent.</string>
+    <string name="gar_settings_brightness_set">Brightness at %1$d percent.</string>
+    <string name="gar_settings_brightness_auto">Adaptive brightness is on</string>
+
+    <!-- %1$s is a duration ("thirty seconds") -->
+    <string name="gar_settings_timeout">Your screen turns off after %1$s.</string>
+    <string name="gar_settings_timeout_set">Screen timeout set to %1$s.</string>
+    <plurals name="gar_settings_seconds">
+        <item quantity="one">%1$d second</item>
+        <item quantity="other">%1$d seconds</item>
+    </plurals>
+
+    <!-- ringer mode -->
+    <string name="gar_settings_ringer_normal">Your phone is set to ring.</string>
+    <string name="gar_settings_ringer_vibrate">Your phone is on vibrate.</string>
+    <string name="gar_settings_ringer_silent">Your phone is on silent.</string>
+    <string name="gar_settings_ringer_turned_normal">Your phone will ring.</string>
+    <string name="gar_settings_ringer_already_normal">Your phone is already set to ring.</string>
+    <string name="gar_settings_ringer_already_vibrate">Your phone is already on vibrate.</string>
+    <string name="gar_settings_ringer_already_silent">Your phone is already on silent.</string>
+    <string name="gar_settings_ringer_unchanged">Couldn\'t change the ringer. Do Not Disturb may be keeping your phone quiet.</string>
+    <!-- after GAR opened the Do Not Disturb access page -->
+    <string name="gar_settings_dnd_access_silent">To put your phone on silent, allow Do Not Disturb access, then try again.</string>
+    <string name="gar_settings_dnd_access_ring">To take your phone off silent, allow Do Not Disturb access, then try again.</string>
+
+    <!-- Wi-Fi and Bluetooth status; %1$s is the names of connected devices ("Pixel Buds") -->
+    <string name="gar_settings_wifi_connected">Wi-Fi is on and connected.</string>
+    <string name="gar_settings_wifi_on">Wi-Fi is on, but not connected.</string>
+    <string name="gar_settings_wifi_off">Wi-Fi is off.</string>
+    <string name="gar_settings_wifi_not_connected">You aren\'t connected to Wi-Fi.</string>
+    <string name="gar_settings_bluetooth_connected">Bluetooth is on, connected to %1$s.</string>
+    <string name="gar_settings_bluetooth_on">Bluetooth is on.</string>
+    <string name="gar_settings_bluetooth_off">Bluetooth is off.</string>
+    <!-- "are my earbuds connected" while Bluetooth is on -->
+    <string name="gar_settings_headphones_none">No Bluetooth headphones are connected.</string>
+    <string name="gar_settings_headphones_bluetooth_only">I can only see headphones connected over Bluetooth.</string>
+
+    <!-- "Modify system settings" (WRITE_SETTINGS); %1$s is what needs it -->
+    <string name="gar_settings_access_question">%1$s needs permission to modify system settings. Open that page?</string>
+    <string name="gar_settings_access_brightness">Changing the brightness</string>
+    <string name="gar_settings_access_timeout">Changing the screen timeout</string>
+    <string name="gar_settings_access_auto_rotate">Switching auto-rotate</string>
+    <string name="gar_settings_access_auto_brightness">Switching adaptive brightness</string>
+    <string name="gar_settings_access_detail">Android lists it under Settings, Apps, Special app access, Modify system settings. GAR only uses it for the brightness, the screen timeout and auto-rotate.</string>
+    <string name="gar_settings_access_open">Open settings</string>
+    <string name="gar_settings_access_not_now">Not now</string>
+    <string name="gar_settings_access_opened">Turn on Allow modifying system settings, then ask me again.</string>
+
+    <!-- Settings pages: "Opening %s." -->
+    <string name="gar_settings_page_display">display settings</string>
+    <string name="gar_settings_page_sound">sound settings</string>
+    <string name="gar_settings_page_battery">battery settings</string>
+    <string name="gar_settings_page_battery_saver">battery saver</string>
+    <string name="gar_settings_page_wifi">Wi-Fi settings</string>
+    <string name="gar_settings_page_bluetooth">Bluetooth settings</string>
+    <string name="gar_settings_page_network">network settings</string>
+    <string name="gar_settings_page_mobile_network">mobile network settings</string>
+    <string name="gar_settings_page_data_usage">data usage</string>
+    <string name="gar_settings_page_airplane_mode">airplane mode</string>
+    <string name="gar_settings_page_hotspot">hotspot settings</string>
+    <string name="gar_settings_page_location">location settings</string>
+    <string name="gar_settings_page_nfc">NFC settings</string>
+    <string name="gar_settings_page_security">security settings</string>
+    <string name="gar_settings_page_privacy">privacy settings</string>
+    <string name="gar_settings_page_notifications">notification settings</string>
+    <string name="gar_settings_page_apps">app settings</string>
+    <string name="gar_settings_page_default_apps">default apps</string>
+    <string name="gar_settings_page_storage">storage settings</string>
+    <string name="gar_settings_page_accessibility">accessibility settings</string>
+    <string name="gar_settings_page_date_time">date and time settings</string>
+    <string name="gar_settings_page_language">language settings</string>
+    <string name="gar_settings_page_keyboard">keyboard settings</string>
+    <string name="gar_settings_page_about_phone">about phone</string>
+    <string name="gar_settings_page_developer_options">developer options</string>
+    <string name="gar_settings_page_accounts">account settings</string>
+    <string name="gar_settings_page_dark_theme">dark theme settings</string>
+    <string name="gar_settings_page_night_light">night light settings</string>
+    <string name="gar_settings_page_do_not_disturb">Do Not Disturb settings</string>
+    <string name="gar_settings_page_cast">cast settings</string>
+    <string name="gar_settings_page_vpn">VPN settings</string>
+    <string name="gar_settings_page_assistant">digital assistant settings</string>
+    <string name="gar_settings_page_home_app">home app settings</string>
+    <string name="gar_settings_page_users">user settings</string>
+    <string name="gar_settings_page_printing">printing settings</string>
+</resources>

@@ -1,0 +1,2 @@
+root ::= <tool_call> "\n" ( call-no-match ) "\n" </tool_call>
+call-no-match ::= "{\"name\": \"no_match\", \"arguments\": {}}"

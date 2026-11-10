@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR: strings of the call log and call controls (gar:calls). -->
+<resources>
+    <string name="perm_read_call_log">read your call log</string>
+    <string name="perm_answer_phone_calls">answer and end calls</string>
+    <string name="perm_read_phone_state">see when a call rings</string>
+
+    <!-- call log; %1$s is a caller like "Mom", "a number ending in 1 2 3 4" or "a hidden
+         number", %2$s when the call was, like "at 3:12 PM" or "yesterday at 9:05 PM" -->
+    <string name="skill_name_call_log">Call history</string>
+    <string name="skill_sentence_example_call_log">Who called me?</string>
+    <string name="skill_call_log_called">%1$s called you %2$s.</string>
+    <string name="skill_call_log_missed_one">You missed a call from %1$s %2$s.</string>
+    <string name="skill_call_log_declined">You declined a call from %1$s %2$s.</string>
+    <string name="skill_call_log_no_incoming">I don\'t see any incoming calls.</string>
+    <string name="skill_call_log_no_missed">You have no missed calls.</string>
+    <!-- "did mom call me" with no call from Mom among the recent calls; %1$s is the name as said -->
+    <string name="skill_call_log_none_from">I don\'t see a call from %1$s in your recent calls.</string>
+    <!-- %1$d calls from one caller %2$s, %3$s when the last one was -->
+    <plurals name="skill_call_log_missed_from">
+        <item quantity="one">You missed %1$d call from %2$s, %3$s.</item>
+        <item quantity="other">You missed %1$d calls from %2$s, the last %3$s.</item>
+    </plurals>
+    <!-- %1$d calls from %2$s, a list like "Mom, Dad and a number ending in 1 2 3 4" -->
+    <plurals name="skill_call_log_missed_many">
+        <item quantity="one">You missed %1$d call, from %2$s.</item>
+        <item quantity="other">You missed %1$d calls, from %2$s.</item>
+    </plurals>
+    <!-- the end of a list of callers: "Mom, Dad, Bob and 2 others" -->
+    <plurals name="skill_call_log_others">
+        <item quantity="one">%1$d other</item>
+        <item quantity="other">%1$d others</item>
+    </plurals>
+    <string name="skill_call_log_and">%1$s and %2$s</string>
+    <!-- %1$s is digits with spaces, "1 2 3 4", so that they are read one by one -->
+    <string name="skill_call_log_number_ending">a number ending in %1$s</string>
+    <string name="skill_call_log_the_number_ending">the number ending in %1$s</string>
+    <string name="skill_call_log_hidden_number">a hidden number</string>
+    <string name="skill_call_log_hidden_number_card">Hidden number</string>
+    <!-- %1$s is a time like "3:12 PM", %1$s of the weekday one a day like "Monday" -->
+    <string name="skill_call_log_today">at %1$s</string>
+    <string name="skill_call_log_yesterday">yesterday at %1$s</string>
+    <string name="skill_call_log_weekday">on %1$s at %2$s</string>
+    <!-- %1$s is a date like "October 12, 2026" -->
+    <string name="skill_call_log_date">on %1$s</string>
+    <!-- a call on the card: %1$s what happened, %2$s when, "Missed yesterday at 9:05 PM" -->
+    <string name="skill_call_log_row">%1$s %2$s</string>
+    <string name="skill_call_log_kind_incoming">Answered</string>
+    <string name="skill_call_log_kind_missed">Missed</string>
+    <string name="skill_call_log_kind_declined">Declined</string>
+    <string name="skill_call_log_kind_outgoing">Called</string>
+    <string name="skill_call_log_nothing_incoming">I don\'t see any calls to return.</string>
+    <string name="skill_call_log_nothing_outgoing">I don\'t see any calls you made.</string>
+    <string name="skill_call_log_nothing_at_all">Your call log is empty.</string>
+    <string name="skill_call_log_hidden_call_back">The caller hid their number, so I can\'t call back.</string>
+
+    <!-- call controls -->
+    <string name="skill_name_call_control">Call controls</string>
+    <string name="skill_sentence_example_call_control">Answer the call</string>
+    <string name="skill_call_control_answered">Answered the call.</string>
+    <string name="skill_call_control_still_ringing">The call is still ringing. Answer it on the call screen.</string>
+    <string name="skill_call_control_nothing_ringing">No call is ringing.</string>
+    <string name="skill_call_control_declined">Call declined.</string>
+    <string name="skill_call_control_waiting">You\'re on another call. Decline the new one on the call screen.</string>
+    <string name="skill_call_control_ended">Call ended.</string>
+    <string name="skill_call_control_cant_end">I can\'t end this call. End it on the call screen.</string>
+    <string name="skill_call_control_not_in_call">You\'re not on a call.</string>
+    <string name="skill_call_control_speaker">Only the phone app can switch the speaker. Tap Speaker on the call screen.</string>
+    <string name="skill_call_control_show_call">Show call</string>
+
+    <!-- the telephone skill (GAR lines): no contact matches the name said, %1$s as said -->
+    <string name="skill_telephone_ask_who">Who should I call?</string>
+    <string name="skill_telephone_not_found">I couldn\'t find %1$s in your contacts. Who should I call?</string>
+</resources>

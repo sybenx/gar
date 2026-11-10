@@ -7,7 +7,7 @@ import org.stypox.dicio.sentences.Sentences.Media
 import org.stypox.dicio.util.getString
 
 class MediaOutput(
-    private val performedAction: Media?
+    val performedAction: Media?, // GAR: public, for GarChips
 ) : HeadlineSpeechSkillOutput {
     override fun getSpeechOutput(ctx: SkillContext): String = when (performedAction) {
         null -> ctx.getString(R.string.skill_media_no_media_session)

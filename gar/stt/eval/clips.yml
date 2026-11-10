@@ -1,0 +1,638 @@
+# GAR speech eval: short assistant commands for gar/stt/eval/run.py (see README.md there).
+# Audio is synthesized by make_clips.py with macOS `say` into ~/.cache/gar/stt-eval/clips/ (not in git).
+#
+# Each clip:
+#   text    what was said, in GAR's spoken form (lowercase words, numbers as words): the reference
+#   say     what `say` reads, when it differs (punctuation for prosody, digits, or a phonetic spelling
+#           for names `say` gets wrong: the reference keeps the real spelling)
+#   type    command type, for the breakdown
+#   names   contact names said in the clip, spoken form (scored as name accuracy)
+#   prompt  the contact names a phone would give Whisper: the clip's own names plus distractors
+#           from `contacts` (the names-in-prompt mode); the names-without mode drops the clip's own
+#   voice   `say` voice; noise: true adds light noise and a level change
+#   wav     a recorded clip instead of `say`, relative to ~/.cache/gar/stt-eval/clips/
+#
+# owner goes first in every prompt but others-40, as the app puts the owner's own name first
+# (own_contact_name, the profile, "Your name"); starred are the phone mode's starred contacts. All of these clips were seen while
+# choosing the prompt format and the token cap: a held-out set should be new (real) recordings.
+voices: [Samantha, Daniel, Karen, Moira, Rishi]
+owner: Aaron
+starred: [Mom, Dad]
+contacts: [Aaron, Erin, Siobhan, Linh Nguyen, Kevin Nguyen, Joaquin, Joaquin Reyes, Saoirse, Xavier, Mom, Dad, Grandma, Mary Jane, Priya, Niamh, Dmitri, Aisha, Caitlin, Sean, Jon, Zoe, Ian, Sarah, Michael, Jordan, Karen, Erica, Aaron Diaz, Ezra, Arin, Owen, Emily, Jessica, Tyler, Megan, Brandon, Lauren, Rachel, Nick, Kayla, Mohammed, Wei Chen, Olga, Liam, Olivia, Isabella, Grandpa, Uncle Steve, Aunt Linda, Dr. Patel, Bethany, Kristen, Shauna, Ryan]
+clips:
+  - id: send-a-text-to-aaron
+    text: "send a text to aaron"
+    type: message
+    names: [aaron]
+    prompt: [Wei Chen, Ezra, Uncle Steve, Dad, Rachel, Mary Jane, Liam, Aaron Diaz, Aisha, Bethany, Dmitri, Priya, Aaron, Joaquin, Jessica]
+    voice: Samantha
+    noise: false
+  - id: call-aaron
+    text: "call aaron"
+    type: call
+    names: [aaron]
+    prompt: [Olga, Caitlin, Xavier, Nick, Joaquin, Shauna, Mohammed, Aaron, Niamh, Mom, Michael, Owen, Wei Chen, Mary Jane, Ezra]
+    voice: Daniel
+    noise: false
+  - id: text-aaron-im-on-my
+    text: "text aaron i'm on my way"
+    say: "Text Aaron, I'm on my way."
+    type: message
+    names: [aaron]
+    prompt: [Emily, Zoe, Dr. Patel, Arin, Liam, Aaron, Nick, Ryan, Brandon, Rachel, Ezra, Michael, Kayla, Mom, Aunt Linda]
+    voice: Karen
+    noise: true
+  - id: send-a-message-to-aaron
+    text: "send a message to aaron saying dinner is ready"
+    type: message
+    names: [aaron]
+    prompt: [Dr. Patel, Priya, Joaquin, Aaron Diaz, Siobhan, Karen, Brandon, Aisha, Isabella, Shauna, Tyler, Aaron, Jordan, Emily, Sean]
+    voice: Moira
+    noise: true
+  - id: remind-me-to-call-aaron
+    text: "remind me to call aaron at five pm"
+    say: "Remind me to call Aaron at 5 PM."
+    type: reminder
+    names: [aaron]
+    prompt: [Ian, Tyler, Kevin Nguyen, Erin, Jordan, Lauren, Aaron, Emily, Joaquin, Isabella, Mom, Kayla, Mohammed, Linh Nguyen, Shauna]
+    voice: Rishi
+    noise: false
+  - id: call-erin
+    text: "call erin"
+    type: call
+    names: [erin]
+    prompt: [Tyler, Olivia, Nick, Erica, Megan, Jessica, Niamh, Jordan, Liam, Kristen, Shauna, Mohammed, Erin, Ian, Zoe]
+    voice: Samantha
+    noise: false
+  - id: send-a-text-to-erin
+    text: "send a text to erin"
+    type: message
+    names: [erin]
+    prompt: [Michael, Aisha, Xavier, Erin, Shauna, Emily, Kristen, Olivia, Karen, Aunt Linda, Ezra, Sean, Grandpa, Kayla, Lauren]
+    voice: Daniel
+    noise: true
+  - id: call-siobhan
+    text: "call siobhan"
+    say: "Call Shivawn."
+    type: call
+    names: [siobhan]
+    prompt: [Isabella, Lauren, Niamh, Dmitri, Uncle Steve, Aunt Linda, Saoirse, Dr. Patel, Tyler, Siobhan, Joaquin, Jessica, Arin, Grandma, Priya]
+    voice: Karen
+    noise: true
+  - id: text-siobhan-see-you-tomorrow
+    text: "text siobhan see you tomorrow"
+    say: "Text Shivawn, see you tomorrow."
+    type: message
+    names: [siobhan]
+    prompt: [Siobhan, Shauna, Kayla, Liam, Aaron Diaz, Erica, Kristen, Ezra, Dr. Patel, Grandpa, Megan, Dmitri, Tyler, Rachel, Kevin Nguyen]
+    voice: Moira
+    noise: false
+  - id: call-linh-nguyen
+    text: "call linh nguyen"
+    say: "Call Lin Win."
+    type: call
+    names: [linh nguyen]
+    prompt: [Kristen, Erin, Olivia, Linh Nguyen, Erica, Isabella, Jordan, Jessica, Jon, Mom, Aaron, Uncle Steve, Aaron Diaz, Grandpa, Aisha]
+    voice: Rishi
+    noise: false
+  - id: send-a-text-to-kevin
+    text: "send a text to kevin nguyen"
+    say: "Send a text to Kevin Win."
+    type: message
+    names: [kevin nguyen]
+    prompt: [Grandpa, Ezra, Ian, Kayla, Bethany, Priya, Sean, Xavier, Brandon, Emily, Arin, Liam, Wei Chen, Mary Jane, Kevin Nguyen]
+    voice: Samantha
+    noise: true
+  - id: call-joaquin
+    text: "call joaquin"
+    say: "Call Wahkeen."
+    type: call
+    names: [joaquin]
+    prompt: [Arin, Joaquin Reyes, Kayla, Caitlin, Owen, Ian, Zoe, Aisha, Rachel, Saoirse, Olivia, Dmitri, Dad, Kristen, Joaquin]
+    voice: Daniel
+    noise: true
+  - id: text-joaquin-ill-be-late
+    text: "text joaquin i'll be late"
+    say: "Text Wahkeen, I'll be late."
+    type: message
+    names: [joaquin]
+    prompt: [Isabella, Emily, Liam, Jon, Lauren, Rachel, Nick, Aaron, Siobhan, Joaquin, Erica, Zoe, Karen, Tyler, Niamh]
+    voice: Karen
+    noise: false
+  - id: call-joaquin-reyes
+    text: "call joaquin reyes"
+    say: "Call Wahkeen Ray-yes."
+    type: call
+    names: [joaquin reyes]
+    prompt: [Mohammed, Zoe, Erica, Jessica, Liam, Dad, Michael, Olivia, Caitlin, Joaquin Reyes, Isabella, Aunt Linda, Priya, Lauren, Linh Nguyen]
+    voice: Moira
+    noise: false
+  - id: call-saoirse
+    text: "call saoirse"
+    say: "Call Seersha."
+    type: call
+    names: [saoirse]
+    prompt: [Arin, Tyler, Jessica, Jon, Owen, Wei Chen, Liam, Ryan, Ezra, Sarah, Rachel, Saoirse, Aaron, Michael, Ian]
+    voice: Rishi
+    noise: true
+  - id: send-a-text-to-saoirse
+    text: "send a text to saoirse"
+    say: "Send a text to Seersha."
+    type: message
+    names: [saoirse]
+    prompt: [Liam, Aaron, Sean, Linh Nguyen, Emily, Lauren, Grandma, Bethany, Zoe, Wei Chen, Dad, Isabella, Sarah, Saoirse, Aunt Linda]
+    voice: Samantha
+    noise: true
+  - id: call-xavier
+    text: "call xavier"
+    type: call
+    names: [xavier]
+    prompt: [Kristen, Aaron, Owen, Bethany, Mary Jane, Jordan, Aunt Linda, Joaquin, Mom, Jessica, Aaron Diaz, Mohammed, Niamh, Xavier, Grandma]
+    voice: Daniel
+    noise: false
+  - id: text-xavier-happy-birthday
+    text: "text xavier happy birthday"
+    say: "Text Xavier, happy birthday!"
+    type: message
+    names: [xavier]
+    prompt: [Brandon, Megan, Erin, Erica, Ryan, Karen, Mary Jane, Aisha, Michael, Grandma, Xavier, Shauna, Zoe, Kevin Nguyen, Olga]
+    voice: Karen
+    noise: false
+  - id: call-mom
+    text: "call mom"
+    type: call
+    names: [mom]
+    prompt: [Linh Nguyen, Aaron Diaz, Olivia, Arin, Shauna, Saoirse, Lauren, Megan, Zoe, Uncle Steve, Brandon, Erica, Dmitri, Mom, Siobhan]
+    voice: Moira
+    noise: true
+  - id: text-mom-i-love-you
+    text: "text mom i love you"
+    say: "Text Mom, I love you."
+    type: message
+    names: [mom]
+    prompt: [Xavier, Niamh, Megan, Olga, Aunt Linda, Emily, Sarah, Erica, Aisha, Dad, Mom, Siobhan, Joaquin Reyes, Isabella, Olivia]
+    voice: Rishi
+    noise: true
+  - id: call-dad
+    text: "call dad"
+    type: call
+    names: [dad]
+    prompt: [Olga, Erica, Sarah, Ryan, Joaquin Reyes, Rachel, Dad, Owen, Sean, Mohammed, Bethany, Shauna, Kristen, Karen, Caitlin]
+    voice: Samantha
+    noise: false
+  - id: send-a-text-to-dad
+    text: "send a text to dad saying call me back"
+    type: message
+    names: [dad]
+    prompt: [Joaquin, Linh Nguyen, Tyler, Owen, Brandon, Xavier, Uncle Steve, Jon, Mohammed, Michael, Ryan, Megan, Aisha, Liam, Dad]
+    voice: Daniel
+    noise: false
+  - id: call-grandma
+    text: "call grandma"
+    type: call
+    names: [grandma]
+    prompt: [Niamh, Brandon, Shauna, Arin, Liam, Nick, Zoe, Olivia, Mom, Sean, Grandma, Jordan, Grandpa, Dad, Dr. Patel]
+    voice: Karen
+    noise: true
+  - id: send-a-text-to-grandma
+    text: "send a text to grandma saying merry christmas"
+    type: message
+    names: [grandma]
+    prompt: [Karen, Bethany, Dmitri, Liam, Grandma, Aunt Linda, Dad, Olga, Xavier, Ian, Mohammed, Olivia, Erin, Mom, Michael]
+    voice: Moira
+    noise: true
+  - id: call-mary-jane
+    text: "call mary jane"
+    type: call
+    names: [mary jane]
+    prompt: [Dmitri, Saoirse, Uncle Steve, Jon, Olivia, Olga, Lauren, Sean, Erin, Mary Jane, Aaron Diaz, Brandon, Niamh, Caitlin, Aaron]
+    voice: Rishi
+    noise: false
+  - id: text-mary-jane-are-we
+    text: "text mary jane are we still on for lunch"
+    say: "Text Mary Jane, are we still on for lunch?"
+    type: message
+    names: [mary jane]
+    prompt: [Kevin Nguyen, Tyler, Grandpa, Karen, Dmitri, Dad, Aisha, Brandon, Emily, Mary Jane, Sean, Erica, Niamh, Uncle Steve, Isabella]
+    voice: Samantha
+    noise: false
+  - id: call-priya
+    text: "call priya"
+    type: call
+    names: [priya]
+    prompt: [Megan, Jordan, Olivia, Joaquin, Emily, Priya, Kristen, Niamh, Siobhan, Wei Chen, Jon, Erica, Olga, Isabella, Dr. Patel]
+    voice: Daniel
+    noise: true
+  - id: text-priya-thanks
+    text: "text priya thanks"
+    say: "Text Priya, thanks."
+    type: message
+    names: [priya]
+    prompt: [Lauren, Bethany, Caitlin, Priya, Mom, Megan, Aunt Linda, Kevin Nguyen, Isabella, Aaron Diaz, Emily, Linh Nguyen, Sean, Grandma, Mohammed]
+    voice: Karen
+    noise: true
+  - id: call-niamh
+    text: "call niamh"
+    say: "Call Neeve."
+    type: call
+    names: [niamh]
+    prompt: [Xavier, Aaron Diaz, Liam, Brandon, Niamh, Siobhan, Olga, Priya, Kevin Nguyen, Kayla, Joaquin Reyes, Ezra, Erin, Rachel, Sarah]
+    voice: Moira
+    noise: false
+  - id: call-dmitri
+    text: "call dmitri"
+    type: call
+    names: [dmitri]
+    prompt: [Priya, Lauren, Shauna, Emily, Aaron, Siobhan, Dmitri, Aisha, Olga, Kevin Nguyen, Liam, Dad, Rachel, Saoirse, Megan]
+    voice: Rishi
+    noise: false
+  - id: text-aisha-running-ten-minutes
+    text: "text aisha running ten minutes late"
+    say: "Text Aisha, running 10 minutes late."
+    type: message
+    names: [aisha]
+    prompt: [Brandon, Nick, Saoirse, Zoe, Linh Nguyen, Aisha, Karen, Kayla, Niamh, Kristen, Olivia, Olga, Kevin Nguyen, Dad, Ezra]
+    voice: Samantha
+    noise: true
+  - id: call-caitlin
+    text: "call caitlin"
+    type: call
+    names: [caitlin]
+    prompt: [Wei Chen, Megan, Rachel, Dad, Dmitri, Arin, Liam, Olga, Caitlin, Erin, Uncle Steve, Siobhan, Aisha, Bethany, Sean]
+    voice: Daniel
+    noise: true
+  - id: send-a-text-to-sean
+    text: "send a text to sean"
+    type: message
+    names: [sean]
+    prompt: [Aaron Diaz, Linh Nguyen, Saoirse, Mohammed, Isabella, Jordan, Siobhan, Dr. Patel, Dmitri, Zoe, Sean, Shauna, Liam, Arin, Olivia]
+    voice: Karen
+    noise: false
+  - id: call-jon
+    text: "call jon"
+    type: call
+    names: [jon]
+    prompt: [Kevin Nguyen, Jordan, Nick, Niamh, Shauna, Aaron Diaz, Brandon, Erin, Sarah, Dr. Patel, Michael, Caitlin, Grandma, Xavier, Jon]
+    voice: Moira
+    noise: false
+  - id: text-zoe-good-night
+    text: "text zoe good night"
+    say: "Text Zoe, good night."
+    type: message
+    names: [zoe]
+    prompt: [Jordan, Brandon, Bethany, Ryan, Jessica, Arin, Xavier, Wei Chen, Emily, Tyler, Zoe, Aaron, Mom, Niamh, Joaquin]
+    voice: Rishi
+    noise: true
+  - id: call-ian
+    text: "call ian"
+    type: call
+    names: [ian]
+    prompt: [Shauna, Isabella, Tyler, Mary Jane, Mohammed, Karen, Joaquin, Caitlin, Emily, Jon, Joaquin Reyes, Bethany, Jessica, Ian, Sarah]
+    voice: Samantha
+    noise: true
+  - id: send-a-text-to-sarah
+    text: "send a text to sarah"
+    type: message
+    names: [sarah]
+    prompt: [Ezra, Jessica, Jordan, Aaron, Zoe, Kristen, Shauna, Michael, Tyler, Brandon, Sarah, Ian, Olga, Emily, Arin]
+    voice: Daniel
+    noise: false
+  - id: call-michael
+    text: "call michael"
+    type: call
+    names: [michael]
+    prompt: [Emily, Michael, Rachel, Aaron, Mary Jane, Tyler, Siobhan, Megan, Bethany, Nick, Wei Chen, Jon, Joaquin, Aisha, Kevin Nguyen]
+    voice: Karen
+    noise: false
+  - id: text-jordan-where-are-you
+    text: "text jordan where are you"
+    say: "Text Jordan, where are you?"
+    type: message
+    names: [jordan]
+    prompt: [Kristen, Uncle Steve, Brandon, Aaron, Nick, Joaquin, Joaquin Reyes, Grandpa, Aisha, Bethany, Caitlin, Jon, Jordan, Jessica, Megan]
+    voice: Moira
+    noise: true
+  - id: call-aaron-diaz
+    text: "call aaron diaz"
+    type: call
+    names: [aaron diaz]
+    prompt: [Joaquin, Saoirse, Bethany, Erica, Brandon, Olivia, Aaron Diaz, Caitlin, Liam, Jordan, Jessica, Ryan, Tyler, Niamh, Ezra]
+    voice: Rishi
+    noise: true
+  - id: call-ezra
+    text: "call ezra"
+    type: call
+    names: [ezra]
+    prompt: [Tyler, Arin, Kevin Nguyen, Michael, Caitlin, Wei Chen, Aisha, Siobhan, Ian, Mary Jane, Aunt Linda, Xavier, Linh Nguyen, Ezra, Aaron]
+    voice: Samantha
+    noise: false
+  - id: send-a-text-to-erica
+    text: "send a text to erica"
+    type: message
+    names: [erica]
+    prompt: [Mohammed, Emily, Dmitri, Dad, Megan, Lauren, Arin, Sarah, Shauna, Mom, Erica, Tyler, Liam, Kayla, Xavier]
+    voice: Daniel
+    noise: false
+  - id: set-a-timer-for-five
+    text: "set a timer for five minutes"
+    say: "Set a timer for 5 minutes."
+    type: timer
+    names: []
+    prompt: [Olivia, Kristen, Liam, Mom, Megan, Sean, Jessica, Priya, Kevin Nguyen, Jon, Grandpa, Ryan, Zoe, Uncle Steve, Mohammed]
+    voice: Karen
+    noise: true
+  - id: set-a-timer-for-ten
+    text: "set a timer for ten minutes"
+    type: timer
+    names: []
+    prompt: [Sean, Erica, Dmitri, Jordan, Bethany, Joaquin, Lauren, Mohammed, Kristen, Linh Nguyen, Rachel, Aaron, Zoe, Olivia, Arin]
+    voice: Moira
+    noise: true
+  - id: start-a-pasta-timer-for
+    text: "start a pasta timer for eight minutes"
+    type: timer
+    names: []
+    prompt: [Bethany, Kayla, Siobhan, Niamh, Priya, Karen, Nick, Kristen, Uncle Steve, Megan, Joaquin Reyes, Aaron Diaz, Emily, Dr. Patel, Sarah]
+    voice: Rishi
+    noise: false
+  - id: set-a-timer-for-one
+    text: "set a timer for one hour and thirty minutes"
+    type: timer
+    names: []
+    prompt: [Rachel, Dr. Patel, Lauren, Zoe, Saoirse, Erin, Karen, Dad, Wei Chen, Grandma, Olga, Brandon, Sean, Joaquin Reyes, Megan]
+    voice: Samantha
+    noise: false
+  - id: how-much-time-is-left
+    text: "how much time is left on my timer"
+    type: timer
+    names: []
+    prompt: [Grandpa, Kevin Nguyen, Zoe, Tyler, Rachel, Emily, Sean, Sarah, Mom, Michael, Aaron, Liam, Erin, Jordan, Dr. Patel]
+    voice: Daniel
+    noise: true
+  - id: cancel-the-timer
+    text: "cancel the timer"
+    type: timer
+    names: []
+    prompt: [Aaron Diaz, Linh Nguyen, Aaron, Megan, Wei Chen, Erin, Kristen, Michael, Emily, Siobhan, Dr. Patel, Zoe, Mary Jane, Bethany, Mom]
+    voice: Karen
+    noise: true
+  - id: wake-me-up-at-seven
+    text: "wake me up at seven thirty"
+    say: "Wake me up at 7:30."
+    type: alarm
+    names: []
+    prompt: [Saoirse, Olga, Wei Chen, Brandon, Kayla, Ezra, Erica, Aaron Diaz, Lauren, Zoe, Aunt Linda, Nick, Mohammed, Kristen, Joaquin Reyes]
+    voice: Moira
+    noise: false
+  - id: set-an-alarm-for-six
+    text: "set an alarm for six am"
+    say: "Set an alarm for 6 AM."
+    type: alarm
+    names: []
+    prompt: [Bethany, Aaron Diaz, Zoe, Grandma, Lauren, Aunt Linda, Aisha, Megan, Erica, Sarah, Emily, Joaquin Reyes, Liam, Shauna, Mom]
+    voice: Rishi
+    noise: false
+  - id: set-an-alarm-for-eight
+    text: "set an alarm for eight fifteen tomorrow"
+    type: alarm
+    names: []
+    prompt: [Linh Nguyen, Caitlin, Megan, Kevin Nguyen, Uncle Steve, Mary Jane, Sarah, Shauna, Dad, Olga, Tyler, Sean, Bethany, Mohammed, Brandon]
+    voice: Samantha
+    noise: true
+  - id: cancel-my-alarm
+    text: "cancel my alarm"
+    type: alarm
+    names: []
+    prompt: [Mohammed, Niamh, Owen, Tyler, Sean, Ian, Wei Chen, Karen, Aaron Diaz, Siobhan, Zoe, Aisha, Dmitri, Lauren, Shauna]
+    voice: Daniel
+    noise: true
+  - id: whats-the-weather-like-tomorrow
+    text: "what's the weather like tomorrow"
+    type: weather
+    names: []
+    prompt: [Sean, Xavier, Linh Nguyen, Lauren, Mom, Karen, Zoe, Caitlin, Jon, Sarah, Jessica, Niamh, Grandma, Kevin Nguyen, Joaquin]
+    voice: Karen
+    noise: false
+  - id: is-it-going-to-rain
+    text: "is it going to rain today"
+    type: weather
+    names: []
+    prompt: [Siobhan, Michael, Ezra, Dmitri, Linh Nguyen, Uncle Steve, Olga, Erica, Aisha, Lauren, Rachel, Joaquin Reyes, Aunt Linda, Karen, Olivia]
+    voice: Moira
+    noise: false
+  - id: whats-the-temperature-outside
+    text: "what's the temperature outside"
+    type: weather
+    names: []
+    prompt: [Grandma, Erica, Uncle Steve, Ryan, Dad, Bethany, Brandon, Priya, Rachel, Xavier, Liam, Joaquin, Emily, Siobhan, Olga]
+    voice: Rishi
+    noise: true
+  - id: will-it-snow-this-weekend
+    text: "will it snow this weekend"
+    type: weather
+    names: []
+    prompt: [Megan, Karen, Wei Chen, Lauren, Ryan, Aaron Diaz, Sarah, Aunt Linda, Ian, Bethany, Mohammed, Kayla, Aisha, Mary Jane, Linh Nguyen]
+    voice: Samantha
+    noise: true
+  - id: turn-on-the-flashlight
+    text: "turn on the flashlight"
+    type: settings
+    names: []
+    prompt: [Brandon, Michael, Sarah, Bethany, Shauna, Joaquin Reyes, Ian, Saoirse, Aunt Linda, Tyler, Arin, Kristen, Grandpa, Erica, Ezra]
+    voice: Daniel
+    noise: false
+  - id: turn-off-bluetooth
+    text: "turn off bluetooth"
+    type: settings
+    names: []
+    prompt: [Joaquin Reyes, Erica, Ryan, Joaquin, Dr. Patel, Megan, Grandma, Tyler, Emily, Ian, Kevin Nguyen, Saoirse, Jon, Rachel, Liam]
+    voice: Karen
+    noise: false
+  - id: turn-on-wifi
+    text: "turn on wifi"
+    say: "Turn on Wi-Fi."
+    type: settings
+    names: []
+    prompt: [Megan, Kevin Nguyen, Saoirse, Isabella, Jessica, Caitlin, Tyler, Grandma, Michael, Zoe, Kayla, Mary Jane, Dad, Erin, Joaquin]
+    voice: Moira
+    noise: true
+  - id: set-the-volume-to-fifty
+    text: "set the volume to fifty percent"
+    type: settings
+    names: []
+    prompt: [Caitlin, Brandon, Niamh, Priya, Joaquin Reyes, Tyler, Isabella, Megan, Kevin Nguyen, Jon, Ryan, Joaquin, Nick, Rachel, Olga]
+    voice: Rishi
+    noise: true
+  - id: turn-on-do-not-disturb
+    text: "turn on do not disturb"
+    type: settings
+    names: []
+    prompt: [Michael, Nick, Jordan, Shauna, Dmitri, Saoirse, Zoe, Kevin Nguyen, Niamh, Mom, Siobhan, Aisha, Owen, Emily, Grandma]
+    voice: Samantha
+    noise: false
+  - id: make-the-screen-brighter
+    text: "make the screen brighter"
+    type: settings
+    names: []
+    prompt: [Liam, Ryan, Mohammed, Priya, Jordan, Saoirse, Uncle Steve, Tyler, Grandpa, Zoe, Aaron, Joaquin, Kayla, Aaron Diaz, Erin]
+    voice: Daniel
+    noise: false
+  - id: pause-the-music
+    text: "pause the music"
+    type: media
+    names: []
+    prompt: [Aunt Linda, Olivia, Siobhan, Grandpa, Caitlin, Uncle Steve, Mary Jane, Xavier, Aisha, Sarah, Brandon, Linh Nguyen, Aaron, Shauna, Arin]
+    voice: Karen
+    noise: true
+  - id: next-song
+    text: "next song"
+    type: media
+    names: []
+    prompt: [Grandpa, Erin, Aunt Linda, Dmitri, Uncle Steve, Mohammed, Tyler, Isabella, Shauna, Michael, Sean, Erica, Caitlin, Olivia, Niamh]
+    voice: Moira
+    noise: true
+  - id: play-some-music
+    text: "play some music"
+    type: media
+    names: []
+    prompt: [Kayla, Michael, Erin, Xavier, Zoe, Mohammed, Ezra, Olivia, Saoirse, Liam, Kevin Nguyen, Arin, Priya, Dmitri, Aunt Linda]
+    voice: Rishi
+    noise: false
+  - id: go-back-to-the-previous
+    text: "go back to the previous track"
+    type: media
+    names: []
+    prompt: [Ryan, Kayla, Erica, Isabella, Lauren, Linh Nguyen, Dmitri, Saoirse, Dad, Joaquin Reyes, Mom, Emily, Mohammed, Rachel, Wei Chen]
+    voice: Samantha
+    noise: false
+  - id: resume-playback
+    text: "resume playback"
+    type: media
+    names: []
+    prompt: [Ezra, Rachel, Jessica, Caitlin, Niamh, Kristen, Uncle Steve, Zoe, Sean, Ian, Joaquin Reyes, Erica, Karen, Arin, Erin]
+    voice: Daniel
+    noise: true
+  - id: what-time-is-it
+    text: "what time is it"
+    type: question
+    names: []
+    prompt: [Emily, Uncle Steve, Mom, Zoe, Erin, Mohammed, Aisha, Aunt Linda, Caitlin, Jessica, Owen, Saoirse, Jon, Rachel, Dad]
+    voice: Karen
+    noise: true
+  - id: whats-the-date-today
+    text: "what's the date today"
+    type: question
+    names: []
+    prompt: [Joaquin Reyes, Isabella, Jordan, Owen, Aaron Diaz, Kristen, Sarah, Megan, Michael, Ezra, Dmitri, Tyler, Olga, Saoirse, Rachel]
+    voice: Moira
+    noise: false
+  - id: what-is-twenty-five-times
+    text: "what is twenty five times four"
+    type: question
+    names: []
+    prompt: [Joaquin, Zoe, Ezra, Nick, Niamh, Tyler, Ian, Uncle Steve, Saoirse, Jon, Grandma, Emily, Aunt Linda, Dr. Patel, Shauna]
+    voice: Rishi
+    noise: false
+  - id: how-many-ounces-are-in
+    text: "how many ounces are in a pound"
+    type: question
+    names: []
+    prompt: [Kristen, Jordan, Dad, Kayla, Nick, Wei Chen, Megan, Sean, Karen, Michael, Aaron, Joaquin Reyes, Aunt Linda, Mohammed, Shauna]
+    voice: Samantha
+    noise: true
+  - id: what-is-the-capital-of
+    text: "what is the capital of france"
+    type: question
+    names: []
+    prompt: [Megan, Zoe, Lauren, Aaron Diaz, Brandon, Shauna, Olivia, Saoirse, Tyler, Kristen, Jordan, Olga, Xavier, Caitlin, Owen]
+    voice: Daniel
+    noise: true
+  - id: who-wrote-pride-and-prejudice
+    text: "who wrote pride and prejudice"
+    type: question
+    names: []
+    prompt: [Olga, Joaquin, Kristen, Linh Nguyen, Joaquin Reyes, Jon, Jordan, Dr. Patel, Tyler, Erin, Kevin Nguyen, Erica, Brandon, Saoirse, Karen]
+    voice: Karen
+    noise: false
+  - id: remind-me-to-take-out
+    text: "remind me to take out the trash at eight pm"
+    say: "Remind me to take out the trash at 8 PM."
+    type: reminder
+    names: []
+    prompt: [Lauren, Saoirse, Liam, Michael, Brandon, Zoe, Nick, Olga, Aisha, Wei Chen, Erin, Mary Jane, Owen, Megan, Siobhan]
+    voice: Moira
+    noise: false
+  - id: take-a-note-buy-milk
+    text: "take a note buy milk and eggs"
+    say: "Take a note: buy milk and eggs."
+    type: note
+    names: []
+    prompt: [Dmitri, Wei Chen, Ian, Siobhan, Kevin Nguyen, Bethany, Niamh, Emily, Sarah, Karen, Grandpa, Nick, Mom, Zoe, Ezra]
+    voice: Rishi
+    noise: true
+  - id: open-the-camera
+    text: "open the camera"
+    type: app
+    names: []
+    prompt: [Jordan, Ian, Wei Chen, Michael, Kayla, Xavier, Kristen, Dmitri, Brandon, Aaron Diaz, Niamh, Aaron, Siobhan, Grandma, Dad]
+    voice: Samantha
+    noise: true
+  - id: navigate-home
+    text: "navigate home"
+    type: navigation
+    names: []
+    prompt: [Jessica, Zoe, Shauna, Kayla, Ezra, Aunt Linda, Dmitri, Ian, Kevin Nguyen, Grandma, Dr. Patel, Bethany, Rachel, Joaquin, Joaquin Reyes]
+    voice: Daniel
+    noise: false
+  - id: stop
+    text: "stop"
+    type: short
+    names: []
+    prompt: [Kayla, Nick, Megan, Kristen, Grandpa, Brandon, Aaron Diaz, Siobhan, Uncle Steve, Rachel, Niamh, Isabella, Emily, Zoe, Dad]
+    voice: Karen
+    noise: false
+  - id: yes
+    text: "yes"
+    type: short
+    names: []
+    prompt: [Jessica, Priya, Ryan, Bethany, Emily, Olivia, Grandma, Aunt Linda, Ian, Mohammed, Wei Chen, Shauna, Lauren, Zoe, Liam]
+    voice: Moira
+    noise: true
+  - id: no
+    text: "no"
+    type: short
+    names: []
+    prompt: [Uncle Steve, Liam, Aaron Diaz, Shauna, Kayla, Jon, Dad, Niamh, Grandma, Dmitri, Bethany, Zoe, Emily, Jessica, Joaquin]
+    voice: Rishi
+    noise: true
+  - id: cancel
+    text: "cancel"
+    type: short
+    names: []
+    prompt: [Zoe, Priya, Saoirse, Kayla, Aunt Linda, Olivia, Owen, Siobhan, Linh Nguyen, Xavier, Kevin Nguyen, Joaquin Reyes, Aisha, Mom, Mary Jane]
+    voice: Samantha
+    noise: false
+  - id: bench-timer
+    text: "set a timer for five minutes"
+    type: timer
+    names: []
+    prompt: [Rachel, Uncle Steve, Erica, Aunt Linda, Grandma, Michael, Mohammed, Liam, Grandpa, Erin, Shauna, Caitlin, Linh Nguyen, Niamh, Bethany]
+    wav: bench/timer.wav
+  - id: bench-alarm
+    text: "wake me up at seven thirty"
+    type: alarm
+    names: []
+    prompt: [Siobhan, Saoirse, Isabella, Grandma, Rachel, Olivia, Karen, Linh Nguyen, Ezra, Joaquin, Liam, Jon, Dad, Brandon, Aaron]
+    wav: bench/alarm.wav
+  - id: bench-call
+    text: "call aaron"
+    type: call
+    names: [aaron]
+    prompt: [Shauna, Kayla, Mary Jane, Michael, Arin, Megan, Rachel, Olivia, Wei Chen, Olga, Dr. Patel, Aaron, Brandon, Jordan, Karen]
+    wav: bench/call.wav
+  - id: bench-weather
+    text: "what's the weather like tomorrow"
+    type: weather
+    names: []
+    prompt: [Emily, Dmitri, Bethany, Shauna, Kayla, Jessica, Siobhan, Aaron Diaz, Ryan, Liam, Dr. Patel, Nick, Sean, Saoirse, Michael]
+    wav: bench/weather.wav

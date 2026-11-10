@@ -1,0 +1,25 @@
+# GAR (gar:agenda): the next event, moving and deleting events. A capture takes any words, so
+# AgendaSkill.score keeps a match only when AgendaWords reads the whole input as one of these.
+# The calendar skill keeps adding events and reading a day ("what's on my calendar tomorrow").
+next:
+  - what|(what s)|whats|(what is)|when|(when s)|whens|(when is)|where|(where s)|wheres|(where is)|(what time is) my|the next event|meeting|appointment|thing ((on my calendar)|((with|about|for) .about.))? (today|tomorrow)?
+  - what|(what s)|whats|(what is) next|(coming up)|(up next)|(coming up next) (on my calendar|agenda|schedule)? (today)?
+  - what do i have next|(coming up) (on my calendar|agenda|schedule)? (today)?
+  - when|(when s)|whens|(when is)|(what time is)|where|(where s)|wheres|(where is) my|the .about. appointment|meeting|event|reservation|class|lesson|party|dinner|lunch|interview|checkup|call
+  - when|(when s)|whens|(when is)|(what time is)|where|(where s)|wheres|(where is) my|the appointment|meeting|event|call|lunch|dinner with .about.
+  # "do i have a haircut appointment", "is there any haircut appointment on my calendar", "check
+  # for a haircut appointment" (2026-11-05): the next one by name, AgendaWords.FIND
+  - (do|will) i have .about. appointment<s?>|meeting<s?>|event<s?>|reservation<s?>|class|classes|lesson<s?>|party|dinner|lunch|interview|checkup|call|session ((coming up)|scheduled|soon|((on|in) (my|the) next? (calendar|agenda|schedule)))?
+  - (is|are) there .about. appointment<s?>|meeting<s?>|event<s?>|reservation<s?>|class|classes|lesson<s?>|party|dinner|lunch|interview|checkup|call|session ((coming up)|scheduled|soon|((on|in) (my|the) next? (calendar|agenda|schedule)))?
+  - (check|look|search) for .about. appointment<s?>|meeting<s?>|event<s?>|reservation<s?>|class|classes|lesson<s?>|party|dinner|lunch|interview|checkup|call|session ((coming up)|scheduled|soon|((on|in) (my|the) next? (calendar|agenda|schedule)))?
+  - (check|look|search) (on|in)? (my|the) (calendar|agenda|schedule) for .about.
+
+move:
+  - move|reschedule|change|push|shift|postpone|bump|delay|switch (back|forward)? .ref. to|until|till|for .when.
+  - move|reschedule|change|push|shift|postpone|bump|delay|switch (back|forward)? .ref. from .from. to|until|till .when.
+  - (bring forward)|(push back)|(put off) .ref. to|until|till|for .when.
+
+cancel:
+  - cancel|delete|remove|clear|drop|scrap|(call off)|(get rid of) (my|the)? .ref. ((from|off) my calendar)?
+  - clear|empty (out)? my|the calendar|agenda|schedule (for|on)? .when.
+  - cancel|delete|remove|clear all|everything (of)? (my|the)? (events|meetings|appointments)? (on my calendar)? (for|on)? .when.

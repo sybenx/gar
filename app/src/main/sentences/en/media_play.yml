@@ -1,0 +1,16 @@
+# GAR: play by name (gar/PARITY.md, batch 4). MediaPlaySkill.score keeps a match only for an input
+# that MediaPlayWords reads as a request to play something named ("play the next song" and "play
+# music" stay with Dicio's media skill). Every input it keeps names one of the media_play tool's
+# keywords (GarMatchCheck): the verb, or for "start" what it starts.
+play:
+  - play|stream|queue|blast .query.
+  - play|stream|queue|blast .query. on|in|with|using|through|via|from .app. (app)?
+  - (queue up)|(start playing)|(put on)|(throw on)|(listen to)|hear .query.
+  - (queue up)|(start playing)|(put on)|(throw on)|(listen to)|hear .query. on|in|with|using|through|via|from .app. (app)?
+  - (i want to)|(i wanna)|(i d like to)|(let me)|(let s)|(can i) (listen to)|hear .query.
+  - (i want to)|(i wanna)|(i d like to)|(let me)|(let s)|(can i) (listen to)|hear .query. on|in|with|using|from .app. (app)?
+  # "start" only for a playlist, a podcast, an album or an episode (MediaPlayWords)
+  - start .query.
+  - start .query. on|in|with|using|from .app. (app)?
+  - can|could|would|will you play|(put on) .query.
+  - can|could|would|will you play|(put on) .query. on|in|with|using|from .app. (app)?

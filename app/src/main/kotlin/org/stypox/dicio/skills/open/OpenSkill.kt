@@ -20,6 +20,9 @@ class OpenSkill(correspondingSkillInfo: SkillInfo, data: StandardRecognizerData<
         val userAppName = when (inputData) {
             is Open.Query -> inputData.what?.trim { it <= ' ' }
         }
+        // GAR (gar:places): "open wikipedia dot org" opens the website in the browser
+        userAppName?.let { org.stypox.dicio.skills.website.WebsiteSkill.outputFor(ctx, it) }
+            ?.let { return it }
         val packageManager: PackageManager = ctx.android.packageManager
         val applicationInfo = userAppName?.let { getMostSimilarApp(packageManager, it) }
 

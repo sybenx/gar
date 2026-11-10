@@ -1,4 +1,7 @@
 query:
   - beni|bana? .where. a|ya|e|ye|ne? yönlendir|al|götür|((navigasyon|yol tarifi) ver?)
-  - .where. nere<si|de|dedir>
   - .where. a|ya|e|ye|ne? nası<l?> gid<ebilirim|erim|ilir>
+
+# GAR (gar:places): "where is .where." on its own, see en
+where_is:
+  - .where. nere<si|de|dedir>

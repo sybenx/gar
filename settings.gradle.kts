@@ -6,6 +6,12 @@ import java.util.Properties
 rootProject.name = "Dicio"
 include(":app")
 include(":skill")
+// GAR modules (see gar/DESIGN.md)
+include(":gar:router")
+include(":gar:llm")
+include(":gar:assist")
+include(":gar:stt")
+include(":gar:baselineprofile")
 // we use includeBuild here since the plugins are compile-time dependencies
 includeBuild("sentences-compiler-plugin")
 includeBuild("unicode-cldr-plugin")

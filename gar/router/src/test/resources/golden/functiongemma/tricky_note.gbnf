@@ -1,0 +1,13 @@
+root ::= <start_function_call> "call:" ( call-note-add | call-lamp | call-no-match ) <end_function_call>
+call-note-add ::= "note_add{" "alpha_2:" <escape> span <escape> ( "," "body:" <escape> span <escape> )? ( "," "mood:" <escape> ( "happy" | "so-so" | "très bien" ) <escape> )? ( "," "zeta:" <escape> span <escape> )? "}"
+call-lamp ::= "lamp{" ( "room:" <escape> span <escape> "," "state:" <escape> ( "on" | "off" ) <escape> | "state:" <escape> ( "on" | "off" ) <escape> ) "}"
+call-no-match ::= "no_match{}"
+span ::= s-1 | s-2 | s-3 | s-4 | s-5 | s-6 | s-7 | s-8
+s-1 ::= "add" ( " " s-2 )?
+s-2 ::= "a" ( " " s-3 )?
+s-3 ::= "note" ( " " s-4 )?
+s-4 ::= "très" ( " " s-5 )?
+s-5 ::= "bien" ( " " s-6 )?
+s-6 ::= "forty" ( " " s-7 )?
+s-7 ::= "two" ( " " s-8 )?
+s-8 ::= "pasta"

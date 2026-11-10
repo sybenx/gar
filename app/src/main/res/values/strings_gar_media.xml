@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR media group: play by name, more media controls and the media sleep timer (PARITY batch
+     4). Dicio's own media answers stay in strings.xml (skill_media_*). -->
+<resources>
+    <string name="skill_name_media_play">Play by name</string>
+    <string name="skill_sentence_example_media_play">Play Taylor Swift on Spotify</string>
+    <string name="skill_name_media_controls">More media controls</string>
+    <string name="skill_sentence_example_media_controls">Shuffle, or stop the music in thirty minutes</string>
+
+    <!-- Play by name; %1$s is what to play as the user said it ("your workout playlist"), %2$s
+         is the app's name -->
+    <string name="skill_media_play_playing_on">Playing %1$s on %2$s.</string>
+    <string name="skill_media_play_anything_on">Playing music on %1$s.</string>
+    <string name="skill_media_play_asked">I asked %2$s to play %1$s, but it didn\'t start.</string>
+    <string name="skill_media_play_asked_anything">I asked %1$s to play music, but it didn\'t start.</string>
+    <string name="skill_media_play_choose">Pick an app to play it.</string>
+    <string name="skill_media_play_choose_hint">Tap Always to use that app next time.</string>
+    <!-- %1$s is an app's name as the user said it -->
+    <string name="skill_media_play_not_installed">%1$s isn\'t installed.</string>
+    <string name="skill_media_play_cant">%1$s can\'t play by name.</string>
+    <string name="skill_media_play_cant_access">If %1$s is open, allow GAR notification access, and I can ask it.</string>
+    <string name="skill_media_play_no_player">There\'s no app on this phone that plays music by name.</string>
+    <string name="skill_media_play_no_player_hint">Install a music or podcast app, then ask again.</string>
+    <string name="skill_media_play_failed">%1$s didn\'t open.</string>
+    <string name="skill_media_play_failed_no_app">The player didn\'t open.</string>
+    <!-- the model asked to play something that isn't music, a podcast or a video ("a game") -->
+    <string name="skill_media_play_not_media">Sorry, I can\'t play that.</string>
+    <string name="skill_media_allow_access">Allow notification access</string>
+
+    <!-- More media controls; %1$s is the name of the app that plays -->
+    <string name="skill_media_controls_no_access">I need notification access to do that.</string>
+    <string name="skill_media_controls_no_access_detail">With notification access, GAR can shuffle, repeat, skip ahead and like what plays. Play, pause and next work without it.</string>
+    <string name="skill_media_controls_nothing_playing">Nothing is playing.</string>
+    <string name="skill_media_controls_failed">%1$s didn\'t respond.</string>
+    <string name="skill_media_controls_toggle_detail">%1$s only has a switch for it, so I can\'t tell whether it\'s on now.</string>
+    <string name="skill_media_shuffle_on">Shuffle is on.</string>
+    <string name="skill_media_shuffle_off">Shuffle is off.</string>
+    <string name="skill_media_shuffle_toggled">I switched shuffle in %1$s.</string>
+    <string name="skill_media_shuffle_unsupported">%1$s doesn\'t let me change shuffle.</string>
+    <string name="skill_media_repeat_one">Repeating this song.</string>
+    <string name="skill_media_repeat_all">Repeat is on.</string>
+    <string name="skill_media_repeat_off">Repeat is off.</string>
+    <string name="skill_media_repeat_toggled">I switched repeat in %1$s.</string>
+    <string name="skill_media_repeat_unsupported">%1$s doesn\'t let me change repeat.</string>
+    <!-- %1$s is a duration, like "thirty seconds" -->
+    <string name="skill_media_seek_forward">Skipped ahead %1$s.</string>
+    <string name="skill_media_seek_back">Went back %1$s.</string>
+    <string name="skill_media_seek_past_end">That\'s past the end of this track.</string>
+    <string name="skill_media_seek_unsupported">%1$s can\'t skip by time.</string>
+    <string name="skill_media_restart">Starting over.</string>
+    <string name="skill_media_restart_unsupported">%1$s can\'t start the track over.</string>
+    <string name="skill_media_like">Liked.</string>
+    <string name="skill_media_dislike">Gave it a thumbs down.</string>
+    <string name="skill_media_already_liked">You already like this one.</string>
+    <string name="skill_media_already_disliked">It already has a thumbs down.</string>
+    <string name="skill_media_like_unsupported">%1$s doesn\'t let me like songs.</string>
+    <string name="skill_media_dislike_unsupported">%1$s doesn\'t let me give a thumbs down.</string>
+    <string name="skill_media_paused">Paused.</string>
+
+    <!-- The media sleep timer; %1$s is a duration, like "thirty minutes" -->
+    <string name="skill_media_sleep_set">OK, I\'ll stop the music in %1$s.</string>
+    <!-- %1$s is a time of day, like "11:30 PM" -->
+    <string name="skill_media_sleep_until">The music stops at %1$s.</string>
+    <string name="skill_media_sleep_left">The music stops in %1$s.</string>
+    <string name="skill_media_sleep_cancelled">Sleep timer cancelled.</string>
+    <string name="skill_media_sleep_none">There\'s no sleep timer.</string>
+    <string name="skill_media_sleep_ask">For how long?</string>
+    <string name="skill_media_sleep_too_long">A sleep timer can run for up to a day.</string>
+</resources>

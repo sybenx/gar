@@ -1,0 +1,1 @@
+{"status": "error", "error": {"error_code": 500, "error_message": "Recognition failed: the audio file is incorrect."}, "request_params": {}, "request_api_method": "recognize", "request_http_method": "POST", "see api documentation": "https://docs.audd.io", "contact us": "api@audd.io"}

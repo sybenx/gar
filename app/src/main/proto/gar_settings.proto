@@ -1,0 +1,127 @@
+syntax = "proto3";
+
+option java_package = "org.stypox.dicio.gar.settings";
+option java_multiple_files = true;
+
+// GAR: settings of the on-device model that handles commands Dicio's sentences don't match.
+// Kept in their own DataStore file (gar_settings.pb), see GarSettingsModule.
+
+enum GarModel {
+  GAR_MODEL_QWEN3_0_6B = 0;
+  GAR_MODEL_FUNCTION_GEMMA_270M = 1;
+  GAR_MODEL_CUSTOM = 2;
+}
+
+// how a custom (imported) model is prompted
+enum GarModelFamily {
+  GAR_MODEL_FAMILY_HERMES = 0;
+  GAR_MODEL_FAMILY_FUNCTION_GEMMA = 1;
+}
+
+// the Whisper speech recognition model (with the Silero VAD file downloaded alongside)
+enum GarSttModel {
+  GAR_STT_MODEL_BASE_EN = 0;
+  GAR_STT_MODEL_TINY_EN = 1;
+}
+
+// whether Whisper gets the contact names in its prompt (GarSttPromptNames); DEFAULT follows
+// GarSttPromptNames.ON_BY_DEFAULT, so the default can change without touching what users chose
+enum GarSttContactNames {
+  GAR_STT_CONTACT_NAMES_DEFAULT = 0;
+  GAR_STT_CONTACT_NAMES_ON = 1;
+  GAR_STT_CONTACT_NAMES_OFF = 2;
+}
+
+message GarSettings {
+  bool llm_enabled = 1;
+  GarModel model = 2;
+  GarModelFamily custom_model_family = 3;
+  bool confirm_llm_actions = 4;
+  // the user tapped "I accept" for the Gemma Terms of Use
+  bool function_gemma_terms_accepted = 5;
+  // file name the custom model was imported from, only for display
+  string custom_model_name = 6;
+  // ids of Dicio's online skills the user already chose about (answered GAR's question, said
+  // "turn on all online skills" or switched the skill in Settings > Skills): GAR doesn't ask again
+  repeated string online_skills_asked = 7;
+  // the home screen's "Make GAR your assistant" card is gone for good: the user dismissed it, or
+  // GAR was the digital assistant once
+  bool assistant_card_hidden = 8;
+  // the display name of the contact the user said is them, for "text myself", "call me" and
+  // "email myself" (see OwnContact); empty when GAR doesn't know it. Set with stt_own_name
+  // through the "You" setting (GarYou.set)
+  string own_contact_name = 9;
+  // the speech recognition model the Whisper input device uses
+  GarSttModel stt_model = 10;
+  // debug builds: keep the last 50 Whisper clips and their text in filesDir/gar-stt-recordings
+  bool stt_keep_recordings = 11;
+  // the home screen's "Download the speech model" card is gone for good: the user dismissed it,
+  // or a Whisper model was on the phone once
+  bool stt_offer_hidden = 12;
+  // "Help recognise contact names": contact names in Whisper's prompt
+  GarSttContactNames stt_contact_names = 13;
+  // the user's first name for Whisper's prompt (GarSttPromptNames): typed in "You" or the home
+  // screen's card, or own_contact_name's first name when a contact was picked; empty when unset
+  string stt_own_name = 32;
+  // GAR asked "What's your first name?" once (answered, skipped, or set in the settings), so the
+  // home screen's card doesn't ask again
+  bool stt_own_name_asked = 33;
+  // gar:weather: the user answered "use my location" to "Which city are you in?", so forecasts
+  // without a place said are for the phone's approximate location (the home city, the weather
+  // skill's "Default city" setting, wins when one is set)
+  bool weather_use_location = 20;
+  // gar:places: the user's home and work for "take me home" and "directions to work" (see
+  // SavedPlaces); unset until the user gives an address or says "use my current location"
+  GarSavedPlace home_place = 30;
+  GarSavedPlace work_place = 31;
+  // the user turned off "Keep the screen on while GAR is open" (GarKeepScreenOn); stored the
+  // other way round so that the switch is on for existing settings files too
+  bool screen_may_sleep = 40;
+  // the user turned off "Voice log" (GarVoiceLog): stored the other way round so that the log is
+  // on for existing settings files too
+  bool voice_log_off = 41;
+  // the user turned off "Keep listening after answers" (GarContinuedListening): stored the other
+  // way round so that it is on for existing settings files too
+  bool continued_listening_off = 50;
+  // "Speak answers to typed requests" (GarSpeechMode): off, typed requests get the card only
+  bool speak_typed_answers = 51;
+  // gar:places: the maps app GAR's routes, searches and nearby go to: "" not chosen yet (Android's
+  // default geo: app when set, else GAR asks once, MapAppChoice; "Automatic" was "" too), "ask"
+  // every time, else a package
+  string navigation_app = 60;
+  // "Find addresses online": a text address without a point is looked up once on OpenStreetMap's
+  // Nominatim (NominatimLookup), off by default
+  bool address_lookup = 61;
+  // GAR asked "Look up this address online to start the route?" once, whatever the answer
+  bool address_lookup_asked = 62;
+  // the points Nominatim found (or didn't) for contacts' addresses, keyed by the address text
+  repeated GarAddressPoint address_points = 63;
+  // epoch ms: no lookups until then, after Nominatim answered 403, 429 or 509
+  int64 address_lookup_paused_until = 64;
+  // "Tap Route." was spoken once after a pin; the card always shows it
+  bool tap_route_said = 65;
+  // "Open the full app for the assistant" (GarSheet): the assist gesture and the wake word open
+  // MainActivity as before instead of the assistant sheet over the current app; off by default
+  bool assist_full_screen = 66;
+}
+
+// gar:places: a place the user saved, as an address said or typed, or as a spot on the map (the
+// phone's location when the user said "use my current location"), or both
+message GarSavedPlace {
+  string address = 1;
+  bool has_coordinates = 2;
+  double latitude = 3;
+  double longitude = 4;
+  // the point was looked up online for the address (NominatimLookup), not given by the user
+  bool point_looked_up = 5;
+}
+
+// gar:places: a looked-up address (AddressPointStore): key is AddressPointStore.key of the text,
+// found false when Nominatim found nothing (kept 30 days), at is epoch ms
+message GarAddressPoint {
+  string key = 1;
+  bool found = 2;
+  double latitude = 3;
+  double longitude = 4;
+  int64 at = 5;
+}

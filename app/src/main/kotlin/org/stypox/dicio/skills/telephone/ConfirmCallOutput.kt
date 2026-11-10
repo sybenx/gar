@@ -18,8 +18,8 @@ import org.stypox.dicio.util.RecognizeYesNoSkill
 import org.stypox.dicio.util.getString
 
 class ConfirmCallOutput(
-    private val name: String,
-    private val number: String,
+    val name: String, // GAR: val, for the follow-ups' memory (gar/followup)
+    val number: String, // GAR: val
     private val yesNoData: StandardRecognizerData<Sentences.UtilYesNo>,
 ) : SkillOutput {
     override fun getSpeechOutput(ctx: SkillContext): String =

@@ -1,6 +1,7 @@
 package org.stypox.dicio.di
 
 import android.content.Context
+import android.os.Trace // GAR
 import android.util.Log
 import androidx.datastore.core.DataStore
 import dagger.Module
@@ -88,6 +89,7 @@ class WakeDeviceWrapperImpl(
     private val currentDevice: MutableStateFlow<WakeDevice?>
 
     init {
+        Trace.beginSection("Gar:WakeDeviceWrapper.init") // GAR: gar/DESIGN.md, "Frame rate"
         // Run blocking, because the data store is always available right away since LocaleManager
         // also initializes in a blocking way from the same data store.
         val (firstWakeDeviceSetting, nextWakeDeviceFlow) = dataStore.data
@@ -114,6 +116,7 @@ class WakeDeviceWrapperImpl(
         scope.launch {
             nextWakeDeviceFlow.collect(::changeWakeDeviceTo)
         }
+        Trace.endSection() // GAR
     }
 
     private fun changeWakeDeviceTo(setting: DataStoreWakeDevice) {

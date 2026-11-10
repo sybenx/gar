@@ -1,0 +1,18 @@
+# GAR (gar:notes): facts GAR remembers ("remember that my locker is 42", "where did I park"). A
+# capture takes any words, so FactsSkill.score keeps a match only when FactWords reads the whole
+# input as a fact request, and a question only when a remembered fact answers it.
+remember:
+  - remember|memorize|memorise|(don t forget)|(dont forget)|(do not forget)|(keep in mind) (that)? .fact.
+
+recall:
+  - where did|have|had i park|parked|leave|left|put|keep|kept|hide|hid|store|stored .what.?
+  - where is|s|are my|the car|(parking spot)|(parking space)|(parked car)
+  - where am|was i parked
+  - do you remember|know|recall .what.
+  - what|(what s)|whats|(what is)|(what are)|(what was)|where|(where s)|wheres|(where is)|(where are)|when|(when s)|whens|(when is)|who|(who s)|whos|(who is)|which|how .what.
+  - what ((do you)|(did i tell you to)|(did i ask you to)|(have i told you to)) remember (about .what.)?
+  - what do you know about me
+
+forget:
+  - forget|(stop remembering) (about)? .what.
+  - forget everything|all (of it)? ((i|(that i)) told|asked you (to remember)?)?

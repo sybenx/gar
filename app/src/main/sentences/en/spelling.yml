@@ -1,0 +1,8 @@
+spell:
+  # GAR: only one to three words of letters match (SpellingWords.wordToSpell)
+  - how do|would|can|should you|i spell .word.
+  - how (is|s) .word. spelled|spelt
+  - (can you)? spell .word.
+  - what|(what s|is)|whats the spelling of .word.
+  - (the)? spelling of .word.
+  - how to spell .word.

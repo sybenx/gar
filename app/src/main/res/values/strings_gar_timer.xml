@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR timer group: timers are the clock app's (AlarmClock intents), set and stopped by voice.
+     Dicio's own timer strings stay in strings.xml (skill_timer_*). -->
+<resources>
+    <!-- Timer controls skill -->
+    <string name="skill_name_timer_control">Timer controls</string>
+    <string name="skill_sentence_example_timer_control">Stop the timer</string>
+
+    <!-- A clock app timer started; %1$s is how long, like "Ten minutes" -->
+    <string name="skill_timer_started">%1$s, starting now.</string>
+    <!-- %1$s is the timer's name, like "Pasta", %2$s how long, like "ten minutes" -->
+    <string name="skill_timer_started_name">%1$s timer, %2$s, starting now.</string>
+    <string name="skill_timer_too_long">Clock timers can\'t be longer than 24 hours.</string>
+
+    <string name="skill_timer_control_stopped">Timer stopped.</string>
+    <string name="skill_timer_still_ringing">It\'s still ringing. Turn it off on the clock screen.</string>
+    <string name="skill_timer_control_nothing_ringing">No timer is ringing.</string>
+
+    <!-- These open the clock app's timers -->
+    <string name="skill_timer_shown">Here are your timers.</string>
+    <string name="skill_timer_cant_change">I can\'t change Clock\'s timers by voice, here they are.</string>
+    <string name="skill_timer_cant_check">I can\'t check Clock\'s timers by voice, here they are.</string>
+
+    <!-- How long is left on a timer GAR started, which may have been changed in the clock app;
+         %1$s is the timer's name, like "pasta", the durations are like "four minutes" -->
+    <string name="skill_timer_left">About %1$s left, unless it was changed in Clock.</string>
+    <string name="skill_timer_left_name">About %2$s left on the %1$s timer, unless it was changed in Clock.</string>
+    <string name="skill_timer_ended">The timer should be done by now.</string>
+    <string name="skill_timer_ended_name">The %1$s timer should be done by now.</string>
+
+    <!-- These open the clock app's timers on a locked phone, behind the lock screen -->
+    <string name="skill_timer_shown_locked">Unlock your phone to see your timers.</string>
+    <string name="skill_timer_cant_change_locked">I can\'t change Clock\'s timers by voice. Unlock your phone to see them.</string>
+    <string name="skill_timer_cant_check_locked">I can\'t check Clock\'s timers by voice. Unlock your phone to see them.</string>
+    <!-- Android blocks GAR's start of the clock app: GAR isn't on screen or the assistant -->
+    <string name="skill_timer_background">I can\'t reach Clock from the background. Open GAR and ask again.</string>
+
+    <!-- The one notification after the update that moved GAR's timers to the clock app;
+         %1$s is the lost timer's name, like "pasta", %1$d how many were lost -->
+    <string name="gar_old_timers_lost_title">GAR\'s timers moved to Clock</string>
+    <string name="gar_old_timers_lost">Your timer was stopped. Set it again.</string>
+    <string name="gar_old_timers_lost_name">Your %1$s timer was stopped. Set it again.</string>
+    <string name="gar_old_timers_lost_many">Your %1$d timers were stopped. Set them again.</string>
+</resources>

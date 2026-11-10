@@ -1,0 +1,124 @@
+# GAR (gar:settings): DeviceSettingsSkill only takes a match whose words name the setting
+# (DeviceSettingWords), since Dicio's matcher takes a sentence with a word left out or swapped.
+# turn_on, turn_off and status leave the setting to those words. Wi-Fi and Bluetooth on, off and
+# their settings stay with the connectivity sentences; the ringer has sentences of its own
+# ("turn on silent mode" is the ringer off). Night light only switches on its page, which
+# turn_on and turn_off open ("Here's night light.").
+turn_on:
+  - turn|switch on (the|my)? ((airplane|aeroplane|flight|plane) mode)|airplane|aeroplane|((mobile|cellular|cell) data)|data|((mobile|wifi|(wi fi)|personal|portable)? (hotspot|(hot spot)))|tethering|location|(location services)|gps|nfc|(n f c)|((battery|power) saver)|(battery saving)|(power saving (mode)?)|(low power mode)|((dark|night|light) (mode|theme))|((auto|automatic|adaptive) brightness)|((auto|screen) (rotate|rotation))|autorotate|rotation|(night light)|(blue light filter)|(eye comfort)
+  - turn|switch (the|my)? ((airplane|aeroplane|flight|plane) mode)|airplane|aeroplane|((mobile|cellular|cell) data)|data|((mobile|wifi|(wi fi)|personal|portable)? (hotspot|(hot spot)))|tethering|location|(location services)|gps|nfc|(n f c)|((battery|power) saver)|(battery saving)|(power saving (mode)?)|(low power mode)|((dark|night|light) (mode|theme))|((auto|automatic|adaptive) brightness)|((auto|screen) (rotate|rotation))|autorotate|rotation|(night light)|(blue light filter)|(eye comfort) on
+  - enable|activate|start (the|my)? ((airplane|aeroplane|flight|plane) mode)|((mobile|cellular|cell) data)|data|((mobile|wifi|(wi fi)|personal|portable)? (hotspot|(hot spot)))|tethering|location|(location services)|gps|nfc|(n f c)|((battery|power) saver)|(battery saving)|(power saving (mode)?)|(low power mode)|((dark|night|light) (mode|theme))|((auto|automatic|adaptive) brightness)|((auto|screen) (rotate|rotation))|autorotate|rotation|(night light)|(blue light filter)|(eye comfort)
+  - put|set (my|the)? phone (in|on|to)? ((airplane|aeroplane|flight|plane) mode)|((battery|power) saver)|(power saving (mode)?)|(low power mode)|((dark|night|light) (mode|theme))
+  - go into|in|on ((airplane|aeroplane|flight|plane) mode)|((battery|power) saver)|(power saving (mode)?)|(low power mode)|((dark|night|light) (mode|theme))
+  - ((airplane|aeroplane|flight|plane) mode)|((mobile|cellular|cell) data)|data|((mobile|wifi|(wi fi)|personal|portable)? (hotspot|(hot spot)))|location|gps|nfc|((battery|power) saver)|((dark|night|light) (mode|theme))|((auto|automatic|adaptive) brightness)|((auto|screen) (rotate|rotation))|autorotate on
+  - (allow|let) (the|my)? screen (to)? rotate
+
+turn_off:
+  - turn|switch off (the|my)? ((airplane|aeroplane|flight|plane) mode)|airplane|aeroplane|((mobile|cellular|cell) data)|data|((mobile|wifi|(wi fi)|personal|portable)? (hotspot|(hot spot)))|tethering|location|(location services)|gps|nfc|(n f c)|((battery|power) saver)|(battery saving)|(power saving (mode)?)|(low power mode)|((dark|night|light) (mode|theme))|((auto|automatic|adaptive) brightness)|((auto|screen) (rotate|rotation))|autorotate|rotation|(night light)|(blue light filter)|(eye comfort)
+  - turn|switch (the|my)? ((airplane|aeroplane|flight|plane) mode)|airplane|aeroplane|((mobile|cellular|cell) data)|data|((mobile|wifi|(wi fi)|personal|portable)? (hotspot|(hot spot)))|tethering|location|(location services)|gps|nfc|(n f c)|((battery|power) saver)|(battery saving)|(power saving (mode)?)|(low power mode)|((dark|night|light) (mode|theme))|((auto|automatic|adaptive) brightness)|((auto|screen) (rotate|rotation))|autorotate|rotation|(night light)|(blue light filter)|(eye comfort) off
+  - disable|deactivate|stop (the|my)? ((airplane|aeroplane|flight|plane) mode)|((mobile|cellular|cell) data)|data|((mobile|wifi|(wi fi)|personal|portable)? (hotspot|(hot spot)))|tethering|location|(location services)|gps|nfc|(n f c)|((battery|power) saver)|(battery saving)|(power saving (mode)?)|(low power mode)|((dark|night|light) (mode|theme))|((auto|automatic|adaptive) brightness)|((auto|screen) (rotate|rotation))|autorotate|rotation|(night light)|(blue light filter)|(eye comfort)
+  - take|get (my|the)? phone off|(out of) ((airplane|aeroplane|flight|plane) mode)|((battery|power) saver)|(power saving (mode)?)|(low power mode)|((dark|night|light) (mode|theme))
+  - get out of ((airplane|aeroplane|flight|plane) mode)|((battery|power) saver)|(power saving (mode)?)|(low power mode)|((dark|night|light) (mode|theme))
+  - ((airplane|aeroplane|flight|plane) mode)|((mobile|cellular|cell) data)|data|((mobile|wifi|(wi fi)|personal|portable)? (hotspot|(hot spot)))|location|gps|nfc|((battery|power) saver)|((dark|night|light) (mode|theme))|((auto|automatic|adaptive) brightness)|((auto|screen) (rotate|rotation))|autorotate off
+  - lock (the|my)? (screen)? rotation|orientation
+  - stop (the|my)? screen (from)? rotating
+
+status:
+  - is|are (the|my)? ((airplane|aeroplane|flight|plane) mode)|((mobile|cellular|cell) data)|data|((mobile|wifi|(wi fi)|personal|portable)? (hotspot|(hot spot)))|tethering|location|(location services)|gps|nfc|(n f c)|((battery|power) saver)|(power saving (mode)?)|(low power mode)|((dark|night|light) (mode|theme))|((auto|automatic|adaptive) brightness)|((auto|screen) (rotate|rotation))|autorotate|rotation|(wi fi)|wifi|wireless|internet|bluetooth|(blue tooth)|ringer|(silent mode)|(vibrate mode) on|off|enabled|disabled|active|working|connected|(turned on)|(turned off)
+  - is (the|my)? phone (on|in|(connected to)) (the)? ((airplane|aeroplane|flight|plane) mode)|((battery|power) saver)|(power saving (mode)?)|(low power mode)|((dark|night|light) (mode|theme))|(wi fi)|wifi|bluetooth|(blue tooth)|silent|(silent mode)|vibrate|(vibrate mode)|mute
+  - am i (on|in|using|(connected to)) (the)? ((airplane|aeroplane|flight|plane) mode)|((mobile|cellular|cell) data)|data|((battery|power) saver)|(wi fi)|wifi|bluetooth|(blue tooth)|silent|(silent mode)|vibrate|(vibrate mode)
+  - do i have (the|my)? ((airplane|aeroplane|flight|plane) mode)|((mobile|cellular|cell) data)|data|location|gps|nfc|((battery|power) saver)|((dark|night|light) (mode|theme))|((auto|automatic|adaptive) brightness)|((auto|screen) (rotate|rotation))|autorotate|(wi fi)|wifi|bluetooth|(blue tooth) on
+  - is (the|my)? phone silent|silenced|muted|(on mute)
+  - ((what s)|(what is)|whats) (the|my)? brightness|(screen brightness)|((screen)? (timeout|(time out)))|ringer|(ringer mode)|(ring mode) (level|setting|mode|(set to)|at)?
+  - how bright is (the|my)? screen|display|phone
+  - how long (until|before) (the|my)? screen (turns|goes) off
+  - when does (the|my)? screen turn off
+  - is|are (the|my)? headphones|headphone|headset|earbuds|(ear buds)|earphones|(ear phones)|buds|airpods connected|paired|on|working
+
+open_page:
+  - open|show|launch|view (me)? (the|my)? .page. settings|setting|options|preferences
+  - (go to)|(take me to)|(bring up) (the|my)? .page. settings|setting|options|preferences
+  - .page. settings|setting|options|preferences
+  - open|show|launch (me)? (the|my)? .page.
+  - (go to)|(take me to) (the|my)? .page.
+
+brightness_up:
+  - turn|crank up (the|my)? (screen|display)? brightness ((a bit)|(a little)|(a little bit)|slightly|(a tad))?
+  - turn|crank (the|my)? (screen|display)? brightness up ((a bit)|(a little)|(a little bit)|slightly|(a tad))?
+  - increase|raise|boost (the|my)? (screen|display)? brightness ((a bit)|(a little)|(a little bit)|slightly|(a tad))?
+  - make|turn (the|my)? screen|display|phone brighter
+  - (make it)? brighter
+  - brighten (the|my)? (screen|display)?
+  - (screen)? brightness up
+  - more brightness
+  - (the|my)? screen is too dark|dim
+
+brightness_down:
+  - turn down (the|my)? (screen|display)? brightness ((a bit)|(a little)|(a little bit)|slightly|(a tad))?
+  - turn (the|my)? (screen|display)? brightness down ((a bit)|(a little)|(a little bit)|slightly|(a tad))?
+  - decrease|lower|reduce|dim (the|my)? (screen|display)? brightness ((a bit)|(a little)|(a little bit)|slightly|(a tad))?
+  - make|turn (the|my)? screen|display|phone dimmer|darker
+  - (make it)? dimmer
+  - dim (the|my)? screen|display
+  - (screen)? brightness down
+  - less brightness
+  - (the|my)? screen is too bright
+
+brightness_set:
+  - set|change|put|adjust|turn (the|my)? (screen|display)? brightness to|at .level.
+  - turn (the|my)? (screen|display)? brightness up|down to .level.
+  - increase|raise|lower|decrease|reduce (the|my)? (screen|display)? brightness to .level.
+  - (screen|display)? brightness to|at .level.
+  - brightness (level)? .level.
+  - make (the|my)? (screen|display)? brightness .level.
+
+brightness_max:
+  - max|maximum|full brightness
+  - turn|crank (the|my)? (screen|display)? brightness all the way up
+  - turn|crank up (the|my)? (screen|display)? brightness all the way
+  - set|put|turn (the|my)? (screen|display)? brightness to (the)? max|maximum|full
+  - make (the|my)? screen as bright as possible
+
+brightness_min:
+  - min|minimum|lowest brightness
+  - turn (the|my)? (screen|display)? brightness all the way down
+  - turn down (the|my)? (screen|display)? brightness all the way
+  - set|put|turn (the|my)? (screen|display)? brightness to (the)? min|minimum|lowest
+  - make (the|my)? screen as dim|dark as possible
+
+ringer_silent:
+  - put|set|switch|turn (my|the)? phone|ringer (on|to)? silent (mode)?
+  - silence|mute (my|the)? phone
+  - turn|switch on silent mode
+  - turn|switch off (my|the)? ringer
+  - turn|switch (my|the)? ringer off
+  - silent mode (on)?
+  - ringer off
+  - go silent
+  - make (my|the)? phone silent
+
+ringer_vibrate:
+  - put|set|switch|turn (my|the)? phone|ringer (on|to)? vibrate|vibration (mode)? (only)?
+  - turn|switch on (the)? vibrate|vibration (mode)?
+  - vibrate (mode)? (only)? (on)?
+  - make (my|the)? phone (only)? vibrate (only)?
+
+ringer_normal:
+  - put|set|switch|turn (my|the)? phone|ringer (on|to|(back to)) ring|normal|sound (mode)?
+  - turn|switch on (my|the)? ringer|ringtone
+  - turn|switch (my|the)? ringer (back)? on
+  - turn|switch off silent|vibrate|vibration (mode)?
+  - take (my|the)? phone off silent|vibrate|mute (mode)?
+  - unmute|unsilence (my|the)? phone
+  - (make (my|the)? phone)? ring again
+  - ringer on
+  - silent|vibrate|vibration (mode)? off
+
+timeout_set:
+  - set|change|make (the|my)? screen timeout|(time out) (to)? .duration.
+  - set|change (the|my)? timeout|(time out) to .duration.
+  - (screen)? timeout|(time out) to .duration.
+  - keep (the|my)? screen on (for)? .duration.
+  - turn|let (the|my)? screen (turn)? off after .duration.
+  - make (the|my)? screen (turn off)|(go dark)|sleep after .duration.
+  - set (the|my)? screen to (turn)? off after .duration.

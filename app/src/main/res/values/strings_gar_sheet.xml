@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR: the assistant sheet over other apps (gar/sheet), and its setting. -->
+<resources>
+    <!-- The sheet's window and pane title, said by screen readers when it opens -->
+    <string name="gar_sheet_title">GAR</string>
+    <!-- The drag handle on top of the sheet, for screen readers -->
+    <string name="gar_sheet_close">Close</string>
+    <string name="gar_sheet_type">Type a request</string>
+    <string name="gar_sheet_type_hint">Ask GAR</string>
+    <string name="gar_sheet_send">Send</string>
+    <!-- For screen readers: what tapping the request on the sheet does -->
+    <string name="gar_sheet_edit">Edit</string>
+    <!-- Opens GAR's full screen with every answer -->
+    <string name="gar_sheet_open_app">Open GAR</string>
+
+    <!-- GAR settings: the assistant's entry points -->
+    <string name="gar_pref_assistant_title">Assistant</string>
+    <string name="gar_pref_assist_full_screen">Open the full app for the assistant</string>
+    <string name="gar_pref_assist_full_screen_on">The assist gesture and the wake word open GAR\'s full screen</string>
+    <string name="gar_pref_assist_full_screen_off">GAR answers in a sheet over the app you are using</string>
+</resources>

@@ -1,0 +1,53 @@
+{
+  "status": {"msg": "Success", "code": 0, "version": "1.0"},
+  "metadata": {
+    "music": [
+      {
+        "db_begin_time_offset_ms": 56000,
+        "db_end_time_offset_ms": 65720,
+        "sample_begin_time_offset_ms": 0,
+        "sample_end_time_offset_ms": 9720,
+        "play_offset_ms": 65980,
+        "acrid": "6049f11da7095e8bb8266871d4a70873",
+        "result_from": 3,
+        "score": 100,
+        "title": "Everybody Wants To Rule The World",
+        "artists": [{"name": "Tears For Fears"}],
+        "album": {"name": "Songs From The Big Chair"},
+        "label": "Mercury Records",
+        "release_date": "1985-02-25",
+        "duration_ms": 251000,
+        "genres": [{"name": "Pop"}],
+        "external_ids": {"isrc": "GBF088590110", "upc": "042282430321"},
+        "external_metadata": {
+          "deezer": {
+            "track": {"name": "Everybody Wants To Rule The World", "id": "1171419"},
+            "artists": [{"name": "Tears For Fears", "id": 1171}],
+            "album": {"name": "Songs From The Big Chair", "id": 119606}
+          },
+          "spotify": {
+            "track": {"name": "Everybody Wants To Rule The World", "id": "4RvWPyQ5RL0ao9LPZeSouE"},
+            "artists": [{"name": "Tears For Fears", "id": "4bthk9UfsYUYdcFyqxmSUU"}],
+            "album": {"name": "Songs From The Big Chair", "id": "4wIdmQXHfEtFGKwnaskGFe"}
+          },
+          "youtube": {"vid": "aGCdLKXNF3w"}
+        }
+      },
+      {
+        "acrid": "0b0a7e8a1b5d4c3e2f1a0b9c8d7e6f5a",
+        "score": 74,
+        "title": "Everybody Wants To Rule The World (Live)",
+        "artists": [{"name": "Tears For Fears"}, {"name": "Guest Choir"}],
+        "album": {"name": "Live Somewhere"},
+        "release_date": "None",
+        "db_begin_time_offset_ms": 1000,
+        "db_end_time_offset_ms": 10000,
+        "sample_begin_time_offset_ms": 0,
+        "sample_end_time_offset_ms": 9000
+      }
+    ],
+    "timestamp_utc": "2026-10-26 19:00:00"
+  },
+  "cost_time": 0.70000004768372,
+  "result_type": 0
+}

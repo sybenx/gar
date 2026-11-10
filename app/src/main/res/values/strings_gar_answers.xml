@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR: strings of the everyday offline answers (battery, world time, units, math, coin and
+     dice, spelling, holidays, small talk). -->
+<resources>
+    <!-- battery; %1$d is the charge in percent -->
+    <string name="skill_name_battery">Battery</string>
+    <string name="skill_sentence_example_battery">What\'s my battery?</string>
+    <string name="skill_battery_level">Your battery is at %1$d percent.</string>
+    <string name="skill_battery_level_charging">Your battery is at %1$d percent and charging.</string>
+    <string name="skill_battery_full">Your battery is full.</string>
+    <string name="skill_battery_charging">Yes, it\'s charging, at %1$d percent.</string>
+    <string name="skill_battery_plugged_not_charging">It\'s plugged in, but not charging right now. It\'s at %1$d percent.</string>
+    <string name="skill_battery_not_charging">No, it isn\'t charging. It\'s at %1$d percent.</string>
+    <!-- %1$s is a duration like "one hour twenty minutes" -->
+    <string name="skill_battery_time_to_full">It\'ll be full in about %1$s. It\'s at %2$d percent.</string>
+    <string name="skill_battery_charging_no_estimate">It\'s charging, at %1$d percent, but I can\'t tell how long it\'ll take.</string>
+    <string name="skill_battery_unknown">I can\'t read the battery right now.</string>
+    <plurals name="skill_battery_minutes">
+        <item quantity="one">%1$d minute</item>
+        <item quantity="other">%1$d minutes</item>
+    </plurals>
+    <string name="skill_battery_percent">%1$d%%</string>
+    <string name="skill_battery_state_full">Full</string>
+    <string name="skill_battery_state_full_in">Full in about %1$s</string>
+    <string name="skill_battery_state_charging">Charging</string>
+    <string name="skill_battery_state_plugged">Plugged in, not charging</string>
+    <string name="skill_battery_state_not_charging">Not charging</string>
+
+    <!-- world time; %1$s is a time like "3:12 AM", %2$s a place like "Tokyo" -->
+    <string name="skill_name_world_time">World clock</string>
+    <string name="skill_sentence_example_world_time">What time is it in Tokyo?</string>
+    <string name="skill_world_time_in">It\'s %1$s in %2$s.</string>
+    <string name="skill_world_time_in_tomorrow">It\'s %1$s tomorrow in %2$s.</string>
+    <string name="skill_world_time_in_yesterday">It\'s %1$s yesterday in %2$s.</string>
+    <!-- %1$s is a place GAR doesn't know, as said, like "Moab" -->
+    <string name="skill_world_time_unknown_place">I don\'t know the time in %1$s.</string>
+    <!-- %1$s and %2$s are places -->
+    <string name="skill_world_time_same">%1$s has the same time as you.</string>
+    <string name="skill_world_time_same_as">%1$s and %2$s have the same time.</string>
+    <!-- %1$s is a place, %2$s a time difference like "7 hours", %3$s another place -->
+    <string name="skill_world_time_ahead">%1$s is %2$s ahead of you.</string>
+    <string name="skill_world_time_behind">%1$s is %2$s behind you.</string>
+    <string name="skill_world_time_ahead_of">%1$s is %2$s ahead of %3$s.</string>
+    <string name="skill_world_time_behind_of">%1$s is %2$s behind %3$s.</string>
+    <plurals name="skill_world_time_hours">
+        <item quantity="one">%1$d hour</item>
+        <item quantity="other">%1$d hours</item>
+    </plurals>
+    <plurals name="skill_world_time_minutes">
+        <item quantity="one">%1$d minute</item>
+        <item quantity="other">%1$d minutes</item>
+    </plurals>
+    <string name="skill_world_time_hours_and_a_half">%1$d and a half hours</string>
+    <!-- %1$s is like "5 hours", %2$s like "45 minutes" -->
+    <string name="skill_world_time_hours_and_minutes">%1$s and %2$s</string>
+    <!-- on the card: "3:12 AM in Tokyo", "11:12 AM here" -->
+    <string name="skill_world_time_card_at">%1$s in %2$s</string>
+    <string name="skill_world_time_card_here">%1$s here</string>
+
+    <!-- units; %1$s and %2$s are amounts like "5 miles" and "8.05 kilometers" -->
+    <string name="skill_name_units">Unit converter</string>
+    <string name="skill_sentence_example_units">How many cups in a liter?</string>
+    <string name="skill_units_result">%1$s is %2$s.</string>
+
+    <!-- math -->
+    <string name="skill_name_math">Math</string>
+    <string name="skill_sentence_example_math">What\'s fifteen percent of eighty?</string>
+
+    <!-- coin, dice and random numbers -->
+    <string name="skill_name_random">Coin and dice</string>
+    <string name="skill_sentence_example_random">Roll a die</string>
+    <string name="skill_random_heads">It\'s heads.</string>
+    <string name="skill_random_tails">It\'s tails.</string>
+    <!-- %1$d is the number rolled; "an" for 8, 11, 18, 80 to 89 and 800 to 899 -->
+    <string name="skill_random_rolled_a">You rolled a %1$d.</string>
+    <string name="skill_random_rolled_an">You rolled an %1$d.</string>
+    <!-- %1$s is the numbers rolled, like "3, 5 and 6", %2$d their total -->
+    <string name="skill_random_rolled_dice">You rolled %1$s, %2$d in total.</string>
+    <string name="skill_random_list_and">%1$s and %2$d</string>
+    <!-- on the card: %1$d dice with %2$d sides each, %3$s the rolls like "3 + 5" -->
+    <string name="skill_random_dice_card">%1$d dice with %2$d sides: %3$s</string>
+    <string name="skill_random_dice_card_one">A die with %1$d sides</string>
+    <string name="skill_random_number">It\'s %1$d.</string>
+    <string name="skill_random_number_range">Between %1$d and %2$d</string>
+
+    <!-- spelling; %1$s is the word, %2$s its letters like "N, E, C, E, S, S, A, R, Y" -->
+    <string name="skill_name_spelling">Spelling</string>
+    <string name="skill_sentence_example_spelling">How do you spell necessary?</string>
+    <string name="skill_spelling_spelled">%1$s is spelled %2$s.</string>
+    <string name="skill_spelling_apostrophe">apostrophe</string>
+
+    <!-- holidays and countdowns; %1$s is a holiday like "Christmas", %2$d a number of days -->
+    <string name="skill_name_holiday">Holidays and countdowns</string>
+    <string name="skill_sentence_example_holiday">How many days until Christmas?</string>
+    <string name="skill_holiday_today">%1$s is today!</string>
+    <string name="skill_holiday_tomorrow">%1$s is tomorrow.</string>
+    <plurals name="skill_holiday_in_days">
+        <item quantity="one">%1$s is in %2$d day.</item>
+        <item quantity="other">%1$s is in %2$d days.</item>
+    </plurals>
+    <plurals name="skill_holiday_days_ago">
+        <item quantity="one">%1$s was %2$d day ago.</item>
+        <item quantity="other">%1$s was %2$d days ago.</item>
+    </plurals>
+    <!-- %2$s is a date like "Thursday, November 26, 2026" -->
+    <string name="skill_holiday_is_on">%1$s is on %2$s.</string>
+    <string name="skill_holiday_was_on">%1$s was on %2$s.</string>
+    <!-- a day without a name; %1$d is a number of days, %2$s the date -->
+    <string name="skill_holiday_date_today">That\'s today.</string>
+    <string name="skill_holiday_date_tomorrow">That\'s tomorrow, %1$s.</string>
+    <plurals name="skill_holiday_date_in_days">
+        <item quantity="one">That\'s in %1$d day, on %2$s.</item>
+        <item quantity="other">That\'s in %1$d days, on %2$s.</item>
+    </plurals>
+    <plurals name="skill_holiday_date_days_ago">
+        <item quantity="one">That was %1$d day ago, on %2$s.</item>
+        <item quantity="other">That was %1$d days ago, on %2$s.</item>
+    </plurals>
+    <string name="skill_holiday_birthday_unknown">I don\'t know your birthday yet.</string>
+    <string name="skill_holiday_anniversary_unknown">I don\'t know your anniversary yet.</string>
+    <string name="skill_holiday_unknown">I don\'t know when that is.</string>
+
+    <!-- small talk -->
+    <string name="skill_name_small_talk">Small talk</string>
+    <string name="skill_sentence_example_small_talk">What can you do?</string>
+    <string name="skill_small_talk_hello">Hi! What can I do for you?</string>
+    <string name="skill_small_talk_good_morning">Good morning! What can I do for you?</string>
+    <string name="skill_small_talk_good_afternoon">Good afternoon! What can I do for you?</string>
+    <string name="skill_small_talk_good_evening">Good evening! What can I do for you?</string>
+    <string name="skill_small_talk_goodbye">Bye for now!</string>
+    <string name="skill_small_talk_thanks">You\'re welcome!</string>
+    <string name="skill_small_talk_who">I\'m GAR, an assistant that runs right on your phone.</string>
+    <string name="skill_small_talk_how">I\'m doing well, thanks for asking! What can I do for you?</string>
+    <string name="skill_small_talk_help">I can set timers and alarms, call and text, play music, and answer quick questions like the time, math and conversions. Here\'s all I can do.</string>
+</resources>

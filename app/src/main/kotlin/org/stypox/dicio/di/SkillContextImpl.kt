@@ -6,6 +6,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import org.dicio.numbers.ParserFormatter
 import org.dicio.skill.context.SpeechOutputDevice
 import org.dicio.skill.skill.SkillOutput
+import org.stypox.dicio.gar.sheet.GarLeavingContext // GAR
 import org.stypox.dicio.io.speech.NothingSpeechDevice
 import java.util.Locale
 import javax.inject.Inject
@@ -26,7 +27,12 @@ class SkillContextImpl private constructor(
         @ApplicationContext android: Context,
         localeManager: LocaleManager,
         speechOutputDevice: SpeechOutputDeviceWrapper,
-    ) : this(android, localeManager, speechOutputDevice as SpeechOutputDevice)
+    ) : this(
+        // GAR: skills that open another app first tell the assistant sheet to go away
+        GarLeavingContext(android),
+        localeManager,
+        speechOutputDevice as SpeechOutputDevice,
+    )
 
 
     override val locale: Locale

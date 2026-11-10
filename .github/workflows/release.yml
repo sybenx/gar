@@ -1,0 +1,48 @@
+name: Release
+
+# GAR: a tag v1.2.3 builds the signed arm64 APK gar-1.2.3.apk and attaches it to a GitHub
+# release, the file Obtainium installs from
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: gradle/actions/setup-gradle@v5
+
+      - name: Install NDK and CMake
+        run: |
+          NDK=$(sed -nE 's/^garNdk = "(.*)"/\1/p' gradle/libs.versions.toml)
+          CMAKE=$(sed -nE 's/^garCmake = "(.*)"/\1/p' gradle/libs.versions.toml)
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "ndk;$NDK" "cmake;$CMAKE" > /dev/null
+
+      - name: Build signed release
+        env:
+          GAR_KEYSTORE_B64: ${{ secrets.GAR_KEYSTORE_B64 }}
+          GAR_KEYSTORE_PASSWORD: ${{ secrets.GAR_KEYSTORE_PASSWORD }}
+        run: |
+          echo "$GAR_KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/release.jks"
+          export GAR_KEYSTORE_FILE="$RUNNER_TEMP/release.jks"
+          export GAR_VERSION="${GITHUB_REF_NAME#v}"
+          ./gradlew --no-daemon -PgarIdSuffix=ci :app:assembleRelease
+          cp app/build/outputs/apk/release/app-release.apk "gar-${GAR_VERSION}.apk"
+
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" gar-*.apk --title "GAR $GITHUB_REF_NAME" --notes-from-tag

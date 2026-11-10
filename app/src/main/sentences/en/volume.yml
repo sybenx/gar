@@ -1,0 +1,49 @@
+volume_up:
+  - increase|raise|(turn up) the? ring|ringer|ringtone|alarm|notification|media|music? volume|sound
+  - (turn the? ring|ringer|ringtone|alarm|notification|media|music?)? volume|sound up
+  - (make the?)? volume|sound|song|media|track|music|audio|video|movie|stream|film|ringer|ringtone|alarm|notifications louder
+
+volume_down:
+  - decrease|lower|(turn down) the? ring|ringer|ringtone|alarm|notification|media|music? volume|sound
+  - (turn the? ring|ringer|ringtone|alarm|notification|media|music?)? volume|sound down
+  - (make the?)? volume|sound|song|media|track|music|audio|video|movie|stream|film|ringer|ringtone|alarm|notifications quieter
+
+volume_up_times:
+  - increase|raise|(turn up) the? ring|ringer|ringtone|alarm|notification|media|music? volume|sound by? .times. times|clicks|steps|notches|levels?
+  - (turn the? ring|ringer|ringtone|alarm|notification|media|music?)? volume|sound up by? .times. times|clicks|steps|notches|levels?
+  - (make the?)? volume|sound|song|media|track|music|audio|video|movie|stream|film louder by .times. times|clicks|steps|notches|levels?
+  - (make the?)? volume|sound|song|media|track|music|audio|video|movie|stream|film .times. times|clicks|steps|notches|levels louder
+
+volume_down_times:
+  - decrease|lower|(turn down) the? ring|ringer|ringtone|alarm|notification|media|music? volume|sound by? .times. times|clicks|steps|notches|levels?
+  - (turn the? ring|ringer|ringtone|alarm|notification|media|music?)? volume|sound down by? .times. times|clicks|steps|notches|levels?
+  - (make the?)? volume|sound|song|media|track|music|audio|video|movie|stream|film quieter by .times. times|clicks|steps|notches|levels?
+  - (make the?)? volume|sound|song|media|track|music|audio|video|movie|stream|film .times. times|clicks|steps|notches|levels quieter
+
+volume_set:
+  - set|change|put|adjust the? ring|ringer|ringtone|alarm|notification|media|music? volume|sound (to|at)? .level.
+  - turn the? ring|ringer|ringtone|alarm|notification|media|music? volume|sound up|down? to .level.
+  - turn|increase|raise|decrease|lower up|down? the? ring|ringer|ringtone|alarm|notification|media|music? volume|sound to .level.
+  - ring|ringer|ringtone|alarm|notification|media|music? volume|sound to|at .level.
+  # GAR: a question without a level reports the volume (SpokenVolume.question)
+  - what|(what s|is)|whats|(how loud is) the? ring|ringer|ringtone|alarm|notification|media|music? volume|sound (at|(set to))?
+
+mute:
+  - mute|silence the? ring|ringer|ringtone|alarm|notification|media|music? volume
+  - mute|silence the? media|music|audio|ringer|ringtone|notifications
+  - turn|switch off the? ring|ringer|ringtone|alarm|notification|media|music? volume
+  - turn|switch the? ring|ringer|ringtone|alarm|notification|media|music? volume off
+
+unmute:
+  - unmute the? volume|sound|media|music|audio|ringer|ringtone|notifications
+  - unmute the? ring|ringer|ringtone|alarm|notification|media|music volume
+  - turn|switch the? ring|ringer|ringtone|alarm|notification|media|music? volume|sound back? on
+  - turn|switch on the? ring|ringer|ringtone|alarm|notification|media|music? volume|sound
+
+max:
+  - max|maximize|maximise the? ring|ringer|ringtone|alarm|notification|media|music? volume|sound
+  - turn|crank|pump the? ring|ringer|ringtone|alarm|notification|media|music? volume|sound all the way up
+  - turn|crank|pump up the? ring|ringer|ringtone|alarm|notification|media|music? volume|sound all the way
+  - set|turn|put the? ring|ringer|ringtone|alarm|notification|media|music? volume|sound to|at the? max|maximum|full
+  - ring|ringer|ringtone|alarm|notification|media|music? volume|sound to|at? the? max|maximum|full
+  - full volume

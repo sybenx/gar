@@ -9,6 +9,7 @@ import org.dicio.skill.skill.SkillOutput
 import org.dicio.skill.skill.Specificity
 import org.dicio.skill.standard.StandardRecognizerData
 import org.stypox.dicio.sentences.Sentences
+import org.stypox.dicio.skills.sms.ContactWords // GAR
 import org.stypox.dicio.util.StringUtils
 
 class ContactChooserName internal constructor(
@@ -31,7 +32,8 @@ class ContactChooserName internal constructor(
                     StringUtils.contactStringDistance(trimmedInput, nameNumberPair.first)
                 )
             }
-            .filter { pair -> pair.second < -7 }
+            // GAR: and by whole words, "no to erin" is not "Katerina Book Club"
+            .filter { pair -> pair.second < -7 && ContactWords.matches(trimmedInput, pair.first.first) }
             .minByOrNull { a -> a.second }
             ?.first
 

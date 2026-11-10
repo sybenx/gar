@@ -98,6 +98,12 @@ sealed interface SttState {
     data object Listening : SttState
 
     /**
+     * GAR: listening has ended and the recognizer is turning the recording into text (Whisper);
+     * a click cancels.
+     */
+    data object Transcribing : SttState
+
+    /**
      * An external Android app has been asked to listen (e.g. through
      * `RecognizerIntent.ACTION_RECOGNIZE_SPEECH`), and may be listening but we don't know for
      * sure (maybe it's still loading). Therefore in the UI a "Waiting..." message should be shown

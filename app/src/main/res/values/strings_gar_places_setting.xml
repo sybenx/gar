@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR (gar:places): the "Home and work" setting (GarPlacesSetting), the places "take me home"
+     and "take me to work" go to. -->
+<resources>
+    <string name="gar_places_title">Home and work</string>
+    <string name="gar_places_home">Home</string>
+    <string name="gar_places_work">Work</string>
+    <!-- the rows' summaries; %1$s and %2$s are latitude and longitude like "40.71278" -->
+    <string name="gar_places_not_set">Not set</string>
+    <string name="gar_places_point">Saved spot (%1$s, %2$s)</string>
+    <string name="gar_places_locked">Unlock to see</string>
+    <!-- the editor -->
+    <string name="gar_places_field">Address or place name</string>
+    <string name="gar_places_field_hint">An address, a place name, a map link or coordinates</string>
+    <string name="gar_places_save">Save</string>
+    <string name="gar_places_here">Use where I am now</string>
+    <string name="gar_places_locating">Finding where you are…</string>
+    <string name="gar_places_from_card">From my contact</string>
+    <string name="gar_places_pick_card">Your contact card has more than one. Pick one.</string>
+    <string name="gar_places_back">Back</string>
+    <string name="gar_places_clear">Clear</string>
+    <string name="gar_places_clear_home">Clear home</string>
+    <string name="gar_places_clear_work">Clear work</string>
+    <string name="gar_places_clear_ask_home">Clear your saved home?</string>
+    <string name="gar_places_clear_ask_work">Clear your saved work?</string>
+    <string name="gar_places_no_access">GAR can\'t see your location. Allow it in App info.</string>
+    <string name="gar_places_approximate">GAR only has approximate location. Allow precise in App info.</string>
+    <string name="gar_places_open_app_info">Open App info</string>
+    <string name="gar_places_location_off">Location is off.</string>
+    <string name="gar_places_open_location">Open location settings</string>
+    <string name="gar_places_no_fix">Couldn\'t find where you are. Try again in a moment.</string>
+    <!-- the share target: a place shared from a maps app -->
+    <string name="gar_places_share_label">Save as Home or Work</string>
+    <string name="gar_places_share_title">Save this place?</string>
+    <string name="gar_places_share_home">Save as Home</string>
+    <string name="gar_places_share_work">Save as Work</string>
+    <!-- what saving would replace; %1$s is the saved address or spot -->
+    <string name="gar_places_share_now">Now: %1$s</string>
+    <!-- %1$s is Home or Work -->
+    <string name="gar_places_share_saved">Saved as %1$s.</string>
+    <string name="gar_places_share_none">No map point in what was shared.</string>
+    <!-- a Google Maps place link (cid=, maps.app.goo.gl) names the place but has no location in it -->
+    <string name="gar_places_share_name_only">This Google Maps link has no location in it. Share the place as a geo: pin or as coordinates instead (in Vela: Share, then geo: pin).</string>
+    <string name="gar_places_share_close">Close</string>
+    <!-- Navigate with -->
+    <string name="gar_navigate_with">Navigate with</string>
+    <!-- nothing picked yet: GAR asks the first time it needs a maps app -->
+    <string name="gar_navigate_with_not_chosen">Not chosen yet</string>
+    <!-- %1$s is the app set in Android as the default for maps links, like Vela -->
+    <string name="gar_navigate_with_android_default">%1$s (Android default)</string>
+    <string name="gar_navigate_with_ask">Ask every time</string>
+    <string name="gar_navigate_with_none">No maps app found</string>
+    <string name="gar_navigate_with_route">Starts the route</string>
+    <string name="gar_navigate_with_drawn">Draws the route from where you are</string>
+    <string name="gar_navigate_with_pin">Shows the place, tap Route</string>
+    <string name="gar_navigate_with_web">Google Maps on the web, online</string>
+    <string name="gar_address_lookup">Find addresses online</string>
+    <string name="gar_address_lookup_summary">Looks up an address on OpenStreetMap (Nominatim) to start a route. Sends only the address.</string>
+</resources>

@@ -1,0 +1,14 @@
+# GAR (gar:messages): an email to a contact, opened in the mail app with the address, subject and
+# text filled in; the user sends it there. EmailSkill.score keeps a match only for an input that
+# says email or mail outside the captures. "send mom an email" names Mom before the email word.
+send:
+  - (send|write|compose|draft) (an|a|new|the)? (e mail)|email|mail to .who. (about .subject.)? saying|that|(that says)|(to say)|(telling him|her|them) .what.
+  - (send|write|compose|draft) (an|a|new|the)? (e mail)|email|mail to .who. about .subject.
+  - (send|write|compose|draft) (an|a|new|the)? (e mail)|email|mail to .who.
+  - (e mail)|email .who. (about .subject.)? saying|that|(that says)|(to say)|(and say)|(and tell him|her|them) .what.
+  - (e mail)|email .who. about .subject.
+  - (e mail)|email .who.
+  - (send|write|compose|draft) .who. (an|a)? (e mail)|email|mail (about .subject.)? saying|that|(that says)|(to say) .what.
+  - (send|write|compose|draft) .who. (an|a)? (e mail)|email|mail about .subject.
+  - (send|write|compose|draft) .who. (an|a)? (e mail)|email|mail
+  - (send|write|compose|draft|start) (an|a|new)? (e mail)|email

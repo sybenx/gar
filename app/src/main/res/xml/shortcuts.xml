@@ -5,9 +5,10 @@
         android:icon="@mipmap/ic_stt_popup"
         android:shortcutShortLabel="@string/stt_popup"
         android:shortcutLongLabel="@string/stt_popup">
+        <!-- GAR: targetPackage is GAR's applicationId (was org.stypox.dicio) -->
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetPackage="org.stypox.dicio"
+            android:targetPackage="cc.aaro.gar"
             android:targetClass="org.stypox.dicio.io.input.stt_popup.SttPopupActivity" />
     </shortcut>
 </shortcuts>

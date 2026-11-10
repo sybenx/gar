@@ -1,0 +1,15 @@
+# GAR (gar:contacts): a contact's number, email, address or birthday, and new contacts opened in
+# the contacts app. A capture takes any words, so ContactInfoSkill.score keeps a match only when
+# ContactInfoWords reads the whole input as one of these. "Mom's" is read as "mom s".
+info:
+  - what|(what s)|whats|(what is)|(what are)|(tell me)|(give me)|get|(read me)|(show me)|show|(look up)|find|(do you know)|(do i have) .who. (s)? (phone|cell|mobile|home|work|telephone)? number|(email address)|email|(e mail)|address|birthday
+  - what|(what s)|whats|(what is)|(tell me)|(give me)|get|(look up)|find the (phone|cell|mobile)? number|email|(email address)|address|birthday for|of .who.
+  - what|(what s)|whats|(what is)|(tell me)|(give me) my (own)? (phone|cell|mobile)? number|email|(email address)|address|birthday
+  - where does|do .who. live (now)?
+  - when|(when s)|whens|(when is) .who. (s)? birthday
+
+add:
+  - add|create|make|new|start|save a? (new)? contact ((for|called|named|with) .name.)?
+  - save|add|store this|that|the|(the last)|(my last) number|(phone number)|caller|call ((as|to|under|for) .name.)? ((in|to) my contacts)?
+  - save|store|add .number. as|under .name. ((in|to) my contacts)?
+  - add|save|put|store .name. to|in|into (my|the)? contacts (list)? ((as|under) .number.)?

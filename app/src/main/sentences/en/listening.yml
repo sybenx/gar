@@ -2,8 +2,21 @@ stop:
   - stop listening (the? wake word)?
   - mute microphone?
   - turn off the? microphone
+  # GAR: the microphone and the wake word as people name them; without these, Dicio's timer cancel
+  # sentence took "mute the mic" and "turn off the wake up word" as a timer (GarRankingTest)
+  - mute|disable (the|my)? mic|mike|microphone
+  - (turn|switch) off (the|my)? mic|mike|microphone
+  - (turn|switch) (the|my)? mic|mike|microphone off
+  - ((turn|switch) off)|disable (the|my)? (wake up? word)|(wakeup word)|(hot word)|hotword
+  - stop|quit listening for (the? (wake up? word)|(wakeup word))|(hey? dicio)
 
 start:
   - start listening (the? wake word)?
   - unmute|(on mute) microphone?
   - turn on the? microphone
+  # GAR: see stop
+  - unmute|enable (the|my)? mic|mike|microphone
+  - (turn|switch) on (the|my)? mic|mike|microphone
+  - (turn|switch) (the|my)? mic|mike|microphone back? on
+  - ((turn|switch) on)|enable (the|my)? (wake up? word)|(wakeup word)|(hot word)|hotword
+  - start listening for (the? (wake up? word)|(wakeup word))|(hey? dicio)

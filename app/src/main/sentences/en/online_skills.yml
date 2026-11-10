@@ -1,0 +1,14 @@
+# GAR: every line names the online skills (online or internet, and skills, features or services);
+# OnlineSkillsSkill.score checks that, since Dicio's matcher leaves a word out ("turn on all the
+# lights")
+turn_on:
+  - turn|switch on (all|every)? (of? the|my)? online|internet skill<s?>|feature<s?>|service<s?>
+  - turn|switch (all|every)? (of? the|my)? online|internet skill<s?>|feature<s?>|service<s?> on
+  - enable|activate|allow (all|every)? (of? the|my)? online|internet skill<s?>|feature<s?>|service<s?>
+  - (turn|switch on)|enable|activate|allow (all|every)? (of? the|my)? skill<s?>|feature<s?>|service<s?> that use|need the? internet
+
+turn_off:
+  - turn|switch off (all|every)? (of? the|my)? online|internet skill<s?>|feature<s?>|service<s?>
+  - turn|switch (all|every)? (of? the|my)? online|internet skill<s?>|feature<s?>|service<s?> off
+  - disable|deactivate|block|stop (all|every)? (of? the|my)? online|internet skill<s?>|feature<s?>|service<s?>
+  - (turn|switch off)|disable|deactivate|block (all|every)? (of? the|my)? skill<s?>|feature<s?>|service<s?> that use|need the? internet

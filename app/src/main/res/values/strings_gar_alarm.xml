@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR: strings of the alarm skill (based on DicioTeam/dicio-android#376). -->
+<resources>
+    <string name="skill_name_alarm">Alarm</string>
+    <string name="skill_sentence_example_alarm">Set an alarm for seven thirty AM</string>
+    <string name="perm_set_alarm">set alarms in the clock app</string>
+
+    <!-- %1$s is when the alarm rings, e.g. "tomorrow at 7:00 AM" or "7:00 AM every Monday" -->
+    <string name="skill_alarm_set">Alarm set for %1$s.</string>
+    <!-- %1$s is when the alarm rings, %2$s is the alarm\'s name -->
+    <string name="skill_alarm_set_label">%2$s alarm set for %1$s.</string>
+    <string name="skill_alarm_none">You have no alarms set.</string>
+    <!-- %1$s is when the alarm rings, e.g. "tomorrow at 7:00 AM" -->
+    <string name="skill_alarm_next">Your next alarm is %1$s.</string>
+    <!-- %1$s is when the alarm rings, %2$s is the app that set it -->
+    <string name="skill_alarm_next_set_by">Your next alarm is %1$s, set by %2$s.</string>
+    <string name="skill_alarm_open_alarms">Open alarms</string>
+    <string name="skill_alarm_no_clock_app">No clock app found on this phone.</string>
+
+    <string name="skill_alarm_dismissing_next">Opening the clock app to dismiss your next alarm.</string>
+    <!-- %1$s is a time, e.g. "7:00 AM" -->
+    <string name="skill_alarm_dismissing_at">Opening the clock app to dismiss your %1$s alarm.</string>
+    <string name="skill_alarm_dismissing_all">Opening the clock app to dismiss your alarms.</string>
+    <!-- %1$s is when the alarm rings, e.g. "today at 7:00 AM" -->
+    <string name="skill_alarm_dismissing_known">Opening the clock app to dismiss your alarm %1$s.</string>
+    <string name="skill_alarm_dismiss_limit">It can only dismiss alarms in the next 24 hours.</string>
+    <!-- %1$s is when the clock app's next alarm rings, e.g. "on Monday at 7:00 AM" -->
+    <string name="skill_alarm_too_far_ahead">Your next alarm is %1$s. The clock app can only dismiss alarms in the next 24 hours.</string>
+    <string name="skill_alarm_opening_alarms">Opening your alarms instead.</string>
+    <!-- %1$s is when the alarm rings, e.g. "tomorrow at 6:00 AM", %2$s is the app that set it -->
+    <string name="skill_alarm_other_app">Your next alarm, %1$s, was set by %2$s. Dismiss it in that app.</string>
+    <string name="skill_alarm_ringing">An alarm is ringing. Turn it off on the clock screen.</string>
+    <string name="skill_alarm_needs_listener">With notification access, GAR can tell when the clock app\'s alarm rings, and stop or snooze it by voice.</string>
+    <string name="skill_alarm_allow_access">Allow notification access</string>
+
+    <!-- the clock app's ringing alarm, by voice -->
+    <string name="skill_alarm_stopped">Alarm stopped.</string>
+    <string name="skill_alarm_snoozed">Snoozed.</string>
+    <!-- %1$s is when the alarm rings again, e.g. "7:10 AM" -->
+    <string name="skill_alarm_snoozed_until">Snoozed until %1$s.</string>
+    <string name="skill_alarm_snooze_length">The clock app used its own snooze length.</string>
+    <string name="skill_alarm_still_ringing">The alarm is still ringing. Turn it off on the clock screen.</string>
+    <string name="skill_alarm_still_ringing_snooze">The alarm is still ringing. Snooze it on the clock screen.</string>
+    <string name="skill_alarm_not_ringing">No alarm is ringing.</string>
+
+    <!-- changing an alarm: %1$s is when the new alarm rings, e.g. "tomorrow at 7:30 AM" -->
+    <string name="skill_alarm_changed">Alarm moved to %1$s.</string>
+    <string name="skill_alarm_changed_old_kept">Alarm set for %1$s, but your old alarm is still on.</string>
+    <string name="skill_alarm_change_repeats">If the old alarm repeats, it still rings on its other days.</string>
+    <string name="skill_alarm_change_limit">The clock app only turns off the old alarm if it rings in the next 24 hours, and a repeating one still rings on its other days.</string>
+    <!-- %1$s is a time, e.g. "7:00 AM" -->
+    <string name="skill_alarm_already_at">Your alarm is already at %1$s.</string>
+
+    <!-- When an alarm rings: %1$s is the day ("today", "tomorrow", "on Monday"), %2$s the time -->
+    <string name="skill_alarm_day_at_time">%1$s at %2$s</string>
+    <string name="skill_alarm_today">today</string>
+    <string name="skill_alarm_tomorrow">tomorrow</string>
+    <!-- %1$s is a weekday or a date -->
+    <string name="skill_alarm_on_day">on %1$s</string>
+</resources>

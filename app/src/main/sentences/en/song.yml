@@ -1,0 +1,15 @@
+identify:
+  # GAR: every line names one of the song_identify tool's keywords (GarMatchCheck)
+  - what|which song|music|track|tune is this|that|it|playing|on (right? now)?
+  - what|which song|music|track|tune s this|that|playing
+  - what|(what s|is)|whats this|that|the song|music|track|tune
+  - what|(what s|is)|whats playing (right? now)?
+  - what|(what s|is)|whats the name of this|that|the song|track|tune
+  - (can you)? name|identify|recognize|recognise this|that|the song|music|track|tune
+  # "sings" and "sang" need their object, else "who sings hello" was "who sings" and a title
+  - who|(who s|is)|whos singing (this|that (song|music|track|tune)?)?
+  - who sings this|that|it (song|music|track|tune)?
+  - who sang this|that|it (song|track|tune)?
+  - shazam (this|that|it)? (song|music|track|tune)?
+  - what am i listening to (right? now)?
+  - what song|music|track am i listening to (right? now)?

@@ -1,0 +1,93 @@
+# Frozen copy of app/src/main/gar/tools.yml (2026-10-25) as LLM-only tools (no sentence mapping, so
+# no skill_definitions.yml is needed), plus two multi-slot tools. Golden prompts are rendered from
+# this file, so editing the real catalog doesn't invalidate them.
+tools:
+  - name: timer_set
+    skill: timer
+    description: Start a countdown timer.
+    slots:
+      duration: {kind: duration, required: true, description: "How long the timer runs, exactly as the user said it."}
+      name: {kind: text, description: "Optional name of the timer, exactly as the user said it."}
+
+  - name: timer_cancel
+    skill: timer
+    description: Stop or cancel a running timer.
+    slots:
+      name: {kind: text, description: "Optional name of the timer to cancel, exactly as the user said it."}
+
+  - name: timer_query
+    skill: timer
+    description: Tell how much time is left on a running timer.
+    confirm: false
+    slots:
+      name: {kind: text, description: "Optional name of the timer, exactly as the user said it."}
+
+  - name: call_contact
+    skill: telephone
+    description: Phone call a contact or a phone number.
+    confirm: false
+    slots:
+      who: {kind: contact, required: true, description: "The contact name or number to call, exactly as the user said it."}
+
+  - name: open_app
+    skill: open
+    description: Open an app installed on the phone.
+    slots:
+      what: {kind: app, required: true, description: "The app name, exactly as the user said it."}
+
+  - name: media_control
+    skill: media
+    description: Control the music or media that is playing.
+    confirm: false
+    slots:
+      action: {kind: enum, values: [play, pause, next, previous], required: true, description: What to do with the playing media.}
+
+  - name: flashlight
+    skill: flashlight
+    description: Turn the flashlight (torch) on or off.
+    confirm: false
+    slots:
+      state: {kind: enum, values: ["on", "off"], required: true, description: Whether the flashlight should be on or off.}
+
+  - name: current_time
+    skill: current_time
+    description: Tell the current time.
+    confirm: false
+
+  - name: navigate
+    skill: navigation
+    description: Start navigation to a place in the maps app.
+    slots:
+      where: {kind: text, required: true, description: "The destination, exactly as the user said it."}
+
+  - name: calculate
+    skill: calculator
+    description: Calculate the result of a math expression.
+    confirm: false
+    slots:
+      calculation: {kind: text, required: true, description: "The math expression, exactly as the user said it."}
+
+  - name: read_notifications
+    skill: notify
+    description: Read the phone's notifications aloud.
+    confirm: false
+
+  - name: wake_word
+    skill: listening
+    description: Start or stop listening for the wake word.
+    slots:
+      state: {kind: enum, values: ["on", "off"], required: true, description: Whether wake word listening should be on or off.}
+
+  - name: alarm_set
+    skill: alarm
+    description: Set an alarm for a time of day.
+    slots:
+      time: {kind: time, required: true, description: "The time of day, exactly as the user said it."}
+      label: {kind: text, description: "Optional label, exactly as the user said it."}
+
+  - name: sms_send
+    skill: sms
+    description: Send a text message to a contact.
+    slots:
+      to: {kind: contact, required: true, description: "Who to send it to, exactly as the user said it."}
+      message: {kind: text, required: true, description: "The message, exactly as the user said it."}

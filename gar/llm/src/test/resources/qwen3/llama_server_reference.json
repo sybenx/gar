@@ -1,0 +1,9 @@
+{
+ "prefix_tokens": 1345,
+ "outputs": {
+  "wake me at seven fifteen": "<tool_call>\n{\"name\": \"set_alarm\", \"arguments\": {\"time\": \"seven fifteen\"}}\n</tool_call>",
+  "set a timer for ten minutes": "<tool_call>\n{\"name\": \"set_timer\", \"arguments\": {\"duration\": \"10\"}}\n</tool_call>",
+  "turn on the flashlight": "<tool_call>\n{\"name\": \"toggle_flashlight\", \"arguments\": {\"state\": \"on\"}}\n</tool_call>",
+  "pause the music": "<tool_call>\n{\"name\": \"media_control\", \"arguments\": {\"action\": \"pause\"}}\n</tool_call>"
+ }
+}

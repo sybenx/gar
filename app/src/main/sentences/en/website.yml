@@ -1,0 +1,9 @@
+# GAR (gar:places): a web address in the default browser. WebsiteSkill only takes a match whose
+# capture is an address (WebAddress: "reddit dot com", "wikipedia.org"); "open .site." stays with
+# Dicio's open skill, which opens an address the same way (OpenSkill's GAR line)
+open:
+  - (go|browse|surf) to (the)? (website|site|page|web page)? .site.
+  - visit|load|browse (the)? (website|site|page|web page)? .site.
+  - open (the)? website|site|(web page) .site.
+  - (bring|pull) up (the)? (website|site|page|web page)? .site.
+  - (take|bring) me to (the)? website|site|(web page) .site.

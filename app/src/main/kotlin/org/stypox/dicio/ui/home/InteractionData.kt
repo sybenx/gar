@@ -6,6 +6,8 @@ import org.dicio.skill.skill.SkillOutput
 data class QuestionAnswer(
     val question: String?,
     val answer: SkillOutput,
+    // GAR: the answer is said by TTS, so screen readers don't announce it as well
+    val spoken: Boolean = false,
 )
 
 data class Interaction(

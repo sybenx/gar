@@ -1,3 +1,6 @@
 query:
   - (visa vägen)|(dirigera mig)|(hur kommer jag)|navigera till|mot .where.
+
+# GAR (gar:places): "where is .where." on its own, see en
+where_is:
   - var|vart är|ligger .where.

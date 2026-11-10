@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR: strings of the follow-up skill ("turn it off", "what about tomorrow", "call her"). -->
+<resources>
+    <string name="skill_name_follow_up">Follow-ups</string>
+    <string name="skill_sentence_example_follow_up">Turn it off</string>
+
+    <!-- A follow-up that fits nothing GAR remembers: what it is about -->
+    <string name="gar_follow_up_turn_what_off">Turn what off?</string>
+    <string name="gar_follow_up_turn_what_on">Turn what on?</string>
+    <string name="gar_follow_up_turn_what_up">Turn what up?</string>
+    <string name="gar_follow_up_turn_what_down">Turn what down?</string>
+    <string name="gar_follow_up_change_what">Change what?</string>
+    <string name="gar_follow_up_add_time_to_what">Add time to what?</string>
+    <string name="gar_follow_up_who_call">Who should I call?</string>
+    <string name="gar_follow_up_who_text">Who should I text?</string>
+    <string name="gar_follow_up_who_email">Who should I email?</string>
+    <string name="gar_follow_up_whose_number">Whose number?</string>
+    <string name="gar_follow_up_whose_address">Whose address?</string>
+    <string name="gar_follow_up_where_to">Where to?</string>
+</resources>

@@ -1,0 +1,8 @@
+query:
+  - what|(what s|is)|whats the? date|day (is it)? today|now?
+  - what|(what s|is)|whats todays|(today s) date
+  - what day of the week is it today?
+  - (tell me)|(give me) the|todays|(today s) date
+  - what|(what s|is)|whats the date (going to be)|(will be)? .day.
+  - what will|would the date|day be .day.
+  - what date|day (of the week)? is|was|(is it)|(was it)|(will it be)|(will be) .day.

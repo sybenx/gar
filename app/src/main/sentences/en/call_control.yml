@@ -1,0 +1,38 @@
+# GAR: CallControlSkill.score keeps a match only when CallControlWords reads the whole input as
+# the same command, since Dicio's matcher leaves a word out ("end the meeting", "pick up milk").
+# "Don't" is read as "don t" (or "dont" without the apostrophe).
+answer:
+  - answer (it|that|this|(the phone)|(my phone)|(the incoming call)|((the|this|that|my)? (phone)? call))?
+  - pick up (it|that|this|(the phone)|(my phone)|(the incoming call)|((the|this|that|my)? (phone)? call))?
+  - pick it|that|this|(the phone)|((the|this|that|my)? (phone)? call) up
+  - accept|take (the|this|that|my)? (phone)? call
+  - accept it
+
+decline:
+  - decline|reject (it|that|this|(the phone)|(my phone)|(the incoming call)|((the|this|that|my)? (phone)? call))?
+  - ignore (the|this|that|my)? (phone)? call
+  - (don t)|dont|(do not) answer|(pick up) (it|that|this|(the phone)|(my phone)|(the incoming call)|((the|this|that|my)? (phone)? call))?
+  - send (it|this|that|me|him|her|them|((the|this|that|my)? (phone)? call))? to voicemail
+
+hang_up:
+  - hang up (it|that|this|(the phone)|(my phone)|(the incoming call)|((the|this|that|my)? (phone)? call))?
+  - hang it|that|this|(the phone)|((the|this|that|my)? (phone)? call) up
+  - hangup
+  - end|stop|finish|disconnect|terminate (the|this|that|my)? (phone)? call
+  - disconnect
+
+speaker_on:
+  - turn|switch on (the)? speaker|speakerphone|loudspeaker|(speaker phone)
+  - turn|switch (the)? speaker|speakerphone|loudspeaker|(speaker phone) on
+  - speaker|speakerphone|loudspeaker|(speaker phone) (on)?
+  - put (it|this|that|me|him|her|them|((the|this|that|my)? (phone)? call))? on (the)? speaker|speakerphone|loudspeaker|(speaker phone)
+  - switch|go|change to (the)? speaker|speakerphone|loudspeaker|(speaker phone)
+  - use (the)? speaker|speakerphone|loudspeaker|(speaker phone)
+
+speaker_off:
+  - turn|switch off (the)? speaker|speakerphone|loudspeaker|(speaker phone)
+  - turn|switch (the)? speaker|speakerphone|loudspeaker|(speaker phone) off
+  - speaker|speakerphone|loudspeaker|(speaker phone) off
+  - take (it|this|that|me|him|her|them|((the|this|that|my)? (phone)? call))? off (the)? speaker|speakerphone|loudspeaker|(speaker phone)
+  - go|get off (the)? speaker|speakerphone|loudspeaker|(speaker phone)
+  - switch|go (back)? to (the)? earpiece|handset

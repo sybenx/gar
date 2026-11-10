@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR: the home screen's "Here is what I can do" card, which shows a few skills first. -->
+<resources>
+    <!-- Expands the card to every enabled skill; %d is how many there are -->
+    <string name="gar_what_i_can_do_all">See all %d</string>
+    <string name="gar_what_i_can_do_fewer">Show fewer</string>
+
+    <!-- GAR: the microphone's states (home screen and assistant sheet) -->
+    <string name="gar_mic_stop_listening">Stop listening</string>
+    <string name="gar_mic_cancel_transcription">Cancel transcription</string>
+    <string name="gar_mic_stop_speaking">Stop speaking</string>
+    <string name="gar_mic_starting">Starting…</string>
+    <string name="gar_mic_idle">Tap the mic to talk</string>
+    <string name="gar_mic_speaking">Speaking, tap to stop</string>
+    <string name="gar_mic_thinking">Thinking</string>
+    <!-- %d: seconds since the command came in -->
+    <string name="gar_mic_thinking_seconds">Thinking… %d s</string>
+    <!-- %1$s: the skill answering; %2$d: seconds since the command came in -->
+    <string name="gar_mic_skill_seconds">%1$s… %2$d s</string>
+    <!-- %d: seconds since the command came in -->
+    <string name="gar_mic_loading_model_seconds">Loading the model… %d s</string>
+    <string name="gar_mic_loading_model">Loading the model</string>
+    <!-- For screen readers, said once the command takes a while -->
+    <string name="gar_mic_still_thinking">Still thinking</string>
+    <!-- For screen readers, said every 5 seconds; %d: seconds, a multiple of 5 -->
+    <string name="gar_mic_thinking_for">Thinking, %d seconds</string>
+    <string name="gar_mic_type">Type a request</string>
+
+    <!-- GAR: chips under an answer. Each *_input is sent as typed text and must match its skill's
+         sentences in the language below; translate them together and set the language. -->
+    <string name="gar_chips_language" translatable="false">en</string>
+    <string name="gar_chip_cancel_timer">Cancel timer</string>
+    <string name="gar_chip_cancel_timer_input">cancel the timer</string>
+    <string name="gar_chip_show_timers">Show timers</string>
+    <string name="gar_chip_show_timers_input">show my timers</string>
+    <string name="gar_chip_show_alarms">Show alarms</string>
+    <string name="gar_chip_show_alarms_input">show my alarms</string>
+    <string name="gar_chip_cancel_it">Cancel it</string>
+    <!-- %s: the alarm's time as said, "7 am" or "7:30 pm"; names the alarm, so that the chip
+         still cancels it after the follow-ups' minute -->
+    <string name="gar_chip_cancel_alarm_input">cancel my %s alarm</string>
+    <string name="gar_chip_set_alarm">Set an alarm</string>
+    <string name="gar_chip_set_alarm_input">set an alarm</string>
+    <string name="gar_chip_tomorrow">Tomorrow</string>
+    <string name="gar_chip_tomorrow_input">what about tomorrow</string>
+    <string name="gar_chip_weekend">This weekend</string>
+    <string name="gar_chip_weekend_input">weather this weekend</string>
+    <string name="gar_chip_pause">Pause</string>
+    <string name="gar_chip_pause_input">pause</string>
+    <string name="gar_chip_next">Next</string>
+    <string name="gar_chip_next_input">next song</string>
+    <string name="gar_chip_resume">Resume</string>
+    <string name="gar_chip_resume_input">resume</string>
+    <string name="gar_chip_call_back">Call back</string>
+    <!-- %s: the caller's name -->
+    <string name="gar_chip_call_back_input">call %s back</string>
+    <string name="gar_chip_reply">Reply</string>
+    <string name="gar_chip_reply_input">reply</string>
+    <string name="gar_chip_call">Call</string>
+    <!-- %s: the sender's name -->
+    <string name="gar_chip_call_input">call %s</string>
+
+    <!-- GAR: starter chips on the empty home screen and the sheet, sent as typed text -->
+    <string name="gar_starter_weather">What\'s the weather</string>
+    <string name="gar_starter_timer">Set a timer for 5 minutes</string>
+    <string name="gar_starter_time">What time is it</string>
+    <string name="gar_starter_battery">What\'s my battery</string>
+</resources>

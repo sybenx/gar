@@ -7,7 +7,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import org.dicio.skill.context.SkillContext
 import org.stypox.dicio.di.SkillContextInternal
@@ -16,7 +15,7 @@ import org.stypox.dicio.di.SttInputDeviceWrapper
 import org.stypox.dicio.di.WakeDeviceWrapper
 import org.stypox.dicio.eval.SkillEvaluator
 import org.stypox.dicio.eval.SkillHandler
-import org.stypox.dicio.io.input.SttState
+import org.stypox.dicio.gar.conversation.GarBargeIn // GAR
 import org.stypox.dicio.io.speech.SnackbarSpeechDevice
 import org.stypox.dicio.settings.datastore.UserSettings
 import org.stypox.dicio.settings.datastore.WakeDevice
@@ -59,11 +58,9 @@ class HomeScreenViewModel @Inject constructor(
         }
 
         // stop speaking when the STT device starts listening
-        viewModelScope.launch {
-            sttInputDevice.uiState
-                .filter { it == SttState.Listening }
-                .collect { speechOutputDevice.stopSpeaking() }
-        }
+        // GAR: one process-wide collector, shared with the assistant sheet; it also tells the
+        // turn whether the user talked over GAR (a barge-in)
+        GarBargeIn.start(sttInputDevice, speechOutputDevice)
     }
 
     fun disableWakeWord() {

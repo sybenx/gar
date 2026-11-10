@@ -1,2 +1,4 @@
 query:
   - what|(what s|is)|whats the? time (is it)?
+  # GAR: "do you know the time" was the facts skill's until it took "do you know" only when a fact answers
+  - do you know (the time)|(what time it is)

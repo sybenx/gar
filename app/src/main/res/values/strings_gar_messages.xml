@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR: strings of the messages and email skills (gar:messages, gar/PARITY.md batch 4). -->
+<resources>
+    <string name="skill_name_messages">Messages</string>
+    <string name="skill_sentence_example_messages">Read my messages from Mom</string>
+    <string name="skill_name_email">Email</string>
+    <string name="skill_sentence_example_email">Email Sarah saying the report is done</string>
+
+    <!-- Reading: %1$s is a name or an app as the user said it -->
+    <string name="skill_messages_none">You have no new messages.</string>
+    <string name="skill_messages_none_from">You have no new messages from %1$s.</string>
+    <string name="skill_messages_none_on">You have no new messages on %1$s.</string>
+    <string name="skill_messages_from">You have messages from %1$s.</string>
+    <!-- "Mom, Dad and 3 more" -->
+    <string name="skill_messages_names_more">%1$d more</string>
+    <string name="skill_messages_names_separator">", "</string>
+    <string name="skill_messages_names_and">" and "</string>
+    <!-- %2$s are the messages, each ending like a sentence -->
+    <string name="skill_messages_said">%1$s said: %2$s</string>
+    <!-- a group chat: %1$s is its name, %2$s who said what ("Dad said: On my way.") -->
+    <string name="skill_messages_in_group">In %1$s, %2$s</string>
+    <string name="skill_messages_ask_reply">Want to reply?</string>
+    <string name="skill_messages_ask_more">Want to hear more?</string>
+    <string name="skill_messages_ask_read">Want me to read them?</string>
+    <string name="skill_messages_done">OK.</string>
+    <string name="skill_messages_no_more">That\'s all your messages.</string>
+    <string name="skill_messages_no_access">I can\'t see your notifications right now. Try again in a moment.</string>
+    <string name="skill_messages_needs_listener">GAR reads messages from your notifications, so it needs notification access.</string>
+    <string name="skill_messages_allow_access">Allow notification access</string>
+
+    <!-- Replying through the notification's reply button -->
+    <string name="skill_messages_ask_reply_text">What\'s your reply?</string>
+    <!-- %1$s the app, %2$s the chat (a person or a group), %3$s the reply ending like a sentence -->
+    <string name="skill_messages_read_back">Your reply to %2$s on %1$s says: %3$s Ready to send it?</string>
+    <string name="skill_messages_reply_title">Reply to %1$s</string>
+    <string name="skill_messages_send">Send</string>
+    <string name="skill_messages_cancel">Cancel</string>
+    <string name="skill_messages_open_app">Open %1$s</string>
+    <string name="skill_messages_sent">Sent.</string>
+    <string name="skill_messages_not_sending">OK, not sending.</string>
+    <string name="skill_messages_reply_gone">The message from %1$s is gone from your notifications, so I can\'t reply to it anymore.</string>
+    <string name="skill_messages_no_reply_button">This %1$s notification has no reply button, so I can\'t reply to it from here.</string>
+    <string name="skill_messages_reply_failed">%1$s didn\'t take the reply.</string>
+    <string name="skill_messages_opened_app">Opened %1$s.</string>
+    <string name="skill_messages_no_app">I couldn\'t open %1$s.</string>
+    <string name="skill_messages_nothing_to_reply">There\'s no message to reply to.</string>
+    <string name="skill_messages_text_instead">There\'s no message from %1$s to reply to. Want to send a text instead?</string>
+
+    <!-- Email: the mail app opens with everything filled in, and the user sends it there -->
+    <string name="skill_email_ask_recipient">Who should I email?</string>
+    <string name="skill_email_unknown_contact">I couldn\'t find an email address for %1$s. Who should I email?</string>
+    <string name="skill_email_ask_message">What should it say?</string>
+    <string name="skill_email_which_contact">Which one? %1$s</string>
+    <string name="skill_email_which_contact_title">Which one?</string>
+    <string name="skill_email_which_address">Which address for %1$s?</string>
+    <string name="skill_email_contacts_separator">", "</string>
+    <string name="skill_email_opened">Your email to %1$s is ready. Press send in your mail app.</string>
+    <string name="skill_email_no_app">I couldn\'t find an email app.</string>
+    <string name="skill_email_not_sending">OK.</string>
+    <string name="skill_email_to">To: %1$s</string>
+    <string name="skill_email_subject">Subject: %1$s</string>
+    <string name="skill_email_open_again">Open again</string>
+</resources>

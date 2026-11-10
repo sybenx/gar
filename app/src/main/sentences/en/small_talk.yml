@@ -1,0 +1,37 @@
+# GAR: SmallTalkSkill only takes inputs made of small talk words (SmallTalkWords)
+hello:
+  - hello|hi|hey|howdy|greetings|yo|hiya (there)? (gar|dicio|assistant|google)?
+  - good morning|afternoon|evening|day (gar|dicio|assistant|google)?
+goodbye:
+  - bye|goodbye|(good bye)|(bye bye)|(see you)|(see ya)|(good night)|goodnight|(night night) (later|tomorrow)? (gar|dicio|google|assistant)?
+thanks:
+  - (ok|okay|alright|great|perfect|cool)? (thank you)|thanks|cheers (so|very much)? (a lot)? (gar|dicio|google|assistant)?
+  - (ok|okay|alright|great|perfect|cool)? (thank you)|thanks (so|very)? much (gar|dicio|google|assistant)?
+  - (much appreciated)|(i appreciate it)|(appreciate it) (gar|dicio)?
+  - (good|nice|great job)|(well done)|(good|nice|great work) (gar|dicio)?
+  - (you re|youre|(you are)) (the best)|awesome|amazing|great
+who:
+  - who|what are you
+  - who am i (talking|speaking) to
+  - what|(what s|is)|whats your name
+  - tell me about yourself
+  - introduce yourself
+how:
+  - how are you (doing|today)? (gar|dicio)?
+  - how|(how s|is)|hows it going
+  - how are things
+  - how have you been
+  - what|(what s|is)|whats up
+  - how do you do
+help:
+  - what (else)? can you do (for me)?
+  - what are you able to do
+  - what (can|do) you know
+  - what do you do
+  - help (me)?
+  - i need help
+  - what can i say|ask (you)?
+  - what things|commands can i (say|ask|use)
+  - show me what you can do
+  - what are your skills|features|commands
+  - how do i use (you|this|gar|(this app))?

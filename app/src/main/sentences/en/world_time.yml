@@ -1,0 +1,11 @@
+time_in:
+  # GAR: only places WorldPlaces knows match (WorldTimeSkill)
+  - what|(what s|is)|whats the? (current|local)? time (is it)? (right? now)? in|at .place.
+  - (tell me|(do you know)|(can you tell me))? what time it is (right? now)? in .place.
+  - (tell me|(do you know))? the? (current|local)? time in .place.
+difference:
+  - what|(what s|is)|whats the? time difference (with|between|to|from|in|for)? .place.
+  - (tell me)? the? time difference (with|between|to|from|in|for)? .place.
+  - how many hours (ahead|behind) is .place.
+  - how far (ahead|behind) is .place.
+  - is .place. ahead|behind (of me|us)?

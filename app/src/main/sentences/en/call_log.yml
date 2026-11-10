@@ -1,0 +1,45 @@
+# GAR: CallLogSkill.score keeps a match only when CallLogWords reads the whole input as the same
+# request, since Dicio's matcher leaves a word out or swaps one ("who called the plumber", "call
+# back in five minutes"). "Who's" is read as "who s" (or "whos" without the apostrophe).
+last_caller:
+  - (ok|okay|hey)? who (just|last|recently)? called|rang|phoned (me|(my phone))? ((just now)|today|earlier|recently|last|yesterday|tonight|(this morning)|(this afternoon)|(this evening)|(last night)|(a minute ago))?
+  - (ok|okay|hey)? who (was|is) calling (me)? (just now)?
+  - (ok|okay|hey)? who (has|s)? been calling (me)? (today)?
+  - (ok|okay|hey)? whos been calling (me)? (today)?
+  - (ok|okay|hey)? who (has called)|(tried to call)|(tried calling) (me)?
+  - who (was|is) (the|my) last|latest|(most recent) caller|call
+  - who (was|is) the last|latest|(most recent) person (who|that|to) called|call (me)?
+  - what|(what s)|whats|(what is)|(what was) (the|my) last|latest|(most recent) (incoming|phone)? call
+  - (show|read|check|open) (me)? my|the (recent calls)|(last calls)|(call log)|(call history)
+  - (show|read) (me)? recent calls
+
+missed:
+  - (ok|okay|hey)? did|have i miss|missed (any|a|some)? (phone)? call|calls (today|earlier|recently|yesterday|tonight)?
+  - (ok|okay|hey)? (do|did) i have (any)? missed (phone)? call|calls (today)?
+  - (have i got)|(i have)|any|(how many) missed (phone)? call|calls ((do i have)|(have i got))? (today)?
+  - (show|read|check|list|open) (me)? (my|the)? missed (phone)? call|calls
+  - (what|who) (are|were) my missed (phone)? calls
+  - (what s)|whats my missed calls
+  - missed (phone)? calls
+  - (ok|okay|hey)? did|has|have anyone|anybody|someone|somebody call|called|rang|phoned|(tried to call)|(tried calling)|(been calling) (me)? (today|earlier|recently)?
+  - who did i miss ((a call from)|(calls from))? (today)?
+  - any|((were|are|have) there (been)? any) (new)? calls (for me)? (today)?
+
+# one person's calls: CallLogWords reads the name (up to 4 words, no time, not anyone)
+from:
+  - (ok|okay|hey)? did|has|have .who. call|called|ring|rang|phone|phoned|(try to call)|(tried to call)|(tried calling)|(been calling) (me|(my phone))? (back)? (today|earlier|recently|yesterday|tonight|(this morning)|(this afternoon)|(this evening)|(last night)|(just now))?
+  - (ok|okay|hey)? did|have i miss|missed|get|got|have|had (a|any|some)? (missed)? (phone)? call|calls from .who. (today|earlier|recently|yesterday|tonight)?
+  - any|(were there any)|(are there any)|(have there been any)|missed (new)? (missed)? (phone)? call|calls from .who. (today|earlier|recently|yesterday|tonight)?
+  - when did .who. (last)? call|called|ring|rang|phone|phoned (me)?
+
+# what follows the verb is read by CallBack.parse, like the telephone skill's ".who."
+call:
+  - redial|(re dial) (it|that|them|him|her|((the|my|that)? (last|previous)? number|call))?
+  - call|dial|ring|phone .who. back|again
+  - call|dial|ring|phone back .who.?
+  - call|dial|ring|phone (whoever|(the person who)|(the person that)|(the one who)|(the one that)) (just|last)? called|rang|phoned (me)? (just now)? (back)?
+  - call|dial|ring|phone (the|my|that) (very)? last|latest|previous|(most recent) number|call|caller|person|one ((i called)|(i dialed)|(i dialled)|(i rang)|(i phoned))? (again)?
+  - call|dial|ring|phone (that|this|the) number (back|again)?
+  - call|dial|ring|phone again
+  - return (the|my|that|this)? (last|latest|missed|(most recent))? (phone)? call
+  - return .who. (phone)? call

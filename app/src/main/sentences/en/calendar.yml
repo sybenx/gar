@@ -1,0 +1,19 @@
+create:
+  - add|put|schedule|create|book|make|setup|(set up) .title. to|on|in|into my|the? calendar|agenda (.begin.)?
+  - schedule .title.
+  - add|create|make|book|setup|(set up) a|an|the? new? event|appointment|meeting called|named|titled .title.
+  - block (off|out)? .duration. for|to .title.
+
+query:
+  - (what event<s?>|appointment<s?>|meeting<s?>|plan<s?>? (do|will|did i have)|(are|is|was|(will be) there?))|((do|will|did i have)|(are|is|was|(will be) there?)|(show|tell|list|read me?)? any|my|the|an? event<s?>|appointment<s?>|meeting<s?>|plan<s?> (i have)?) (on|in|inside my|the? calendar|agenda|schedule|timetable)|scheduled|arranged|happening|planned? (on|at|for? the? .when.)? (on|in|inside my|the? calendar|agenda|schedule|timetable)?
+  - (show|tell|list|read me?)|((do|will|did i have)|(is|was there? be?) anything on|in|inside) the|my? calendar|agenda|schedule|timetable (on|at|for? the? .when.)?
+  - ((am i)|(was i)|(will i be) busy|free|occupied)|(do|will|did i have free? time) (on|at|for? the? .when.)?
+  - what s|is on|in my|the? calendar|agenda|schedule (on|at|for? the? .when.)?
+  - whats on|in my|the? calendar|agenda|schedule (on|at|for? the? .when.)?
+  - what s|is my|the schedule|agenda|calendar like? (on|at|for? the? .when.)?
+
+reminder:
+  - remind me (to|about|of)? .what.
+  - remind me .when. to|about|of .what.
+  - set|create|add|make a|an? reminder (to|for|about)? .what.
+  - set|create|add|make a|an? reminder for|at|on? .when. to|about .what.

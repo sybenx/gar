@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR Step 3, calendar group: events and reminders (skills/calendar) -->
+<resources>
+    <string name="skill_name_calendar">Calendar</string>
+    <string name="skill_sentence_example_calendar">Add dentist tomorrow at three pm to my calendar</string>
+    <string name="perm_read_calendar">read your calendar</string>
+    <string name="perm_write_calendar">add events to your calendar</string>
+
+    <string name="pref_calendar_target">Calendar for new events</string>
+    <string name="pref_calendar_target_automatic">Automatic</string>
+    <string name="pref_calendar_target_no_permission">Allow calendar access to choose one</string>
+    <string name="pref_calendar_target_none_writable">No calendar can take new events</string>
+
+    <!-- %1$s = title, %2$s = when, e.g. "tomorrow at 3:00 PM" -->
+    <string name="skill_calendar_confirm_event">Add %1$s to your calendar for %2$s?</string>
+    <!-- %1$s = when, %2$s = what to be reminded about -->
+    <string name="skill_calendar_confirm_reminder">Set a reminder for %1$s: %2$s?</string>
+    <!-- %1$s = title, %2$s = calendar name -->
+    <string name="skill_calendar_added_event">Added %1$s to %2$s.</string>
+    <string name="skill_calendar_added_event_no_name">Added %1$s to your calendar.</string>
+    <!-- %1$s = when -->
+    <string name="skill_calendar_added_reminder">Reminder set for %1$s.</string>
+    <string name="skill_calendar_notifications_off">Turn on notifications to get it.</string>
+    <string name="skill_calendar_in_calendar">In %1$s</string>
+    <string name="skill_calendar_open">Open in calendar</string>
+    <string name="skill_calendar_notification_settings">Notification settings</string>
+    <string name="skill_calendar_add_failed">I couldn\'t add that to your calendar.</string>
+    <string name="skill_calendar_read_failed">I couldn\'t read your calendar.</string>
+    <string name="skill_calendar_opened_app">Finish adding it in your calendar app.</string>
+    <string name="skill_calendar_no_calendar">There\'s no calendar I can add events to.</string>
+    <string name="skill_calendar_past_time">That time has already passed.</string>
+
+    <!-- %1$s = a day as below, e.g. "today" or "on Friday" -->
+    <string name="skill_calendar_nothing">Nothing on your calendar %1$s.</string>
+    <plurals name="skill_calendar_you_have">
+        <item quantity="one">You have %1$d event %2$s: %3$s.</item>
+        <item quantity="other">You have %1$d events %2$s: %3$s.</item>
+    </plurals>
+    <!-- %1$s = the first events, %2$d = how many more -->
+    <string name="skill_calendar_and_more">%1$s, and %2$d more</string>
+    <!-- %1$s = title, %2$s = time -->
+    <string name="skill_calendar_event_at">%1$s at %2$s</string>
+    <string name="skill_calendar_event_until">%1$s until %2$s</string>
+    <string name="skill_calendar_untitled">Untitled event</string>
+    <string name="skill_calendar_all_day">All day</string>
+    <string name="skill_calendar_day_today">today</string>
+    <string name="skill_calendar_day_tomorrow">tomorrow</string>
+    <string name="skill_calendar_day_yesterday">yesterday</string>
+    <!-- %1$s = a weekday or a date -->
+    <string name="skill_calendar_day_on">on %1$s</string>
+
+    <string name="skill_calendar_reminder_channel_name">Reminders</string>
+    <string name="skill_calendar_reminder_channel_description">Reminders you set by voice</string>
+    <string name="skill_calendar_reminder_no_title">Reminder</string>
+</resources>

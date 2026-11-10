@@ -1,0 +1,31 @@
+wifi_on:
+  - turn|switch on the? (wi fi)|wifi|wireless
+  - turn|switch the? (wi fi)|wifi|wireless on
+  - enable|activate the? (wi fi)|wifi|wireless
+  - connect to the? (wi fi)|wifi
+
+wifi_off:
+  - turn|switch off the? (wi fi)|wifi|wireless
+  - turn|switch the? (wi fi)|wifi|wireless off
+  - disable|deactivate the? (wi fi)|wifi|wireless
+  - disconnect from the? (wi fi)|wifi
+
+wifi_settings:
+  - open|show the? (wi fi)|wifi|wireless|internet|network settings|networks|panel?
+  - (show me)? the? available? (wi fi)|wifi|wireless networks
+  - (wi fi)|wifi|wireless|internet|network settings
+
+bluetooth_on:
+  - turn|switch on the? bluetooth|(blue tooth)
+  - turn|switch the? bluetooth|(blue tooth) on
+  - enable|activate the? bluetooth|(blue tooth)
+
+bluetooth_off:
+  - turn|switch off the? bluetooth|(blue tooth)
+  - turn|switch the? bluetooth|(blue tooth) off
+  - disable|deactivate the? bluetooth|(blue tooth)
+
+bluetooth_settings:
+  - open|show the? bluetooth|(blue tooth) settings|devices|panel?
+  - bluetooth|(blue tooth) settings|devices
+  - pair a? new? bluetooth|(blue tooth)? device

@@ -1,0 +1,62 @@
+set:
+  - (set|setup|create) an? alarm (for|at) .time.
+  - alarm (for|at) .time.
+  - wake me up (at|in) .time.
+  - (set|setup|create|make|add) (a|an|my|the)? new? alarm (for|at)? .time.
+  - (set|setup|create|make|add) (a|an|my|the)? new? alarm (for|at)? .time. (called|named|labeled|labelled|saying) .label.
+  - (set|setup|create|make|add) (a|an|my|the)? new? alarm
+  - wake me up? .time.
+
+show:
+  - show my? (alarm<s?>|clock)
+  - open the? (clock|alarm<s?>) app?
+
+query:
+  - (what|which) alarm<s?> ((do i have)|(are set)|(have i set)) (set|on)?
+  - when (is|s) my next alarm
+  - whens my next alarm
+  - what time is my next? alarm (set for)?
+  - (do|have) i (have|got|set) (an|any) alarm<s?> (set|on)?
+  - is there an alarm set
+  - (list|read|tell me?) my alarm<s?>
+
+cancel:
+  - (cancel|delete|remove|dismiss|disable|skip|((turn|switch) off)) (my|the)? (next|upcoming)? alarm
+  - (turn|switch) (my|the)? (next|upcoming)? alarm off
+  - (cancel|delete|remove|dismiss|disable|skip|((turn|switch) off)) (my|the)? alarm (for|at) .time.
+  - (cancel|delete|remove|dismiss|disable|skip|((turn|switch) off)) (my|the)? .time. alarm
+
+cancel_all:
+  - (cancel|delete|remove|dismiss|disable|clear|((turn|switch) off)) all (of)? (my|the)? alarm<s?>
+  - (cancel|delete|remove|dismiss|disable|clear|((turn|switch) off)) (my|the)? alarms
+  - (cancel|delete|remove|dismiss|disable|clear|((turn|switch) off)) every|each (one of)? (my|the)? alarm<s?>
+
+# The clock app's ringing alarm: AlarmSkill.score keeps these only while it rings, so "stop" goes to
+# GAR's conversation otherwise. Every GarRinging stop phrase and cancel phrase is here, with the
+# fillers the conversation sentences allow; "dismiss the alarm" and "turn off the alarm" are cancel
+# sentences. Not a bare "mute", which the listening skill (before this one) keeps.
+stop:
+  - (ok|okay|oh|hey|no|please|sorry|alright|just|uh|um)? ((can|could|would) you)? stop|silence|dismiss|cancel (it|that)? (please|now)?
+  - (ok|okay|oh|hey|no|please|sorry|alright|just|uh|um)? (stop stop stop?)|(cancel cancel cancel?) (please|now)?
+  - (ok|okay|oh|hey|no|please|sorry|alright|just|uh|um)? ((can|could|would) you)? mute it|that|((the|my)? alarm) (please|now)?
+  - ok|okay
+  - (the|my)? alarm off (please|now)?
+  - (ok|okay|oh|hey|no|please|sorry|alright|just|uh|um)? ((can|could|would) you)? stop|silence (the|my)? (alarm clock?)|ringing|noise (please|now)?
+  - (ok|okay|oh|hey|no|please|sorry|alright|just|uh|um)? ((can|could|would) you)? shut up (please|now)?
+  - (ok|okay|oh|hey|no|please|sorry|alright|just|uh|um)? ((can|could|would) you)? (be|keep)? quiet (please|now)?
+  - (ok|okay|oh|hey|no|please|sorry|alright|just|uh|um)? hush|enough (please|now)?
+  - (ok|okay|oh|hey|no|please|sorry|alright|just|uh|um)? (that s|is)|thats enough (please|now)?
+  - (ok|okay|oh|hey|no|please|sorry|alright|just|uh|um)? ((can|could|would) you)? turn|shut|switch it|that off (please|now)?
+  - (ok|okay|oh|hey|no|please|sorry|alright|just|uh|um)? (i m)|im|(i am) up|awake
+
+snooze:
+  - (ok|okay|hey|please)? snooze (it|that|((the|my)? alarm))? (please|again)?
+  - (ok|okay|hey|please)? snooze (it|that|((the|my)? alarm))? ((for another?)|another)? .duration.
+  # "five more minutes", "give me ten more minutes": AlarmSkill.score only while the alarm rings
+  - (ok|okay|hey|please)? (give me)? .duration. more minute<s?> (please)?
+
+# a cancel and a set in the clock app; the old alarm is the next one when no time is said
+change:
+  - change|move|reschedule|update|shift|push|switch (my|the)? (next|upcoming)? alarm time? (back|forward|up)? to .to.
+  - change|move|reschedule|update|shift|push|switch (my|the)? .from. alarm time? (back|forward|up)? to .to.
+  - change|move|reschedule|update|shift|push|switch (my|the)? alarm (from|at|for) .from. to .to.

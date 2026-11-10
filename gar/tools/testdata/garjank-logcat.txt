@@ -1,0 +1,7 @@
+11-02 15:01:02.123  4321  4400 I GarJank : GarJank: window surface=home frames=120 janky=4 p50_ms=8.9 p90_ms=17.2 p99_ms=48.0 max_ms=81.3 hz=60
+11-02 15:01:03.456  4321  4400 D GarJank : GarJank: slow surface=home ms=81.3 states=mic:thinking
+11-02 15:01:04.001  4321  4321 I ActivityTaskManager: Displayed cc.aaro.gar.gar/org.stypox.dicio.MainActivity: +1s234ms
+11-02 15:01:05.789  4321  4321 I ActivityTaskManager: Fully drawn cc.aaro.gar.gar/org.stypox.dicio.MainActivity: +2s5ms
+11-02 15:01:09.000  4321  4400 I GarJank : GarJank: stop surface=home frames=37 janky=0 p50_ms=8.1 p90_ms=12.4 p99_ms=15.0 max_ms=15.0 hz=60
+11-02 15:01:10.000  4321  4321 I GarSheet: GarSheet: first_frame_ms=212 source=assist cold=false
+11-02 15:01:20.000  4321  4321 I GarSheet: GarSheet: first_frame_ms=640 source=hotword cold=true

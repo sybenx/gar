@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR (gar:places): strings of where am I, nearby searches, home and work, sharing the location
+     and websites. -->
+<resources>
+    <string name="skill_name_places">Places</string>
+    <string name="skill_sentence_example_places">Where am I?</string>
+    <string name="skill_name_share_location">Share location</string>
+    <string name="skill_sentence_example_share_location">Share my location with Mom</string>
+    <string name="skill_name_website">Websites</string>
+    <string name="skill_sentence_example_website">Go to wikipedia dot org</string>
+
+    <!-- the names of the location permissions, in Dicio's permission lines -->
+    <string name="perm_gar_location_approximate">approximate location</string>
+    <string name="perm_gar_location_precise">precise location</string>
+
+    <!-- websites; %1$s is an address like "reddit.com" -->
+    <string name="skill_website_opening">Opening %1$s.</string>
+    <string name="skill_website_no_browser">I couldn\'t find a browser to open %1$s.</string>
+    <string name="skill_website_not_understood">I didn\'t catch the website.</string>
+
+    <!-- what GAR calls the saved places, in the strings below and on the map\'s pin -->
+    <string name="skill_places_home">home</string>
+    <string name="skill_places_work">work</string>
+
+    <!-- %1$s and %3$s are degrees like "40.7128", %2$s north or south, %4$s east or west -->
+    <string name="skill_places_coordinates">%1$s %2$s, %3$s %4$s</string>
+    <string name="skill_places_north">north</string>
+    <string name="skill_places_south">south</string>
+    <string name="skill_places_east">east</string>
+    <string name="skill_places_west">west</string>
+
+    <!-- going to a saved place; %1$s is "home" or "work" -->
+    <string name="skill_places_route_home">Getting directions home.</string>
+    <string name="skill_places_route_work">Getting directions to work.</string>
+    <string name="skill_places_shown">Here\'s %1$s on the map.</string>
+    <string name="skill_places_tap_route">Tap Route in the maps app to start.</string>
+    <!-- spoken after the first pin only; %1$s is "home", "work" or a contact's name -->
+    <string name="skill_places_shown_tap_route">Here\'s %1$s on the map. Tap Route.</string>
+    <!-- %1$s is a contact's name -->
+    <string name="skill_places_route_to">Getting directions to %1$s.</string>
+    <!-- CoMaps drew the route from where the phone was a moment ago -->
+    <string name="skill_places_route_drawn_hint">Tap Start to go.</string>
+    <string name="skill_places_unlock_route">Unlock to see the route.</string>
+    <string name="skill_places_search_tap_route">Pick the place, then tap Route.</string>
+    <!-- the name of the start of CoMaps' drawn route -->
+    <string name="skill_places_my_location">My location</string>
+    <!-- GAR's maps app picker, spoken; %1$s lists the apps: "OsmAnd, Vela or CoMaps" -->
+    <string name="skill_places_which_app">Which maps app? %1$s?</string>
+    <!-- the picker card's headline; the apps are listed under it -->
+    <string name="skill_places_which_maps_app">Which maps app?</string>
+    <!-- the picker's switch, like Android's "Always" in "Open with" -->
+    <string name="skill_places_always_use">Always use this app</string>
+    <!-- after the picker saved the app; "Navigate with" is the setting's title -->
+    <string name="skill_places_app_saved">Saved. Change it in Settings, Navigate with.</string>
+    <!-- a contact with several addresses; %1$s lists them: "Home, 12 Main St or Work, 4 Oak Ave" -->
+    <string name="skill_places_which_address">Which address? %1$s?</string>
+    <!-- the user's own card has several; %1$s home or work, %2$s the addresses -->
+    <string name="skill_places_which_own_address">Which is your %1$s address? %2$s?</string>
+    <string name="skill_places_none_of_these">None of these</string>
+    <!-- %1$s the contact's name, %2$s the words as said, like "Sarah's" -->
+    <string name="skill_places_contact_no_address">%1$s has no address in your contacts. Search the map for %2$s?</string>
+    <string name="skill_places_contact_search">Search</string>
+    <!-- "take me to Wendy's": a contact Wendy or the shop; %1$s the contact's name -->
+    <string name="skill_places_contact_check">Directions to %1$s?</string>
+    <!-- %1$s the words as said, like "Wendy's" -->
+    <string name="skill_places_contact_check_detail">Say no to search the map for %1$s.</string>
+    <string name="skill_places_contact_go">Go</string>
+    <!-- "Find addresses online", asked once -->
+    <string name="skill_places_lookup_offer">Look up this address online to start the route?</string>
+    <string name="skill_places_lookup_offer_detail">It sends only the address to OpenStreetMap\'s Nominatim. You can change this in Settings, under Find addresses online.</string>
+    <string name="skill_places_lookup_yes">Look it up</string>
+    <string name="skill_places_lookup_no">Not now</string>
+    <string name="skill_places_lookup_not_found">I couldn\'t find that address online, so here\'s a map search.</string>
+    <string name="skill_places_lookup_failed">I couldn\'t reach OpenStreetMap, so here\'s a map search.</string>
+    <string name="skill_places_lookup_attribution">Address found with Nominatim, © OpenStreetMap contributors</string>
+    <string name="skill_places_how_to_change">To change it, say \"change my %1$s address\".</string>
+    <string name="skill_places_ask_home">What\'s your home address?</string>
+    <string name="skill_places_ask_work">What\'s your work address?</string>
+    <!-- spoken after the question: the user may not know the address by heart -->
+    <string name="skill_places_ask_hint">Say the address or a place name, or \"here\" if you\'re there now.</string>
+    <string name="skill_places_ask_detail">You can also set it in Settings, under Home and work. GAR keeps it on this phone.</string>
+    <!-- nothing saved, but the user\'s own contact card has one; %1$s home or work, %2$s the address -->
+    <string name="skill_places_card_offer">Use the %1$s address on your contact card, %2$s?</string>
+    <string name="skill_places_card_offer_detail">A yes saves it for next time. You can change it in Settings, under Home and work.</string>
+    <string name="skill_places_card_use">Use it</string>
+    <string name="skill_places_card_no">No</string>
+    <string name="skill_places_saved_address">Saved your %1$s address.</string>
+    <!-- spoken: %1$s home or work, %2$s the address as saved -->
+    <string name="skill_places_saved_address_said">Saved your %1$s address: %2$s.</string>
+    <string name="skill_places_saved_here">Saved this place as %1$s.</string>
+    <!-- %2$s is the saved address as the user said it -->
+    <string name="skill_places_saved_is">Your %1$s address is %2$s.</string>
+    <string name="skill_places_saved_point">Your %1$s is saved as a spot on the map.</string>
+    <string name="skill_places_none_saved">I don\'t have your %1$s address yet. Say \"set my %1$s address\" to add it.</string>
+    <string name="skill_places_forgot">I forgot your %1$s address.</string>
+    <string name="skill_places_forgot_none">I didn\'t have a %1$s address saved.</string>
+
+    <!-- %1$s is what is searched for, like "coffee" -->
+    <string name="skill_places_nearby">Looking for %1$s nearby.</string>
+    <string name="skill_places_no_maps_app">I couldn\'t find a maps app.</string>
+
+    <!-- where am I; %1$s is a place name like "12 Main Street, Springfield" -->
+    <string name="skill_places_you_are_near">You\'re near %1$s.</string>
+    <string name="skill_places_you_are_at">I can\'t name this place offline. Show it on the map?</string>
+    <string name="skill_places_no_names">This phone can\'t name places without a geocoder, so GAR shows the coordinates. The maps app shows the streets around them.</string>
+    <string name="skill_places_you_are_here">You are here</string>
+    <string name="skill_places_approximate">Approximate location: GAR can only see where you are to within about 2 kilometers.</string>
+    <!-- %1$d is a distance in meters -->
+    <string name="skill_places_accuracy">Within about %1$d meters.</string>
+    <string name="skill_places_show_on_map">Show on map</string>
+
+    <!-- when the location can't be read -->
+    <string name="skill_places_no_access">I need location access for that. Open GAR\'s app info to allow it?</string>
+    <string name="skill_places_no_access_detail">Under Permissions, Location, choose \"Allow only while using the app\". Precise location is better for sharing, approximate is enough for the town.</string>
+    <string name="skill_places_approximate_save">GAR only has approximate location, which can be 2 kilometers off. Open GAR\'s app info to allow precise?</string>
+    <string name="skill_places_approximate_save_detail">Under Permissions, Location, turn on \"Use precise location\".</string>
+    <string name="skill_places_location_off">Location is off. Open location settings?</string>
+    <string name="skill_places_no_fix">I couldn\'t find where you are right now. Try again in a moment.</string>
+    <string name="skill_places_page_opened">Allow it there, then ask again.</string>
+    <string name="skill_places_page_failed">I couldn\'t open that page.</string>
+    <string name="skill_places_open_settings">Open settings</string>
+    <string name="skill_places_not_now">Not now</string>
+
+    <!-- the text that shares the location; %1$s is a map link -->
+    <string name="skill_share_location_message">My location: %1$s</string>
+    <string name="skill_share_location_message_approximate">My approximate location: %1$s</string>
+</resources>

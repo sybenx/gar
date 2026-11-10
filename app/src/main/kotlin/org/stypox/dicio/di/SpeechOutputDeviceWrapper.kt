@@ -66,6 +66,8 @@ class SpeechOutputDeviceWrapper @Inject constructor(
 
 
     override fun speak(speechOutput: String) {
+        // GAR: new speech closes a continued-listening window, so that it never records GAR
+        org.stypox.dicio.gar.conversation.GarContinuedListening.onSpeak()
         wrappedSpeechDevice.speak(speechOutput)
     }
 

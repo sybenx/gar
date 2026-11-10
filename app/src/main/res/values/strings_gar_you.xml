@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR: the "You" setting, who the user is (GarYou): the contact "text myself" and "call me"
+     use, and the first name in the contact names hint. -->
+<resources>
+    <string name="gar_you">You</string>
+    <!-- the summary: who GAR thinks you are, and where that came from -->
+    <string name="gar_you_contact">%1$s, %2$s</string>
+    <string name="gar_you_contact_no_number">%1$s, no number</string>
+    <!-- a contact saved as "Me", and the typed first name -->
+    <string name="gar_you_contact_first_name">%1$s (%2$s)</string>
+    <string name="gar_you_contact_not_found">%1$s (not in Contacts any more)</string>
+    <string name="gar_you_contact_no_access">%1$s (allow contacts access)</string>
+    <string name="gar_you_texts_to_profile">%1$s. Texts go to your card in Contacts</string>
+    <string name="gar_you_profile">%1$s (your card in Contacts)</string>
+    <string name="gar_you_name_only">%1$s (name only)</string>
+    <string name="gar_you_not_set">Not set</string>
+    <!-- the dialog -->
+    <string name="gar_you_dialog_text">Pick your contact. \'Text myself\' and \'call me\' use it, and your first name helps GAR hear it.</string>
+    <string name="gar_you_search">Search contacts</string>
+    <string name="gar_you_no_number">No number or email</string>
+    <string name="gar_you_no_contacts">No contacts found</string>
+    <string name="gar_you_name_only_button">Use just a name</string>
+    <!-- after picking a contact like "Me", which gives no first name -->
+    <string name="gar_you_first_name">What\'s your first name?</string>
+    <string name="gar_you_pick_contact">Pick a contact</string>
+    <string name="gar_you_from_profile">From your card in Contacts. Pick a contact or a name to change it.</string>
+    <string name="gar_you_no_access">GAR can\'t read your contacts. Allow it to pick yours, or type just a name.</string>
+    <string name="gar_you_grant">Allow contacts access</string>
+    <string name="gar_you_clear">Clear</string>
+</resources>

@@ -1,0 +1,28 @@
+level:
+  # GAR: BatterySkill only takes inputs that name the battery or charging (BatteryWords)
+  - what|(what s|is)|whats my|the|(my phone s)|(the phone s) battery (level|percentage|percent|life|status|at)?
+  # how Vosk hears "what's my battery"; the navigation skill leaves these to the battery
+  - where|(where s|is)|wheres my|the|(my phone s)|(the phone s) battery (level|percentage|percent|life|status|at)?
+  - (what|(what s|is)|whats)? the? battery (level|percentage|percent|status|life)
+  - how much battery|charge|power (do i have|(have i got)|(is left)|(does my|the phone have)|left)? (left)?
+  - how|(how s|is)|hows my|the battery (doing|looking)?
+  - (check|show|tell me) my|the battery (level)?
+  - how full is my|the battery
+  - what percent|percentage is my|the phone|battery (at|on)?
+  # "is it charged" is answered with the level ("full", or how much), not the charging state
+  - is my|the phone|battery (fully)? charged|full|low|dying|(running low)
+  - is it (fully)? charged
+  - battery (level|percentage|status)?
+  - how long will|does my|the battery last
+charging:
+  - is my|the phone|battery charging|(plugged in)
+  - is it charging|(plugged in)
+  - am i charging|(plugged in)
+  - is the? charger (connected|working|(plugged in))?
+charge_time:
+  - how long (until|till|before) my|the phone|battery (is|s)? (fully)? charged|full
+  - how long (until|till|before) (it s|its|(it is)) (fully)? charged|full
+  - how long (until|till) (it s|its|(it is)) done charging
+  - how long (will it|(does it)) take to (fully)? charge (my|the phone|battery)?
+  - when will my|the phone|battery be (fully)? charged|full|(done charging)
+  - how much (longer|time) until my|the phone|battery (is|s)? (fully)? charged|full

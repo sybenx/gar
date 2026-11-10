@@ -1,4 +1,7 @@
 query:
   - naviga|vai|porta<m|c>i|guida<m|c>i a<l|ll|llo|lla|i|gli|lle?>|verso|in|ne<l|ll|llo|lla|i|gli|lle>? l? .where.
   - dammi indicazioni per|verso l? .where.
+
+# GAR (gar:places): "where is .where." on its own, see en
+where_is:
   - dov<e?> e? .where.

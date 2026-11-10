@@ -1,0 +1,36 @@
+{
+    "messages": [
+        {
+            "role": "developer",
+            "content": "You are a model that can do function calling with the following functions"
+        },
+        {
+            "role": "user",
+            "content": "hello there"
+        }
+    ],
+    "tools": [
+        {
+            "type": "function",
+            "function": {
+                "name": "current_time",
+                "description": "Tell the current time.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {}
+                }
+            }
+        },
+        {
+            "type": "function",
+            "function": {
+                "name": "no_match",
+                "description": "Call this when no other function matches the request.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {}
+                }
+            }
+        }
+    ]
+}

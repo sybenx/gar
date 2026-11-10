@@ -1,0 +1,23 @@
+# GAR (gar:screen): the camera app in photo, selfie or video mode. CameraSkill only takes inputs
+# that name a photo, a selfie, a video or the camera and not the screen ("take a picture of my
+# screen" is a screenshot). The delay is a string, read by GAR's duration resolver
+photo:
+  - take|snap|shoot|capture|grab a|an|the? (picture|photo|photograph|pic|snapshot) (in|after .delay.)?
+  - take|snap|shoot|capture|grab a|an|the? (picture|photo|photograph|pic|snapshot) with a .delay. timer
+  - open the? camera (app)? (and)? (to)? take a|an? (picture|photo|pic)
+  - (open|start) the? (photo|picture) camera
+
+selfie:
+  - take|snap|shoot|grab a|an? selfie (in|after .delay.)?
+  - take|snap|shoot|grab a|an? selfie with a .delay. timer
+  - take|snap|shoot a|an? (picture|photo|pic) of (me|myself|us) (in|after .delay.)?
+  - take|snap|shoot a|an? (picture|photo|pic) with the front (facing)? camera (in|after .delay.)?
+  - open|start the? front (facing)? camera
+  - open|start the? selfie camera
+
+video:
+  - (record|take|shoot|capture|film|make|start) a|an? video
+  - start recording|filming a video
+  - record|film (a)? video (of)? (me|myself|this|that|us)?
+  - open|start the? video camera
+  - open the? camera (app)? (and)? (to)? record a? video

@@ -1,0 +1,31 @@
+start:
+  - start|begin (a|the|my)? new? stopwatch|(stop watch)
+  - stopwatch|(stop watch) start|go
+  - turn|switch on the? stopwatch|(stop watch)
+
+stop:
+  - stop|pause|halt|freeze|end the? stopwatch|(stop watch)
+  - stop|pause|halt|freeze|end my stopwatch|(stop watch)
+  - turn|switch off the? stopwatch|(stop watch)
+  - stopwatch|(stop watch) stop|pause
+
+resume:
+  - resume|continue|unpause the? stopwatch|(stop watch)
+  - resume|continue|unpause my stopwatch|(stop watch)
+  - keep the? stopwatch|(stop watch) going|running
+
+reset:
+  - reset|clear|cancel the? stopwatch|(stop watch)
+  - reset|clear|cancel my stopwatch|(stop watch)
+  - set the? stopwatch|(stop watch) (back to)|to zero
+
+lap:
+  - (mark|add|record|take|start) (a|another)? new? lap (on the? stopwatch|(stop watch))?
+  - new lap (on the? stopwatch|(stop watch))?
+  - stopwatch|(stop watch) lap
+
+elapsed:
+  - how long has the? stopwatch|(stop watch) been running|going|on
+  - what|(what s)|whats|(what is) the? time on the? stopwatch|(stop watch)
+  - check|read the? stopwatch|(stop watch)
+  - how much time is on the? stopwatch|(stop watch)

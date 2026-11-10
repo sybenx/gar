@@ -96,7 +96,7 @@ internal class VoskListener(
         if (inputs.isEmpty()) {
             eventListener(InputEvent.None)
         } else {
-            eventListener(InputEvent.Final(inputs))
+            eventListener(InputEvent.Final(inputs, spoken = true)) // GAR: spoken
         }
     }
 

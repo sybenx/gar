@@ -1,0 +1,10 @@
+# GAR (gar:places): a map link to where the phone is, texted through the sms skill's card, which
+# reads it back and only sends on a yes. ShareLocationSkill only takes inputs that name the
+# location (ShareLocationWords)
+share:
+  - share|send my (current|live|exact)? location|position|whereabouts (with|to) .who.
+  - share|send .who. my (current|live|exact)? location|position|whereabouts
+  - text|message .who. my (current|live|exact)? location|position|whereabouts
+  - let .who. know where i am (right? now)?
+  - tell|text|send .who. where i am (right? now)?
+  - share|send my (current|live|exact)? location|position|whereabouts

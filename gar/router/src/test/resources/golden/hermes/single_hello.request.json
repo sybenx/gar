@@ -1,0 +1,35 @@
+{
+    "messages": [
+        {
+            "role": "user",
+            "content": "hello there"
+        }
+    ],
+    "tools": [
+        {
+            "type": "function",
+            "function": {
+                "name": "current_time",
+                "description": "Tell the current time.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {}
+                }
+            }
+        },
+        {
+            "type": "function",
+            "function": {
+                "name": "no_match",
+                "description": "Call this for general questions, chit-chat and anything that no other function does.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {}
+                }
+            }
+        }
+    ],
+    "chat_template_kwargs": {
+        "enable_thinking": false
+    }
+}

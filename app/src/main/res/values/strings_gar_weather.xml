@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR weather group: forecasts from Breezy Weather's shared data (offline) or Open-Meteo (online,
+     behind the online skills' question). English, like GAR's other answers. -->
+<resources>
+    <string name="gar_weather_perm_location">read your approximate location</string>
+
+    <!-- Where: "in Logan", or the phone's location, which has no name -->
+    <string name="gar_weather_in_place">in %1$s</string>
+    <string name="gar_weather_near_you">near you</string>
+    <!-- "54 and sunny" -->
+    <string name="gar_weather_temp_and_sky">%1$s and %2$s</string>
+
+    <!-- Spoken answers. %1$s is where ("in Logan"), temperatures are numbers in the user's unit -->
+    <string name="gar_weather_now">Right now %1$s: %2$s.</string>
+    <string name="gar_weather_now_high">Right now %1$s: %2$s, high of %3$s.</string>
+    <!-- %1$s is the day ("Tomorrow", "Friday"), %2$s where, %3$s the high and the sky, %4$s the low -->
+    <string name="gar_weather_day">%1$s %2$s: %3$s, low of %4$s.</string>
+    <string name="gar_weather_day_no_low">%1$s %2$s: %3$s.</string>
+    <!-- %1$s is the night ("Tonight"), %2$s where, %3$s the sky, %4$s the low -->
+    <string name="gar_weather_night">%1$s %2$s: %3$s, low of %4$s.</string>
+    <string name="gar_weather_night_no_sky">%1$s %2$s: low of %3$s.</string>
+    <!-- "This weekend in Logan: Saturday 54 and sunny, Sunday 48 and rainy." -->
+    <string name="gar_weather_days">%1$s %2$s: %3$s.</string>
+    <string name="gar_weather_days_item">%1$s %2$s</string>
+    <!-- "This week in Logan: highs from 45 to 60." -->
+    <string name="gar_weather_week">%1$s %2$s: highs from %3$s to %4$s.</string>
+    <!-- %5$s is when: "on Wednesday and Friday" -->
+    <string name="gar_weather_week_wet">%1$s %2$s: highs from %3$s to %4$s, rain or snow likely %5$s.</string>
+    <string name="gar_weather_and">%1$s and %2$s</string>
+    <string name="gar_weather_temperature">It\'s %1$s degrees %2$s right now.</string>
+    <!-- "The high in Logan today is 60." %2$s is the day inline ("today", "on Friday") -->
+    <string name="gar_weather_high">The high %1$s %2$s is %3$s.</string>
+    <string name="gar_weather_low">The low %1$s %2$s is %3$s.</string>
+    <!-- %1$s is rain or snow, %2$s where, %3$s the day inline, %4$d a chance in percent -->
+    <string name="gar_weather_yes_chance">Yes, %1$s is likely %2$s %3$s: %4$d percent chance.</string>
+    <string name="gar_weather_yes">Yes, %1$s is likely %2$s %3$s.</string>
+    <string name="gar_weather_maybe">Maybe: %4$d percent chance of %1$s %2$s %3$s.</string>
+    <string name="gar_weather_no">No %1$s expected %2$s %3$s.</string>
+    <!-- %1$s where, %2$s the day inline, %3$d a chance in percent -->
+    <string name="gar_weather_umbrella_yes_chance">Yes, take an umbrella: %3$d percent chance of rain %1$s %2$s.</string>
+    <string name="gar_weather_umbrella_yes">Yes, take an umbrella: rain is likely %1$s %2$s.</string>
+    <string name="gar_weather_umbrella_maybe">Maybe: %3$d percent chance of rain %1$s %2$s.</string>
+    <string name="gar_weather_umbrella_no">You shouldn\'t need one: no rain expected %1$s %2$s.</string>
+    <!-- "Wind in Logan: 12 miles per hour right now." -->
+    <string name="gar_weather_wind">Wind %1$s: %2$s right now.</string>
+    <string name="gar_weather_speed_mph">%1$d miles per hour</string>
+    <string name="gar_weather_speed_kmh">%1$d kilometers per hour</string>
+    <string name="gar_weather_card_speed_mph">%1$d mph</string>
+    <string name="gar_weather_card_speed_kmh">%1$d km/h</string>
+    <!-- Rain and snow now, and when they stop or start. %1$s is where, %2$s a time ("3 PM") -->
+    <string name="gar_weather_raining">Yes, it\'s raining %1$s right now.</string>
+    <string name="gar_weather_not_raining">No, it isn\'t raining %1$s right now.</string>
+    <string name="gar_weather_snowing">Yes, it\'s snowing %1$s right now.</string>
+    <string name="gar_weather_not_snowing">No, it isn\'t snowing %1$s right now.</string>
+    <string name="gar_weather_stops_dry_rain">It isn\'t raining %1$s right now.</string>
+    <string name="gar_weather_stops_dry_snow">It isn\'t snowing %1$s right now.</string>
+    <string name="gar_weather_stops_at_rain">The rain should stop around %2$s %1$s.</string>
+    <string name="gar_weather_stops_at_snow">The snow should stop around %2$s %1$s.</string>
+    <string name="gar_weather_stops_later_rain">The rain looks set to keep going %1$s for the next day.</string>
+    <string name="gar_weather_stops_later_snow">The snow looks set to keep going %1$s for the next day.</string>
+    <string name="gar_weather_starts_at_rain">Rain is likely %1$s around %2$s.</string>
+    <string name="gar_weather_starts_at_snow">Snow is likely %1$s around %2$s.</string>
+    <string name="gar_weather_starts_none_rain">No rain expected %1$s in the next day.</string>
+    <string name="gar_weather_starts_none_snow">No snow expected %1$s in the next day.</string>
+    <!-- "3 PM tomorrow" -->
+    <string name="gar_weather_time_tomorrow">%1$s tomorrow</string>
+    <string name="gar_weather_noun_rain">rain</string>
+    <string name="gar_weather_noun_snow">snow</string>
+    <string name="gar_weather_no_forecast">I only have the forecast for the next %1$d days.</string>
+    <string name="gar_weather_not_found">I couldn\'t find %1$s.</string>
+    <string name="gar_weather_no_connection">I couldn\'t reach Open-Meteo. Check your internet connection.</string>
+
+    <!-- Days: at the start of an answer, and inline -->
+    <string name="gar_weather_label_now">Right now</string>
+    <string name="gar_weather_label_today">Today</string>
+    <string name="gar_weather_label_tonight">Tonight</string>
+    <string name="gar_weather_label_tomorrow">Tomorrow</string>
+    <string name="gar_weather_label_tomorrow_night">Tomorrow night</string>
+    <string name="gar_weather_label_night">%1$s night</string>
+    <string name="gar_weather_label_weekend">This weekend</string>
+    <string name="gar_weather_label_week">This week</string>
+    <string name="gar_weather_label_next_week">Next week</string>
+    <string name="gar_weather_inline_today">today</string>
+    <string name="gar_weather_inline_tonight">tonight</string>
+    <string name="gar_weather_inline_tomorrow">tomorrow</string>
+    <string name="gar_weather_inline_tomorrow_night">tomorrow night</string>
+    <string name="gar_weather_inline_on">on %1$s</string>
+    <string name="gar_weather_inline_night">on %1$s night</string>
+    <string name="gar_weather_inline_weekend">this weekend</string>
+    <string name="gar_weather_inline_week">this week</string>
+    <string name="gar_weather_inline_next_week">next week</string>
+
+    <!-- The sky, as in "54 and sunny" -->
+    <string name="gar_weather_sky_sunny">sunny</string>
+    <string name="gar_weather_sky_clear">clear</string>
+    <string name="gar_weather_sky_mostly_sunny">mostly sunny</string>
+    <string name="gar_weather_sky_mostly_clear">mostly clear</string>
+    <string name="gar_weather_sky_partly_cloudy">partly cloudy</string>
+    <string name="gar_weather_sky_cloudy">cloudy</string>
+    <string name="gar_weather_sky_foggy">foggy</string>
+    <string name="gar_weather_sky_drizzly">drizzly</string>
+    <string name="gar_weather_sky_rainy">rainy</string>
+    <string name="gar_weather_sky_icy">icy</string>
+    <string name="gar_weather_sky_showery">showery</string>
+    <string name="gar_weather_sky_snowy">snowy</string>
+    <string name="gar_weather_sky_sleety">sleety</string>
+    <string name="gar_weather_sky_stormy">stormy</string>
+    <string name="gar_weather_sky_windy">windy</string>
+
+    <!-- "Which city are you in?": asked once, when GAR doesn't know where the user is -->
+    <string name="gar_weather_ask_place">Which city are you in? You can also say: use my location.</string>
+    <string name="gar_weather_ask_place_no_permission">I can\'t read your location. Which city are you in? Or say: use my location.</string>
+    <string name="gar_weather_ask_place_no_location">I couldn\'t get your location. Is location on? Which city are you in?</string>
+    <string name="gar_weather_ask_place_not_found">I couldn\'t find that city. Which city are you in?</string>
+    <string name="gar_weather_ask_place_detail">GAR remembers your city as the weather\'s default city (Settings, Skills, Weather). With your location, GAR reads it only for a forecast and sends it rounded to about 1 km.</string>
+    <string name="gar_weather_use_location">Use my location</string>
+
+    <!-- The card -->
+    <string name="gar_weather_card_open_meteo">Weather data by Open-Meteo.com</string>
+    <string name="gar_weather_card_breezy">From Breezy Weather, updated %1$s</string>
+    <!-- "Fri  60° / 31°  Sunny  20%" -->
+    <string name="gar_weather_card_day">%1$s   %2$s / %3$s   %4$s</string>
+    <string name="gar_weather_card_hour">%1$s   %2$s   %3$s</string>
+    <string name="gar_weather_card_chance">%1$s   %2$d%%</string>
+    <string name="gar_weather_card_degrees">%1$d°</string>
+
+    <!-- The weather skill's settings -->
+    <string name="gar_weather_default_city_empty">The city GAR uses when you don\'t name one. When it\'s empty, GAR asks the first time.</string>
+    <string name="gar_weather_breezy_title">Breezy Weather</string>
+    <string name="gar_weather_breezy_summary">With Breezy Weather on the phone, GAR answers from its forecasts offline. In Breezy Weather, open Settings, Widgets &amp; Live Wallpaper, Data sharing, Send Gadgetbridge data, and pick GAR.</string>
+</resources>

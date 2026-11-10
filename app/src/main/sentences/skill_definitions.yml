@@ -36,6 +36,11 @@ skills:
         captures:
           - id: where
             type: string
+      # GAR (gar:places): "where is mom" shows no route to mom's (NavigationPlaces)
+      - id: where_is
+        captures:
+          - id: where
+            type: string
 
   - id: media
     specificity: high
@@ -133,4 +138,600 @@ skills:
           - id: source
             type: string
           - id: target
+            type: string
+
+  # GAR skills (Step 3): each group replaces only its own marker line
+  # gar:alarm
+  # times are strings resolved by GAR's SlotResolvers in the skill (dicio-numbers misreads them)
+  - id: alarm
+    specificity: high
+    sentences:
+      - id: set
+        captures:
+          - id: time
+            type: string
+          - id: label
+            type: string
+      - id: show
+      - id: query
+      - id: cancel
+        captures:
+          - id: time
+            type: string
+      - id: cancel_all
+      # the clock app's ringing alarm (AlarmSkill.score), and moving an alarm (gar/PARITY.md)
+      - id: stop
+      - id: snooze
+        captures:
+          - id: duration
+            type: string
+      - id: change
+        captures:
+          - id: from
+            type: string
+          - id: to
+            type: string
+
+  - id: calendar
+    specificity: high
+    sentences:
+      # GAR: all captures are strings (typed captures misparse spoken times), resolved by the skill
+      - id: create
+        captures:
+          - id: title
+            type: string
+          - id: begin
+            type: string
+          - id: end
+            type: string
+          - id: duration
+            type: string
+      - id: query
+        captures:
+          - id: when
+            type: string
+      - id: reminder
+        captures:
+          - id: what
+            type: string
+          - id: when
+            type: string
+
+  # gar:sms
+  # based on DicioTeam/dicio-android#375 by tylxr59
+  - id: sms
+    specificity: low
+    sentences:
+      - id: send
+        captures:
+          - id: who
+            type: string
+          - id: what
+            type: string
+
+  # gar:device
+  - id: volume
+    specificity: high
+    sentences:
+      # the first four as in DicioTeam/dicio-android#384; numbers are string captures, which
+      # VolumeSkill resolves with GAR's resolvers. The stream ("ring volume") is not a capture:
+      # a free capture there let the sentences match "turn up the brightness".
+      - id: volume_up
+      - id: volume_down
+      - id: volume_up_times
+        captures:
+          - id: times
+            type: string
+      - id: volume_down_times
+        captures:
+          - id: times
+            type: string
+      - id: volume_set
+        captures:
+          - id: level
+            type: string
+      - id: mute
+      - id: unmute
+      - id: max
+
+  - id: do_not_disturb
+    specificity: high
+    sentences:
+      - id: turn_on
+      - id: turn_off
+      - id: query
+
+  - id: connectivity
+    specificity: high
+    sentences:
+      - id: wifi_on
+      - id: wifi_off
+      - id: wifi_settings
+      - id: bluetooth_on
+      - id: bluetooth_off
+      - id: bluetooth_settings
+
+  # gar:settings
+  # English only: brightness, ringer, screen timeout, settings that only Android switches (their
+  # pages), status questions and "open <page> settings". The model reaches the skill through the
+  # LLM-only device_setting tool; levels are string captures, resolved by GAR in the skill
+  - id: device_settings
+    specificity: high
+    sentences:
+      - id: turn_on
+      - id: turn_off
+      - id: status
+      - id: open_page
+        captures:
+          - id: page
+            type: string
+      - id: brightness_up
+      - id: brightness_down
+      - id: brightness_set
+        captures:
+          - id: level
+            type: string
+      - id: brightness_max
+      - id: brightness_min
+      - id: ringer_silent
+      - id: ringer_vibrate
+      - id: ringer_normal
+      - id: timeout_set
+        captures:
+          - id: duration
+            type: string
+
+  # gar:clock
+  # English only: they keep "stop the stopwatch" away from the timer's cancel sentence; other
+  # languages reach the stopwatch through GAR's (LLM-only) stopwatch tool
+  - id: stopwatch
+    specificity: high
+    sentences:
+      - id: start
+      - id: stop
+      - id: resume
+      - id: reset
+      - id: lap
+      - id: elapsed
+
+  - id: date
+    specificity: high
+    sentences:
+      - id: query
+        captures:
+          # a string, resolved by GAR's date resolver in the skill
+          - id: day
+            type: string
+
+  # gar:song
+  - id: song
+    specificity: high
+    sentences:
+      - id: identify
+
+  # gar:online
+  # English only: turns all of Dicio's online skills on or off at once
+  - id: online_skills
+    specificity: high
+    sentences:
+      - id: turn_on
+      - id: turn_off
+
+  # gar:conversation
+  # English only, no tool: "stop", "never mind", "repeat that"
+  - id: conversation
+    specificity: high
+    sentences:
+      - id: stop
+      - id: repeat
+
+  # gar:answers
+  # English only, no tools: everyday offline answers (gar/PARITY.md, batch 2). Each skill keeps a
+  # match only when its captures make sense (a known place, units, dice, a word, a holiday)
+  - id: battery
+    specificity: high
+    sentences:
+      - id: level
+      - id: charging
+      - id: charge_time
+
+  - id: world_time
+    specificity: high
+    sentences:
+      - id: time_in
+        captures:
+          - id: place
+            type: string
+      - id: difference
+        captures:
+          - id: place
+            type: string
+
+  - id: units
+    specificity: high
+    sentences:
+      - id: convert
+        captures:
+          - id: amount
+            type: string
+          - id: target
+            type: string
+      - id: how_many
+        captures:
+          - id: amount
+            type: string
+          - id: target
+            type: string
+
+  - id: random
+    specificity: high
+    sentences:
+      - id: coin
+      - id: dice
+        captures:
+          - id: dice
+            type: string
+      - id: number
+        captures:
+          - id: low
+            type: string
+          - id: high
+            type: string
+
+  - id: spelling
+    specificity: high
+    sentences:
+      - id: spell
+        captures:
+          - id: word
+            type: string
+
+  - id: holiday
+    specificity: high
+    sentences:
+      - id: until
+        captures:
+          - id: day
+            type: string
+      - id: when
+        captures:
+          - id: day
+            type: string
+      - id: date_of
+        captures:
+          - id: day
+            type: string
+
+  - id: small_talk
+    specificity: high
+    sentences:
+      - id: hello
+      - id: goodbye
+      - id: thanks
+      - id: who
+      - id: how
+      - id: help
+
+  # gar:timer
+  # English only: GAR's controls of the clock app's timers that Dicio's timer sentences set; "stop"
+  # for a ringing timer has no sentences (TimerWords.whileRinging)
+  - id: timer_control
+    specificity: high
+    sentences:
+      - id: pause
+        captures:
+          - id: name
+            type: string
+      - id: resume
+        captures:
+          - id: name
+            type: string
+      - id: add
+        captures:
+          - id: duration
+            type: duration
+          - id: name
+            type: string
+      - id: subtract
+        captures:
+          - id: duration
+            type: duration
+          - id: name
+            type: string
+      - id: show
+      - id: cancel
+        captures:
+          - id: name
+            type: string
+      - id: cancel_all
+
+  # gar:messages
+  # English only, no tools: messages among the notifications (read them, reply through the
+  # notification's reply button) and emails opened in the mail app. The model's read_notifications
+  # and sms_send calls reach them through Kotlin (MessagesCalls)
+  - id: messages
+    specificity: high
+    sentences:
+      - id: read
+        captures:
+          - id: source
+            type: string
+      - id: who
+      - id: reply
+        captures:
+          - id: who
+            type: string
+          - id: what
+            type: string
+
+  - id: email
+    specificity: high
+    sentences:
+      - id: send
+        captures:
+          - id: who
+            type: string
+          - id: subject
+            type: string
+          - id: what
+            type: string
+
+  # gar:calls
+  # English only, no tools: the call log ("who called me", "did mom call", "redial", "call mom
+  # back") and the calls' controls ("answer", "hang up"). The model's call_contact calls reach
+  # call backs through the telephone skill (CallBack)
+  - id: call_log
+    specificity: high
+    sentences:
+      - id: last_caller
+      - id: missed
+      - id: from
+        captures:
+          - id: who
+            type: string
+      - id: call
+        captures:
+          - id: who
+            type: string
+
+  - id: call_control
+    specificity: high
+    sentences:
+      - id: answer
+      - id: decline
+      - id: hang_up
+      - id: speaker_on
+      - id: speaker_off
+
+  # gar:media
+  # English only: play by name (the model's media_play tool is LLM-only, MediaPlaySkill builds the
+  # same request from its slots) and more media controls with the media sleep timer (no tool).
+  # Captures are strings, read by MediaPlayWords and MediaControlWords
+  - id: media_play
+    specificity: high
+    sentences:
+      - id: play
+        captures:
+          - id: query
+            type: string
+          - id: app
+            type: string
+
+  - id: media_controls
+    specificity: high
+    sentences:
+      - id: resume
+      - id: pause
+      - id: next
+      - id: previous
+      - id: shuffle_on
+      - id: shuffle_off
+      - id: repeat_one
+      - id: repeat_all
+      - id: repeat_off
+      - id: seek_forward
+        captures:
+          - id: amount
+            type: string
+      - id: seek_back
+        captures:
+          - id: amount
+            type: string
+      - id: restart
+      - id: like
+      - id: dislike
+      - id: sleep_set
+        captures:
+          - id: amount
+            type: string
+      - id: sleep_cancel
+      - id: sleep_query
+
+  # gar:places
+  # English only, no tools: where am I, nearby searches, home and work, sharing the location and
+  # websites. The model's navigate and open_app calls reach home, work, "near me" and web
+  # addresses through Kotlin (NavigationPlaces, WebAddress). Captures are strings
+  - id: places
+    specificity: high
+    sentences:
+      - id: where_am_i
+      - id: set
+        captures:
+          - id: kind
+            type: string
+          - id: address
+            type: string
+      - id: set_here
+        captures:
+          - id: kind
+            type: string
+      - id: forget
+        captures:
+          - id: kind
+            type: string
+      - id: show
+        captures:
+          - id: kind
+            type: string
+      - id: show_home
+      - id: show_work
+      - id: nearby
+        captures:
+          - id: what
+            type: string
+
+  - id: share_location
+    specificity: high
+    sentences:
+      - id: share
+        captures:
+          - id: who
+            type: string
+
+  - id: website
+    specificity: high
+    sentences:
+      - id: open
+        captures:
+          - id: site
+            type: string
+
+  # gar:screen
+  # English only, no tools: the camera's modes, a screenshot through GAR's optional accessibility
+  # service and clearing the notifications
+  - id: camera
+    specificity: high
+    sentences:
+      - id: photo
+        captures:
+          - id: delay
+            type: string
+      - id: selfie
+        captures:
+          - id: delay
+            type: string
+      - id: video
+
+  - id: screenshot
+    specificity: high
+    sentences:
+      - id: take
+
+  - id: clear_notifications
+    specificity: high
+    sentences:
+      - id: clear
+
+  # gar:notes
+  # English only, no tools: GAR's own lists, notes and remembered facts (GarNotes), the next event,
+  # moving and deleting events, GAR's reminders, and contacts' details and new contacts. Captures
+  # are strings, read again whole by each skill's Words object (ListWords, NoteWords, FactWords,
+  # AgendaWords, ReminderWords, ContactInfoWords)
+  - id: lists
+    specificity: high
+    sentences:
+      - id: add
+        captures:
+          - id: items
+            type: string
+          - id: list
+            type: string
+      - id: remove
+        captures:
+          - id: item
+            type: string
+          - id: list
+            type: string
+      - id: read
+        captures:
+          - id: list
+            type: string
+      - id: has
+        captures:
+          - id: item
+            type: string
+          - id: list
+            type: string
+      - id: clear
+        captures:
+          - id: list
+            type: string
+      - id: all_lists
+      - id: create
+        captures:
+          - id: list
+            type: string
+
+  - id: notes
+    specificity: high
+    sentences:
+      - id: take
+        captures:
+          - id: text
+            type: string
+      - id: read
+      - id: delete
+
+  - id: facts
+    specificity: high
+    sentences:
+      - id: remember
+        captures:
+          - id: fact
+            type: string
+      - id: recall
+        captures:
+          - id: what
+            type: string
+      - id: forget
+        captures:
+          - id: what
+            type: string
+
+  - id: agenda
+    specificity: high
+    sentences:
+      - id: next
+        captures:
+          - id: about
+            type: string
+      - id: move
+        captures:
+          - id: ref
+            type: string
+          - id: from
+            type: string
+          - id: when
+            type: string
+      - id: cancel
+        captures:
+          - id: ref
+            type: string
+          - id: when
+            type: string
+
+  - id: reminders
+    specificity: high
+    sentences:
+      - id: show
+      - id: cancel
+        captures:
+          - id: about
+            type: string
+          - id: what
+            type: string
+      - id: cancel_all
+
+  - id: contact_info
+    specificity: high
+    sentences:
+      - id: info
+        captures:
+          - id: who
+            type: string
+      - id: add
+        captures:
+          - id: name
+            type: string
+          - id: number
             type: string

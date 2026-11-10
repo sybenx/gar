@@ -1,0 +1,9 @@
+convert:
+  # GAR: only a number and a unit converted to a unit of the same kind match (UnitsSkill)
+  - convert .amount. in|into|to .target.
+  - what|(what s|is)|whats .amount. in|into|to .target.
+  - how much is .amount. in|into|to .target.
+  - .amount. in|into|to .target.
+how_many:
+  - how many|much .target. (are|is)? (there)? in .amount.
+  - how many|much .target. (is|are|make|makes|equals) .amount.

@@ -1,0 +1,15 @@
+{
+ "prefix_tokens": 1082,
+ "first_tokens": [
+  2,
+  105,
+  55060
+ ],
+ "suffix_format": "<start_of_turn>user\n%s<end_of_turn>\n<start_of_turn>model\n",
+ "outputs": {
+  "wake me at seven fifteen": "<start_function_call>call:set_alarm{time:<escape>17<escape>}<end_function_call>",
+  "set a timer for ten minutes": "<start_function_call>call:set_timer{duration:<escape>10<escape>}<end_function_call>",
+  "turn on the flashlight": "<start_function_call>call:media_control{action:<escape>play<escape>}<end_function_call>",
+  "pause the music": "<start_function_call>call:toggle_flashlight{state:<escape>on<escape>}<end_function_call>"
+ }
+}

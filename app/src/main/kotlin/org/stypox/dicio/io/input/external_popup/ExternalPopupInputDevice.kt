@@ -17,6 +17,7 @@ import kotlinx.coroutines.launch
 import org.stypox.dicio.R
 import org.stypox.dicio.di.ActivityForResultManager
 import org.stypox.dicio.di.LocaleManager
+import org.stypox.dicio.gar.stt.garExternalFinal // GAR
 import org.stypox.dicio.io.input.InputEvent
 import org.stypox.dicio.io.input.SttInputDevice
 import org.stypox.dicio.io.input.SttState
@@ -158,11 +159,12 @@ class ExternalPopupInputDevice(
                 ExternalPopupState.Available
             )
 
-            if (results.size == confidences?.size) {
-                eventListener.listener(InputEvent.Final(results.zip(confidences.map { it })))
-            } else {
-                eventListener.listener(InputEvent.Final(results.map { Pair(it, 1.0f) }))
-            }
+            // GAR: in English, results go through SpokenForm like Whisper's (garExternalFinal)
+            eventListener.listener(garExternalFinal(
+                results,
+                if (results.size == confidences?.size) confidences.toList() else results.map { 1.0f },
+                locale,
+            ))
 
         } else if (result.resultCode == RESULT_CANCELED) {
             _state.compareAndSet(

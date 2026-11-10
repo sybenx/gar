@@ -1,0 +1,7 @@
+# GAR (gar:screen): what the shade's Clear all removes, through Dicio's notification listener.
+# ClearNotificationsSkill only takes inputs with a clear verb and "notifications" (ClearWords)
+clear:
+  - clear|dismiss|delete|remove|erase|close (all)? (of)? (my|the)? notification<s?>
+  - swipe away (all)? (of)? (my|the)? notification<s?>
+  - get rid of (all)? (of)? (my|the)? notification<s?>
+  - clear (out)? (my|the)? notification shade|tray|center|panel

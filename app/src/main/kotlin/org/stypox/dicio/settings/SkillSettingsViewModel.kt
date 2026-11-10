@@ -39,6 +39,8 @@ class SkillSettingsViewModel @Inject constructor(
                     .putEnabledSkills(id, state)
                     .build()
             }
+            // GAR: switching an online skill is the user's choice, so GAR won't ask about it
+            org.stypox.dicio.gar.online.GarOnlineSettings.chosenInSkillSettings(getApplication(), id)
         }
     }
 }

@@ -22,6 +22,8 @@ import kotlinx.coroutines.runBlocking
 import org.stypox.dicio.di.ActivityForResultManager
 import org.stypox.dicio.di.LocaleManager
 import org.stypox.dicio.di.LocaleManagerModule
+import org.stypox.dicio.gar.GarKeepScreenOn // GAR
+import org.stypox.dicio.gar.perf.garTrace // GAR
 import org.stypox.dicio.settings.datastore.UserSettings
 import org.stypox.dicio.ui.theme.AppTheme
 import java.util.Locale
@@ -63,8 +65,10 @@ abstract class BaseActivity : ComponentActivity() {
         // can't use @Inject because Hilt initializes only when super.onCreate() is called
         val localeManager =
             EntryPointAccessors.fromApplication(this, LocaleManagerModule::class.java)
-        val (firstLocale, nextLocaleFlow) = localeManager.getLocaleManager().locale
-            .distinctUntilChangedBlockingFirst()
+        val (firstLocale, nextLocaleFlow) = garTrace("Gar:BaseActivity.locale") { // GAR
+            localeManager.getLocaleManager().locale
+                .distinctUntilChangedBlockingFirst()
+        }
         setLocale(firstLocale)
         lifecycleScope.launch {
             nextLocaleFlow.collect {
@@ -72,10 +76,15 @@ abstract class BaseActivity : ComponentActivity() {
             }
         }
 
-        super.onCreate(savedInstanceState)
+        garTrace("Gar:BaseActivity.super.onCreate") { // GAR: Hilt injects here
+            super.onCreate(savedInstanceState)
+        }
 
         // this will only hold a weak reference, so no need to remove it afterwards
         launcher = activityForResultManager.addLauncher(this)
+
+        // GAR: the screen stays on while this screen is in the foreground, see GarKeepScreenOn
+        GarKeepScreenOn.follow(this)
     }
 
     /**
@@ -95,9 +104,11 @@ abstract class BaseActivity : ComponentActivity() {
             }
                 .collectAsState(
                     // run blocking, because we can't start the app if we don't know the theme
-                    initial = runBlocking {
-                        val data = dataStore.data.first()
-                        Pair(data.theme, data.dynamicColors)
+                    initial = garTrace("Gar:BaseActivity.theme") { // GAR
+                        runBlocking {
+                            val data = dataStore.data.first()
+                            Pair(data.theme, data.dynamicColors)
+                        }
                     }
                 )
 

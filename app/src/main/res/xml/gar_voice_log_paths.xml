@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR: the zipped copy of the voice log that "Share voice log" hands to the app the user picks
+     (GarVoiceLog.share); nothing else in GAR's files is shared. -->
+<paths>
+    <cache-path name="voice_log" path="gar-voice-log-share/" />
+</paths>

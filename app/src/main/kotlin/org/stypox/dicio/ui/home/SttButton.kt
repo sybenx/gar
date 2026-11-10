@@ -17,15 +17,18 @@ import androidx.compose.material.icons.filled.MicNone
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor // GAR
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State // GAR
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector // GAR
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -36,6 +39,11 @@ import androidx.compose.ui.unit.sp
 import dev.shreyaspatil.permissionflow.compose.rememberPermissionFlowRequestLauncher
 import dev.shreyaspatil.permissionflow.compose.rememberPermissionState
 import org.stypox.dicio.R
+import org.stypox.dicio.gar.stt.garBriefListeningLabel // GAR
+import org.stypox.dicio.gar.stt.garLevelRing // GAR
+import org.stypox.dicio.gar.stt.garSttDownloadLabel // GAR
+import org.stypox.dicio.gar.stt.rememberGarVoiceActivity // GAR
+import org.stypox.dicio.io.input.VoiceActivity // GAR
 import org.stypox.dicio.io.input.SttState
 import org.stypox.dicio.io.input.SttState.Downloaded
 import org.stypox.dicio.io.input.SttState.Downloading
@@ -50,6 +58,7 @@ import org.stypox.dicio.io.input.SttState.NotAvailable
 import org.stypox.dicio.io.input.SttState.NotDownloaded
 import org.stypox.dicio.io.input.SttState.NotInitialized
 import org.stypox.dicio.io.input.SttState.NotLoaded
+import org.stypox.dicio.io.input.SttState.Transcribing // GAR
 import org.stypox.dicio.io.input.SttState.Unzipping
 import org.stypox.dicio.io.input.SttState.WaitingForResult
 import org.stypox.dicio.ui.theme.AppTheme
@@ -68,6 +77,8 @@ fun SttFab(
     state: SttState,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    // GAR: Whisper's level, for the ring while listening; the wrapper's, so callers pass nothing
+    voiceActivity: State<VoiceActivity?> = rememberGarVoiceActivity(),
 ) {
     val microphonePermission by rememberPermissionState(Manifest.permission.RECORD_AUDIO)
     val launcher = rememberPermissionFlowRequestLauncher()
@@ -82,6 +93,8 @@ fun SttFab(
         else
             onClick,
         modifier = modifier,
+        voiceActivity = voiceActivity, // GAR
+        downloadLabel = garSttDownloadLabel(voiceActivity), // GAR
     )
 }
 
@@ -90,8 +103,15 @@ fun SttFab(
  * to perform corresponding actions (downloading/unzipping/loading/listening) when pressed.
  */
 @Composable
-private fun SttFabImpl(state: SttState, onClick: () -> Unit, modifier: Modifier = Modifier) {
-    val text = sttFabText(state)
+private fun SttFabImpl(
+    state: SttState,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    voiceActivity: State<VoiceActivity?>? = null, // GAR
+    downloadLabel: String? = null, // GAR: Whisper's "Download speech model (83 MB)"
+) {
+    val text = if (state == NotDownloaded && downloadLabel != null) downloadLabel // GAR
+        else sttFabText(state)
     var lastNonEmptyText by remember { mutableStateOf(text) }
     LaunchedEffect(text) {
         if (text != lastNonEmptyText && text.isNotEmpty()) {
@@ -106,7 +126,7 @@ private fun SttFabImpl(state: SttState, onClick: () -> Unit, modifier: Modifier 
                 textAlign = TextAlign.Center,
             )
         },
-        icon = { SttFabIcon(state, contentDescription = text) },
+        icon = { SttFabIcon(state, contentDescription = text, voiceActivity) }, // GAR: level ring
         onClick = onClick,
         expanded = text.isNotEmpty(),
         modifier = modifier,
@@ -129,13 +149,18 @@ private fun sttFabText(state: SttState): String {
         is Loading -> ""
         is ErrorLoading -> stringResource(R.string.error_loading)
         is Loaded -> ""
-        is Listening -> stringResource(R.string.listening)
+        is Listening -> garBriefListeningLabel() ?: stringResource(R.string.listening) // GAR
         is WaitingForResult -> stringResource(R.string.waiting)
+        Transcribing -> stringResource(R.string.gar_stt_transcribing) // GAR
     }
 }
 
 @Composable
-private fun SttFabIcon(state: SttState, contentDescription: String) {
+private fun SttFabIcon(
+    state: SttState,
+    contentDescription: String,
+    voiceActivity: State<VoiceActivity?>? = null, // GAR
+) {
     when (state) {
         NoMicrophonePermission -> Icon(Icons.Default.Warning, contentDescription)
         NotInitialized -> SmallCircularProgressIndicator()
@@ -153,8 +178,49 @@ private fun SttFabIcon(state: SttState, contentDescription: String) {
             Icon(Icons.Default.MicNone, stringResource(R.string.start_listening))
         is ErrorLoading -> Icon(Icons.Default.Error, contentDescription)
         is Loaded -> Icon(Icons.Default.MicNone, stringResource(R.string.start_listening))
-        is Listening -> Icon(Icons.Default.Mic, contentDescription)
+        is Listening -> Icon(
+            Icons.Default.Mic,
+            contentDescription,
+            // GAR: a ring that follows Whisper's level, drawn without recomposing
+            modifier = voiceActivity
+                ?.let { Modifier.garLevelRing(it, LocalContentColor.current) }
+                ?: Modifier,
+        )
         is WaitingForResult -> SmallCircularProgressIndicator()
+        Transcribing -> SmallCircularProgressIndicator() // GAR: a tap cancels
+    }
+}
+
+/**
+ * GAR: what [SttFabImpl] shows for [state] (its icon, its text and whether a progress indicator
+ * replaces the icon), for the assistant sheet, which can't host [SttFab] (no activity for its
+ * permission launcher).
+ */
+data class GarSttFabLook(val icon: ImageVector, val text: String, val showProgress: Boolean)
+
+/** GAR: see [GarSttFabLook]; the same texts as the button, Whisper's download size included. */
+@Composable
+fun garSttFabLook(state: SttState): GarSttFabLook {
+    val downloadLabel = garSttDownloadLabel(rememberGarVoiceActivity())
+    val text = if (state == NotDownloaded && downloadLabel != null) downloadLabel
+        else sttFabText(state)
+    return when (state) {
+        NoMicrophonePermission -> GarSttFabLook(Icons.Default.Warning, text, false)
+        NotInitialized -> GarSttFabLook(Icons.Default.MicNone, text, true)
+        NotAvailable -> GarSttFabLook(Icons.Default.Warning, text, false)
+        NotDownloaded -> GarSttFabLook(Icons.Default.Download, text, false)
+        is Downloading -> GarSttFabLook(Icons.Default.Download, text, true)
+        is ErrorDownloading -> GarSttFabLook(Icons.Default.Error, text, false)
+        Downloaded -> GarSttFabLook(Icons.Default.FolderZip, text, false)
+        is Unzipping -> GarSttFabLook(Icons.Default.FolderZip, text, true)
+        is ErrorUnzipping -> GarSttFabLook(Icons.Default.Error, text, false)
+        NotLoaded -> GarSttFabLook(Icons.Default.MicNone, text, false)
+        is Loading -> GarSttFabLook(Icons.Default.MicNone, text, state.thenStartListening)
+        is ErrorLoading -> GarSttFabLook(Icons.Default.Error, text, false)
+        is Loaded -> GarSttFabLook(Icons.Default.MicNone, text, false)
+        is Listening -> GarSttFabLook(Icons.Default.Mic, text, false)
+        is WaitingForResult -> GarSttFabLook(Icons.Default.Mic, text, true)
+        Transcribing -> GarSttFabLook(Icons.Default.Mic, text, true)
     }
 }
 

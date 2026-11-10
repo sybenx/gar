@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR knowledge group (gar/PARITY.md, batch 5): general knowledge from Wikipedia, definitions
+     from Open English WordNet, currency conversion with the ECB's rates, and translation on the
+     phone through Offline Translator. -->
+<resources>
+    <!-- GAR's question before the online ones first run (gar/online), like strings_gar_online.xml -->
+    <string name="gar_online_ask_knowledge">General knowledge uses the internet: it asks Wikipedia. Turn it on?</string>
+    <string name="gar_online_ask_dictionary">The dictionary needs a one-time download of 10 megabytes from GitHub: Open English WordNet. Then it works offline. Turn it on?</string>
+    <string name="gar_online_ask_currency">Currency conversion uses the internet: it gets the daily exchange rates from the European Central Bank. Turn it on?</string>
+    <string name="gar_online_detail_knowledge">It sends what you ask about, like \"mount everest\", to en.wikipedia.org, and nothing else.</string>
+    <string name="gar_online_detail_dictionary">It downloads Open English WordNet (CC BY 4.0) from github.com once, about 25 MB on the phone. The words you look up are never sent.</string>
+    <string name="gar_online_detail_currency">It downloads the European Central Bank\'s reference rates from ecb.europa.eu at most once a day and converts on the phone. The amounts and currencies you ask about are never sent.</string>
+    <string name="gar_online_label_knowledge">the knowledge skill</string>
+    <string name="gar_online_label_dictionary">the dictionary skill</string>
+    <string name="gar_online_label_currency">the currency skill</string>
+
+    <!-- knowledge; %1$s is a page's title like "Taylor Swift", %2$d and %3$d years -->
+    <string name="skill_name_knowledge">General knowledge</string>
+    <string name="skill_sentence_example_knowledge">Who is Ada Lovelace?</string>
+    <string name="skill_knowledge_born">%1$s was born in %2$d.</string>
+    <string name="skill_knowledge_born_died">%1$s was born in %2$d and died in %3$d.</string>
+    <string name="skill_knowledge_died">%1$s died in %2$d.</string>
+    <string name="skill_knowledge_no_death">Wikipedia lists no death for %1$s, born in %2$d.</string>
+    <!-- %3$d is how many years ago -->
+    <string name="skill_knowledge_age">%1$s was born in %2$d, about %3$d years ago.</string>
+    <string name="skill_knowledge_lived">%1$s lived from %2$d to %3$d.</string>
+    <string name="skill_knowledge_ambiguous">%1$s can mean more than one thing. The card has Wikipedia\'s list.</string>
+    <!-- %1$s is what the user asked about, like "the frobnicator" -->
+    <string name="skill_knowledge_not_found">I couldn\'t find %1$s on Wikipedia.</string>
+    <string name="skill_knowledge_unreachable">I couldn\'t reach Wikipedia. Check your connection.</string>
+    <string name="skill_knowledge_read_more">Read more on Wikipedia</string>
+    <string name="skill_knowledge_source">From Wikipedia, under CC BY-SA</string>
+
+    <!-- dictionary; %1$s is the word, %2$s its part of speech, %3$s the definition -->
+    <string name="skill_name_dictionary">Dictionary</string>
+    <string name="skill_sentence_example_dictionary">Define serendipity</string>
+    <string name="skill_dictionary_definition">%1$s, %2$s: %3$s.</string>
+    <!-- %2$s is a list like "felicitous, glad and well-chosen" -->
+    <string name="skill_dictionary_synonyms">Some words for %1$s: %2$s.</string>
+    <string name="skill_dictionary_and">and</string>
+    <string name="skill_dictionary_no_synonyms">I don\'t know another word for %1$s.</string>
+    <string name="skill_dictionary_not_found">I couldn\'t find %1$s in the dictionary.</string>
+    <string name="skill_dictionary_download_failed">I couldn\'t download the dictionary. Try again when you\'re online.</string>
+    <string name="skill_dictionary_download_detail">The dictionary is Open English WordNet, 10 MB from github.com, downloaded once.</string>
+    <string name="skill_dictionary_noun">noun</string>
+    <string name="skill_dictionary_verb">verb</string>
+    <string name="skill_dictionary_adjective">adjective</string>
+    <string name="skill_dictionary_adverb">adverb</string>
+    <string name="skill_dictionary_source">From Open English WordNet, under CC BY 4.0</string>
+
+    <!-- currency; %1$s and %2$s are amounts like "20 euros" and "22.34 US dollars", %3$s a day
+         like "October 30" -->
+    <string name="skill_name_currency">Currency conversion</string>
+    <string name="skill_sentence_example_currency">How much is 20 euros in dollars?</string>
+    <string name="skill_currency_converted">%1$s is %2$s.</string>
+    <string name="skill_currency_converted_cached">With the rates of %3$s, %1$s is %2$s.</string>
+    <!-- %1$s is a currency like "US dollar", %2$s an amount like "18.52 Mexican pesos" -->
+    <string name="skill_currency_rate">One %1$s is %2$s.</string>
+    <string name="skill_currency_rate_cached">With the rates of %3$s, one %1$s is %2$s.</string>
+    <!-- %1$s is a currency like "Bulgarian leva" -->
+    <string name="skill_currency_no_rate">The European Central Bank has no rate for %1$s.</string>
+    <string name="skill_currency_unavailable">I couldn\'t get the exchange rates. Check your connection.</string>
+    <!-- %1$s is a rate like "1 EUR = 1.1172 USD", %2$s a date -->
+    <string name="skill_currency_source">%1$s. The European Central Bank\'s reference rate of %2$s.</string>
+
+    <!-- translation with Offline Translator; %1$s is the text, %2$s a language like "Spanish",
+         %3$s the translation -->
+    <string name="skill_name_offline_translator">Translation with Offline Translator</string>
+    <string name="skill_sentence_example_offline_translator">How do you say thank you in French?</string>
+    <string name="skill_offline_translator_translated">%1$s in %2$s is: %3$s.</string>
+    <string name="skill_offline_translator_translated_default">Here\'s the translation: %1$s.</string>
+    <string name="skill_offline_translator_opened">Here\'s that in Offline Translator.</string>
+    <string name="skill_offline_translator_failed">Offline Translator couldn\'t translate that.</string>
+    <string name="skill_offline_translator_source">Translated on the phone by Offline Translator</string>
+</resources>

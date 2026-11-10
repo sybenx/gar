@@ -1,0 +1,728 @@
+# GAR router BLIND held-out eval set (written 2026-10-26).
+# Added 2026-10-26 for Step 5 (marked "added 2026-10-26 (Step 5), blind"): one more case each for
+# nine tools, a song_identify group and song near misses. Written blind from only the tool names,
+# descriptions and slots of tools.yml (no examples, keywords or confirm fields) and this file.
+#
+# Written without looking at cases.yml's cases, the probe set, any eval report, tools.yml's
+# keywords / confirm fields / examples, or any code. Sources: the tool names, descriptions and slot
+# descriptions in app/src/main/gar/tools.yml, the "Step 3 skills" table in gar/DESIGN.md, and the
+# format header of cases.yml. Never tune prompts, descriptions, keywords or filters on this file;
+# it only measures. If a case here turns out to be wrong, fix the expectation, not the router.
+#
+# Same format and transcript style as cases.yml: lowercase words only, numbers spelled out, no
+# punctuation except apostrophes, a few plausible Vosk mishearings ("time or", "paws", "flash
+# light", "you tube", "what's app", "wake would", "stop watch", "lab", "blue tooth", "d n d").
+#
+# Each case:
+#   text:     the transcript
+#   tool:     expected tool, or no_match for out-of-scope requests
+#   slots:    slot -> accepted value, or list of accepted values (word spans of the text)
+#   optional: slots that may be filled or left out, with any value
+#   stt:      vosk for a Vosk mishearing or word split (tagged 2026-11-01, as in cases.yml)
+#   said:     what was meant, where known; the Whisper set (gar/eval/stt) speaks it instead
+# Commands with a missing value ("set an alarm", "remind me to call mom") expect the tool with a
+# missing required slot in `optional`: the grammar always fills required slots (with some words of
+# the command), so the model can't leave them out. A missing optional slot is expected left out.
+# Expectations fixed after the first runs (2026-10-26) where they contradicted tools.yml or this
+# format; no text changed.
+cases:
+  # ---- timer_set
+  - text: set a timer for ten minutes
+    tool: timer_set
+    slots:
+      duration: ten minutes
+  - text: um can you start a twenty five minute timer for the pizza
+    tool: timer_set
+    slots:
+      duration: twenty five minute
+      name: [pizza, the pizza]
+  - text: set the time or for forty seconds
+    stt: vosk
+    said: set the timer for forty seconds
+    tool: timer_set
+    slots:
+      duration: forty seconds
+  - text: count down one hour and fifteen minutes
+    tool: timer_set
+    slots:
+      duration: one hour and fifteen minutes
+  - text: start a timer
+    tool: timer_set
+    optional: [duration]
+
+  # ---- timer_cancel
+  - text: cancel the timer
+    tool: timer_cancel
+  - text: stop the pasta timer
+    tool: timer_cancel
+    slots:
+      name: [pasta, the pasta, pasta timer, the pasta timer]
+  - text: never mind the timer just turn it off
+    tool: timer_cancel
+  - text: okay get rid of the laundry timer
+    tool: timer_cancel
+    slots:
+      name: [laundry, the laundry, laundry timer, the laundry timer]
+  # added 2026-10-26 (Step 5), blind
+  - text: uh stop the countdown i don't need it anymore
+    tool: timer_cancel
+
+  # ---- timer_query
+  - text: how much time is left on the timer
+    tool: timer_query
+  - text: how long until my timer goes off
+    tool: timer_query
+  - text: how much longer on the oven timer
+    tool: timer_query
+    slots:
+      name: [oven, the oven, oven timer, the oven timer]
+  - text: is the timer almost done
+    tool: timer_query
+  # added 2026-10-26 (Step 5), blind
+  - text: hey how many minutes are left on the bread timer
+    tool: timer_query
+    slots:
+      name: [bread, the bread, bread timer, the bread timer]
+
+  # ---- call_contact
+  - text: can you give dave a ring
+    tool: call_contact
+    slots:
+      who: dave
+  - text: dial five five five two one nine eight
+    tool: call_contact
+    slots:
+      who: five five five two one nine eight
+  - text: i need to call sarah miller right now
+    tool: call_contact
+    slots:
+      who: sarah miller
+  - text: phone the dentist's office
+    tool: call_contact
+    slots:
+      who: [the dentist's office, dentist's office]
+  - text: make a phone call
+    tool: call_contact
+    optional: [who]
+
+  # ---- open_app
+  - text: launch the camera
+    tool: open_app
+    slots:
+      what: [camera, the camera]
+  - text: fire up you tube
+    stt: vosk
+    said: fire up youtube
+    tool: open_app
+    slots:
+      what: you tube
+  - text: could you pull up my calculator app
+    tool: open_app
+    slots:
+      what: [calculator, calculator app, my calculator app, my calculator]
+  - text: open what's app
+    stt: vosk
+    said: open whatsapp
+    tool: open_app
+    slots:
+      what: what's app
+  - text: i want to open an app
+    tool: open_app
+    optional: [what]
+
+  # ---- media_control
+  - text: resume playing my podcast
+    tool: media_control
+    slots:
+      action: play
+  - text: skip this song
+    tool: media_control
+    slots:
+      action: next
+  - text: go back to the last track
+    tool: media_control
+    slots:
+      action: previous
+  - text: paws the music
+    stt: vosk
+    said: pause the music
+    tool: media_control
+    slots:
+      action: pause
+  - text: hold on stop the music for a sec
+    tool: media_control
+    slots:
+      action: pause
+
+  # ---- flashlight
+  - text: turn on the flash light
+    stt: vosk
+    said: turn on the flashlight
+    tool: flashlight
+    slots:
+      state: "on"
+  - text: torch off please
+    tool: flashlight
+    slots:
+      state: "off"
+  - text: i can't see anything turn on the light on my phone
+    tool: flashlight
+    slots:
+      state: "on"
+  - text: kill the flashlight
+    tool: flashlight
+    slots:
+      state: "off"
+  # added 2026-10-26 (Step 5), blind
+  - text: could you switch the torch on for me
+    tool: flashlight
+    slots:
+      state: "on"
+
+  # ---- current_time
+  - text: what time is it
+    tool: current_time
+  - text: hey do you know what time it is
+    tool: current_time
+  - text: how late is it
+    tool: current_time
+  - text: tell me the time please
+    tool: current_time
+  # added 2026-10-26 (Step 5), blind
+  - text: uh what's the time right now
+    tool: current_time
+
+  # ---- navigate
+  - text: take me to the nearest gas station
+    tool: navigate
+    slots:
+      where: [the nearest gas station, nearest gas station]
+  - text: directions to two twenty main street
+    tool: navigate
+    slots:
+      where: two twenty main street
+  - text: how do i get to the airport
+    tool: navigate
+    slots:
+      where: [the airport, airport]
+  - text: get me directions to grandma's house
+    tool: navigate
+    slots:
+      where: grandma's house
+  - text: start navigation
+    tool: navigate
+    optional: [where]
+
+  # ---- calculate
+  - text: what's twelve times fifteen
+    tool: calculate
+    slots:
+      calculation: twelve times fifteen
+  - text: what is two hundred divided by eight
+    tool: calculate
+    slots:
+      calculation: two hundred divided by eight
+  - text: calculate the square root of one hundred forty four
+    tool: calculate
+    slots:
+      calculation: [the square root of one hundred forty four, square root of one hundred forty four]
+  - text: what's fifteen percent of eighty
+    tool: calculate
+    slots:
+      calculation: fifteen percent of eighty
+  - text: um seven hundred minus two fifty
+    tool: calculate
+    slots:
+      calculation: seven hundred minus two fifty
+
+  # ---- read_notifications
+  - text: read my notifications
+    tool: read_notifications
+  - text: what notifications do i have
+    tool: read_notifications
+  - text: did i get any new notifications
+    tool: read_notifications
+  - text: read me my alerts
+    tool: read_notifications
+  # added 2026-10-26 (Step 5), blind
+  - text: um go through my notifications for me
+    tool: read_notifications
+
+  # ---- wake_word
+  - text: stop listening for the wake word
+    tool: wake_word
+    slots:
+      state: "off"
+  - text: turn on wake word detection
+    tool: wake_word
+    slots:
+      state: "on"
+  - text: start listening for the wake would again
+    stt: vosk
+    said: start listening for the wake word again
+    tool: wake_word
+    slots:
+      state: "on"
+  - text: disable the hot word
+    tool: wake_word
+    slots:
+      state: "off"
+  # added 2026-10-26 (Step 5), blind
+  - text: turn the wake word off for now
+    tool: wake_word
+    slots:
+      state: "off"
+
+  # ---- alarm_set
+  - text: set an alarm for six thirty a m
+    tool: alarm_set
+    slots:
+      time: [six thirty a m, for six thirty a m]
+  - text: wake me up at seven fifteen tomorrow
+    tool: alarm_set
+    slots:
+      time: [seven fifteen tomorrow, seven fifteen, at seven fifteen tomorrow, at seven fifteen]
+  - text: set an alarm
+    tool: alarm_set
+    optional: [time]
+  - text: alarm for five forty five every weekday
+    tool: alarm_set
+    slots:
+      time: [five forty five every weekday, for five forty five every weekday]
+  - text: i need an alarm at eight p m called take meds
+    tool: alarm_set
+    slots:
+      time: [eight p m, at eight p m]
+      label: [take meds, called take meds]
+
+  # ---- alarm_list
+  - text: when is my next alarm
+    tool: alarm_list
+  - text: what time is my alarm set for
+    tool: alarm_list
+  - text: do i have any alarms set
+    tool: alarm_list
+  - text: show me my alarms
+    tool: alarm_list
+  # added 2026-10-26 (Step 5), blind
+  - text: what time is my alarm going off tomorrow morning
+    tool: alarm_list
+
+  # ---- alarm_cancel
+  - text: cancel my alarm
+    tool: alarm_cancel
+  - text: turn off the six a m alarm
+    tool: alarm_cancel
+    slots:
+      time: six a m
+  - text: delete the alarm for seven thirty
+    tool: alarm_cancel
+    slots:
+      time: [seven thirty, for seven thirty]
+  - text: i don't need the alarm tomorrow get rid of it
+    tool: alarm_cancel
+    optional: [time]
+  # added 2026-10-26 (Step 5), blind
+  - text: please remove the alarm at five forty five
+    tool: alarm_cancel
+    slots:
+      time: [five forty five, at five forty five]
+
+  # ---- calendar_add
+  - text: add a dentist appointment on tuesday at three p m
+    tool: calendar_add
+    slots:
+      title: [dentist appointment, a dentist appointment]
+      when: [tuesday at three p m, on tuesday at three p m]
+  - text: put lunch with sam on my calendar for friday at noon
+    tool: calendar_add
+    slots:
+      title: lunch with sam
+      when: [friday at noon, for friday at noon]
+  - text: schedule a meeting with the team tomorrow at ten for two hours
+    tool: calendar_add
+    slots:
+      title: [meeting with the team, a meeting with the team]
+      when: tomorrow at ten
+      duration: [two hours, for two hours]
+  - text: i have a haircut next monday at four thirty can you add that to my calendar
+    tool: calendar_add
+    slots:
+      title: [haircut, a haircut]
+      when: next monday at four thirty
+  - text: add an event to my calendar
+    tool: calendar_add
+    optional: [title, when]
+
+  # ---- calendar_query
+  - text: what's on my calendar today
+    tool: calendar_query
+    optional: [day]
+  - text: do i have anything scheduled tomorrow
+    tool: calendar_query
+    slots:
+      day: tomorrow
+  - text: what does my schedule look like on friday
+    tool: calendar_query
+    slots:
+      day: [friday, on friday]
+  - text: am i free on the twenty third
+    tool: calendar_query
+    slots:
+      day: [the twenty third, twenty third, on the twenty third]
+  # added 2026-10-26 (Step 5), blind
+  - text: do i have any appointments next wednesday
+    tool: calendar_query
+    slots:
+      day: next wednesday
+
+  # ---- reminder_add
+  - text: remind me to call mom
+    tool: reminder_add
+    slots:
+      what: call mom
+    optional: [when]
+  - text: remind me to take out the trash at eight p m
+    tool: reminder_add
+    slots:
+      what: take out the trash
+      when: [eight p m, at eight p m]
+  - text: remind me tomorrow morning to pick up the dry cleaning
+    tool: reminder_add
+    slots:
+      what: pick up the dry cleaning
+      when: tomorrow morning
+  - text: set a reminder for five o'clock to feed the dog
+    tool: reminder_add
+    slots:
+      what: feed the dog
+      when: [five o'clock, for five o'clock]
+  - text: can you remind me in twenty minutes to check the oven
+    tool: reminder_add
+    slots:
+      what: check the oven
+      when: in twenty minutes
+  - text: set a reminder
+    tool: reminder_add
+    optional: [what, when]
+
+  # ---- sms_send
+  - text: text mom i'm on my way
+    tool: sms_send
+    slots:
+      to: mom
+      message: i'm on my way
+  - text: send a message to jake saying running late
+    tool: sms_send
+    slots:
+      to: jake
+      message: running late
+  - text: text sarah
+    tool: sms_send
+    slots:
+      to: sarah
+  - text: shoot a text to alex that the game starts at seven
+    tool: sms_send
+    slots:
+      to: alex
+      message: [the game starts at seven, that the game starts at seven]
+  - text: send a text
+    tool: sms_send
+    optional: [to]
+
+  # ---- volume
+  - text: turn the volume up
+    tool: volume
+    slots:
+      action: up
+  - text: it's way too loud
+    tool: volume
+    slots:
+      action: down
+  - text: mute the sound
+    tool: volume
+    slots:
+      action: mute
+  - text: unmute my phone
+    tool: volume
+    slots:
+      action: unmute
+  - text: i can barely hear it
+    tool: volume
+    slots:
+      action: up
+
+  # ---- volume_set
+  - text: set the volume to fifty percent
+    tool: volume_set
+    slots:
+      level: [fifty percent, fifty]
+  - text: volume to seven
+    tool: volume_set
+    slots:
+      level: seven
+  - text: put the volume at thirty
+    tool: volume_set
+    slots:
+      level: thirty
+  - text: turn the volume down to twenty
+    tool: volume_set
+    slots:
+      level: twenty
+  - text: set the volume
+    tool: volume_set
+    optional: [level]
+
+  # ---- do_not_disturb
+  - text: turn on do not disturb
+    tool: do_not_disturb
+    slots:
+      action: enable
+  - text: turn off do not disturb
+    tool: do_not_disturb
+    slots:
+      action: disable
+  - text: is do not disturb on
+    tool: do_not_disturb
+    slots:
+      action: check
+  - text: i don't want to be disturbed for the next hour
+    tool: do_not_disturb
+    slots:
+      action: enable
+  - text: disable d n d
+    stt: vosk
+    tool: do_not_disturb
+    slots:
+      action: disable
+
+  # ---- wifi
+  - text: turn on wi fi
+    tool: device_setting
+    slots:
+      setting: wifi
+      action: "on"
+  - text: switch off the wifi
+    tool: device_setting
+    slots:
+      setting: wifi
+      action: "off"
+  - text: show me the available wi fi networks
+    tool: device_setting
+    slots:
+      setting: wifi
+      action: show
+  - text: connect to wi fi
+    tool: device_setting
+    slots:
+      setting: wifi
+      action: ["on", show]
+  - text: disable wireless internet
+    tool: device_setting
+    slots:
+      setting: wifi
+      action: "off"
+
+  # ---- bluetooth
+  - text: turn on bluetooth
+    tool: device_setting
+    slots:
+      setting: bluetooth
+      action: "on"
+  - text: switch blue tooth off
+    stt: vosk
+    said: switch bluetooth off
+    tool: device_setting
+    slots:
+      setting: bluetooth
+      action: "off"
+  - text: show my bluetooth devices
+    tool: device_setting
+    slots:
+      setting: bluetooth
+      action: show
+  - text: i want to pair my headphones
+    tool: device_setting
+    slots:
+      setting: bluetooth
+      action: [show, "on"]
+  - text: what's connected over bluetooth
+    tool: device_setting
+    slots:
+      setting: bluetooth
+      action: [show, status]
+
+  # ---- stopwatch
+  - text: time how long this takes
+    tool: stopwatch
+    slots:
+      action: start
+  - text: pause the stopwatch
+    tool: stopwatch
+    slots:
+      action: stop
+  - text: continue the stopwatch
+    tool: stopwatch
+    slots:
+      action: resume
+  - text: reset the stopwatch back to zero
+    tool: stopwatch
+    slots:
+      action: reset
+  - text: mark a lab on the stop watch
+    stt: vosk
+    said: mark a lap on the stopwatch
+    tool: stopwatch
+    slots:
+      action: lap
+  - text: how long has the stopwatch been running
+    tool: stopwatch
+    slots:
+      action: elapsed
+
+  # ---- date_query
+  - text: what's the date today
+    tool: date_query
+    optional: [day]
+  - text: what day is it
+    tool: date_query
+  - text: what's the date next friday
+    tool: date_query
+    slots:
+      day: next friday
+  - text: what day does christmas fall on this year
+    tool: date_query
+    slots:
+      day: christmas
+  - text: what day of the week is the fourth of july
+    tool: date_query
+    slots:
+      day: [the fourth of july, fourth of july]
+
+  # ---- song_identify
+  # added 2026-10-26 (Step 5), blind
+  - text: what song is this
+    tool: song_identify
+  - text: hey what's this song called
+    tool: song_identify
+  - text: what's playing right now
+    tool: song_identify
+  - text: who sings this song
+    tool: song_identify
+  - text: can you tell me the name of the song that's playing
+    tool: song_identify
+  - text: identify the music in the background
+    tool: song_identify
+  - text: um what music is this
+    tool: song_identify
+  - text: what's the song on the radio right now
+    tool: song_identify
+
+  # ---- out of scope: questions and chit-chat
+  - text: how are you doing today
+    tool: no_match
+  - text: thanks that's all
+    tool: no_match
+  - text: never mind
+    tool: no_match
+  - text: what can you do
+    tool: no_match
+  - text: what's the capital of australia
+    tool: no_match
+  - text: who won the game last night
+    tool: no_match
+  - text: write a poem about the ocean
+    tool: no_match
+
+  # ---- out of scope: unsupported actions
+  - text: send an email to my boss saying i'm sick
+    tool: no_match
+  - text: take a screenshot
+    tool: no_match
+  # device_setting since the tool was added (gar:settings, 2026-10-27): the expectation changed,
+  # not the router
+  - text: turn on airplane mode
+    tool: device_setting
+    slots:
+      setting: airplane mode
+      action: "on"
+  - text: what's my battery at
+    tool: no_match
+  - text: order a large pepperoni pizza
+    tool: no_match
+  - text: record a voice memo
+    tool: no_match
+  - text: turn on the living room lights
+    tool: no_match
+  # device_setting since the tool was added (gar:settings, 2026-10-27): the expectation changed,
+  # not the router
+  - text: turn up the screen brightness
+    tool: device_setting
+    slots:
+      setting: brightness
+      action: up
+
+  # ---- out of scope: online skills that are disabled
+  # (the two weather cases were relabeled weather on 2026-11-02: the weather tool is offered while
+  # the skill is off, and GAR's gate asks once)
+  - text: what's the weather going to be like tomorrow
+    tool: weather
+  - text: is it going to rain this afternoon
+    tool: weather
+  - text: read me today's news
+    tool: no_match
+  - text: search the web for chocolate chip cookie recipes
+    tool: no_match
+  - text: tell me a joke
+    tool: no_match
+  - text: translate good morning into spanish
+    tool: no_match
+  - text: what are the lyrics to bohemian rhapsody
+    tool: no_match
+
+  # ---- out of scope: near misses that share words with tools
+  - text: what's the wi fi password
+    tool: no_match
+  - text: how loud is a jet engine
+    tool: no_match
+  - text: time flies when you're having fun
+    tool: no_match
+  - text: how long does it take to hard boil an egg
+    tool: no_match
+  - text: what time does the pharmacy close
+    tool: no_match
+  - text: what time zone is tokyo in
+    tool: no_match
+  - text: why didn't my alarm go off this morning
+    tool: no_match
+  - text: remind me who directed jaws
+    tool: no_match
+  - text: why does my bluetooth keep disconnecting
+    tool: no_match
+  - text: who invented the stopwatch
+    tool: no_match
+  - text: what's the formula for the volume of a sphere
+    tool: no_match
+  - text: how far away is the moon
+    tool: no_match
+  - text: open the window it's hot in here
+    tool: no_match
+  - text: hold on let me think for a second
+    tool: no_match
+  - text: set the table for dinner
+    tool: no_match
+  # added 2026-10-26 (Step 5), blind
+  - text: who sings hotel california
+    tool: no_match
+  - text: how does the chorus of sweet caroline go
+    tool: no_match
+  # media_play since the tool was added (gar:media, 2026-10-27): the expectation changed, not
+  # the router
+  - text: put on dancing queen by abba
+    tool: media_play
+    slots:
+      query: [dancing queen by abba, dancing queen]
+  - text: recommend some good songs for a road trip
+    tool: no_match
+  - text: what's the number one song in the country right now
+    tool: no_match

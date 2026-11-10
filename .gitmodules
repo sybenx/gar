@@ -1,0 +1,8 @@
+[submodule "gar/llm/llama.cpp"]
+	path = gar/llm/llama.cpp
+	url = https://github.com/ggml-org/llama.cpp
+	shallow = true
+[submodule "gar/stt/whisper.cpp"]
+	path = gar/stt/whisper.cpp
+	url = https://github.com/ggml-org/whisper.cpp
+	shallow = true

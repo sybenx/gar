@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option java_package = "org.stypox.dicio.skills.calendar";
+option java_multiple_files = true;
+
+message SkillSettingsCalendar {
+  // the calendar that new events and reminders go to; 0 means automatic (see CalendarChoice)
+  int64 target_calendar_id = 1;
+}
+
+// The reminders GAR created, so that its EVENT_REMINDER receiver only notifies for them
+message CalendarReminders {
+  repeated TrackedReminder reminders = 1;
+}
+
+message TrackedReminder {
+  int64 event_id = 1;
+  // when the reminder was set to go off, used to forget old ones
+  int64 alarm_time_millis = 2;
+}

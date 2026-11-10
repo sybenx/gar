@@ -1,0 +1,45 @@
+# GAR (gar:places): where the phone is, and the home and work GAR remembers for "take me home".
+# PlacesSkill only takes a set, forget or show whose words name home or work (PlaceWords), since
+# the captures take any words; going home is the navigation skill's ("take me home")
+where_am_i:
+  - where am i (right? now)?
+  - where are we (right? now)?
+  - what|(what s|is)|whats my (current|exact)? location|position|whereabouts (right? now)?
+  - what street|road|city|town|neighborhood|neighbourhood|area am i|are we (in|on|at)? (right? now)?
+  - (show|tell) me where i am (right? now)? (on the map)?
+  - show|find me? my (current)? location|position (on the map)?
+
+set:
+  - set|change|update|save|edit|correct my|the? .kind. address|location (to|as)? .address.
+  - set|change|update|save my|the? .kind. to|as .address.
+  - my .kind. address|location is .address.
+  - set|change|update|add|edit my|the? .kind. address|location
+
+set_here:
+  - set|save|make|mark this|here (place|location|spot)? as my? .kind.
+  - set|save|make|mark my (current)? location|position as my? .kind.
+  - set|change|update my|the? .kind. (address|location)? to|as here|(this place)|(my current location)|(my location)|(where i am)
+  - this is my .kind.
+
+forget:
+  - forget|delete|remove|clear|erase|reset my|the? .kind. address|location
+
+show:
+  - what|(what s|is)|whats my .kind. address|location
+  - where is my .kind. address|location
+
+show_home:
+  - where do i live
+
+show_work:
+  - where do i work
+
+# a search in the maps app around the user; PlacesSkill keeps only things a map has
+# (PlaceWords.searchable: not "what's open", not the weather)
+nearby:
+  - find|show|search|locate|get (me)? (for)? .what. near|around|(close to) me|here
+  - find|show|search|locate|get (me)? (for)? .what. nearby|(near by)|(close by)|(around here)|(in the area)
+  - .what. (near me)|nearby|(near by)|(close by)|(around me)|(around here)
+  - find|show me? the? nearest|closest .what.
+  - is|are there .what. near|around me|here
+  - is|are there .what. nearby|(near by)|(close by)|(around here)|(in the area)

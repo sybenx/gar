@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR clock group: the stopwatch and date skills. -->
+<resources>
+    <!-- Stopwatch skill -->
+    <string name="skill_name_stopwatch">Stopwatch</string>
+    <string name="skill_sentence_example_stopwatch">Start the stopwatch</string>
+    <string name="skill_stopwatch_started">Stopwatch started.</string>
+    <!-- %1$s is the stopwatch's time, like "one minute ten seconds" or "1:10.3" -->
+    <string name="skill_stopwatch_resumed">Stopwatch resumed at %1$s.</string>
+    <string name="skill_stopwatch_already_running">The stopwatch is already running, at %1$s.</string>
+    <string name="skill_stopwatch_stopped">Stopwatch stopped at %1$s.</string>
+    <string name="skill_stopwatch_stopped_at">The stopwatch is stopped at %1$s.</string>
+    <string name="skill_stopwatch_not_running">The stopwatch isn\'t running.</string>
+    <string name="skill_stopwatch_reset">Stopwatch reset.</string>
+    <string name="skill_stopwatch_already_reset">The stopwatch is already at zero.</string>
+    <!-- %1$d is the lap number, %2$s the lap's time -->
+    <string name="skill_stopwatch_lap">Lap %1$d: %2$s.</string>
+    <string name="skill_stopwatch_elapsed">The stopwatch is at %1$s.</string>
+    <string name="skill_stopwatch_under_a_second">less than a second</string>
+    <!-- %1$d is the lap number -->
+    <string name="skill_stopwatch_lap_label">Lap %1$d</string>
+    <string name="skill_stopwatch_running">Running</string>
+    <string name="skill_stopwatch_channel_description">Shows the stopwatch until it is reset</string>
+    <!-- %1$s is the stopwatch's time, like "1:10.3" -->
+    <string name="skill_stopwatch_notification_stopped">Stopped at %1$s</string>
+    <!-- %1$d is the lap number, %2$s the lap's time -->
+    <string name="skill_stopwatch_notification_lap">Lap %1$d: %2$s</string>
+    <string name="skill_stopwatch_button_stop">Stop</string>
+    <string name="skill_stopwatch_button_resume">Resume</string>
+    <string name="skill_stopwatch_button_reset">Reset</string>
+
+    <!-- Date skill; %1$s is a date like "Sunday, October 25, 2026" -->
+    <string name="skill_name_date">Date</string>
+    <string name="skill_sentence_example_date">What\'s the date?</string>
+    <string name="skill_date_today">Today is %1$s.</string>
+    <string name="skill_date_tomorrow">Tomorrow is %1$s.</string>
+    <string name="skill_date_yesterday">Yesterday was %1$s.</string>
+    <string name="skill_date_future">That\'s %1$s.</string>
+    <string name="skill_date_past">That was %1$s.</string>
+</resources>

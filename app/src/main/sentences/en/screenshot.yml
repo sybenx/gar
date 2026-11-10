@@ -1,0 +1,8 @@
+# GAR (gar:screen): a screenshot through GAR's optional accessibility service, after GAR's own
+# window is gone. ScreenshotSkill only takes inputs that name a screenshot or a capture of the
+# screen (ScreenWords)
+take:
+  - take|grab|capture|snap|get|make a|an? (screenshot|screengrab|screencap|(screen shot)|(screen grab))
+  - screenshot (this|that|it|the screen)?
+  - take|grab|snap a|an? (picture|photo|pic|snapshot) of (the|my|this)? screen
+  - capture (the|my|this)? screen

@@ -1,0 +1,35 @@
+<|im_start|>system
+# Tools
+
+You may call one or more functions to assist with the user query.
+
+You are provided with function signatures within <tools></tools> XML tags:
+<tools>
+{"type": "function", "function": {"name": "timer_set", "description": "Start a countdown timer.", "parameters": {"type": "object", "properties": {"duration": {"type": "string", "description": "How long the timer runs, exactly as the user said it."}, "name": {"type": "string", "description": "Optional name of the timer, exactly as the user said it."}}, "required": ["duration"]}}}
+{"type": "function", "function": {"name": "timer_cancel", "description": "Stop or cancel a running timer.", "parameters": {"type": "object", "properties": {"name": {"type": "string", "description": "Optional name of the timer to cancel, exactly as the user said it."}}}}}
+{"type": "function", "function": {"name": "timer_query", "description": "Tell how much time is left on a running timer.", "parameters": {"type": "object", "properties": {"name": {"type": "string", "description": "Optional name of the timer, exactly as the user said it."}}}}}
+{"type": "function", "function": {"name": "call_contact", "description": "Phone call a contact or a phone number.", "parameters": {"type": "object", "properties": {"who": {"type": "string", "description": "The contact name or number to call, exactly as the user said it."}}, "required": ["who"]}}}
+{"type": "function", "function": {"name": "open_app", "description": "Open an app installed on the phone.", "parameters": {"type": "object", "properties": {"what": {"type": "string", "description": "The app name, exactly as the user said it."}}, "required": ["what"]}}}
+{"type": "function", "function": {"name": "media_control", "description": "Control the music or media that is playing.", "parameters": {"type": "object", "properties": {"action": {"type": "string", "description": "What to do with the playing media.", "enum": ["play", "pause", "next", "previous"]}}, "required": ["action"]}}}
+{"type": "function", "function": {"name": "flashlight", "description": "Turn the flashlight (torch) on or off.", "parameters": {"type": "object", "properties": {"state": {"type": "string", "description": "Whether the flashlight should be on or off.", "enum": ["on", "off"]}}, "required": ["state"]}}}
+{"type": "function", "function": {"name": "current_time", "description": "Tell the current time.", "parameters": {"type": "object", "properties": {}}}}
+{"type": "function", "function": {"name": "navigate", "description": "Start navigation to a place in the maps app.", "parameters": {"type": "object", "properties": {"where": {"type": "string", "description": "The destination, exactly as the user said it."}}, "required": ["where"]}}}
+{"type": "function", "function": {"name": "calculate", "description": "Calculate the result of a math expression.", "parameters": {"type": "object", "properties": {"calculation": {"type": "string", "description": "The math expression, exactly as the user said it."}}, "required": ["calculation"]}}}
+{"type": "function", "function": {"name": "read_notifications", "description": "Read the phone's notifications aloud.", "parameters": {"type": "object", "properties": {}}}}
+{"type": "function", "function": {"name": "wake_word", "description": "Start or stop listening for the wake word.", "parameters": {"type": "object", "properties": {"state": {"type": "string", "description": "Whether wake word listening should be on or off.", "enum": ["on", "off"]}}, "required": ["state"]}}}
+{"type": "function", "function": {"name": "alarm_set", "description": "Set an alarm for a time of day.", "parameters": {"type": "object", "properties": {"time": {"type": "string", "description": "The time of day, exactly as the user said it."}, "label": {"type": "string", "description": "Optional label, exactly as the user said it."}}, "required": ["time"]}}}
+{"type": "function", "function": {"name": "sms_send", "description": "Send a text message to a contact.", "parameters": {"type": "object", "properties": {"to": {"type": "string", "description": "Who to send it to, exactly as the user said it."}, "message": {"type": "string", "description": "The message, exactly as the user said it."}}, "required": ["to", "message"]}}}
+{"type": "function", "function": {"name": "no_match", "description": "Call this for general questions, chit-chat and anything that no other function does.", "parameters": {"type": "object", "properties": {}}}}
+</tools>
+
+For each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:
+<tool_call>
+{"name": <function-name>, "arguments": <args-json-object>}
+</tool_call><|im_end|>
+<|im_start|>user
+open spot if i<|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+

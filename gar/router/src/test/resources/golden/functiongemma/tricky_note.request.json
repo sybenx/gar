@@ -1,0 +1,87 @@
+{
+    "messages": [
+        {
+            "role": "developer",
+            "content": "You are a model that can do function calling with the following functions"
+        },
+        {
+            "role": "user",
+            "content": "add a note très bien forty two pasta"
+        }
+    ],
+    "tools": [
+        {
+            "type": "function",
+            "function": {
+                "name": "note_add",
+                "description": "Add a \"note\" with a back\\slash, a tab\there, a newline\nhere, café ünïcode, 😀 and <b>&'x'</b>.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "zeta": {
+                            "type": "string",
+                            "description": "Last in the alphabet, first declared: \"quoted\"."
+                        },
+                        "body": {
+                            "type": "string"
+                        },
+                        "mood": {
+                            "type": "string",
+                            "description": "Mood of the note.",
+                            "enum": [
+                                "happy",
+                                "so-so",
+                                "très bien"
+                            ]
+                        },
+                        "alpha_2": {
+                            "type": "string",
+                            "description": "A number slot that is required."
+                        }
+                    },
+                    "required": [
+                        "alpha_2"
+                    ]
+                }
+            }
+        },
+        {
+            "type": "function",
+            "function": {
+                "name": "lamp",
+                "description": "Switch a lamp.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "room": {
+                            "type": "string",
+                            "description": "Which room."
+                        },
+                        "state": {
+                            "type": "string",
+                            "description": "On or off.",
+                            "enum": [
+                                "on",
+                                "off"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "state"
+                    ]
+                }
+            }
+        },
+        {
+            "type": "function",
+            "function": {
+                "name": "no_match",
+                "description": "Call this when no other function matches the request.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {}
+                }
+            }
+        }
+    ]
+}

@@ -1,0 +1,18 @@
+# GAR (gar:agenda): GAR's own reminders (events with an alert that the calendar skill made). A
+# capture takes any words, so RemindersSkill.score keeps a match only when ReminderWords reads the
+# whole input as a reminders request.
+show:
+  - (what are)|(what s)|whats|(what is)|show|read|list|(tell me)|check|open (me)? (all)? (of)? (my|the)? (upcoming|current|active|next)? reminder|reminders ((for|on)? today|tomorrow|tonight)?
+  - (do i have)|(have i got)|(are there)|(is there) (any|a)? reminder|reminders ((for|on)? today|tomorrow|tonight)?
+  - any reminders ((for|on)? today|tomorrow|tonight)?
+  - what reminders do i have ((for|on)? today|tomorrow|tonight)?
+  - what|when (did i ask you)|(have i asked you)|(did i tell you) to remind me (about)?
+
+cancel:
+  - cancel|delete|remove|clear|erase|dismiss|(get rid of)|(turn off)|stop (my|the|that|this)? .about.? reminder ((about|to|for|that|of|at|on) .what.)?
+  - (dont|(do not)|(don t)) remind me (to|about|of)? .what.
+
+cancel_all:
+  - delete|cancel|clear|remove|erase|(get rid of)|(turn off)|dismiss all|every (of)? (my|the)? reminder|reminders
+  - delete|cancel|clear|remove|erase|(get rid of)|(turn off) my|the reminders
+  - clear (out)? my reminders

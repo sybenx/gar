@@ -1,0 +1,14 @@
+coin:
+  - (can you)? flip|toss (a|the|one)? coin (for me)?
+  - heads or tails
+  - (coin flip)|(coin toss)
+dice:
+  # GAR: only dice match (RandomPhrases.dice: "roll down the window" doesn't)
+  - (can you)? roll|throw .dice.
+number:
+  - (pick|choose|generate|(think of)) (a|one)? random? number (between|from) .low. (and|to) .high.
+  - (give|tell) me (a|one)? random? number (between|from) .low. (and|to) .high.
+  - (a|one)? random number (between|from) .low. (and|to) .high.
+  - (pick|choose|generate|(think of)) (a|one)? random? number (for me)?
+  - (give|tell) me (a|one)? random number
+  - (a|one)? random number

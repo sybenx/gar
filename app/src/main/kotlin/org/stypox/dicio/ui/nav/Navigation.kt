@@ -9,6 +9,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf // GAR
+import androidx.compose.runtime.saveable.rememberSaveable // GAR
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -17,6 +19,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.launch
 import org.stypox.dicio.R
+import org.stypox.dicio.gar.settings.GarModelSettings // GAR
+import org.stypox.dicio.gar.settings.GarSettingsScreen // GAR
+import org.stypox.dicio.gar.ui.GarAppHandOffs // GAR
 import org.stypox.dicio.io.input.stt_popup.SttPopupActivity
 import org.stypox.dicio.settings.MainSettingsScreen
 import org.stypox.dicio.settings.SkillSettingsScreen
@@ -37,6 +42,13 @@ fun Navigation() {
         }
     }
 
+    // GAR: the sheet's hand-offs, answered whatever screen is showing; typing goes back home
+    val garTypeRequested = rememberSaveable { mutableStateOf(false) }
+    GarAppHandOffs(onType = {
+        navController.popBackStack<Home>(inclusive = false)
+        garTypeRequested.value = true
+    })
+
     NavHost(navController = navController, startDestination = Home) {
         composable<Home> {
             val context = LocalContext.current
@@ -48,7 +60,7 @@ fun Navigation() {
                     context.startActivity(intent)
                 },
             ) {
-                HomeScreen(it)
+                HomeScreen(it, typeRequested = garTypeRequested) // GAR
             }
         }
 
@@ -56,11 +68,16 @@ fun Navigation() {
             MainSettingsScreen(
                 navigationIcon = backIcon,
                 navigateToSkillSettings = { navController.navigate(SkillSettings) },
+                navigateToGarSettings = { navController.navigate(GarModelSettings) }, // GAR
             )
         }
 
         composable<SkillSettings> {
             SkillSettingsScreen(navigationIcon = backIcon)
+        }
+
+        composable<GarModelSettings> { // GAR
+            GarSettingsScreen(navigationIcon = backIcon)
         }
 
         composable<About> {

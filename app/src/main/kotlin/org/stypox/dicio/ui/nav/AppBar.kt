@@ -39,7 +39,9 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.takeOrElse
+import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
@@ -299,8 +301,11 @@ private fun SearchTopAppBarExpanded(
                 }),
                 modifier = Modifier.onKeyEvent {
                     if (it.nativeKeyEvent.keyCode == KeyEvent.KEYCODE_ENTER) {
-                        onSearch(searchString)
-                        exitSearch()
+                        // GAR: onKeyEvent sees both key down and key up, submit only once
+                        if (it.type == KeyEventType.KeyDown) {
+                            onSearch(searchString)
+                            exitSearch()
+                        }
                         return@onKeyEvent true
                     }
                     return@onKeyEvent false

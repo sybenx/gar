@@ -1,0 +1,21 @@
+# GAR (gar:notes): notes kept by GAR ("take a note call the dentist"). A capture takes any words,
+# so NotesSkill.score keeps a match only when NoteWords reads the whole input as a note request.
+take:
+  - take|make|write|jot|create|add|leave|save|start (me)? (down)? a|an? (new|quick)? note ((to self)|(for me)|(to myself))? (that|saying|about|of)? .text.
+  - note to self|myself (that)? .text.
+  - write|jot|put (this|that|it)? down (that)? .text.
+  - note that .text.
+  - take|make|write|create|add|start|leave|new (me)? a|an? (new|quick)? note (for me)?
+
+read:
+  - read|show|list|play|check|open (me|out|back)? (all)? (of)? my|the (last|latest|newest|recent|previous)? note|notes
+  - tell me my|the (last|latest|newest|recent|previous)? note|notes
+  - what|(what s)|whats|(what is)|(what are)|(what was) my|the (last|latest|newest|recent|previous)? note|notes
+  - what did|have i write|written|note|noted|jot|jotted down
+  - what notes do i have
+  - do i have any notes
+
+delete:
+  - delete|remove|erase|scratch|undo|cancel my|the|that? last|latest|previous|newest? note
+  - delete|remove|erase|clear (all|every)? (of)? my|the? notes
+  - delete|remove|erase|clear all|every (my|the)? notes

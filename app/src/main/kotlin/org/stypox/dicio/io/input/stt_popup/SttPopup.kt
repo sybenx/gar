@@ -37,9 +37,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State // GAR
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf // GAR
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember // GAR
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -57,6 +60,9 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import org.stypox.dicio.R
+import org.stypox.dicio.gar.stt.GarSttLevelBar // GAR
+import org.stypox.dicio.gar.stt.rememberGarVoiceActivity // GAR
+import org.stypox.dicio.io.input.VoiceActivity // GAR
 import org.stypox.dicio.io.input.SttState
 import org.stypox.dicio.ui.home.SttFab
 import org.stypox.dicio.ui.theme.AppTheme
@@ -72,6 +78,8 @@ fun SttPopupBottomSheet(
     val viewModel: SttPopupViewModel = hiltViewModel()
     val textFieldValue = viewModel.textFieldValue.collectAsState()
     val sttState = viewModel.sttInputDevice.uiState.collectAsState().value ?: SttState.NotAvailable
+    // GAR: Whisper's level, read only while drawing the bar and the button's ring
+    val voiceActivity = viewModel.sttInputDevice.voiceActivity.collectAsState()
 
     // Calculate insets here instead of inside ModalBottomSheet, because on old APIs (tested on API
     // 27) ModalBottomSheet seems to consume them and they become zero.
@@ -116,6 +124,7 @@ fun SttPopupBottomSheet(
             textFieldValue = textFieldValue.value,
             onTextFieldChange = viewModel::setTextFieldValue,
             modifier = Modifier.padding(insets),
+            voiceActivity = voiceActivity, // GAR
         )
     }
 }
@@ -130,6 +139,7 @@ private fun SttPopupBottomSheet(
     textFieldValue: String,
     onTextFieldChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    voiceActivity: State<VoiceActivity?>? = null, // GAR
 ) {
     val context = LocalContext.current
 
@@ -141,11 +151,25 @@ private fun SttPopupBottomSheet(
             value = textFieldValue,
             onValueChange = onTextFieldChange,
             customHint = customHint,
-            enabled = sttState != SttState.Listening,
+            // GAR: also while transcribing, the text is about to be replaced
+            enabled = sttState != SttState.Listening && sttState != SttState.Transcribing,
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .fillMaxWidth(),
         )
+
+        // GAR: Whisper shows no partial text, so a level bar shows that it hears the user. Only
+        // devices that report a level get it; derived, so the level itself doesn't recompose this
+        val reportsLevel by remember(voiceActivity) {
+            derivedStateOf { voiceActivity?.value != null }
+        }
+        if (voiceActivity != null && reportsLevel) {
+            GarSttLevelBar(
+                voiceActivity = voiceActivity,
+                listening = sttState == SttState.Listening,
+                modifier = Modifier.padding(top = 8.dp),
+            )
+        }
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -171,6 +195,8 @@ private fun SttPopupBottomSheet(
                 SttFab(
                     state = sttState,
                     onClick = onSttClick,
+                    // GAR: the same level for the button's ring
+                    voiceActivity = voiceActivity ?: rememberGarVoiceActivity(),
                 )
             }
 

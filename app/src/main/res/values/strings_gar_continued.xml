@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR: continued listening and speaking vs showing, see GarContinuedListening and GarSpeechMode. -->
+<resources>
+    <string name="gar_pref_conversation_title">Conversation</string>
+    <string name="gar_pref_continued_listening">Keep listening after answers</string>
+    <string name="gar_pref_continued_listening_summary">After a spoken answer, listen 7 seconds for a follow-up. Not after typing, calls, messages or on a locked phone unless you started there.</string>
+    <string name="gar_pref_speak_typed_answers">Speak answers to typed requests</string>
+    <string name="gar_pref_speak_typed_answers_on">Answers to typing and buttons are spoken too</string>
+    <string name="gar_pref_speak_typed_answers_off">Answers to typing and buttons only show on screen</string>
+    <string name="gar_stt_listening_follow_up">Listening for a follow-up</string>
+</resources>

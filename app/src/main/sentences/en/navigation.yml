@@ -1,3 +1,12 @@
 query:
   - (navigate me?)|(take|bring me)|((give me?)? direction<s?>) to|toward|in? the? .where.
+  # GAR (gar:places): "where s|is .where." moved to where_is below
+  # GAR (gar:places): "how do I get home", "get me to the airport"; NavigationSkill drops the ones
+  # that lead to no place ("how do I get rid of ants", PlaceWords.isNoPlace). Home, work and
+  # "the nearest pharmacy" are resolved by NavigationPlaces
+  - how (do|can|would|should) i get|go (to)? the? .where.
+  - get|drive|walk me (to)? the? .where.
+
+# GAR (gar:places): "where is .where." asks where a place is, never for a route to a contact
+where_is:
   - where s|is .where.

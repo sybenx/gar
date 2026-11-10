@@ -10,6 +10,18 @@ interface SttInputDevice {
 
     fun stopListening()
 
+    /**
+     * GAR: the microphone level and whether speech is heard, while listening; null when the device
+     * doesn't report it (Vosk, external popup).
+     */
+    val voiceActivity: StateFlow<VoiceActivity>? get() = null
+
+    /**
+     * GAR: stops listening and recognizes what was heard so far, whereas [stopListening] discards
+     * it and sends [InputEvent.None]. Devices that recognize while listening just stop.
+     */
+    fun finishListening() = stopListening()
+
     fun onClick(eventListener: (InputEvent) -> Unit)
 
     suspend fun destroy()
@@ -22,3 +34,14 @@ interface SttInputDevice {
         }
     }
 }
+
+/**
+ * GAR: what the microphone hears while listening.
+ *
+ * @param level the input level from 0 (silence, -60 dBFS or less) to 1 (-10 dBFS or more), smoothed
+ * @param speaking whether speech is heard right now
+ */
+data class VoiceActivity(
+    val level: Float,
+    val speaking: Boolean,
+)

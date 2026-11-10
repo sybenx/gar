@@ -1,0 +1,659 @@
+# GAR router eval set: what the LLM fallback sees when Dicio's sentence matcher misses.
+# Utterances are written the way Vosk small-en-us transcribes speech: lowercase words only, numbers
+# spelled out, no punctuation except apostrophes, and some real mishearings from the Step 1 STT run
+# ("spot if i" for Spotify, "you tube", "urine" for Aaron, "my johnson" for Mike Johnson,
+# "time or" for "timer"). Whisper's text reaches the router in the same form through SpokenForm,
+# and gar/eval/stt/make-whisper-cases.sh makes a Whisper version of this file.
+#
+# Each case:
+#   text:     the transcript
+#   tool:     expected tool from app/src/main/gar/tools.yml, or no_match for out-of-scope requests
+#   slots:    slot -> accepted value, or list of accepted values (word spans of the text; compared
+#             after normalization). Expected slots must all be present with an accepted value.
+#   optional: slots that may be filled or left out, with any value
+#   stt:      vosk when the text has a Vosk mishearing or word split that other recognizers don't
+#             make ("call urine", "you tube"); the expectations stay those of the text
+#   said:     what was meant, where known, in the same spoken form ("call aaron"). The Whisper set
+#             (gar/eval/stt) speaks it instead of the text
+# A slot that is filled but neither in `slots` nor in `optional` makes the slots inexact.
+#
+# Add cases freely; group them by tool. New tools (Step 3) only need their cases added here.
+#
+# Prompt tuning (2026-10-25) split each group, negatives included: the first 70% (rounded) of the
+# cases above its "added 2026-10-25" marker were dev, the rest of them held-out. The marked cases
+# were written before any variant ran and never tuned on. Tune on dev the same way next time.
+# The 2026-10-26 tuning (descriptions, with the call filters) used the same split: cases marked
+# "added ... with the tool's keywords" are held out too. The groups added with batches 3 and 4
+# (2026-10-27) are held out, except the cases marked "added 2026-10-27 (batch 3-4), dev": tune
+# device_setting and media_play on those.
+cases:
+  # timer_set
+  - {text: set a timer for ten minutes, tool: timer_set, slots: {duration: ten minutes}}
+  - {text: start a pasta timer for eight minutes, tool: timer_set, slots: {duration: eight minutes, name: [pasta, pasta timer]}}
+  - {text: count down ninety seconds, tool: timer_set, slots: {duration: ninety seconds}}
+  - {text: let me know when twenty minutes are up, tool: timer_set, slots: {duration: twenty minutes}}
+  - {text: put fifteen minutes on the clock, tool: timer_set, slots: {duration: fifteen minutes}}
+  - {text: i need a countdown of three minutes for the eggs, tool: timer_set, slots: {duration: three minutes}, optional: [name]}
+  - {text: time or ten minutes, tool: timer_set, slots: {duration: ten minutes}, stt: vosk, said: timer ten minutes}
+  - {text: start counting down an hour and a half, tool: timer_set, slots: {duration: an hour and a half}}
+  - {text: beep in two minutes, tool: timer_set, slots: {duration: two minutes}}
+  - {text: set a tea timer for four minutes, tool: timer_set, slots: {duration: four minutes, name: [tea, tea timer]}}
+  # added 2026-10-25, held out from the prompt tuning
+  - {text: i need a timer for twelve minutes, tool: timer_set, slots: {duration: twelve minutes}}
+  - {text: give me five minutes on the clock, tool: timer_set, slots: {duration: five minutes}}
+  - {text: set a laundry timer for one hour, tool: timer_set, slots: {duration: one hour, name: [laundry, laundry timer]}}
+
+  # timer_cancel
+  - {text: stop the timer, tool: timer_cancel}
+  - {text: cancel the pasta timer, tool: timer_cancel, slots: {name: [pasta, the pasta, pasta timer, the pasta timer]}}
+  - {text: kill the timer, tool: timer_cancel}
+  - {text: never mind the egg timer, tool: timer_cancel, slots: {name: [egg, the egg, egg timer, the egg timer]}}
+  - {text: turn off the countdown, tool: timer_cancel}
+  - {text: get rid of the tea timer, tool: timer_cancel, slots: {name: [tea, the tea, tea timer, the tea timer]}}
+  # added 2026-10-25, held out from the prompt tuning
+  - {text: cancel my timer, tool: timer_cancel}
+  - {text: forget about the laundry timer, tool: timer_cancel, slots: {name: [laundry, the laundry, laundry timer, the laundry timer]}}
+  - {text: shut off the countdown, tool: timer_cancel}
+
+  # timer_query
+  - {text: how much time is left on my timer, tool: timer_query}
+  - {text: how long until the pasta is done, tool: timer_query, optional: [name]}
+  - {text: how much longer on the timer, tool: timer_query}
+  - {text: check my timer, tool: timer_query}
+  - {text: what's left on the egg timer, tool: timer_query, slots: {name: [egg, the egg, egg timer, the egg timer]}}
+  - {text: is the timer almost done, tool: timer_query}
+  # added 2026-10-25, held out from the prompt tuning
+  - {text: is my timer still running, tool: timer_query}
+  - {text: how long left on the laundry timer, tool: timer_query, slots: {name: [laundry, the laundry, laundry timer, the laundry timer]}}
+  - {text: how many minutes are left, tool: timer_query}
+
+  # call_contact
+  - {text: call mom, tool: call_contact, slots: {who: mom}}
+  - {text: ring sarah, tool: call_contact, slots: {who: sarah}}
+  - {text: phone john smith, tool: call_contact, slots: {who: john smith}}
+  - {text: get mom on the phone, tool: call_contact, slots: {who: mom}}
+  - {text: give dad a ring, tool: call_contact, slots: {who: dad}}
+  - {text: i want to talk to grandma, tool: call_contact, slots: {who: grandma}}
+  - {text: call my johnson, tool: call_contact, slots: {who: [my johnson, johnson]}, stt: vosk, said: call mike johnson}
+  - {text: can you dial the dentist, tool: call_contact, slots: {who: [the dentist, dentist]}}
+  - {text: call urine, tool: call_contact, slots: {who: urine}, stt: vosk, said: call aaron}
+  # added 2026-10-25, held out from the prompt tuning
+  - {text: call my wife, tool: call_contact, slots: {who: [my wife, wife]}}
+  - {text: i need to call peter, tool: call_contact, slots: {who: peter}}
+  - {text: dial five five five one two one two, tool: call_contact, slots: {who: five five five one two one two}}
+
+  # open_app
+  - {text: open spot if i, tool: open_app, slots: {what: spot if i}, stt: vosk, said: open spotify}
+  - {text: launch you tube, tool: open_app, slots: {what: you tube}, stt: vosk, said: launch youtube}
+  - {text: fire up the camera, tool: open_app, slots: {what: [camera, the camera]}}
+  - {text: bring up google maps, tool: open_app, slots: {what: google maps}}
+  - {text: start the calculator app, tool: open_app, slots: {what: [calculator, calculator app, the calculator, the calculator app]}}
+  - {text: go to my gmail, tool: open_app, slots: {what: [gmail, my gmail]}}
+  - {text: show me the settings, tool: open_app, slots: {what: [settings, the settings]}}
+  - {text: switch to whatsapp, tool: open_app, slots: {what: whatsapp}}
+  # added 2026-10-25, held out from the prompt tuning
+  - {text: can you open firefox, tool: open_app, slots: {what: firefox}}
+  - {text: pull up the clock app, tool: open_app, slots: {what: [clock, the clock, clock app, the clock app]}}
+  - {text: i want to use the email app, tool: open_app, slots: {what: [email, email app, the email, the email app]}}
+
+  # media_control
+  - {text: pause the music, tool: media_control, slots: {action: pause}}
+  - {text: skip this song, tool: media_control, slots: {action: next}}
+  - {text: go back to the previous track, tool: media_control, slots: {action: previous}}
+  - {text: resume playback, tool: media_control, slots: {action: play}}
+  - {text: next one please, tool: media_control, slots: {action: next}}
+  - {text: stop the music, tool: media_control, slots: {action: pause}}
+  - {text: play the last song again, tool: media_control, slots: {action: previous}}
+  - {text: keep playing, tool: media_control, slots: {action: play}}
+  - {text: hold the music for a second, tool: media_control, slots: {action: pause}}
+  # added 2026-10-25, held out from the prompt tuning
+  - {text: pause this, tool: media_control, slots: {action: pause}}
+  - {text: go back a song, tool: media_control, slots: {action: previous}}
+  - {text: skip ahead, tool: media_control, slots: {action: next}}
+  - {text: unpause the video, tool: media_control, slots: {action: play}}
+
+  # flashlight
+  - {text: turn on the torch, tool: flashlight, slots: {state: "on"}}
+  - {text: i need some light, tool: flashlight, slots: {state: "on"}}
+  - {text: switch off the flashlight, tool: flashlight, slots: {state: "off"}}
+  - {text: it's dark in here, tool: flashlight, slots: {state: "on"}}
+  - {text: kill the flashlight, tool: flashlight, slots: {state: "off"}}
+  - {text: flashlight please, tool: flashlight, slots: {state: "on"}}
+  - {text: torch off, tool: flashlight, slots: {state: "off"}}
+  # added 2026-10-25, held out from the prompt tuning
+  - {text: shut off the torch, tool: flashlight, slots: {state: "off"}}
+  - {text: give me some light, tool: flashlight, slots: {state: "on"}}
+  # added 2026-10-25 with the tool's keywords, held out: paraphrases its keywords must accept
+  - {text: i can't see a thing, tool: flashlight, slots: {state: "on"}}
+  - {text: can you light up the room, tool: flashlight, slots: {state: "on"}}
+  - {text: that's enough light thanks, tool: flashlight, slots: {state: "off"}}
+
+  # current_time
+  - {text: what time is it, tool: current_time}
+  - {text: do you know the time, tool: current_time}
+  - {text: what's the time right now, tool: current_time}
+  - {text: tell me the time, tool: current_time}
+  - {text: how late is it, tool: current_time}
+  - {text: what time is it now, tool: current_time}
+  # added 2026-10-25, held out from the prompt tuning
+  - {text: got the time, tool: current_time}
+  - {text: what hour is it, tool: current_time}
+  - {text: could you tell me what time it is, tool: current_time}
+  # added 2026-10-25 with the tool's keywords, held out: paraphrases its keywords must accept
+  - {text: do you have the time, tool: current_time}
+  - {text: what does the clock say, tool: current_time}
+  - {text: can you check the time for me, tool: current_time}
+  # added 2026-10-26 with the noon and midnight keywords, held out
+  - {text: is it midnight already, tool: current_time}
+  - {text: is it past noon, tool: current_time}
+
+  # navigate
+  - {text: take me to the train station, tool: navigate, slots: {where: [the train station, train station]}}
+  - {text: directions to central park, tool: navigate, slots: {where: central park}}
+  - {text: how do i get to the airport, tool: navigate, slots: {where: [the airport, airport]}}
+  - {text: navigate home, tool: navigate, slots: {where: home}}
+  - {text: drive to grandma's house, tool: navigate, slots: {where: grandma's house}}
+  - {text: find me a route to the nearest gas station, tool: navigate, slots: {where: [the nearest gas station, nearest gas station]}}
+  - {text: get me to forty second street, tool: navigate, slots: {where: forty second street}}
+  # added 2026-10-25, held out from the prompt tuning
+  - {text: show me the way to the library, tool: navigate, slots: {where: [the library, library]}}
+  - {text: let's go to the beach, tool: navigate, slots: {where: [the beach, beach]}}
+  - {text: route me to the closest pharmacy, tool: navigate, slots: {where: [the closest pharmacy, closest pharmacy]}}
+  # added 2026-11-02, dev: from the voice log ("when should i go to bed" matched the navigation
+  # sentences, the model navigated the narration); the app's NavigationCallFilter drops navigate
+  # calls on the negatives, which the eval doesn't run
+  - {text: directions to costco, tool: navigate, slots: {where: costco}}
+  - {text: where is the nearest pharmacy, tool: navigate, slots: {where: [the nearest pharmacy, nearest pharmacy]}}
+  # added 2026-11-02, dev: ways to ask the way that no navigation sentence takes (the call filter
+  # used to drop them)
+  - {text: what's the fastest way home, tool: navigate, slots: {where: home}}
+  - {text: i want to go home, tool: navigate, slots: {where: home}}
+  - {text: how long does it take to get to the airport, tool: navigate, slots: {where: [the airport, airport]}}
+  - {text: i'm trying to get to the airport, tool: navigate, slots: {where: [the airport, airport]}}
+  - {text: when should i go to bed, tool: no_match}
+  - {text: what time should i go to sleep tonight, tool: no_match}
+  - {text: you're trying to get to the first half of your business, tool: no_match}
+  - {text: i'm trying to get to sleep, tool: no_match}
+  # added 2026-11-02 with contact navigation (NavigationPlaces resolves the person in Kotlin)
+  - {text: take me to sarah's, tool: navigate, slots: {where: [sarah's, sarah]}}
+  - {text: navigate to sarah's house, tool: navigate, slots: {where: [sarah's house]}}
+  - {text: directions to mom, tool: navigate, slots: {where: mom}}
+  - {text: how do i get to dave's place, tool: navigate, slots: {where: [dave's place, dave's]}}
+  # added 2026-11-02 with the shop check: brands stay map searches, "my mom's house" is mom's
+  - {text: take me to mcdonald's, tool: navigate, slots: {where: [mcdonald's, mcdonalds]}}
+  - {text: take me to trader joe's, tool: navigate, slots: {where: [trader joe's, trader joes]}}
+  - {text: directions to wendy's, tool: navigate, slots: {where: [wendy's, wendys]}}
+  - {text: take me to my mom's house, tool: navigate, slots: {where: [my mom's house, mom's house]}}
+
+  # calculate
+  - {text: how much is twelve times seven, tool: calculate, slots: {calculation: twelve times seven}}
+  - {text: add five and eight, tool: calculate, slots: {calculation: [five and eight, add five and eight]}}
+  - {text: what's fifteen percent of eighty, tool: calculate, slots: {calculation: fifteen percent of eighty}}
+  - {text: divide one hundred by four, tool: calculate, slots: {calculation: [one hundred by four, divide one hundred by four]}}
+  - {text: what is the square root of sixty four, tool: calculate, slots: {calculation: [the square root of sixty four, square root of sixty four]}}
+  - {text: seven plus nine, tool: calculate, slots: {calculation: seven plus nine}}
+  - {text: multiply six by six, tool: calculate, slots: {calculation: [six by six, multiply six by six]}}
+  # added 2026-10-25, held out from the prompt tuning
+  - {text: what's nine times eight, tool: calculate, slots: {calculation: nine times eight}}
+  - {text: how much is a hundred minus thirty, tool: calculate, slots: {calculation: a hundred minus thirty}}
+  - {text: what is twenty divided by five, tool: calculate, slots: {calculation: twenty divided by five}}
+
+  # read_notifications
+  - {text: read my notifications, tool: read_notifications}
+  - {text: do i have any notifications, tool: read_notifications}
+  - {text: what are my notifications, tool: read_notifications}
+  - {text: check my notifications, tool: read_notifications}
+  - {text: read me my alerts, tool: read_notifications}
+  # added 2026-10-25, held out from the prompt tuning
+  - {text: any new notifications, tool: read_notifications}
+  - {text: read out my alerts, tool: read_notifications}
+  # added 2026-10-25 with the tool's keywords, held out: paraphrases its keywords must accept
+  - {text: did i get any notifications, tool: read_notifications}
+  - {text: go through my alerts, tool: read_notifications}
+  - {text: anything new in my notifications, tool: read_notifications}
+  # added 2026-10-26 with the message keyword, held out
+  - {text: read me my new messages, tool: read_notifications}
+  - {text: do i have any messages, tool: read_notifications}
+
+  # wake_word
+  - {text: stop listening for the wake word, tool: wake_word, slots: {state: "off"}}
+  - {text: start listening for hey dicio, tool: wake_word, slots: {state: "on"}}
+  - {text: turn off the wake word, tool: wake_word, slots: {state: "off"}}
+  - {text: enable hotword detection, tool: wake_word, slots: {state: "on"}}
+  - {text: don't listen for the wake word anymore, tool: wake_word, slots: {state: "off"}}
+  # added 2026-10-25, held out from the prompt tuning
+  - {text: turn the hotword back on, tool: wake_word, slots: {state: "on"}}
+  - {text: disable the wake word, tool: wake_word, slots: {state: "off"}}
+  # added 2026-10-26 with the tool's keywords, held out: paraphrases its keywords must accept
+  - {text: listen for hey dicio again, tool: wake_word, slots: {state: "on"}}
+  - {text: quit listening for me in the background, tool: wake_word, slots: {state: "off"}}
+  - {text: switch the hot word on, tool: wake_word, slots: {state: "on"}}
+  # added 2026-10-26 in review with the microphone keywords, held out
+  - {text: can you turn the microphone off, tool: wake_word, slots: {state: "off"}}
+  - {text: turn the mic back on, tool: wake_word, slots: {state: "on"}}
+  # added 2026-10-26 with the wake up word keyword, held out
+  - {text: turn the wake up word back on, tool: wake_word, slots: {state: "on"}}
+
+  # out of scope: chit-chat, knowledge questions, disabled online skills, missing tools
+  - {text: what's the capital of france, tool: no_match}
+  - {text: tell me a joke, tool: no_match}
+  - {text: what's the weather like tomorrow, tool: weather} # relabeled 2026-11-02: the weather tool is offered while the skill is off
+  - {text: search the web for pizza places, tool: no_match}
+  - {text: translate hello into spanish, tool: no_match}
+  - {text: what are the lyrics of yesterday, tool: no_match}
+  - {text: how are you doing today, tool: no_match}
+  - {text: thank you, tool: no_match}
+  - {text: who won the game last night, tool: no_match}
+  - {text: i love you, tool: no_match}
+  - {text: what's your name, tool: no_match}
+  - {text: tell me a story about dragons, tool: no_match}
+  - {text: hmm, tool: no_match}
+  - {text: uh never mind, tool: no_match}
+  - {text: how tall is mount everest, tool: no_match}
+  - {text: who is the president of france, tool: no_match}
+  - {text: what's the meaning of life, tool: no_match}
+  - {text: good morning, tool: no_match}
+  - {text: send an email to my boss, tool: no_match}
+  - {text: book a table for two, tool: no_match}
+  # added 2026-10-25, held out from the prompt tuning
+  - {text: what time does the pharmacy close, tool: no_match}
+  - {text: how long does it take to boil an egg, tool: no_match}
+  - {text: when is christmas this year, tool: no_match}
+  - {text: what's the temperature outside, tool: weather} # relabeled 2026-11-02: the weather tool is offered while the skill is off
+  - {text: will it rain today, tool: weather} # relabeled 2026-11-02: the weather tool is offered while the skill is off
+  - {text: what's in the news, tool: no_match}
+  - {text: who invented the telephone, tool: no_match}
+  - {text: how far away is the moon, tool: no_match}
+  - {text: what does photosynthesis mean, tool: no_match}
+  - {text: how do you spell necessary, tool: no_match}
+  - {text: what's a good recipe for pancakes, tool: no_match}
+  - {text: who are you, tool: no_match}
+  - {text: what can you do, tool: no_match}
+  - {text: are you there, tool: no_match}
+  - {text: that's not what i said, tool: no_match}
+  - {text: okay, tool: no_match}
+  - {text: good night, tool: no_match}
+  - {text: i'm bored, tool: no_match}
+  - {text: take a screenshot, tool: no_match}
+  - {text: what's the score of the lakers game, tool: no_match}
+
+  # GAR Step 3 skills: each group replaces only its own marker line
+  # gar:alarm
+  # alarm_set (added 2026-10-25, never tuned on)
+  - {text: wake me up at seven, tool: alarm_set, slots: {time: [seven, at seven]}}
+  - {text: set an alarm for six thirty every weekday, tool: alarm_set, slots: {time: [six thirty every weekday, for six thirty every weekday]}}
+  - {text: alarm for quarter past five tomorrow, tool: alarm_set, slots: {time: [quarter past five tomorrow, quarter past five, for quarter past five tomorrow, for quarter past five]}}
+  - {text: i need to get up at six tomorrow morning, tool: alarm_set, slots: {time: [six tomorrow morning, at six tomorrow morning]}}
+  - {text: set an alarm for seven am called gym, tool: alarm_set, slots: {time: [seven am, for seven am], label: [gym, called gym]}}
+  - {text: make sure i'm up by eight thirty, tool: alarm_set, slots: {time: [eight thirty, by eight thirty]}}
+  - {text: get me up at five forty five, tool: alarm_set, slots: {time: [five forty five, at five forty five]}}
+  - {text: wake me every day at six am, tool: alarm_set, slots: {time: [every day at six am]}}
+  - {text: i want an alarm at seven thirty on mondays and wednesdays, tool: alarm_set, slots: {time: [seven thirty on mondays and wednesdays, at seven thirty on mondays and wednesdays]}}
+  - {text: put an alarm on for ten fifteen tonight, tool: alarm_set, slots: {time: [ten fifteen tonight, for ten fifteen tonight]}}
+  # added 2026-10-25 with the alarm keywords, held out: paraphrases the keywords must accept
+  - {text: i have to be up at five thirty tomorrow, tool: alarm_set, slots: {time: [five thirty tomorrow, at five thirty tomorrow]}}
+  - {text: set my wake up call for six fifteen, tool: alarm_set, slots: {time: [six fifteen, for six fifteen]}}
+  - {text: can you wake me at quarter to seven, tool: alarm_set, slots: {time: [quarter to seven, at quarter to seven]}}
+  # added 2026-10-26 in review with the wakeup keyword, held out
+  - {text: set a wakeup call for six thirty, tool: alarm_set, slots: {time: [six thirty, for six thirty]}}
+  # added 2026-10-26 with the awake keyword, held out
+  - {text: i need to be awake at six fifteen, tool: alarm_set, slots: {time: [six fifteen, at six fifteen]}}
+  # added 2026-11-05, dev: a time and the word alarm (the Pixel's "1145 alarm."); alarm.yml takes
+  # these now, the model still should when a sentence misses
+  - {text: eleven forty five alarm, tool: alarm_set, slots: {time: eleven forty five}}
+  - {text: seven am alarm, tool: alarm_set, slots: {time: seven am}}
+  # alarm_list
+  - {text: what alarms do i have, tool: alarm_list}
+  - {text: when does my alarm go off, tool: alarm_list}
+  - {text: do i have any alarms set, tool: alarm_list}
+  - {text: what time is my alarm set for tomorrow, tool: alarm_list}
+  - {text: is my alarm on, tool: alarm_list}
+  # added with the keywords, as above
+  - {text: what time do i wake up tomorrow, tool: alarm_list}
+  - {text: is there an alarm for tomorrow morning, tool: alarm_list}
+  # alarm_cancel
+  - {text: cancel my seven am alarm, tool: alarm_cancel, slots: {time: seven am}}
+  - {text: turn off my alarm, tool: alarm_cancel}
+  - {text: delete the alarm for six thirty, tool: alarm_cancel, slots: {time: [six thirty, for six thirty]}}
+  - {text: get rid of my five am alarm, tool: alarm_cancel, slots: {time: five am}}
+  - {text: i don't need an alarm tomorrow, tool: alarm_cancel, optional: [time]}
+  - {text: skip my next alarm, tool: alarm_cancel}
+  # added with the keywords, as above
+  - {text: don't wake me up tomorrow, tool: alarm_cancel, optional: [time]}
+  - {text: i don't need the alarm anymore, tool: alarm_cancel}
+  # confusable with the alarm tools, but no command
+  - {text: my alarm didn't go off this morning, tool: no_match}
+  - {text: what's a good time to wake up, tool: no_match}
+  - {text: i hate my alarm clock, tool: no_match}
+  - {text: how many hours of sleep do i need, tool: no_match}
+
+  # calendar_add
+  - {text: add a dentist appointment tomorrow at three pm, tool: calendar_add, slots: {title: [dentist appointment, a dentist appointment], when: tomorrow at three pm}}
+  - {text: put lunch with sam on my calendar for friday at noon, tool: calendar_add, slots: {title: lunch with sam, when: [friday at noon, for friday at noon]}}
+  - {text: schedule a meeting with the team on monday at ten, tool: calendar_add, slots: {title: [meeting with the team, a meeting with the team], when: [on monday at ten, monday at ten]}}
+  - {text: add soccer practice on saturday at nine am for two hours, tool: calendar_add, slots: {title: soccer practice, when: [on saturday at nine am, saturday at nine am], duration: [two hours, for two hours]}}
+  - {text: create an event called book club next thursday at seven pm, tool: calendar_add, slots: {title: book club, when: next thursday at seven pm}}
+  - {text: add my haircut on wednesday at four thirty to the calendar, tool: calendar_add, slots: {title: [haircut, my haircut], when: [on wednesday at four thirty, wednesday at four thirty]}}
+  - {text: put mom's birthday party on my calendar for saturday, tool: calendar_add, slots: {title: [mom's birthday party], when: [saturday, for saturday]}}
+  - {text: add a team meeting at two pm, tool: calendar_add, slots: {title: [team meeting, a team meeting], when: [at two pm, two pm]}}
+
+  # calendar_query
+  - {text: what's on my calendar today, tool: calendar_query, optional: [day]}
+  - {text: do i have any meetings tomorrow, tool: calendar_query, slots: {day: tomorrow}}
+  - {text: am i busy on friday, tool: calendar_query, slots: {day: [friday, on friday]}}
+  - {text: what does my schedule look like tomorrow, tool: calendar_query, slots: {day: tomorrow}}
+  - {text: what's on my agenda for monday, tool: calendar_query, slots: {day: [monday, for monday]}}
+  - {text: what appointments do i have on the twenty eighth, tool: calendar_query, slots: {day: [the twenty eighth, on the twenty eighth, twenty eighth]}}
+  - {text: what's my first meeting today, tool: calendar_query, optional: [day]}
+
+  # reminder_add
+  - {text: remind me to call mom at five pm, tool: reminder_add, slots: {what: call mom, when: [at five pm, five pm]}}
+  - {text: remind me in twenty minutes to check the oven, tool: reminder_add, slots: {what: check the oven, when: in twenty minutes}}
+  - {text: remind me to take out the trash tomorrow morning, tool: reminder_add, slots: {what: take out the trash, when: tomorrow morning}}
+  - {text: set a reminder for eight am to take my pills, tool: reminder_add, slots: {what: take my pills, when: [eight am, for eight am]}}
+  - {text: don't let me forget to pay rent on friday, tool: reminder_add, slots: {what: pay rent, when: [on friday, friday]}}
+  - {text: remind me at noon to water the plants, tool: reminder_add, slots: {what: water the plants, when: [at noon, noon]}}
+  - {text: remind me about the meeting in an hour, tool: reminder_add, slots: {what: [the meeting, meeting], when: in an hour}}
+  # moved from the negatives; the model has to fill the required time with something, GAR asks
+  - {text: remind me to buy milk, tool: reminder_add, slots: {what: buy milk}, optional: [when]}
+
+  # calendar: confusable requests no tool does
+  - {text: cancel my dentist appointment, tool: no_match}
+  - {text: move my meeting to friday, tool: no_match}
+  - {text: delete the reminder about the milk, tool: no_match}
+  # added 2026-11-05, dev: searches of the calendar by name (the agenda skill's sentences and its
+  # follow-ups take them); the model called reminder_add(when: appointment) for these on the Pixel
+  - {text: check for a haircut appointment, tool: no_match}
+  - {text: no check for haircut appointment, tool: no_match}
+  - {text: any haircut, tool: no_match}
+
+  # gar:sms
+  # sms_send (added 2026-10-25 with the tool, never tuned on)
+  - {text: text mom i'm on my way, tool: sms_send, slots: {to: mom, message: i'm on my way}}
+  - {text: send a message to john saying see you at five, tool: sms_send, slots: {to: john, message: see you at five}}
+  - {text: tell sarah i'll be late, tool: sms_send, slots: {to: sarah, message: i'll be late}}
+  - {text: text dad, tool: sms_send, slots: {to: dad}}
+  - {text: send a text to my wife, tool: sms_send, slots: {to: [my wife, wife]}}
+  - {text: message peter that the meeting is canceled, tool: sms_send, slots: {to: peter, message: [the meeting is canceled, that the meeting is canceled]}}
+  - {text: let grandma know i'm coming for dinner, tool: sms_send, slots: {to: grandma, message: i'm coming for dinner}}
+  - {text: shoot a text to mike saying running ten minutes late, tool: sms_send, slots: {to: mike, message: running ten minutes late}}
+  - {text: send an sms to five five five one two one two saying call me back, tool: sms_send, slots: {to: five five five one two one two, message: call me back}}
+  - {text: text urine are you home, tool: sms_send, slots: {to: urine, message: are you home}, stt: vosk, said: text aaron are you home}
+  - {text: write a message to alex, tool: sms_send, slots: {to: alex}}
+  - {text: can you text my johnson that the package arrived, tool: sms_send, slots: {to: [my johnson, johnson], message: [the package arrived, that the package arrived]}, stt: vosk, said: can you text mike johnson that the package arrived}
+  - {text: text jessica happy birthday, tool: sms_send, slots: {to: jessica, message: happy birthday}}
+  - {text: send sarah a text saying i'm outside, tool: sms_send, slots: {to: sarah, message: i'm outside}}
+  - {text: reply to dave saying sounds good, tool: sms_send, slots: {to: dave, message: sounds good}}
+  - {text: send a text message to the dentist, tool: sms_send, slots: {to: [the dentist, dentist]}}
+  - {text: message my brother can you pick me up, tool: sms_send, slots: {to: [my brother, brother], message: can you pick me up}}
+  # added 2026-10-25 with the tool's keywords, held out: paraphrases its keywords must accept
+  - {text: ask mom if she needs anything from the store, tool: sms_send, slots: {to: mom, message: [if she needs anything from the store, she needs anything from the store]}}
+  - {text: ping mike that i'm running late, tool: sms_send, slots: {to: mike, message: [i'm running late, that i'm running late]}}
+  - {text: tell dad i'll call him later, tool: sms_send, slots: {to: dad, message: i'll call him later}}
+  # added 2026-10-26 with the send keyword, held out
+  - {text: send dad see you soon, tool: sms_send, slots: {to: dad, message: see you soon}}
+  - {text: send john running late, tool: sms_send, slots: {to: john, message: running late}}
+  # confusable with sms_send, but not sending a text
+  - {text: read my last text message, tool: no_match}
+  - {text: how do i send a text message, tool: no_match}
+  - {text: send a picture to dad, tool: no_match}
+  - {text: post on twitter that i'm bored, tool: no_match}
+
+  # gar:device
+  # volume ("turn up the volume" was a negative before). Steps, max and named streams are only in
+  # the sentences ("turn the ringer volume down by two"), so they have no cases here.
+  - {text: turn up the volume, tool: volume, slots: {action: up}}
+  - {text: make it louder, tool: volume, slots: {action: up}}
+  - {text: it's way too loud, tool: volume, slots: {action: down}}
+  - {text: quieter please, tool: volume, slots: {action: down}}
+  - {text: i can't hear anything turn it up, tool: volume, slots: {action: up}}
+  - {text: lower the sound a little, tool: volume, slots: {action: down}}
+  - {text: crank it all the way up, tool: volume, slots: {action: up}}
+  - {text: mute everything, tool: volume, slots: {action: mute}}
+  - {text: bring the sound back, tool: volume, slots: {action: unmute}}
+
+  # volume_set ("set the volume to fifty percent" was a negative before). The model often drops
+  # "percent", which reads the same: plain numbers above ten are percentages (see VolumeCommand).
+  - {text: set the volume to fifty percent, tool: volume_set, slots: {level: [fifty percent, fifty]}}
+  - {text: can you make the volume thirty percent, tool: volume_set, slots: {level: [thirty percent, thirty]}}
+  - {text: volume to seven, tool: volume_set, slots: {level: seven}}
+  - {text: put the sound at eighty percent, tool: volume_set, slots: {level: [eighty percent, eighty]}}
+  - {text: i want the volume at forty percent, tool: volume_set, slots: {level: [forty percent, forty]}}
+
+  # do_not_disturb
+  - {text: turn on do not disturb, tool: do_not_disturb, slots: {action: enable}}
+  - {text: i don't want to be disturbed, tool: do_not_disturb, slots: {action: enable}}
+  - {text: no calls or notifications for now, tool: do_not_disturb, slots: {action: enable}}
+  - {text: turn off do not disturb, tool: do_not_disturb, slots: {action: disable}}
+  - {text: get me out of do not disturb mode, tool: do_not_disturb, slots: {action: disable}}
+  - {text: is do not disturb on, tool: do_not_disturb, slots: {action: check}}
+  - {text: am i on do not disturb right now, tool: do_not_disturb, slots: {action: check}}
+
+  # wifi
+  - {text: turn on wifi, tool: device_setting, slots: {setting: wifi, action: "on"}}
+  - {text: switch off the wi fi, tool: device_setting, slots: {setting: wifi, action: "off"}}
+  - {text: connect me to the wifi, tool: device_setting, slots: {setting: wifi, action: ["on", show]}}
+  - {text: show me the wifi networks, tool: device_setting, slots: {setting: wifi, action: show}}
+  - {text: open the wi fi settings, tool: device_setting, slots: {setting: wifi, action: show}}
+  # added 2026-10-25 with the tool's keywords, held out: paraphrases its keywords must accept
+  - {text: can you get me on the wifi, tool: device_setting, slots: {setting: wifi, action: ["on", show]}}
+  - {text: i don't want to use wifi right now, tool: device_setting, slots: {setting: wifi, action: "off"}}
+  - {text: which wifi am i connected to, tool: device_setting, slots: {setting: wifi, action: [show, status]}}
+  # added 2026-10-26 with the online keyword, held out
+  - {text: get me back online, tool: device_setting, slots: {setting: wifi, action: "on"}}
+
+  # bluetooth
+  - {text: turn on bluetooth, tool: device_setting, slots: {setting: bluetooth, action: "on"}}
+  - {text: switch bluetooth off, tool: device_setting, slots: {setting: bluetooth, action: "off"}}
+  - {text: disable bluetooth please, tool: device_setting, slots: {setting: bluetooth, action: "off"}}
+  - {text: open the bluetooth settings, tool: device_setting, slots: {setting: bluetooth, action: show}}
+  - {text: pair my headphones, tool: device_setting, slots: {setting: bluetooth, action: [show, "on"]}}
+  # added 2026-10-25 with the tool's keywords, held out: paraphrases its keywords must accept
+  - {text: connect my earbuds, tool: device_setting, slots: {setting: bluetooth, action: [show, "on"]}}
+  - {text: i don't need bluetooth anymore, tool: device_setting, slots: {setting: bluetooth, action: "off"}}
+  - {text: is my headset connected, tool: device_setting, slots: {setting: bluetooth, action: [show, status]}}
+  # added 2026-10-26 with the buds keyword, held out
+  - {text: connect my galaxy buds, tool: device_setting, slots: {setting: bluetooth, action: [show, "on"]}}
+
+  # confusable with the device tools
+  - {text: turn up the heat, tool: no_match}
+  - {text: what's the volume of a sphere, tool: no_match}
+  - {text: how loud is a jet engine, tool: no_match}
+  - {text: what's the wifi password, tool: no_match}
+  - {text: who invented bluetooth, tool: no_match}
+
+  # gar:settings
+  # device_setting: the wifi and bluetooth cases above are its calls now (relabelled, tool name and
+  # slots only). Added 2026-10-27 (batch 3), written before any run with the tool, held out: the
+  # other settings, status questions, and requests that only share words with them. Compare the
+  # merged catalog with the earlier runs on the shared cases (compare.py), which leaves these out.
+  - {text: turn up the brightness, tool: device_setting, slots: {setting: brightness, action: up}}
+  - {text: make the screen brighter, tool: device_setting, slots: {setting: brightness, action: up}}
+  - {text: it's too bright dim the screen, tool: device_setting, slots: {setting: brightness, action: down}}
+  - {text: lower the brightness a bit, tool: device_setting, slots: {setting: brightness, action: down}, optional: [level]}
+  - {text: set the brightness to fifty percent, tool: device_setting, slots: {setting: brightness, action: set, level: [fifty percent, fifty]}}
+  - {text: brightness to thirty percent please, tool: device_setting, slots: {setting: brightness, action: set, level: [thirty percent, thirty]}}
+  - {text: what's my brightness at, tool: device_setting, slots: {setting: brightness, action: status}}
+  - {text: turn on auto brightness, tool: device_setting, slots: {setting: auto brightness, action: "on"}}
+  - {text: put my phone on vibrate, tool: device_setting, slots: {setting: vibrate, action: "on"}}
+  - {text: silence my phone, tool: device_setting, slots: {setting: ringer, action: "off"}}
+  - {text: turn the ringer back on, tool: device_setting, slots: {setting: ringer, action: "on"}}
+  - {text: is my phone on silent, tool: device_setting, slots: {setting: ringer, action: status}}
+  - {text: turn off auto rotate, tool: device_setting, slots: {setting: auto rotate, action: "off"}}
+  - {text: lock the screen rotation, tool: device_setting, slots: {setting: auto rotate, action: "off"}}
+  - {text: set the screen timeout to two minutes, tool: device_setting, slots: {setting: screen timeout, action: set, level: two minutes}}
+  - {text: keep the screen on for ten minutes, tool: device_setting, slots: {setting: screen timeout, action: set, level: ten minutes}}
+  - {text: what's my screen timeout, tool: device_setting, slots: {setting: screen timeout, action: status}}
+  - {text: turn on airplane mode, tool: device_setting, slots: {setting: airplane mode, action: "on"}}
+  - {text: get me out of airplane mode, tool: device_setting, slots: {setting: airplane mode, action: "off"}}
+  - {text: put my phone in flight mode, tool: device_setting, slots: {setting: airplane mode, action: "on"}}
+  - {text: turn on my hotspot, tool: device_setting, slots: {setting: hotspot, action: "on"}}
+  - {text: turn off location, tool: device_setting, slots: {setting: location, action: "off"}}
+  - {text: is my gps on, tool: device_setting, slots: {setting: location, action: status}}
+  - {text: turn on battery saver, tool: device_setting, slots: {setting: battery saver, action: "on"}}
+  - {text: switch to dark mode, tool: device_setting, slots: {setting: dark mode, action: "on"}}
+  - {text: turn off mobile data, tool: device_setting, slots: {setting: mobile data, action: "off"}}
+  - {text: turn on nfc, tool: device_setting, slots: {setting: nfc, action: "on"}}
+  - {text: is wifi on, tool: device_setting, slots: {setting: wifi, action: status}}
+  - {text: is bluetooth connected, tool: device_setting, slots: {setting: bluetooth, action: status}}
+  - {text: show me the location settings, tool: device_setting, slots: {setting: location, action: show}}
+  # confusable with device_setting
+  - {text: what does airplane mode do, tool: no_match}
+  - {text: my screen is cracked, tool: no_match}
+  - {text: how bright is the sun, tool: no_match}
+  - {text: set the thermostat to seventy degrees, tool: no_match}
+  - {text: share my location with mom, tool: no_match}
+  # added 2026-10-27 (batch 3-4), dev: written after the first run with the tool, to tune
+  # device_setting on (the batch 3 cases above stay held out)
+  - {text: set my screen brightness to eighty percent, tool: device_setting, slots: {setting: brightness, action: set, level: [eighty percent, eighty]}}
+  - {text: switch my phone to silent, tool: device_setting, slots: {setting: ringer, action: "off"}}
+  - {text: make my phone vibrate instead of ringing, tool: device_setting, slots: {setting: vibrate, action: "on"}}
+  - {text: enable flight mode, tool: device_setting, slots: {setting: airplane mode, action: "on"}}
+  - {text: is battery saver on, tool: device_setting, slots: {setting: battery saver, action: status}}
+  - {text: turn off dark theme, tool: device_setting, slots: {setting: dark mode, action: "off"}}
+  - {text: stop the screen from rotating, tool: device_setting, slots: {setting: auto rotate, action: "off"}}
+  - {text: change my display timeout to five minutes, tool: device_setting, slots: {setting: screen timeout, action: set, level: five minutes}}
+  - {text: switch on cellular data, tool: device_setting, slots: {setting: mobile data, action: "on"}}
+  - {text: start a wifi hotspot, tool: device_setting, slots: {setting: hotspot, action: "on"}}
+  - {text: what's the brightest star in the sky, tool: no_match}
+  - {text: why does my phone vibrate when i get a text, tool: no_match}
+  - {text: how much data have i used this month, tool: no_match}
+  - {text: book a flight to denver, tool: no_match}
+
+  # gar:clock
+  # stopwatch
+  - {text: start the stopwatch, tool: stopwatch, slots: {action: start}}
+  - {text: start a stopwatch, tool: stopwatch, slots: {action: start}}
+  - {text: pause the stopwatch, tool: stopwatch, slots: {action: stop}}
+  - {text: stop the stopwatch, tool: stopwatch, slots: {action: stop}}
+  - {text: keep the stopwatch going, tool: stopwatch, slots: {action: resume}}
+  - {text: resume the stopwatch, tool: stopwatch, slots: {action: resume}}
+  - {text: reset the stopwatch, tool: stopwatch, slots: {action: reset}}
+  - {text: clear the stopwatch, tool: stopwatch, slots: {action: reset}}
+  - {text: mark a lap, tool: stopwatch, slots: {action: lap}}
+  - {text: new lap on the stopwatch, tool: stopwatch, slots: {action: lap}}
+  - {text: how long has the stopwatch been running, tool: stopwatch, slots: {action: elapsed}}
+  - {text: what's the time on the stopwatch, tool: stopwatch, slots: {action: elapsed}}
+  # added 2026-10-25 with the tool's keywords, held out: paraphrases its keywords must accept
+  - {text: what does the stopwatch say, tool: stopwatch, slots: {action: elapsed}}
+  - {text: freeze the stopwatch right there, tool: stopwatch, slots: {action: stop}}
+  - {text: let's time this with the stopwatch, tool: stopwatch, slots: {action: start}}
+
+  # date_query
+  - {text: what's the date, tool: date_query}
+  - {text: what day is it, tool: date_query, optional: [day]}
+  - {text: what's today's date, tool: date_query, optional: [day]}
+  - {text: what day of the week is it, tool: date_query, optional: [day]}
+  - {text: what is the date tomorrow, tool: date_query, slots: {day: tomorrow}}
+  - {text: what day is it tomorrow, tool: date_query, slots: {day: tomorrow}}
+  - {text: what's the date on friday, tool: date_query, slots: {day: [friday, on friday]}}
+  - {text: what will the date be in three days, tool: date_query, slots: {day: in three days}}
+  - {text: what was the date yesterday, tool: date_query, slots: {day: yesterday}}
+  - {text: what day is the day after tomorrow, tool: date_query, slots: {day: [the day after tomorrow, day after tomorrow]}}
+  - {text: which day of the month is it, tool: date_query, optional: [day]}
+  - {text: what's the date next monday, tool: date_query, slots: {day: next monday}}
+  # added 2026-10-25 with the tool's keywords, held out: paraphrases its keywords must accept
+  - {text: tell me what day it is, tool: date_query, optional: [day]}
+  - {text: what month is it, tool: date_query, optional: [day]}
+  - {text: is today a monday, tool: date_query, optional: [day]}
+
+  # clock negatives: dates and durations that aren't questions about today or the stopwatch
+  - {text: what year did the war end, tool: no_match}
+  - {text: what's the date of the next full moon, tool: no_match}
+  - {text: how long is a marathon, tool: no_match}
+  - {text: what day does the library open, tool: no_match}
+
+  # gar:song (added 2026-10-26 with the tool, never tuned on: held out, first run 2026-10-26)
+  # song_identify: the skill's own sentences (Dicio matches them first) and paraphrases they miss
+  - {text: what song is this, tool: song_identify}
+  - {text: what's this song, tool: song_identify}
+  - {text: who sings this, tool: song_identify}
+  - {text: what am i listening to, tool: song_identify}
+  - {text: shazam this, tool: song_identify}
+  - {text: do you know what song this is, tool: song_identify}
+  - {text: can you tell me what this song is called, tool: song_identify}
+  - {text: what's the name of the tune that's on, tool: song_identify}
+  - {text: who's the artist of this track, tool: song_identify}
+  - {text: what's this music playing in the background, tool: song_identify}
+  - {text: find out what song is playing, tool: song_identify}
+  - {text: tell me who sings this song, tool: song_identify}
+  # song negatives: questions about music that aren't about what plays now
+  - {text: who sings bohemian rhapsody, tool: no_match}
+  - {text: what's playing at the movie theater tonight, tool: no_match}
+  - {text: recommend me a good song, tool: no_match}
+  - {text: how many songs did the beatles release, tool: no_match}
+  # inputs with a keyword that a wrong call would record and send for (review, 2026-10-26)
+  - {text: sing me a song, tool: no_match}
+  - {text: track my package, tool: no_match}
+  - {text: who sings hello, tool: no_match}
+
+  # gar:media (added 2026-10-27 with the tool, never tuned on: held out, first run 2026-10-27)
+  # media_play: the skill's own sentences (Dicio matches them first) and paraphrases they miss
+  - {text: play taylor swift on spotify, tool: media_play, slots: {query: taylor swift, app: spotify}}
+  - {text: put on my workout playlist, tool: media_play, slots: {query: [my workout playlist, workout playlist, workout]}}
+  - {text: play the latest episode of the daily, tool: media_play, slots: {query: [the latest episode of the daily, latest episode of the daily, the daily]}}
+  - {text: play lofi on youtube music, tool: media_play, slots: {query: lofi, app: youtube music}}
+  - {text: play bohemian rhapsody, tool: media_play, slots: {query: bohemian rhapsody}}
+  - {text: i want to listen to some jazz, tool: media_play, slots: {query: [some jazz, jazz]}}
+  - {text: can you put on some music by the beatles, tool: media_play, slots: {query: [some music by the beatles, music by the beatles, the beatles]}}
+  - {text: play the album thriller by michael jackson, tool: media_play, slots: {query: [the album thriller by michael jackson, album thriller by michael jackson, thriller by michael jackson, thriller]}}
+  - {text: listen to the joe rogan podcast on spot if i, tool: media_play, slots: {query: [the joe rogan podcast, joe rogan podcast, joe rogan], app: spot if i}, stt: vosk, said: listen to the joe rogan podcast on spotify}
+  - {text: queue up some lo fi beats, tool: media_play, slots: {query: [some lo fi beats, lo fi beats]}}
+  - {text: i'd like to hear hotel california by the eagles, tool: media_play, slots: {query: [hotel california by the eagles, hotel california]}}
+  - {text: start my discover weekly playlist, tool: media_play, slots: {query: [my discover weekly playlist, discover weekly playlist, discover weekly]}}
+  - {text: play something relaxing on you tube, tool: media_play, slots: {query: something relaxing, app: you tube}, stt: vosk, said: play something relaxing on youtube}
+  - {text: blast some metallica, tool: media_play, slots: {query: [some metallica, metallica]}}
+  # media negatives: questions about music and things one plays that aren't media
+  - {text: how do you play chess, tool: no_match}
+  - {text: what's the best playlist for running, tool: no_match}
+  - {text: who played in the super bowl last year, tool: no_match}
+  - {text: did you hear about the new album, tool: no_match}
+  # added 2026-10-27 (batch 3-4), dev: written after the first run with the tool, to tune
+  # media_play on (the cases above stay held out). The first run sent 11 of 13 media_control
+  # commands to media_play: the last two are media_control's
+  - {text: play some coldplay, tool: media_play, slots: {query: [some coldplay, coldplay]}}
+  - {text: play my liked songs on spotify, tool: media_play, slots: {query: [my liked songs, liked songs], app: spotify}}
+  - {text: put on the new kendrick lamar album, tool: media_play, slots: {query: [the new kendrick lamar album, new kendrick lamar album, kendrick lamar album, kendrick lamar]}}
+  - {text: let me hear some classic rock, tool: media_play, slots: {query: [some classic rock, classic rock]}}
+  - {text: play the radio lab podcast, tool: media_play, slots: {query: [the radio lab podcast, radio lab podcast, radio lab]}, stt: vosk, said: play the radiolab podcast}
+  - {text: listen to my chill playlist on you tube music, tool: media_play, slots: {query: [my chill playlist, chill playlist], app: you tube music}, stt: vosk, said: listen to my chill playlist on youtube music}
+  - {text: throw on some beyonce, tool: media_play, slots: {query: [some beyonce, beyonce]}}
+  - {text: play shape of you by ed sheeran, tool: media_play, slots: {query: [shape of you by ed sheeran, shape of you]}}
+  - {text: let's play a game, tool: no_match}
+  - {text: can you recommend a podcast about history, tool: no_match}
+  - {text: when does the new taylor swift album come out, tool: no_match}
+  - {text: skip to the next song, tool: media_control, slots: {action: next}}
+  - {text: continue the podcast, tool: media_control, slots: {action: play}}
+
+  # gar:calls (added 2026-10-27, no tool: call backs the call log sentences may miss reach the
+  # call log through call_contact's who, read by CallBack.parse; never tuned on: held out, first
+  # run 2026-10-27)
+  - {text: get the last caller back on the line, tool: call_contact, slots: {who: [the last caller, last caller, back]}}
+  - {text: i want to return my missed call, tool: call_contact, slots: {who: [my missed call]}}
+  - {text: dial whoever rang me a minute ago, tool: call_contact, slots: {who: [whoever rang me a minute ago, whoever rang me]}}
+  - {text: phone back the person who called earlier, tool: call_contact, slots: {who: [back the person who called earlier, the person who called earlier]}}
+  - {text: can you redial my last number, tool: call_contact, slots: {who: [my last number]}}
+
+  # gar:weather, added 2026-11-02 (batch 5), dev: the slotless weather tool (GAR reads the day
+  # and the place from the words), with near negatives that name a weather word. Tune the tool's
+  # description on these, never on the holdout. The older no_match cases for the weather above
+  # ("what's the weather like tomorrow", "what's the temperature outside", "will it rain today")
+  # were relabeled weather at the merge: the tool is offered while the skill is off, so a weather
+  # call is the right answer (GAR's gate asks once)
+  - {text: what's it going to be like outside tomorrow, tool: weather}
+  - {text: is it supposed to rain this weekend, tool: weather}
+  - {text: will i need an umbrella this afternoon, tool: weather}
+  - {text: how cold is it going to get tonight, tool: weather}
+  - {text: is it going to snow in park city on friday, tool: weather}
+  - {text: what's the forecast for salt lake city, tool: weather}
+  - {text: when is the rain supposed to stop, tool: weather}
+  - {text: how windy is it outside right now, tool: weather}
+  # added 2026-11-02, dev: the voice log's slow turn (a sentence match in the app)
+  - {text: what's the weather like for this week, tool: weather}
+  # added after the review: no word the tool's first keywords had (degrees, freeze)
+  - {text: how many degrees is it going to be tomorrow, tool: weather}
+  - {text: will it freeze tonight, tool: weather}
+  - {text: set the thermostat to seventy, tool: no_match}
+  - {text: play cold by coldplay, tool: media_play, slots: {query: [cold by coldplay, cold]}}
+  - {text: it's raining men, tool: no_match}
+  - {text: how hot does the oven get, tool: no_match}

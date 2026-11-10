@@ -1,0 +1,31 @@
+# GAR (gar:messages): the messages among the phone's notifications, by person or app, and
+# replies through the notification's reply button. A capture takes any words, so
+# MessagesSkill.score keeps a match only for an input that MessageWords says is about messages.
+read:
+  - (read|check|play|tell me) (me|out)? (all of)? my|the|any? (new|unread|latest|last|newest|recent|(most recent))? (text message<s?>)|message<s?>|text<s?>|chat<s?> ((from|on|in|by) .source.)?
+  - (read|check|play) (me)? .source. s? (new|unread|latest|last)? (text message<s?>)|message<s?>|text<s?>|chat<s?>
+  - (do|did) i (have|get|got) (any|a|some)? (new|unread|more)? (text message<s?>)|message<s?>|text<s?> ((from|on|in) .source.)?
+  - (have i got)|(are there)|(is there)|got (any|a|some)? (new|unread|more)? (text message<s?>)|message<s?>|text<s?> ((from|on|in) .source.)?
+  - any (new|unread|more)? (text message<s?>)|message<s?>|text<s?> ((from|on|in) .source.)?
+  - (what s|is|are|were)|whats my|the (new|unread|latest|last)? (text message<s?>)|message<s?>|text<s?> ((from|on|in) .source.)?
+  - what did|does .source. (say|send|write|text|message|want) (me)?
+  - what did|does .source. s? (last|latest|new)? (text message)|message|text say
+  - did|has .source. (text|texted|message|messaged|write|written|wrote|reply|replied|respond|responded|(get back to)|(got back to)|(gotten back to)) (me)? (back)? (yet)?
+
+# lists who wrote; MessagesReadOutput asks whether to read them
+who:
+  - who (just)? (texted|messaged|wrote) (me)?
+  - who (just)? sent (me)? (a|that|the)? (text message)|message|text
+  - who (is|s)|whos (texting|messaging) me
+
+# replies to a message among the notifications, through its reply button; who is a name, or "her"
+# and the like for the message GAR read last
+reply:
+  - reply|respond to .who. (and)? saying|with|that|say .what.
+  - reply|respond to .who. (and)? tell|telling him|her|them .what.
+  - reply|respond .who. saying .what.
+  - reply|respond to .who.
+  - reply|respond|((write|text) back) (back)? (saying|with|that)? .what.
+  - reply|respond (back)?
+  - text|message|write .who. back (saying|that)? .what.
+  - text|message|write .who. back

@@ -22,6 +22,7 @@ import org.stypox.dicio.util.getString
 class TelephoneOutput(
     private val contacts: List<Pair<String, List<String>>>,
     private val yesNoData: StandardRecognizerData<Sentences.UtilYesNo>,
+    private val telephone: TelephoneSkill? = null, // GAR: for TelephoneCorrectionSkill, in English
 ) : SkillOutput {
     override fun getSpeechOutput(ctx: SkillContext): String = if (contacts.isEmpty()) {
         ctx.getString(R.string.skill_telephone_unknown_contact)
@@ -51,6 +52,9 @@ class TelephoneOutput(
                 )
             )
         }
+
+        // GAR: "no, to Aaron" looks Aaron up instead (gar/DESIGN.md)
+        telephone?.let { nextSkills.add(TelephoneCorrectionSkill(it, contacts)) }
 
         return InteractionPlan.StartSubInteraction(
             reopenMicrophone = true,

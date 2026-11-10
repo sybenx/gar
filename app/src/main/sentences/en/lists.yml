@@ -1,0 +1,40 @@
+# GAR (gar:notes): lists kept by GAR ("add milk to my shopping list"). A capture takes any words,
+# so ListsSkill.score keeps a match only when ListWords reads the whole input as a list request.
+add:
+  - add|put|stick|throw|write|include|place|pop (down)? .items. to|on|onto|in|into my|the|our|a|this|that .list. list
+  - add|put|stick|throw|write|include|place|pop (down)? .items. to|on|onto|in|into my|the|our|a|this|that list
+  - add|put|write (down)? to|on|onto|in|into my|the|our .list. list .items.
+  - add|put|write (down)? to|on|onto|in|into my|the|our list .items.
+
+remove:
+  - remove|delete|take|cross|scratch|strike|check|tick|erase .item. off|from|(out of)|(off of) my|the|our|this|that .list. list
+  - remove|delete|take|cross|scratch|strike|check|tick|erase .item. off|from|(out of)|(off of) my|the|our|this|that list
+
+read:
+  - what|(what s)|whats|(what is)|(what are)|(what do i have) on|in my|the|our|this|that .list. list
+  - what|(what s)|whats|(what is)|(what are)|(what do i have) on|in my|the|our|this|that list
+  - read|show|tell|check|open|give (me|out)? my|the|our|this|that .list. list
+  - read|show|tell|check|open|give (me|out)? my|the|our|this|that list
+  - what do|did i|we need to buy|get ((at|from) the store)?
+  - what do i|we need from|at the store|shop|supermarket
+
+has:
+  - is|are (there)? .item. on|in my|the|our .list. list
+  - is|are (there)? .item. on|in my|the|our list
+  - do|did i|we have|put|add .item. on|in|to my|the|our .list. list (already)?
+  - do|did i|we have|put|add .item. on|in|to my|the|our list (already)?
+
+clear:
+  - clear|empty|wipe|reset|delete|erase|remove (out)? my|the|our .list. list
+  - clear|empty|wipe|reset|delete|erase|remove (out)? my|the|our list
+  - clear|remove|delete|erase|take|cross everything|(all items)|(all the items)|(it all) from|on|in|off|of my|the|our .list. list
+  - clear|remove|delete|erase|take|cross everything|(all items)|(all the items)|(it all) from|on|in|off|of my|the|our list
+
+all_lists:
+  - what|which lists do i have
+  - (show|read|tell) (me)? (all)? my lists
+  - what are my lists
+
+create:
+  - create|make|start|begin|add|new (me)? a|an? (new)? list called|named|for .list.
+  - create|make|start|begin (me)? a|an? (new)? .list. list

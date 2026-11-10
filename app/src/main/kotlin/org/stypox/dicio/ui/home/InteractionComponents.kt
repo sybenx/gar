@@ -26,6 +26,10 @@ import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember // GAR
+import androidx.compose.runtime.withFrameMillis // GAR
+import androidx.compose.foundation.gestures.scrollBy // GAR
+import androidx.compose.foundation.layout.Column // GAR
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -47,6 +51,13 @@ import org.dicio.skill.context.SkillContext
 import org.dicio.skill.skill.SkillInfo
 import org.dicio.skill.skill.SkillOutput
 import org.stypox.dicio.di.SkillContextImpl
+import org.stypox.dicio.gar.ui.GarAnswerCard // GAR
+import org.stypox.dicio.gar.ui.GarChip // GAR
+import org.stypox.dicio.gar.ui.GarChipRow // GAR
+import org.stypox.dicio.gar.ui.GarChips // GAR
+import org.stypox.dicio.gar.ui.GarMicState // GAR
+import org.stypox.dicio.gar.ui.GarThinkingCard // GAR
+import org.stypox.dicio.gar.ui.GarUserBubble // GAR
 import org.stypox.dicio.io.wake.WakeState
 import org.stypox.dicio.ui.theme.AppTheme
 import org.stypox.dicio.ui.util.InteractionLogPreviews
@@ -67,6 +78,9 @@ fun InteractionList(
     onWakeDownload: () -> Unit,
     onWakeDisable: () -> Unit,
     modifier: Modifier = Modifier,
+    // GAR: the thinking card's state (null: not thinking yet), and the latest answer's chips
+    thinking: GarMicState.Thinking? = null,
+    onChip: ((GarChip) -> Unit)? = null,
 ) {
     var totalItemCount = 0
     var lastAnchorIndex = 0
@@ -85,47 +99,90 @@ fun InteractionList(
     val pendingQuestion = interactionLog.pendingQuestion
     val listState = rememberLazyListState()
     val scope = rememberCoroutineScope()
+    // GAR: the latest answer gets chips while nothing is pending; their item's index, to bring
+    // it into view when it appears
+    val latestAnswer = interactions.lastOrNull()?.questionsAnswers?.lastOrNull()
+        ?.answer?.takeIf { pendingQuestion == null && onChip != null }
+    val latestChips = remember(latestAnswer) {
+        latestAnswer?.let { GarChips.forOutput(it, skillContext) } ?: listOf()
+    }
+    var chipsIndex = -1
 
     LazyColumn(
         modifier = modifier.testTag("interaction_list"),
         verticalArrangement = Arrangement.spacedBy(8.dp),
         state = listState,
     ) {
+        // GAR: the first-run cards in one item, 12 dp apart (a card that shows nothing takes
+        // no space)
         countedItem(canBeAnchor = false) {
-            if (wakeState != null) {
-                WakeWordWidget(
-                    wakeState = wakeState,
-                    onWakeDownload = onWakeDownload,
-                    onWakeDisable = onWakeDisable,
-                )
+            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                if (wakeState != null) {
+                    WakeWordWidget(
+                        wakeState = wakeState,
+                        onWakeDownload = onWakeDownload,
+                        onWakeDisable = onWakeDisable,
+                    )
+                }
+
+                // GAR: the card that asks once to make GAR the digital assistant
+                org.stypox.dicio.gar.assist.GarAssistantCard()
+
+                // GAR: the card that offers once to download the speech model (Whisper)
+                org.stypox.dicio.gar.stt.GarSttOfferCard()
+
+                // GAR: the card that asks once for the user's first name (Whisper's prompt)
+                org.stypox.dicio.gar.stt.GarSttOwnNameCard()
             }
         }
 
         countedItem(canBeAnchor = false) {
             if (skills != null) {
                 // avoid showing anything if skills are null, i.e. not ready yet
-                WhatICanDo(skills = skills)
+                WhatICanDo(skills = skills, firstShown = GAR_HOME_SKILLS) // GAR: a few first
             }
         }
 
         interactions.forEach { interaction ->
             countedItem(canBeAnchor = false) {
-                Spacer(modifier = Modifier.height(16.dp))
+                // GAR: with the list's 8 dp on both sides, 24 dp between interactions
+                Spacer(modifier = Modifier.height(8.dp))
             }
             interaction.questionsAnswers.forEach {
                 if (it.question != null) {
                     // can be null if this QA contains only an error output
                     // (and therefore the error was not caused by the input, but e.g. by the STT)
                     countedItem(canBeAnchor = true) {
-                        ConfirmedQuestionCard(
-                            userInput = it.question,
-                            onClick = onConfirmedQuestionClick,
+                        // GAR: the user's bubble, right-aligned; a tap edits it
+                        GarUserBubble(
+                            text = it.question,
+                            pending = false,
+                            onClick = { onConfirmedQuestionClick(it.question) },
                         )
                     }
                 }
                 countedItem(canBeAnchor = it.question == null) {
-                    SkillAnswerCard {
-                        it.answer.GraphicalOutput(ctx = skillContext)
+                    // GAR: GAR's answer card, with the skill on top unless only an error
+                    GarAnswerCard(
+                        skill = if (it.question != null) interaction.skill else null,
+                        output = it.answer,
+                        ctx = skillContext,
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                    )
+                }
+                val answer = it.answer // GAR
+                if (answer === latestAnswer && latestChips.isNotEmpty()) {
+                    chipsIndex = totalItemCount
+                    countedItem(canBeAnchor = false) {
+                        var tapped by remember(answer) { mutableStateOf(false) }
+                        GarChipRow(
+                            chips = latestChips,
+                            enabled = !tapped,
+                            onChip = { chip ->
+                                tapped = true
+                                onChip?.invoke(chip)
+                            },
+                        )
                     }
                 }
             }
@@ -134,36 +191,39 @@ fun InteractionList(
         if (pendingQuestion != null) {
             if (interactions.isEmpty() || !pendingQuestion.continuesLastInteraction) {
                 countedItem(canBeAnchor = false) {
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(8.dp)) // GAR: 24 dp, as above
                 }
             }
 
             if (pendingQuestion.skillBeingEvaluated == null) {
                 countedItem(canBeAnchor = true) {
-                    PendingQuestionCard(userInput = pendingQuestion.userInput)
-                }
-                countedItem(canBeAnchor = false) {
-                    // still include a spacer in place of the LoadingAnswerCard, so that when the
-                    // pending question first appears and the LaunchedEffect below scrolls to it,
-                    // there is enough space for the loading card below the question card that will
-                    // only appear after the pending question has been confirmed
-                    Spacer(modifier = Modifier.height(72.dp))
+                    // GAR: the bubble, in italics while still pending
+                    GarUserBubble(text = pendingQuestion.userInput, pending = true, onClick = null)
                 }
             } else {
                 countedItem(canBeAnchor = true) {
-                    ConfirmedQuestionCard(
-                        userInput = pendingQuestion.userInput,
-                        onClick = onConfirmedQuestionClick,
+                    GarUserBubble( // GAR
+                        text = pendingQuestion.userInput,
+                        pending = false,
+                        onClick = { onConfirmedQuestionClick(pendingQuestion.userInput) },
                     )
                 }
-                countedItem(canBeAnchor = false) {
-                    LoadingAnswerCard(skill = pendingQuestion.skillBeingEvaluated)
+            }
+            countedItem(canBeAnchor = false) {
+                // GAR: the thinking card once the mic state says Thinking; until then a spacer of
+                // about its height, so that when the pending question first appears and the
+                // LaunchedEffect below scrolls to it, there is room for the card below it
+                if (thinking != null) {
+                    GarThinkingCard(state = thinking, modifier = Modifier.padding(horizontal = 16.dp))
+                } else {
+                    Spacer(modifier = Modifier.height(72.dp))
                 }
             }
         }
 
         countedItem(canBeAnchor = false) {
-            Spacer(modifier = Modifier.height(84.dp))
+            // GAR: the mic sits in the Scaffold's bottom bar, which the list doesn't go under
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 
@@ -180,6 +240,34 @@ fun InteractionList(
         }
         prevHasPending = newHasPending
         prevInteractionCount = newInteractionCount
+    }
+
+    // GAR: when chips appear under the latest answer, bring them into view (after the scroll
+    // above has been laid out), unless the user has scrolled above them
+    LaunchedEffect(latestAnswer) {
+        if (latestAnswer == null || latestChips.isEmpty()) {
+            return@LaunchedEffect
+        }
+        withFrameMillis {}
+        val index = chipsIndex
+        val info = listState.layoutInfo
+        val lastVisible = info.visibleItemsInfo.lastOrNull()?.index ?: return@LaunchedEffect
+        if (index < 0 || index < info.visibleItemsInfo.first().index) {
+            return@LaunchedEffect
+        }
+        val item = info.visibleItemsInfo.firstOrNull { it.index == index }
+        if (item != null) {
+            val overflow = item.offset + item.size - info.viewportEndOffset
+            if (overflow > 0) {
+                listState.scrollBy(overflow.toFloat())
+            }
+        } else if (index > lastVisible) {
+            // put the chips at the bottom of the list's window
+            listState.scrollToItem(index)
+            val shown = listState.layoutInfo
+            val size = shown.visibleItemsInfo.firstOrNull { it.index == index }?.size ?: 0
+            listState.scrollBy(-(shown.viewportEndOffset - shown.viewportStartOffset - size).toFloat())
+        }
     }
 }
 
@@ -198,6 +286,7 @@ fun InteractionListPreview(
             onWakeDownload = {},
             onWakeDisable = {},
             onConfirmedQuestionClick = {},
+            onChip = {}, // GAR: the latest answer's chips
         )
     }
 }
@@ -302,7 +391,7 @@ fun MessageCard(
     val colors = CardDefaults.cardColors(containerColor = containerColor)
     val modifier = Modifier
         .fillMaxWidth()
-        .padding(horizontal = 8.dp)
+        .padding(horizontal = 16.dp) // GAR: the home screen's 16 dp gutter
     if (onClick == null) {
         Card(colors = colors, modifier = modifier, content = content)
     } else {

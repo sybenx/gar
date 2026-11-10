@@ -1,0 +1,38 @@
+# GAR: ConversationSkill.score keeps a match only when the input is one of ConversationWords'
+# phrases, since Dicio's matcher leaves a word out ("stop the music" matched "stop it"). Every
+# line allows the fillers that conversationWords drops: one of ok, okay, oh, hey, no, please,
+# sorry, alright, just, uh, um before, then can, could or would you, and please or now after.
+# "That's" is read as "that s" (or "thats" without the apostrophe).
+stop:
+  - (ok|okay|oh|hey|no|please|sorry|alright|just|uh|um)? ((can|could|would) you)? stop (it|that|talking|speaking)? (please|now)?
+  - (ok|okay|oh|hey|no|please|sorry|alright|just|uh|um)? ((can|could|would) you)? shut up (please|now)?
+  - (ok|okay|oh|hey|no|please|sorry|alright|just|uh|um)? ((can|could|would) you)? (be|keep)? quiet (please|now)?
+  - (ok|okay|oh|hey|no|please|sorry|alright|just|uh|um)? silence|hush|enough (please|now)?
+  - (ok|okay|oh|hey|no|please|sorry|alright|just|uh|um)? (that s|is)|thats enough (please|now)?
+  - (ok|okay|oh|hey|no|please|sorry|alright|just|uh|um)? ((can|could|would) you)? cancel (it|that)? (please|now)?
+  # a word said twice, which conversationWords reads once
+  - (ok|okay|oh|hey|no|please|sorry|alright|just|uh|um)? (stop stop stop?)|(cancel cancel cancel?) (please|now)?
+  # "thanks" or "thank you" before or after the phrases that end the conversation
+  - (ok|okay|oh|hey|no|please|sorry|alright|just|uh|um)? (thanks|(thank you))? (never mind)|nevermind (thanks|(thank you))? (please|now)?
+  - (ok|okay|oh|hey|no|please|sorry|alright|just|uh|um)? (thanks|(thank you))? forget (it|that|(about it)) (thanks|(thank you))? (please|now)?
+  - (ok|okay|oh|hey|no|please|sorry|alright|just|uh|um)? (thanks|(thank you))? (that s|is)|thats it|all (thanks|(thank you))? (please|now)?
+  - (ok|okay|oh|hey|no|please|sorry|alright|just|uh|um)? (thanks|(thank you))? (that ll)|thatll|(that will) be all (thanks|(thank you))? (please|now)?
+  - (ok|okay|oh|hey|no|please|sorry|alright|just|uh|um)? (thanks|(thank you))? (i m)|im|(i am)|(we re)|were|(we are)|all done (thanks|(thank you))? (please|now)?
+  # no thanks, to "What can I do for you?" and the like
+  - (ok|okay|oh|alright|sorry)? no|nah thanks|(thank you)
+  - (ok|okay|oh|alright|sorry)? (no)? not (right)? now (thanks|(thank you))?
+  - (ok|okay|oh|hey|no|please|sorry|alright|just|uh|um)? nope|nah|nothing|((i m)|im|(i am) good) (thanks|(thank you))?
+
+repeat:
+  - (ok|okay|oh|hey|no|please|sorry|alright|just|uh|um)? ((can|could|would) you)? repeat that|it|yourself again? (please|now)?
+  - (ok|okay|oh|hey|no|please|sorry|alright|just|uh|um)? ((can|could|would) you)? say (that|it)? again|(one more time) (please|now)?
+  - (ok|okay|oh|hey|no|please|sorry|alright|just|uh|um)? (can|could|would) you repeat (please|now)?
+  - (ok|okay|oh|hey|no|please|sorry|alright|just|uh|um)? ((can|could|would) you)? repeat what you just? said (please|now)?
+  - (ok|okay|oh|hey|no|please|sorry|alright|just|uh|um)? what did you just? say (please|now)?
+  - (ok|okay|oh|hey|no|please|sorry|alright|just|uh|um)? what was that again? (please|now)?
+  - (ok|okay|oh|hey|no|please|sorry|alright|just|uh|um)? come again (please|now)?
+  - (ok|okay|oh|hey|no|please|sorry|alright|just|uh|um)? pardon me? (please|now)?
+  - (ok|okay|oh|hey|no|please|sorry|alright|just|uh|um)? i (didn t)|didnt|(did not) hear|catch|get that|you|it (please|now)?
+  - (ok|okay|oh|hey|no|please|sorry|alright|just|uh|um)? i missed that (please|now)?
+  - (ok|okay|oh|hey|no|please|sorry|alright|just|uh|um)? i (couldn t)|couldnt|(could not) hear that|you|it (please|now)?
+  - (ok|okay|oh|hey|no|please|sorry|alright|just|uh|um)? i (can t)|cant|cannot|(can not) hear you (please|now)?

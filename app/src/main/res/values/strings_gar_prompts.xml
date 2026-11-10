@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR: prompts that help set GAR up, shown once (home screen). -->
+<resources>
+    <!-- The home screen's card when GAR isn't the digital assistant app -->
+    <string name="gar_assistant_card_title">Make GAR your assistant</string>
+    <string name="gar_assistant_card_text">Swipe up from a bottom corner (or hold Home) to open GAR, and let Audile listen in the background.</string>
+    <string name="gar_assistant_card_how">Tap Default digital assistant app, then GAR.</string>
+    <string name="gar_assistant_card_dismiss">No thanks</string>
+    <string name="gar_assistant_card_open">Open settings</string>
+</resources>

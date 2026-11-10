@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR online group: asking once before one of Dicio's online skills runs, and the
+     "turn on all online skills" skill. -->
+<resources>
+    <!-- The question when an input needs an online skill that is off; spoken and shown -->
+    <string name="gar_online_ask_weather">Weather uses the internet: it asks Open-Meteo for the forecast. Turn it on?</string>
+    <string name="gar_online_ask_search">Search uses the internet: it asks DuckDuckGo. Turn it on?</string>
+    <string name="gar_online_ask_lyrics">The lyrics skill uses the internet: it asks Genius. Turn it on?</string>
+    <string name="gar_online_ask_translation">Translation uses the internet: it asks Lingva. Turn it on?</string>
+    <string name="gar_online_ask_joke">The joke skill uses the internet: it asks the Official Joke API. Turn it on?</string>
+
+    <!-- What the question's card adds below it -->
+    <string name="gar_online_detail_weather">It sends the place you name, or your default city, to Open-Meteo to find it, then its coordinates rounded to about 1 km. When you choose your location, only those rounded coordinates. While Breezy Weather shares a fresh forecast with GAR, GAR answers from it without the internet.</string>
+    <string name="gar_online_detail_search">It sends what you search for to DuckDuckGo.</string>
+    <string name="gar_online_detail_lyrics">It sends the song you name to Genius.</string>
+    <string name="gar_online_detail_translation">It sends the text to translate to Lingva (lingva.ml), which gets the translation from Google Translate. With Offline Translator on the phone, GAR translates there instead, without the internet.</string>
+    <string name="gar_online_detail_joke">It gets a random joke from official-joke-api.appspot.com, or from JokeAPI (v2.jokeapi.dev) in other languages. Nothing you say is sent.</string>
+
+    <!-- The question's buttons; saying them works too -->
+    <string name="gar_online_turn_on">Turn it on</string>
+    <string name="gar_online_keep_off">Keep it off</string>
+
+    <!-- An online skill in the sentences below -->
+    <string name="gar_online_label_weather">the weather skill</string>
+    <string name="gar_online_label_search">the search skill</string>
+    <string name="gar_online_label_lyrics">the lyrics skill</string>
+    <string name="gar_online_label_translation">the translation skill</string>
+    <string name="gar_online_label_joke">the joke skill</string>
+
+    <!-- %1$s is an online skill, like "the weather skill" -->
+    <string name="gar_online_stays_off">OK, %1$s stays off. You can turn it on in Settings, Skills.</string>
+    <!-- When the user already chose to keep it off; %1$s is an online skill, like "the weather skill" -->
+    <string name="gar_online_is_off">That needs %1$s, which is off. You can turn it on in Settings, Skills.</string>
+
+    <!-- "Turn on all online skills"; the name says that it is a voice command, not a main switch -->
+    <string name="skill_name_online_skills">Turn online skills on or off</string>
+    <string name="skill_sentence_example_online_skills">Turn on all online skills</string>
+    <!-- gar:knowledge: the card lists each online skill with what it sends where (their
+         gar_online_detail_* strings), so the sentences don't name them -->
+    <string name="skill_online_skills_on">All online skills are on. They use the internet.</string>
+    <string name="skill_online_skills_on_detail">You can turn each one off in Settings, Skills.</string>
+    <string name="skill_online_skills_off">All online skills are off.</string>
+    <string name="skill_online_skills_off_detail">You can turn each one on in Settings, Skills.</string>
+</resources>

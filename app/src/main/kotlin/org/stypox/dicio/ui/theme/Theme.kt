@@ -1,6 +1,8 @@
 package org.stypox.dicio.ui.theme
 
 import android.app.Activity
+import android.content.Context // GAR
+import android.content.ContextWrapper // GAR
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -300,8 +302,10 @@ fun AppTheme(
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
+            // GAR: no Activity in the assistant sheet's session window, which sets its own bars
+            val window = view.context.garFindActivity()?.window ?: return@SideEffect
             val controller =
-                WindowCompat.getInsetsController((view.context as Activity).window, view)
+                WindowCompat.getInsetsController(window, view)
             controller.isAppearanceLightStatusBars = (themeType == LIGHT)
             controller.isAppearanceLightNavigationBars = (themeType == LIGHT)
         }
@@ -323,3 +327,14 @@ fun AppTheme(
     )
 }
 
+// GAR: the Activity behind [this], if any (like ScreenshotSkill's findActivity)
+private fun Context.garFindActivity(): Activity? {
+    var context: Context? = this
+    while (context is ContextWrapper) {
+        if (context is Activity) {
+            return context
+        }
+        context = context.baseContext
+    }
+    return null
+}

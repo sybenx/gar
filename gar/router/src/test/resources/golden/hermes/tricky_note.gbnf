@@ -1,0 +1,13 @@
+root ::= <tool_call> "\n" ( call-note-add | call-lamp | call-no-match ) "\n" </tool_call>
+call-note-add ::= "{\"name\": \"note_add\", \"arguments\": {" ( "\"zeta\": " "\"" span "\"" ( ", " "\"body\": " "\"" span "\"" )? ( ", " "\"mood\": " ( "\"happy\"" | "\"so-so\"" | "\"très bien\"" ) )? ", " "\"alpha_2\": " "\"" span "\"" | "\"body\": " "\"" span "\"" ( ", " "\"mood\": " ( "\"happy\"" | "\"so-so\"" | "\"très bien\"" ) )? ", " "\"alpha_2\": " "\"" span "\"" | "\"mood\": " ( "\"happy\"" | "\"so-so\"" | "\"très bien\"" ) ", " "\"alpha_2\": " "\"" span "\"" | "\"alpha_2\": " "\"" span "\"" ) "}}"
+call-lamp ::= "{\"name\": \"lamp\", \"arguments\": {" ( "\"room\": " "\"" span "\"" ", " "\"state\": " ( "\"on\"" | "\"off\"" ) | "\"state\": " ( "\"on\"" | "\"off\"" ) ) "}}"
+call-no-match ::= "{\"name\": \"no_match\", \"arguments\": {}}"
+span ::= s-1 | s-2 | s-3 | s-4 | s-5 | s-6 | s-7 | s-8
+s-1 ::= "add" ( " " s-2 )?
+s-2 ::= "a" ( " " s-3 )?
+s-3 ::= "note" ( " " s-4 )?
+s-4 ::= "très" ( " " s-5 )?
+s-5 ::= "bien" ( " " s-6 )?
+s-6 ::= "forty" ( " " s-7 )?
+s-7 ::= "two" ( " " s-8 )?
+s-8 ::= "pasta"

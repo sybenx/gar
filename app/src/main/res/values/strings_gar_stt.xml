@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR: strings of Whisper speech recognition's UI and settings (the home button, the STT popup,
+     the home screen's offer, the "Speech recognition" section of GAR's settings). -->
+<resources>
+    <!-- the home button and the STT popup -->
+    <string name="gar_stt_transcribing">Transcribing…</string>
+    <string name="gar_stt_cancel_transcribing">Cancel</string>
+    <string name="gar_stt_download_model">Download speech model (%1$s)</string>
+
+    <!-- the home screen's one-time offer to download the speech model -->
+    <string name="gar_stt_offer_title">Better speech recognition</string>
+    <string name="gar_stt_offer_text">Whisper understands names, numbers and whole sentences better.</string>
+    <string name="gar_stt_offer_download">Download (%1$s)</string>
+
+    <!-- GAR settings -->
+    <string name="gar_stt_settings_title">Speech recognition</string>
+    <string name="gar_stt_settings_llm_title">Language model</string>
+    <string name="gar_stt_settings_privacy_title">Private</string>
+    <string name="gar_stt_settings_privacy">Runs on this phone; audio never leaves it.</string>
+    <string name="gar_stt_model">Speech model</string>
+    <string name="gar_stt_model_base_en">Whisper base.en</string>
+    <string name="gar_stt_model_base_en_summary">%1$s, more accurate (%2$s)</string>
+    <string name="gar_stt_model_tiny_en">Whisper tiny.en</string>
+    <string name="gar_stt_model_tiny_en_summary">%1$s, faster (%2$s)</string>
+    <string name="gar_stt_download_summary">%1$s from FUTO</string>
+    <string name="gar_stt_delete">Delete speech model</string>
+    <string name="gar_stt_status_downloading_other">Downloading %1$s, %2$d%%</string>
+    <string name="gar_stt_status_download_failed">Download failed. Tap to try again.</string>
+    <string name="gar_stt_status_download_damaged">The download was damaged. Tap to try again.</string>
+    <string name="gar_stt_contact_names">Help recognise contact names</string>
+    <string name="gar_stt_contact_names_summary">Gives Whisper your contacts\' names as a hint; they stay on this phone.</string>
+    <!-- GAR: the home screen's first-name card (GarSttOwnNameCard), which sets "You" -->
+    <string name="gar_stt_own_name_question">What\'s your first name? It helps me hear your name and lets you say \'text myself\'.</string>
+    <string name="gar_stt_own_name_hint">First name</string>
+    <string name="gar_stt_own_name_skip">Skip</string>
+    <string name="gar_stt_own_name_save">Save</string>
+    <string name="gar_stt_own_contact_offer_one">Is the contact %1$s you? Then \'text myself\' and \'call me\' use it.</string>
+    <string name="gar_stt_own_contact_offer_several">Is one of these contacts you? Then \'text myself\' and \'call me\' use it.</string>
+    <string name="gar_stt_own_contact_offer_yes">Yes, that\'s me</string>
+    <string name="gar_stt_own_contact_offer_no">No</string>
+    <string name="gar_stt_keep_recordings">Keep recordings</string>
+    <string name="gar_stt_keep_recordings_summary">Saves the last 50 clips and their text on this phone, for testing</string>
+</resources>

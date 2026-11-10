@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR: strings of the conversation skill ("stop", "never mind", "repeat that"). -->
+<resources>
+    <string name="skill_name_conversation">Stop and repeat</string>
+    <string name="skill_sentence_example_conversation">Never mind</string>
+
+    <!-- The card after "stop" or "never mind"; nothing is spoken -->
+    <string name="skill_conversation_stopped">OK</string>
+    <!-- "Repeat that" before GAR said anything -->
+    <string name="skill_conversation_nothing_to_repeat">I haven\'t said anything yet.</string>
+</resources>

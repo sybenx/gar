@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR: debug builds only. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <!-- Replays WAV clips through the loaded Whisper model, one GarStt log line each (design
+             section 12). Only the shell (adb) and the system hold DUMP:
+             adb shell am broadcast -a cc.aaro.gar.STT_BENCH -p cc.aaro.gar.gar -->
+        <receiver
+            android:name=".gar.stt.SttBenchReceiver"
+            android:exported="true"
+            android:permission="android.permission.DUMP">
+            <intent-filter>
+                <action android:name="cc.aaro.gar.STT_BENCH" />
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

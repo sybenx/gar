@@ -1,0 +1,53 @@
+# GAR: commands for the clock app's timers besides Dicio's set, cancel and query (timer.yml); all
+# but "stop" open the clock app's timers, since AlarmClock has no intent for them. A match only
+# counts for an input about a timer: it says "timer" outside the name, or the name is a timer's
+# (TimerWords.isAboutTimer). "Stop" for a ringing timer has no sentences (TimerWords.whileRinging).
+pause:
+  - pause|freeze|hold|suspend (the|my)? .name.? time<r|rs?>
+  - pause|freeze|hold|suspend (the|my)? time<r|rs?> (called|named) .name.
+  - pause|freeze|suspend (the|my)? .name.
+  - put (the|my)? .name.? time<r|rs?> on hold
+
+resume:
+  - resume|continue|unpause|unfreeze (the|my)? .name.? time<r|rs?>
+  - resume|continue|unpause|unfreeze (the|my)? time<r|rs?> (called|named) .name.
+  - resume|continue|unpause|unfreeze (the|my)? .name.
+  - start (the|my)? .name.? time<r|rs?> again
+  - keep (the|my)? .name.? time<r|rs?> going|running
+
+add:
+  - add|put .duration. more? (to|on) (the|my)? .name.? time<r|rs?>
+  - add|put .duration. more? (to|on) (the|my)? time<r|rs?> (called|named) .name.
+  - add|put .duration. more? (to|on) (the|my)? .name.
+  - add .duration. more?
+  - extend|increase (the|my)? .name.? time<r|rs?> by .duration.
+
+subtract:
+  - (take away)|remove|subtract|(take off)|cut .duration. from|off (the|my)? .name.? time<r|rs?>
+  - (take away)|remove|subtract|(take off)|cut .duration. from|off (the|my)? time<r|rs?> (called|named) .name.
+  - (take away)|remove|subtract|cut .duration. from|off (the|my)? .name.
+  - take .duration. off (the|my)? .name.? time<r|rs?>
+  - take .duration. off (the|my)? .name.
+  - (take away)|(take off)|subtract .duration.
+  - shorten|reduce|decrease (the|my)? .name.? time<r|rs?> by .duration.
+
+show:
+  - show|list|display|open|read (me)? all? (of)? (the|my)? time<r|rs?>
+  - (what|which) time<r|rs?> ((do i have)|(have i set)|(are set)|(are running)|(are on)|(are going))
+  - (what are)|(what s)|whats my time<r|rs?>
+  - (do|have) i (have|got|set) (a|any) time<r|rs?> (set|running|going|on)?
+  - (is|are) there (a|any) time<r|rs?> (set|running|going|on)?
+  - how many time<r|rs?> ((do i have)|(are there)|(are running)|(are set))
+  - tell me? (about)? my time<r|rs?>
+
+# one timer, with words that Dicio's cancel sentences (timer.yml) don't have; not "reset", which puts
+# a timer back to its full time in Google Clock
+cancel:
+  - delete|remove|clear|(switch off) (the|my)? .name.? time<r|rs?>
+  - delete|remove|clear|(switch off) (the|my)? time<r|rs?> (called|named) .name.
+  - (turn|switch) (the|my)? .name.? time<r|rs?> off
+
+# TimerControlSkill.score keeps these only for an input that says all, every, each, both or timers
+cancel_all:
+  - cancel|delete|remove|clear|stop|end|reset|((turn|switch) off) all (of)? (the|my)? time<r|rs?>
+  - cancel|delete|remove|clear|stop|end|((turn|switch) off) both|every (of)? (the|my)? time<r|rs?>

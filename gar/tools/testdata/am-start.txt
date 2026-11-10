@@ -1,0 +1,7 @@
+Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=cc.aaro.gar.gar/org.stypox.dicio.MainActivity }
+Status: ok
+LaunchState: COLD
+Activity: cc.aaro.gar.gar/org.stypox.dicio.MainActivity
+TotalTime: 6843
+WaitTime: 6851
+Complete

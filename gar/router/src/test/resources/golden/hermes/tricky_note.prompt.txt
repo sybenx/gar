@@ -1,0 +1,23 @@
+<|im_start|>system
+# Tools
+
+You may call one or more functions to assist with the user query.
+
+You are provided with function signatures within <tools></tools> XML tags:
+<tools>
+{"type": "function", "function": {"name": "note_add", "description": "Add a \"note\" with a back\\slash, a tab\there, a newline\nhere, café ünïcode, 😀 and <b>&'x'</b>.", "parameters": {"type": "object", "properties": {"zeta": {"type": "string", "description": "Last in the alphabet, first declared: \"quoted\"."}, "body": {"type": "string"}, "mood": {"type": "string", "description": "Mood of the note.", "enum": ["happy", "so-so", "très bien"]}, "alpha_2": {"type": "string", "description": "A number slot that is required."}}, "required": ["alpha_2"]}}}
+{"type": "function", "function": {"name": "lamp", "description": "Switch a lamp.", "parameters": {"type": "object", "properties": {"room": {"type": "string", "description": "Which room."}, "state": {"type": "string", "description": "On or off.", "enum": ["on", "off"]}}, "required": ["state"]}}}
+{"type": "function", "function": {"name": "no_match", "description": "Call this for general questions, chit-chat and anything that no other function does.", "parameters": {"type": "object", "properties": {}}}}
+</tools>
+
+For each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:
+<tool_call>
+{"name": <function-name>, "arguments": <args-json-object>}
+</tool_call><|im_end|>
+<|im_start|>user
+add a note très bien forty two pasta<|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+

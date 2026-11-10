@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR: metadata of GarVoiceInteractionService. Class names are fully qualified because the
+     system builds them into ComponentNames as they are. The system rejects the whole service (and
+     assist stops working) if sessionService or recognitionService is missing, so recognitionService
+     points at Dicio's existing RecognitionService. No lock screen affordance: MainActivity would
+     show above the keyguard (showOnLockScreen) with every skill available, see gar/assist/README.md. -->
+<voice-interaction-service xmlns:android="http://schemas.android.com/apk/res/android"
+    android:sessionService="cc.aaro.gar.assist.GarVoiceInteractionSessionService"
+    android:recognitionService="org.stypox.dicio.io.input.stt_service.SttService"
+    android:settingsActivity="org.stypox.dicio.MainActivity"
+    android:supportsAssist="true"
+    android:supportsLaunchVoiceAssistFromKeyguard="false" />

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR: strings of the Whisper input device (Settings > Input method, its errors). -->
+<resources>
+    <string name="pref_input_method_whisper">Whisper (on-device, English)</string>
+    <string name="pref_input_method_whisper_summary">Accurate offline speech recognition on this phone. Shows a level meter while you talk instead of live text.</string>
+    <string name="gar_stt_error_microphone">I couldn\'t use the microphone.</string>
+    <string name="gar_stt_error_microphone_busy">Another app is using the microphone. Try again in a moment.</string>
+    <string name="gar_stt_error_transcribing">Speech recognition failed.</string>
+</resources>

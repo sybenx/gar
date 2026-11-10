@@ -1,0 +1,521 @@
+# GAR tool catalog: the functions the on-device model can call when Dicio's sentence matcher finds
+# no confident match. Joined with sentences/skill_definitions.yml at runtime; see gar/DESIGN.md.
+#
+# Order matters: it is the order the model sees, and changing it changes model outputs.
+# Online skills (search, lyrics, translation, joke) intentionally have no tools; weather has one,
+# offered while it is off too, so its calls reach the ask-once question (gar:weather). The song
+# skill works offline first; its network tier only runs once the user adds a token (gar:song).
+# Slot descriptions say "exactly as the user said it" because slot values must be words from the
+# transcript; GAR resolves them in Kotlin.
+#
+# Keys the model never sees:
+# - confirm (default true): GAR asks before running a call the model made. Only tools that are
+#   harmless when the model guesses wrong skip it (GarCatalogTest keeps the list).
+# - confirm_text: the confirmation question; {slot} is replaced by the slot's value, or by nothing
+#   when an optional slot was left out. A map gives one text per value of the tool's enum slot.
+# - on_lock_screen (default false): the model's calls may run while the phone is locked.
+# - keywords (optional): words or phrases of which the utterance must contain one, or GAR drops
+#   the model's call of the tool as a misroute ("good morning" -> current_time). Matched on whole
+#   words, also with a common ending ("alarm" ~ "alarms"); the tool's examples must contain one.
+#   Only for tools whose requests reliably name what they are about (gar/DESIGN.md, "Call
+#   filters"); base them on how people ask, not on the eval.
+
+tools:
+  - name: timer_set
+    skill: timer
+    sentence: set
+    description: Start a countdown timer.
+    confirm_text: "Set a {name} timer for {duration}?"
+    on_lock_screen: true
+    slots:
+      duration: {kind: duration, required: true, description: "How long the timer runs, exactly as the user said it."}
+      name: {kind: text, description: "Optional name of the timer, exactly as the user said it."}
+    examples:
+      - set a timer for ten minutes
+      - start a pasta timer for eight minutes
+      - count down ninety seconds
+
+  - name: timer_cancel
+    skill: timer
+    sentence: cancel
+    description: Stop or cancel a running timer.
+    confirm_text: "Cancel the {name} timer?"
+    on_lock_screen: true
+    slots:
+      name: {kind: text, description: "Optional name of the timer to cancel, exactly as the user said it."}
+    examples:
+      - stop the timer
+      - cancel the pasta timer
+
+  - name: timer_query
+    skill: timer
+    sentence: query
+    description: Tell how much time is left on a running timer.
+    confirm: false
+    confirm_text: "Tell how much time is left on the {name} timer?"
+    on_lock_screen: true
+    slots:
+      name: {kind: text, description: "Optional name of the timer, exactly as the user said it."}
+    examples:
+      - how much time is left on my timer
+      - how long until the pasta is done
+
+  - name: call_contact
+    skill: telephone
+    sentence: dial
+    description: Phone call a contact or a phone number.
+    # the telephone skill already asks for confirmation before calling
+    confirm: false
+    confirm_text: "Call {who}?"
+    slots:
+      who: {kind: contact, required: true, description: "The contact name or number to call, exactly as the user said it."}
+    examples:
+      - call mom
+      - ring sarah
+      - phone john smith
+
+  - name: open_app
+    skill: open
+    sentence: query
+    description: Open an app installed on the phone.
+    confirm_text: "Open {what}?"
+    slots:
+      what: {kind: app, required: true, description: "The app name, exactly as the user said it."}
+    examples:
+      - open spotify
+      - launch the camera app
+
+  - name: media_control
+    skill: media
+    sentence_from: {slot: action, map: {play: play, pause: pause, next: next, previous: previous}}
+    description: Play, pause, skip or go back in the music or media that is playing.
+    confirm_text:
+      play: Resume playback?
+      pause: Pause playback?
+      next: Skip to the next track?
+      previous: Go back to the previous track?
+    on_lock_screen: true
+    slots:
+      action: {kind: enum, values: [play, pause, next, previous], required: true, description: What to do with the playing media.}
+    examples:
+      - pause the music
+      - skip this song
+      - go back to the previous track
+
+  - name: flashlight
+    skill: flashlight
+    sentence_from: {slot: state, map: {"on": turn_on, "off": turn_off}}
+    description: Turn the flashlight (torch) on or off.
+    confirm_text: {"on": "Turn on the flashlight?", "off": "Turn off the flashlight?"}
+    on_lock_screen: true
+    slots:
+      state: {kind: enum, values: ["on", "off"], required: true, description: Whether the flashlight should be on or off.}
+    # "beep in two minutes" and "turn off the countdown" got the flashlight
+    keywords: [flashlight, flash, torch, light, lamp, dark, see]
+    examples:
+      - turn on the torch
+      - i need some light
+      - switch off the flashlight
+
+  - name: current_time
+    skill: current_time
+    sentence: query
+    description: Tell the current time.
+    confirm: false
+    confirm_text: Tell the current time?
+    on_lock_screen: true
+    slots: {}
+    # "good morning" and "what's the date" got the time; asking for it names the time or the clock
+    keywords: [time, clock, "o'clock", hour, late, noon, midnight, midday]
+    examples:
+      - what time is it
+      - do you know the time
+
+  - name: navigate
+    skill: navigation
+    sentence: query
+    description: Start navigation to a place in the maps app.
+    confirm_text: "Navigate to {where}?"
+    slots:
+      where: {kind: text, required: true, description: "The destination, exactly as the user said it."}
+    examples:
+      - take me to the train station
+      - directions to central park
+
+  - name: calculate
+    skill: calculator
+    sentence: calculate
+    description: Calculate the result of a math expression.
+    confirm: false
+    confirm_text: "Calculate {calculation}?"
+    on_lock_screen: true
+    slots:
+      calculation: {kind: text, required: true, description: "The math expression, exactly as the user said it."}
+    examples:
+      - how much is twelve times seven
+      - add five and eight
+
+  - name: read_notifications
+    skill: notify
+    sentence: notifications
+    description: Read the phone's notifications aloud.
+    # confirmed: a wrong guess would read private messages aloud
+    confirm_text: Read your notifications aloud?
+    slots: {}
+    # "read my messages" asks for the messages among the notifications; confirmed anyway
+    keywords: [notification, alert, message]
+    examples:
+      - read my notifications
+      - do i have any notifications
+
+  - name: wake_word
+    skill: listening
+    sentence_from: {slot: state, map: {"on": start, "off": stop}}
+    description: Start or stop listening for the wake word.
+    confirm_text: {"on": "Start listening for the wake word?", "off": "Stop listening for the wake word?"}
+    slots:
+      state: {kind: enum, values: ["on", "off"], required: true, description: Whether wake word listening should be on or off.}
+    # "wake me up at seven" and "are you there" turned the wake word on; the listening sentences
+    # also call it the microphone ("turn off the microphone"), people "the wake up word"
+    keywords: [wake word, wakeword, wake up word, wakeup word, hotword, hot word, listen, dicio,
+      microphone, mic]
+    examples:
+      - stop listening for the wake word
+      - start listening for hey dicio
+
+  # GAR Step 3 skills: each group replaces only its own marker line
+  # gar:alarm
+  # LLM-only: GAR resolves the time slots (am/pm questions, repeat days), AlarmTools.inputFromSlots
+  # builds the input
+  - name: alarm_set
+    skill: alarm
+    description: Set an alarm that rings at a time of day.
+    confirm: true
+    # no {label}: it is still as said here ("the gym alarm"), AlarmTools.cleanLabel runs later
+    confirm_text: "Set an alarm for {time}?"
+    on_lock_screen: true
+    slots:
+      time: {kind: time, required: true, description: "The time of day and any repeat days, exactly as the user said it."}
+      label: {kind: text, description: "Optional name of the alarm, exactly as the user said it."}
+    # "ring sarah" got an alarm; "get me up at six" has no "alarm"; "wakeup" as typed
+    keywords: [alarm, wake, up, wakeup, awake]
+    examples:
+      - wake me up at seven
+      - set an alarm for six thirty every weekday
+      - alarm for quarter past five tomorrow
+
+  - name: alarm_list
+    skill: alarm
+    description: Tell when the next alarm rings.
+    confirm: false
+    confirm_text: Check your next alarm?
+    on_lock_screen: true
+    slots: {}
+    keywords: [alarm, wake, up, wakeup, awake]
+    examples:
+      - what alarms do i have
+      - when is my next alarm
+
+  - name: alarm_cancel
+    skill: alarm
+    description: Cancel or turn off an alarm.
+    confirm: true
+    confirm_text: "Cancel your {time} alarm?"
+    on_lock_screen: true
+    slots:
+      time: {kind: time, description: "Optional time of the alarm, exactly as the user said it."}
+    keywords: [alarm, wake, up, wakeup, awake]
+    examples:
+      - cancel my seven am alarm
+      - turn off my alarm
+
+  - name: calendar_add
+    skill: calendar
+    description: Add an event or appointment to the calendar.
+    confirm: true
+    confirm_text: "Add {title} to your calendar for {when}?"
+    on_lock_screen: false
+    slots:
+      title: {kind: text, required: true, description: "What the event is, exactly as the user said it."}
+      when: {kind: datetime, required: true, description: "When the event starts (a date, a time or both), exactly as the user said it."}
+      duration: {kind: duration, description: "Optional length of the event, exactly as the user said it."}
+    examples:
+      - add a dentist appointment tomorrow at three pm
+      - put lunch with sam on my calendar for friday at noon
+      - schedule a meeting on monday at ten for two hours
+
+  - name: calendar_query
+    skill: calendar
+    description: Tell which events are on the calendar on a day.
+    # only reads the calendar, but private: not on the lock screen
+    confirm: false
+    confirm_text: "Read your calendar {day}?"
+    on_lock_screen: false
+    slots:
+      day: {kind: date, description: "Optional day, exactly as the user said it. Leave it out for today."}
+    examples:
+      - what's on my calendar today
+      - do i have any meetings tomorrow
+      - am i busy on friday
+
+  - name: reminder_add
+    skill: calendar
+    description: Set a reminder to do something at a given time.
+    confirm: true
+    confirm_text: "Set a reminder for {when}: {what}?"
+    on_lock_screen: false
+    slots:
+      what: {kind: text, required: true, description: "What to be reminded about, exactly as the user said it."}
+      when: {kind: datetime, required: true, description: "When to remind, exactly as the user said it."}
+    examples:
+      - remind me to call mom at five pm
+      - remind me in twenty minutes to check the oven
+      - set a reminder for tomorrow morning to take out the trash
+
+  # gar:sms
+  # LLM-only (no "sentence"): the slots are named for the model, the sentence keeps the captures
+  # of the upstream PR (who, what); SmsSkill.inputFromSlots maps both to the same input.
+  # confirm: false because the sms skill's own card is the confirmation: it shows the recipient,
+  # the number and the message, reads the name and the message back and asks "Ready to send it?";
+  # a spoken yes or a tap on Send sends. GAR's yes/no card before it would only ask twice.
+  # message is optional: the grammar always fills a required slot, so "text mom" would get some
+  # words of the command as its text. Without a message, the skill asks for one.
+  - name: sms_send
+    skill: sms
+    description: Send a text message (SMS) to a contact or a phone number.
+    confirm: false
+    confirm_text: "Text {to}?"
+    on_lock_screen: false
+    slots:
+      to: {kind: contact, required: true, description: "The contact name or number to text, exactly as the user said it."}
+      message: {kind: text, description: "Optional text of the message, exactly as the user said it."}
+    # "post on twitter that i'm bored" got a text; asking for one names the text or how to pass
+    # the message on ("tell", "ask", "let ... know", "send mom i'm on my way"). "send" also keeps
+    # "send an email to my boss" or "send a picture to dad" as a text: the skill asks for what is
+    # missing and reads the text back before sending, so recall wins here.
+    keywords: [text, message, sms, send, tell, ask, say, reply, respond, know, write, ping, note]
+    examples:
+      - text mom i'm on my way
+      - send a message to john saying see you at five
+      - tell sarah i'll be late
+
+  # gar:device
+  # Both LLM-only (the volume skill's own sentences go through the same slot resolution, see
+  # VolumeSkill). Two tools with one required slot each: with optional steps/level/stream slots
+  # Qwen3-0.6B filled them with leftover words ("turn up the volume" -> steps "up"), picked "max"
+  # for "set the volume to fifty percent" and never named a stream. Max, steps and streams are
+  # in the sentences only. Harmless when wrong: the skill says the new level, and the volume keys
+  # undo it.
+  - name: volume
+    skill: volume
+    description: Turn the sound volume up or down, or mute or unmute it.
+    confirm: false
+    confirm_text:
+      up: Turn the volume up?
+      down: Turn the volume down?
+      mute: Mute the sound?
+      unmute: Unmute the sound?
+    on_lock_screen: true
+    slots:
+      action: {kind: enum, values: [up, down, mute, unmute], required: true, description: "What to do with the volume."}
+    examples:
+      - turn up the volume
+      - it's too loud
+      - mute everything
+
+  - name: volume_set
+    skill: volume
+    description: Set the sound volume to a level or percentage.
+    confirm: false
+    confirm_text: "Set the volume to {level}?"
+    on_lock_screen: true
+    slots:
+      level: {kind: number, required: true, description: "The level or percentage, exactly as the user said it."}
+    examples:
+      - set the volume to fifty percent
+      - volume to seven
+
+  # Verbs as values: with "on"/"off"/"query" the model answered "on" to "is do not disturb on" and
+  # "get me out of do not disturb mode" (verbs: 4 and 5 of 7 right on a device-only subset vs 3)
+  - name: do_not_disturb
+    skill: do_not_disturb
+    sentence_from: {slot: action, map: {enable: turn_on, disable: turn_off, check: query}}
+    description: Enable or disable Do Not Disturb mode, or check whether it is on.
+    # harmless when wrong: the skill says the new state, and it is one tap to switch back
+    confirm: false
+    confirm_text:
+      enable: Turn on Do Not Disturb?
+      disable: Turn off Do Not Disturb?
+      check: Check whether Do Not Disturb is on?
+    on_lock_screen: true
+    slots:
+      action: {kind: enum, values: [enable, disable, check], required: true, description: "What to do with Do Not Disturb."}
+    examples:
+      - i don't want to be disturbed
+      - turn off do not disturb
+      - am i on do not disturb
+
+  # gar:settings
+  # LLM-only: one tool for the phone's settings (gar/PARITY.md, batch 3), which also takes the
+  # calls the wifi and bluetooth tools had (gar/DESIGN.md, "Device settings", says how to give
+  # them their own tools back). Wi-Fi and Bluetooth open the system's controls as the
+  # connectivity sentences do; brightness, adaptive brightness, auto-rotate, the screen timeout
+  # and the ringer change, the rest opens its page ("Here's airplane mode."). The level is text,
+  # read by the skill for the setting (a number, or a duration for the screen timeout), so leftover
+  # words in it never drop a call; the skill asks for a level a set command needs. Not confirmed:
+  # the answer says what changed, or opens a page; but GAR checks each call against the words
+  # (DeviceSettingCalls): another setting named drops it, a question runs as the status, and a
+  # switch the words don't name asks first. On the lock screen: questions, the brightness, the
+  # ringer, auto-rotate and a shorter timeout work there, and the skill answers "Unlock your
+  # phone first." before it opens a page or a radio's controls, lengthens the timeout, or
+  # switches airplane mode or battery saver.
+  # confirm_text by the action slot ({slot, map}: the tool has two enum slots).
+  - name: device_setting
+    skill: device_settings
+    description: Turn a phone setting on or off, change its level, open its settings, or tell whether it is on.
+    confirm: false
+    confirm_text:
+      slot: action
+      map:
+        "on": "Turn on {setting}?"
+        "off": "Turn off {setting}?"
+        toggle: "Switch {setting} on or off?"
+        up: "Turn {setting} up?"
+        down: "Turn {setting} down?"
+        set: "Change {setting}?"
+        show: "Open the {setting} settings?"
+        status: "Check {setting}?"
+    on_lock_screen: true
+    slots:
+      setting: {kind: enum, values: [wifi, bluetooth, airplane mode, mobile data, hotspot, nfc, location, battery saver, dark mode, brightness, auto brightness, auto rotate, screen timeout, ringer, vibrate], required: true, description: "Which setting."}
+      action: {kind: enum, values: ["on", "off", toggle, up, down, set, show, status], required: true, description: "What to do with it; show opens its settings, status tells whether it is on."}
+      level: {kind: text, description: "Optional level, like a percentage or a time, exactly as the user said it."}
+    # "turn on the lights" must not open the hotspot: asking for a setting names it. The first
+    # two lines are the keywords the wifi and bluetooth tools had. "screen" only next to on, off
+    # or turn: alone it kept "my screen is cracked" (the sentences' "screen" is in GarMatchCheck)
+    keywords: [wifi, wi fi, wireless, internet, network, online, offline, bluetooth, blue tooth,
+      pair, headphone, headset, earbud, earphone, airpod, buds, speaker,
+      airplane, aeroplane, flight mode, plane mode, mobile data, data, cellular, hotspot, hot spot,
+      tether, nfc, n f c, location, gps, battery saver, power saver, power saving, low power,
+      dark mode, dark theme, night mode, light mode, light theme, brightness, bright, brighten, dim,
+      dimmer, darker, screen on, screen off, screen turn, rotate, rotating, rotation, autorotate,
+      orientation, landscape, portrait, timeout, time out, ringer, ringtone, silent, silence,
+      vibrate, vibrating, vibration, setting]
+    examples:
+      - turn on airplane mode
+      - put my phone on vibrate
+      - set the brightness to fifty percent
+      - is location on
+
+  # gar:clock
+  - name: stopwatch
+    skill: stopwatch
+    # LLM-only: the tool doesn't need the skill's sentences, which exist only in English, to keep
+    # the timer's sentences from taking "stop the stopwatch"
+    description: Start, stop, resume or reset the stopwatch, mark a lap, or tell its time.
+    # low stakes (a wrong reset only loses a stopwatch time), and the answer says what happened
+    confirm: false
+    confirm_text:
+      start: Start the stopwatch?
+      stop: Stop the stopwatch?
+      resume: Resume the stopwatch?
+      reset: Reset the stopwatch?
+      lap: Mark a lap on the stopwatch?
+      elapsed: Tell the stopwatch time?
+    on_lock_screen: true
+    slots:
+      action: {kind: enum, values: [start, stop, resume, reset, lap, elapsed], required: true, description: "What to do with the stopwatch; elapsed tells how long it has run."}
+    keywords: [stopwatch, stop watch, lap, timing, chronometer]
+    examples:
+      - start the stopwatch
+      - pause the stopwatch
+      - how long has the stopwatch been running
+
+  - name: date_query
+    skill: date
+    # no sentence: the day is resolved by GAR (the date sentences capture it as text)
+    description: Tell today's date, or the date and weekday of another day.
+    confirm: false
+    confirm_text: "Tell the date {day}?"
+    on_lock_screen: true
+    slots:
+      day: {kind: date, description: "Optional day asked about, exactly as the user said it."}
+    # "what's the capital of france" got date_query(day: "france"); asking for a date names a day
+    keywords: [date, day, today, tomorrow, yesterday, tonight, week, weekday, weekend, month, year,
+      monday, tuesday, wednesday, thursday, friday, saturday, sunday]
+    examples:
+      - what's the date
+      - what day is it tomorrow
+      - what's the date on friday
+
+  # gar:song
+  # Answers from the phone's media session when something plays there (offline); otherwise it
+  # records 10 seconds for the user's own AudD or ACRCloud token (the network, opted in by adding
+  # a token) or hands off to Audile. Not confirmed: a wrong call names a song or starts listening,
+  # and the listening card says where the recording goes and has a Stop button, which drops it
+  # before anything is sent (a wrong call the user doesn't stop does send 10 seconds of sound).
+  # On the lock screen too: what plays is already on the lock screen's media controls, and a
+  # recording only goes to the service the user set up.
+  - name: song_identify
+    skill: song
+    sentence: identify
+    description: Identify the song or music that is playing right now.
+    confirm: false
+    confirm_text: Find out which song is playing?
+    on_lock_screen: true
+    slots: {}
+    # "what's playing at the cinema" passes "playing"; asking for a song names it or the music
+    keywords: [song, music, track, tune, playing, listen, sing, sang, singer, shazam]
+    examples:
+      - what song is this
+      - who sings this
+      - what am i listening to
+
+  # gar:media
+  # LLM-only (no "sentence"): MediaPlaySkill builds from the slots the same request as from its
+  # own sentences. The one tool of PARITY batch 4: what to play is free text ("put on dancing
+  # queen by abba" went to open_app). The app after "on" resolves against the launcher labels like
+  # open_app's; a query left with "on spotify" in it is split in Kotlin. Confirmed like
+  # media_control (a wrong guess starts music); no {app} in the question, since an optional slot
+  # would leave its "on" behind. On the lock screen like media_control: playing reveals nothing.
+  # Shuffle, repeat, seek, restart, like and the sleep timer are sentences only (media_controls).
+  - name: media_play
+    skill: media_play
+    description: Play a song, artist, album, playlist or podcast by name.
+    confirm_text: "Play {query}?"
+    on_lock_screen: true
+    slots:
+      query: {kind: text, required: true, description: "What to play, exactly as the user said it."}
+      app: {kind: app, description: "Optional app to play it in, exactly as the user said it."}
+    # "who sings bohemian rhapsody" and "recommend me a good song" name music but ask nothing to
+    # play; asking to play something says how, or names a playlist, a podcast or an album to start
+    keywords: [play, put on, throw on, listen, hear, queue, stream, blast, playlist, podcast,
+      album, episode]
+    examples:
+      - play taylor swift on spotify
+      - put on my workout playlist
+      - play the latest episode of the daily
+
+  # gar:weather
+  # LLM-only and slotless (gar/PARITY.md, batch 5): GarWeatherSkill reads the day and the place
+  # from the utterance with GAR's own resolvers, as for its sentences, which avoids optional slots
+  # the model fills badly ("will it rain today" went to date_query). Offered even while the
+  # weather skill is off (GarToolsProvider), so that the call lands on the online skills' ask-once
+  # question. Not confirmed: it only reads, and the question names what it contacts. On the lock
+  # screen: a forecast reveals nothing private, and turning the skill on needs an unlocked phone.
+  - name: weather
+    skill: weather
+    # tuned on cases.yml's dev cases, 2026-11-02 (gar/eval/README.md, "Latest results")
+    description: Tell the weather forecast, rain, snow, wind or temperature, here or in a named place.
+    confirm: false
+    confirm_text: Tell the weather?
+    on_lock_screen: true
+    slots: {}
+    # "set the thermostat to 70" and "turn on the heat" name no weather; asking about it does
+    keywords: [weather, forecast, rain, rainy, snow, snowy, umbrella, temperature, temp, hot,
+      hotter, cold, cool, warm, chilly, freezing, sunny, cloudy, wind, windy, storm, stormy, humid,
+      humidity, outside, jacket, coat, sleet, hail, drizzle, foggy, fog, frost, freeze, degrees]
+    examples:
+      - what's the weather like tomorrow
+      - will it rain today
+      - do i need an umbrella

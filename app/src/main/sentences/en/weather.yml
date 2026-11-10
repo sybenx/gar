@@ -3,3 +3,30 @@ current:
   - weather (in|on? .where.)?
   - how is it outside
   - is it cold|cool|warm|hot|sunny|rainy|raining (in|on .where.)|outside?
+  # GAR: forecasts, rain and snow, highs and lows, wind (gar:weather). The capture takes the day
+  # and the place, which GarWeatherSkill reads from the whole input; WeatherWords keeps a match
+  # only when the input asks about the weather
+  - (what|(what s|is)|whats|how|(how s|is)|hows) the weather|forecast (like|for|(going to be)|(gonna be)|(look like)|(looking like))? .where.?
+  - (what|(what s|is)|whats) the weather|forecast ((going to)|gonna) be like? .where.?
+  - what will the weather|forecast be like? .where.?
+  - (tell|give|show) me the weather|forecast .where.?
+  - (check|get) the weather|forecast .where.?
+  - (what|(what s|is)|whats) todays|(today s)|tomorrows|(tomorrow s)|tonights|(tonight s) weather|forecast .where.?
+  - .where. weather|forecast
+  - (is|will) it ((going to)|gonna)? rain|snow|sleet|hail|storm .where.?
+  - (is|will) it ((going to)|gonna)? be sunny|hot|cold|warm|cool|windy|rainy|snowy|cloudy|nice|stormy|chilly|freezing .where.?
+  - is it snowing|storming|pouring|windy|cloudy|freezing|chilly|foggy .where.?
+  - (is|will) there be? any? rain|snow .where.?
+  - (what|(what s|is)|whats) the chance|chances of rain|snow .where.?
+  - (do|will|should) i need|bring|take|pack an|a? umbrella|jacket|coat .where.?
+  - how hot|warm|cold|chilly (is|will) it (going to)? be|get? .where.?
+  - how hot|warm|cold does it get .where.?
+  - (what|(what s|is)|whats) the current|outside? temperature|high|low outside? .where.?
+  - how many degrees is it outside? .where.?
+  - (is|will) it ((going to)|gonna)? freeze|frost .where.?
+  - (do you know)|(can you tell me) if|whether it (is|s|will)? ((going to)|gonna)? rain|snow|freeze .where.?
+  - when (will|is|does) it (going to)? stop|start raining|snowing .where.?
+  - when (will|does) the rain|snow stop|start|end .where.?
+  - when (will|is) it (going to)? rain|snow .where.?
+  - (how|(how s|is)|hows) the wind .where.?
+  - how windy (is|will) it be? .where.?

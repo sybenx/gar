@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- GAR Step 3, sms group. Based on DicioTeam/dicio-android#375 by tylxr59 -->
+    <string name="skill_name_sms">SMS</string>
+    <string name="skill_sentence_example_sms">Send a message to Tom</string>
+    <string name="perm_send_sms">send text messages</string>
+
+    <string name="skill_sms_ask_recipient">Who should I text?</string>
+    <string name="skill_sms_unknown_contact">I couldn\'t find %1$s in your contacts. Who should I text?</string>
+    <string name="skill_sms_ask_message">What\'s the message?</string>
+    <string name="skill_sms_which_contact">Which one? %1$s</string>
+    <string name="skill_sms_which_contact_title">Which one?</string>
+    <string name="skill_sms_which_number">Which number for %1$s?</string>
+    <string name="skill_sms_contacts_separator">", "</string>
+
+    <!-- the confirmation card; %2$s is the message as sent, ending like a sentence -->
+    <string name="skill_sms_card_title">Text %1$s</string>
+    <string name="skill_sms_read_back">Your message to %1$s says: %2$s Ready to send it?</string>
+    <string name="skill_sms_ask_new_message">What should it say?</string>
+    <string name="skill_sms_send">Send</string>
+    <string name="skill_sms_edit">Edit</string>
+    <string name="skill_sms_cancel">Cancel</string>
+
+    <!-- what happened to the text, shown on the card -->
+    <string name="skill_sms_sending">Sending…</string>
+    <string name="skill_sms_sent">Sent.</string>
+    <string name="skill_sms_failed">Couldn\'t send it. Tap Edit to try in your messages app.</string>
+    <string name="skill_sms_no_report">No answer from the network yet. Check your messages app.</string>
+    <string name="skill_sms_opened_app">Opened in your messages app.</string>
+    <string name="skill_sms_no_sms_app">No messages app found.</string>
+    <string name="skill_sms_not_sending">OK, not sending.</string>
+
+    <!-- said after the user said to send it -->
+    <string name="skill_sms_still_sending">It\'s still sending.</string>
+    <string name="skill_sms_not_through">The text didn\'t go through.</string>
+    <string name="skill_sms_opened_app_instead">I couldn\'t send it, so I opened your messages app.</string>
+    <string name="skill_sms_no_sms_app_instead">I couldn\'t send it, and found no messages app.</string>
+
+    <!-- "text myself", "call me", "email myself" when GAR doesn't know the owner's contact -->
+    <string name="skill_own_contact_ask">Which contact is you?</string>
+    <string name="skill_own_contact_not_found">I couldn\'t find %1$s in your contacts. Which contact is you?</string>
+    <string name="skill_own_contact_which">Which one is you? %1$s</string>
+    <string name="skill_own_contact_no_number">%1$s has no number. Which contact is you?</string>
+    <string name="skill_own_contact_no_email">%1$s has no email address. Which contact is you?</string>
+    <!-- the "You" setting, on GAR's page, "Language model" in Dicio's settings -->
+    <string name="skill_own_contact_remembered">OK, you\'re %1$s. You can change that in Settings, Language model, You.</string>
+</resources>

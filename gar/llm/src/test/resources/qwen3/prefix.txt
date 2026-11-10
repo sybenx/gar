@@ -1,0 +1,29 @@
+<|im_start|>system
+# Tools
+
+You may call one or more functions to assist with the user query.
+
+You are provided with function signatures within <tools></tools> XML tags:
+<tools>
+{"type": "function", "function": {"name": "set_alarm", "description": "Sets an alarm on the phone for a time of day.", "parameters": {"type": "object", "properties": {"time": {"type": "string", "description": "The time of day for the alarm, exactly as the user said it."}, "label": {"type": "string", "description": "Optional label or name for the alarm."}}, "required": ["time"]}}}
+{"type": "function", "function": {"name": "set_timer", "description": "Starts a countdown timer for a duration.", "parameters": {"type": "object", "properties": {"duration": {"type": "string", "description": "How long the timer runs, exactly as the user said it."}}, "required": ["duration"]}}}
+{"type": "function", "function": {"name": "cancel_alarm", "description": "Cancels or deletes an alarm.", "parameters": {"type": "object", "properties": {"time": {"type": "string", "description": "Optional time of the alarm to cancel, exactly as the user said it."}}}}}
+{"type": "function", "function": {"name": "send_sms", "description": "Sends a text message (SMS) to a contact.", "parameters": {"type": "object", "properties": {"contact": {"type": "string", "description": "The contact name or number to send the message to."}, "message": {"type": "string", "description": "The text of the message to send."}}, "required": ["contact", "message"]}}}
+{"type": "function", "function": {"name": "call_contact", "description": "Places a phone call to a contact.", "parameters": {"type": "object", "properties": {"contact": {"type": "string", "description": "The contact name or number to call."}}, "required": ["contact"]}}}
+{"type": "function", "function": {"name": "open_app", "description": "Opens or launches an app installed on the phone.", "parameters": {"type": "object", "properties": {"app": {"type": "string", "description": "The name of the app to open."}}, "required": ["app"]}}}
+{"type": "function", "function": {"name": "set_volume", "description": "Changes the media volume of the phone.", "parameters": {"type": "object", "properties": {"direction": {"type": "string", "description": "Whether to turn the volume up, down or mute it.", "enum": ["up", "down", "mute"]}, "level": {"type": "string", "description": "Optional target volume level, exactly as the user said it."}}}}}
+{"type": "function", "function": {"name": "set_reminder", "description": "Creates a reminder to do something at a given time.", "parameters": {"type": "object", "properties": {"what": {"type": "string", "description": "What the user wants to be reminded about."}, "when": {"type": "string", "description": "When to remind the user, exactly as the user said it."}}, "required": ["what", "when"]}}}
+{"type": "function", "function": {"name": "create_event", "description": "Adds an event to the user's calendar.", "parameters": {"type": "object", "properties": {"title": {"type": "string", "description": "The title of the calendar event."}, "when": {"type": "string", "description": "The date and time of the event, exactly as the user said it."}}, "required": ["title", "when"]}}}
+{"type": "function", "function": {"name": "get_date", "description": "Tells the user today's date.", "parameters": {"type": "object", "properties": {}}}}
+{"type": "function", "function": {"name": "toggle_flashlight", "description": "Turns the flashlight (torch) on or off.", "parameters": {"type": "object", "properties": {"state": {"type": "string", "description": "Whether to turn the flashlight on or off.", "enum": ["on", "off"]}}, "required": ["state"]}}}
+{"type": "function", "function": {"name": "identify_song", "description": "Identifies the song or music that is currently playing.", "parameters": {"type": "object", "properties": {}}}}
+{"type": "function", "function": {"name": "get_time", "description": "Tells the user the current time.", "parameters": {"type": "object", "properties": {}}}}
+{"type": "function", "function": {"name": "media_control", "description": "Controls the media that is playing: play, pause, next or previous track.", "parameters": {"type": "object", "properties": {"action": {"type": "string", "description": "What to do with the playing media.", "enum": ["play", "pause", "next", "previous"]}}, "required": ["action"]}}}
+{"type": "function", "function": {"name": "cancel_timer", "description": "Cancels or stops a running timer.", "parameters": {"type": "object", "properties": {"name": {"type": "string", "description": "Optional name of the timer to cancel, exactly as the user said it."}}}}}
+{"type": "function", "function": {"name": "calculate", "description": "Calculates the result of a math expression.", "parameters": {"type": "object", "properties": {"expression": {"type": "string", "description": "The math expression to calculate, exactly as the user said it."}}, "required": ["expression"]}}}
+</tools>
+
+For each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:
+<tool_call>
+{"name": <function-name>, "arguments": <args-json-object>}
+</tool_call><|im_end|>

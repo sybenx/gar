@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR: strings of the on-device language model features. Kept out of Dicio's strings.xml. -->
+<resources>
+    <!-- Said once when a command waits for the model to load (gar/DESIGN.md, "Model lifecycle and settings") -->
+    <string name="gar_model_loading_wait">One moment.</string>
+    <!-- Main settings entry and screen -->
+    <string name="gar_pref_title">Language model</string>
+    <string name="gar_pref_summary">You, speech recognition and the language model</string>
+    <string name="gar_pref_llm_enabled">Use the language model</string>
+    <string name="gar_pref_llm_enabled_on">Commands that match no sentence go to the model</string>
+    <string name="gar_pref_llm_enabled_off">Only the built-in sentences are used</string>
+    <string name="gar_pref_model">Model</string>
+    <string name="gar_pref_model_qwen_name">Qwen3 0.6B (default)</string>
+    <string name="gar_pref_model_function_gemma_name">FunctionGemma 270M</string>
+    <string name="gar_pref_model_custom_name">Imported model</string>
+    <string name="gar_pref_model_custom_summary">A .gguf file from your device</string>
+    <!-- %1$s is a size like "397 MB", %2$s a license name -->
+    <string name="gar_pref_model_size_license">%1$s, %2$s</string>
+    <string name="gar_pref_status">Status</string>
+    <string name="gar_status_not_downloaded">Not downloaded</string>
+    <string name="gar_status_no_custom_model">No model imported</string>
+    <!-- %1$d is a percentage -->
+    <string name="gar_status_downloading">Downloading %1$d%%</string>
+    <string name="gar_status_downloading_unknown">Downloading</string>
+    <string name="gar_status_importing">Importing</string>
+    <string name="gar_status_ready">Ready</string>
+    <string name="gar_status_loading">Loading</string>
+    <string name="gar_status_loaded">Loaded</string>
+    <!-- %1$s is an error message (a sentence) -->
+    <string name="gar_status_error">%1$s</string>
+    <string name="gar_error_download_failed">Download failed. Try again.</string>
+    <string name="gar_error_download_damaged">The download was damaged. Try again.</string>
+    <string name="gar_error_import_failed">Could not import the file. Try again.</string>
+    <string name="gar_error_load_failed">Could not load the model. Tap to try again.</string>
+    <string name="gar_error_load_crashed">Loading this model stopped the app twice. Tap to try again.</string>
+    <string name="gar_pref_download">Download</string>
+    <!-- %1$s is a size like "397 MB" -->
+    <string name="gar_pref_download_summary">%1$s from Hugging Face</string>
+    <string name="gar_pref_download_cancel">Cancel download</string>
+    <string name="gar_pref_download_cancel_summary">The download continues from here next time</string>
+    <string name="gar_pref_download_resume">Resume download</string>
+    <!-- %1$s and %2$s are sizes like "120 MB" and "397 MB" -->
+    <string name="gar_pref_download_resume_summary">%1$s of %2$s downloaded</string>
+    <string name="gar_pref_delete_partial">Delete partial download</string>
+    <string name="gar_pref_delete">Delete model</string>
+    <!-- %1$s is a size like "397 MB" -->
+    <string name="gar_pref_delete_summary">Frees %1$s</string>
+    <string name="gar_pref_terms">Gemma Terms of Use</string>
+    <string name="gar_pref_terms_summary">FunctionGemma is provided under the Gemma Terms of Use, which include the Prohibited Use Policy. Tap to read the terms.</string>
+    <string name="gar_pref_prohibited_use">Gemma Prohibited Use Policy</string>
+    <string name="gar_pref_prohibited_use_summary">Tap to read it</string>
+    <string name="gar_pref_terms_accept">I accept</string>
+    <string name="gar_pref_terms_accepted">You accepted the Gemma Terms of Use</string>
+    <string name="gar_pref_import">Import a model</string>
+    <string name="gar_pref_import_summary">Pick a .gguf file from your device. Only import models from sources you trust.</string>
+    <string name="gar_pref_import_family">What kind of model is it?</string>
+    <string name="gar_pref_import_family_hermes">Qwen or another Hermes-style model</string>
+    <string name="gar_pref_import_family_function_gemma">FunctionGemma</string>
+    <string name="gar_import_not_gguf">This is not a GGUF file.</string>
+    <string name="gar_import_too_large">This model is too big for this phone\'s memory.</string>
+    <string name="gar_import_no_space">Not enough free storage for this model.</string>
+    <string name="gar_pref_confirm">Confirm model commands</string>
+    <string name="gar_pref_confirm_on">Ask before actions like timers, opening apps, media or reading notifications</string>
+    <string name="gar_pref_confirm_off">Run commands the model understood right away. Calls always ask first.</string>
+    <string name="gar_pref_licenses">Open source licenses</string>
+    <string name="gar_pref_licenses_summary">llama.cpp (MIT License)</string>
+
+    <!-- Questions about missing or unclear details of a command -->
+    <string name="gar_ask_not_understood">Sorry, I didn\'t get that.</string>
+    <string name="gar_ask_duration">How long?</string>
+    <string name="gar_ask_time">What time?</string>
+    <string name="gar_ask_datetime">When?</string>
+    <string name="gar_ask_date">What day?</string>
+    <string name="gar_ask_number">What number?</string>
+    <!-- asked about a volume level that is missing or unclear -->
+    <string name="gar_ask_level">What level?</string>
+    <string name="gar_ask_contact">Who?</string>
+    <string name="gar_ask_app">Which app?</string>
+    <string name="gar_ask_where">Where to?</string>
+    <!-- %1$s is the name of what is missing, e.g. "calculation" -->
+    <string name="gar_ask_text">What %1$s?</string>
+    <string name="gar_ask_am_pm">Morning or evening?</string>
+    <!-- asked when only a month was said; %1$s is the month, e.g. "December" -->
+    <string name="gar_ask_day_in_month">Which day in %1$s?</string>
+    <!-- %1$s is a list of options -->
+    <string name="gar_ask_which_options">Which one? %1$s</string>
+    <!-- separator between options in a question, e.g. "play, pause" -->
+    <string name="gar_options_separator">", "</string>
+    <string name="gar_cancelled">OK.</string>
+    <string name="gar_unlock_first">Unlock your phone first.</string>
+    <string name="gar_yes">Yes</string>
+    <string name="gar_no">No</string>
+
+    <!-- Formatting of details in confirmations -->
+    <string name="gar_today">today</string>
+    <string name="gar_tomorrow">tomorrow</string>
+    <!-- %1$s is a date, %2$s a time -->
+    <string name="gar_date_at_time">%1$s at %2$s</string>
+    <!-- %1$s is a list of weekdays -->
+    <string name="gar_every">every %1$s</string>
+    <!-- %1$s is a number -->
+    <string name="gar_percent">%1$s percent</string>
+</resources>

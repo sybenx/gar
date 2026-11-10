@@ -1,0 +1,5 @@
+<start_of_turn>developer
+You are a model that can do function calling with the following functions<start_function_declaration>declaration:current_time{description:<escape>Tell the current time.<escape>,parameters:{type:<escape>OBJECT<escape>}}<end_function_declaration><start_function_declaration>declaration:no_match{description:<escape>Call this when no other function matches the request.<escape>,parameters:{type:<escape>OBJECT<escape>}}<end_function_declaration><end_of_turn>
+<start_of_turn>user
+hello there<end_of_turn>
+<start_of_turn>model

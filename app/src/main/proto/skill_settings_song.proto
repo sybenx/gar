@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+option java_package = "org.stypox.dicio.skills.song";
+option java_multiple_files = true;
+
+// GAR: the service that recognizes songs that aren't playing on the phone. NONE (the default)
+// means no recording is ever sent: the skill only reads the phone's media session or opens Audile.
+enum SongProvider {
+  SONG_PROVIDER_NONE = 0;
+  SONG_PROVIDER_AUDD = 1;
+  SONG_PROVIDER_ACRCLOUD = 2;
+}
+
+// GAR: the song skill's settings, in their own DataStore file (skill_settings_song.pb)
+message SkillSettingsSong {
+  SongProvider provider = 1;
+  string audd_api_token = 2;
+  // e.g. identify-eu-west-1.acrcloud.com, from the ACRCloud console
+  string acrcloud_host = 3;
+  string acrcloud_access_key = 4;
+  string acrcloud_access_secret = 5;
+  // whether a recognition has already said aloud that it sent a recording over the internet
+  bool network_notice_spoken = 6;
+  // whether GAR has heard a result from Audile's "Song results found in the foreground"
+  // notifications, which are off until the user switches them on
+  bool audile_foreground_heard = 7;
+  // whether the user said no when GAR offered to install Audile (nothing else could recognize a
+  // song), so GAR doesn't ask again and only says where to get it
+  bool audile_install_declined = 8;
+}

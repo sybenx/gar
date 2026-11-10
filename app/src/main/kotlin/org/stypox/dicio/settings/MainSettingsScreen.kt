@@ -32,6 +32,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import org.stypox.dicio.R
+import org.stypox.dicio.gar.settings.GarSettingsItem // GAR
+import org.stypox.dicio.gar.stt.rememberResolvedInputDevice // GAR
 import org.stypox.dicio.io.input.SttInputDevice
 import org.stypox.dicio.settings.datastore.InputDevice
 import org.stypox.dicio.settings.datastore.Language
@@ -49,6 +51,7 @@ import org.stypox.dicio.ui.theme.AppTheme
 fun MainSettingsScreen(
     navigationIcon: @Composable () -> Unit,
     navigateToSkillSettings: () -> Unit,
+    navigateToGarSettings: () -> Unit = {}, // GAR
     viewModel: MainSettingsViewModel = hiltViewModel(),
 ) {
     Scaffold(
@@ -62,6 +65,7 @@ fun MainSettingsScreen(
     ) {
         MainSettingsScreen(
             navigateToSkillSettings = navigateToSkillSettings,
+            navigateToGarSettings = navigateToGarSettings, // GAR
             viewModel = viewModel,
             modifier = Modifier.padding(it),
         )
@@ -71,6 +75,7 @@ fun MainSettingsScreen(
 @Composable
 private fun MainSettingsScreen(
     navigateToSkillSettings: () -> Unit,
+    navigateToGarSettings: () -> Unit = {}, // GAR
     viewModel: MainSettingsViewModel,
     modifier: Modifier = Modifier,
 ) {
@@ -120,16 +125,14 @@ private fun MainSettingsScreen(
                     .testTag("skill_settings_item")
             )
         }
+        item { GarSettingsItem(onClick = navigateToGarSettings) } // GAR
 
         /* INPUT AND OUTPUT METHODS */
         item { SettingsCategoryTitle(stringResource(R.string.pref_io)) }
         item {
             inputDevice().Render(
-                when (val inputDevice = settings.inputDevice) {
-                    InputDevice.UNRECOGNIZED,
-                    InputDevice.INPUT_DEVICE_UNSET -> InputDevice.INPUT_DEVICE_VOSK
-                    else -> inputDevice
-                },
+                // GAR: UNSET shows the device it resolves to, Vosk or Whisper
+                rememberResolvedInputDevice(settings.inputDevice),
                 viewModel::setInputDevice,
             )
         }

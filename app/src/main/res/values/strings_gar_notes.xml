@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR: strings of the lists, notes and facts that GAR keeps on the phone (gar:notes). -->
+<resources>
+    <!-- "milk, eggs and bread": %1$s the items before the last, %2$s the last -->
+    <string name="gar_notes_and">%1$s and %2$s</string>
+
+    <!-- lists; %1$s is a list's name as kept, like "shopping", "to do" or "packing" -->
+    <string name="skill_name_lists">Lists</string>
+    <string name="skill_sentence_example_lists">Add milk to my shopping list</string>
+    <string name="gar_lists_list">%1$s list</string>
+    <!-- %1$s the items added, like "milk and eggs", %2$s the list, like "shopping list" -->
+    <string name="gar_lists_added">OK, I added %1$s to your %2$s.</string>
+    <string name="gar_lists_already">%1$s is already on your %2$s.</string>
+    <string name="gar_lists_added_some">I added %1$s to your %2$s. %3$s was already on it.</string>
+    <string name="gar_lists_removed">I removed %1$s from your %2$s.</string>
+    <string name="gar_lists_not_on">I don\'t see %1$s on your %2$s.</string>
+    <string name="gar_lists_has">Yes, %1$s is on your %2$s.</string>
+    <string name="gar_lists_has_not">No, %1$s isn\'t on your %2$s.</string>
+    <string name="gar_lists_empty">Your %1$s is empty.</string>
+    <string name="gar_lists_none">You don\'t have a %1$s yet.</string>
+    <!-- %1$s the list, %2$d how many items, %3$s the first items, like "milk, eggs and bread" -->
+    <plurals name="gar_lists_items">
+        <item quantity="one">Your %1$s has %2$d item: %3$s.</item>
+        <item quantity="other">Your %1$s has %2$d items: %3$s.</item>
+    </plurals>
+    <!-- the end of a list read aloud: "milk, eggs and 4 more" -->
+    <plurals name="gar_lists_more">
+        <item quantity="one">%d more</item>
+        <item quantity="other">%d more</item>
+    </plurals>
+    <plurals name="gar_lists_clear_question">
+        <item quantity="one">Clear the %2$d item on your %1$s?</item>
+        <item quantity="other">Clear all %2$d items on your %1$s?</item>
+    </plurals>
+    <plurals name="gar_lists_delete_question">
+        <item quantity="one">Delete your %1$s and its %2$d item?</item>
+        <item quantity="other">Delete your %1$s and its %2$d items?</item>
+    </plurals>
+    <string name="gar_lists_delete_empty_question">Delete your %1$s?</string>
+    <string name="gar_lists_cleared">Your %1$s is empty now.</string>
+    <string name="gar_lists_deleted">I deleted your %1$s.</string>
+    <string name="gar_lists_created">Your %1$s is ready.</string>
+    <string name="gar_lists_exists">You already have a %1$s.</string>
+    <!-- %1$d lists, %2$s their names, like "shopping and packing" -->
+    <plurals name="gar_lists_all">
+        <item quantity="one">You have %1$d list: %2$s.</item>
+        <item quantity="other">You have %1$d lists: %2$s.</item>
+    </plurals>
+    <string name="gar_lists_no_lists">You don\'t have any lists yet.</string>
+    <string name="gar_lists_share">Share</string>
+
+    <!-- notes; %1$s is the note's text -->
+    <string name="skill_name_notes">Notes</string>
+    <string name="skill_sentence_example_notes">Take a note: call the dentist</string>
+    <string name="gar_notes_saved">Saved your note: %1$s</string>
+    <string name="gar_notes_ask">What\'s the note?</string>
+    <!-- a button under a saved note: %1$s is a notes app, like "Notally" -->
+    <string name="gar_notes_save_in">Also save in %1$s</string>
+    <string name="gar_notes_none">You don\'t have any notes.</string>
+    <!-- %1$s when the note was taken, like "today at 3:12 PM", %2$s the note -->
+    <string name="gar_notes_last">Your last note, %1$s: %2$s</string>
+    <!-- %1$d notes, %2$s the newest ones read aloud -->
+    <plurals name="gar_notes_count">
+        <item quantity="one">You have %1$d note: %2$s</item>
+        <item quantity="other">You have %1$d notes. The newest: %2$s</item>
+    </plurals>
+    <string name="gar_notes_deleted_last">I deleted your note: %1$s</string>
+    <plurals name="gar_notes_delete_all_question">
+        <item quantity="one">Delete your %d note?</item>
+        <item quantity="other">Delete all %d notes?</item>
+    </plurals>
+    <string name="gar_notes_deleted_all">I deleted your notes.</string>
+    <string name="gar_notes_today">today at %1$s</string>
+    <string name="gar_notes_yesterday">yesterday at %1$s</string>
+    <string name="gar_notes_on">on %1$s</string>
+
+    <!-- facts; %1$s is a fact said back, like "your locker is 42" -->
+    <string name="skill_name_facts">Remember things</string>
+    <string name="skill_sentence_example_facts">Remember that my locker is 42</string>
+    <string name="gar_facts_remembered">OK, I\'ll remember that %1$s</string>
+    <!-- %1$s what to remember about, said back: "your parking spot", "where you parked" -->
+    <string name="gar_facts_ask">What should I remember about %1$s?</string>
+    <string name="gar_facts_unknown">You haven\'t told me that yet.</string>
+    <string name="gar_facts_tip">Say \"remember\" and what to keep, like \"remember I parked on level 3\". It stays on this phone.</string>
+    <!-- when the fact was saved, like "Saved today at 3:12 PM" -->
+    <string name="gar_facts_saved_at">Saved %1$s</string>
+    <string name="gar_facts_forgot">OK, I forgot that %1$s</string>
+    <string name="gar_facts_forget_none">I don\'t remember anything about that.</string>
+    <plurals name="gar_facts_forget_all_question">
+        <item quantity="one">Forget the %d thing you told me?</item>
+        <item quantity="other">Forget all %d things you told me?</item>
+    </plurals>
+    <string name="gar_facts_forgot_all">OK, I forgot everything you told me.</string>
+    <string name="gar_facts_none">You haven\'t asked me to remember anything yet.</string>
+    <!-- %1$d facts, %2$s the newest ones said back -->
+    <plurals name="gar_facts_all">
+        <item quantity="one">I remember %1$d thing. %2$s</item>
+        <item quantity="other">I remember %1$d things. %2$s</item>
+    </plurals>
+
+    <!-- GAR's screen of everything it keeps (the skills' settings) -->
+    <string name="gar_notes_screen_title">What GAR keeps on this phone</string>
+    <string name="gar_notes_screen_description">Lists, notes and remembered facts stay in GAR\'s own storage and never leave the phone.</string>
+    <string name="gar_notes_screen_lists">Lists</string>
+    <string name="gar_notes_screen_notes">Notes</string>
+    <string name="gar_notes_screen_facts">Remembered</string>
+    <string name="gar_notes_screen_empty">Nothing yet.</string>
+    <string name="gar_notes_screen_share_all">Share all</string>
+    <string name="gar_notes_screen_delete_all">Delete all</string>
+    <string name="gar_notes_screen_delete_confirm">Tap again to delete everything</string>
+</resources>

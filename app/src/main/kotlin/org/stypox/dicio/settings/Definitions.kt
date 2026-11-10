@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.Campaign
 import androidx.compose.material.icons.filled.Cloud
 import androidx.compose.material.icons.filled.ColorLens
 import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.GraphicEq // GAR
 import androidx.compose.material.icons.filled.Hearing
 import androidx.compose.material.icons.filled.HourglassEmpty
 import androidx.compose.material.icons.filled.InvertColors
@@ -108,6 +109,12 @@ fun inputDevice() = ListSetting(
     icon = Icons.Default.Mic,
     description = stringResource(R.string.pref_input_method_summary),
     possibleValues = listOf(
+        ListSetting.Value( // GAR
+            value = InputDevice.INPUT_DEVICE_WHISPER,
+            name = stringResource(R.string.pref_input_method_whisper),
+            description = stringResource(R.string.pref_input_method_whisper_summary),
+            icon = Icons.Default.GraphicEq,
+        ),
         ListSetting.Value(
             value = InputDevice.INPUT_DEVICE_VOSK,
             name = stringResource(R.string.pref_input_method_vosk),

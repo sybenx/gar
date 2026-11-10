@@ -1,4 +1,7 @@
 query:
   - (navega<r|me?>)|(lleva<me?>)|localiza|((dame la|las?)? direccion<es?>) a|de? el|la? .where.
-  - sabe<s?>|dime? donde esta|(se encuentra) .where.
   - puede<s?> explicar<me?> como llegar|ir a .where.
+
+# GAR (gar:places): "where is .where." on its own, see en
+where_is:
+  - sabe<s?>|dime? donde esta|(se encuentra) .where.

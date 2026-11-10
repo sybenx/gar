@@ -1,0 +1,18 @@
+# Edge cases for prompt rendering: JSON escapes, non-ASCII text, a slot without description, three
+# optional slots (alphabetical order differs from declaration order) and an enum next to text slots.
+tools:
+  - name: note_add
+    skill: notes
+    description: "Add a \"note\" with a back\\slash, a tab\there, a newline\nhere, café ünïcode, 😀 and <b>&'x'</b>."
+    slots:
+      zeta: {kind: text, description: "Last in the alphabet, first declared: \"quoted\"."}
+      body: {kind: text}
+      mood: {kind: enum, values: [happy, "so-so", "très bien"], description: Mood of the note.}
+      alpha_2: {kind: number, required: true, description: A number slot that is required.}
+
+  - name: lamp
+    skill: lamps
+    description: Switch a lamp.
+    slots:
+      room: {kind: text, description: Which room.}
+      state: {kind: enum, values: ["on", "off"], required: true, description: On or off.}

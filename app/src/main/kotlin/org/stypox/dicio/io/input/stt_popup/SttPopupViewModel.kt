@@ -68,10 +68,22 @@ class SttPopupViewModel @Inject constructor(
             is InputEvent.Final -> {
                 // receiving a final event from the STT behaves almost identically as receiving a
                 // new value in setTextFieldValue when the user types manually
-                lastTextFieldInput = inputEvent.utterances[0].first
-                _textFieldValue.value = inputEvent.utterances[0].first
-                lastFinalUtterances = inputEvent.utterances
+                // GAR: other apps get Whisper's written text ("Set a timer for 5 minutes."), not
+                // the spoken form GAR matches
+                val utterances = garPopupUtterances(inputEvent)
+                lastTextFieldInput = utterances[0].first
+                _textFieldValue.value = utterances[0].first
+                lastFinalUtterances = utterances
             }
         }
     }
+}
+
+/**
+ * GAR: what the popup shows and returns for [final]: the recognizer's written text with the first
+ * alternative's confidence when there is one (Whisper), else the utterances as they are (Vosk).
+ */
+internal fun garPopupUtterances(final: InputEvent.Final): List<Pair<String, Float>> {
+    val written = final.written?.takeIf { it.isNotBlank() } ?: return final.utterances
+    return listOf(Pair(written, final.utterances.firstOrNull()?.second ?: 1.0f))
 }

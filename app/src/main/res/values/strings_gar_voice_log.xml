@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR: the voice log's settings, see GarVoiceLog. -->
+<resources>
+    <string name="gar_voice_log_title">Voice log</string>
+    <string name="gar_voice_log_summary">Keeps a log of each voice command on this phone to help fix recognition. Nothing leaves the phone.</string>
+    <string name="gar_voice_log_share">Share voice log</string>
+    <string name="gar_voice_log_share_summary">Sends a zipped copy of the log and its recordings to an app you pick</string>
+    <string name="gar_voice_log_share_failed">Could not zip the voice log</string>
+    <string name="gar_voice_log_clear">Clear voice log</string>
+    <string name="gar_voice_log_clear_summary">Deletes the log and its recordings from this phone</string>
+    <string name="gar_voice_log_cleared">Voice log cleared</string>
+    <string name="gar_voice_log_clear_failed">Could not clear the voice log</string>
+</resources>

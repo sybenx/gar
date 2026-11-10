@@ -1,3 +1,6 @@
 query:
   - (проложи|построй|найди) (маршрут|путь) (до|в) .where.
+
+# GAR (gar:places): "where is .where." on its own, see en
+where_is:
   - где находится? .where.

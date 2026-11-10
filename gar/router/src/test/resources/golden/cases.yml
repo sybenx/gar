@@ -1,0 +1,13 @@
+# Prompt and grammar goldens. For every case and format, <format>/<name>.prompt.txt is what
+# llama-server /apply-template rendered (Qwen3-0.6B with enable_thinking=false for hermes,
+# FunctionGemma 270M with FunctionGemmaFormat.DEVELOPER_PROMPT for functiongemma) for the
+# normalized utterance, <name>.request.json the request that produced it and <name>.gbnf the
+# grammar the format generates (checked against llama.cpp by the capture tool).
+# Re-capture with ./gradlew :gar:router:captureGoldens (needs both servers, see build.gradle.kts).
+cases:
+  - {name: phone_timer, toolset: phone, utterance: "Set a timer for ten minutes"}
+  - {name: phone_spotify, toolset: phone, utterance: "open spot if i"}
+  - {name: phone_sms, toolset: phone, utterance: "text mom that i'll be late"}
+  - {name: tricky_note, toolset: tricky, utterance: "add a note, très bien: \"forty two\" pasta"}
+  - {name: tricky_empty, toolset: tricky, utterance: "?!"}
+  - {name: single_hello, toolset: single, utterance: "hello there"}

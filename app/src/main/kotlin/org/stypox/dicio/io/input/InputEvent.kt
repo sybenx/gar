@@ -36,9 +36,17 @@ sealed interface InputEvent {
      * The actual final user input ready to be used. May contain more than one utterance
      * alternative, but the [utterances] list is sorted by confidence. Every item in [utterances]
      * is an utterance with its score from 1.0 (best) to 0.0 (worst).
+     *
+     * GAR: [written] is the recognizer's own text when it differs in style from [utterances]
+     * (Whisper writes "Set a timer for 5 minutes.", the utterance is "set a timer for five
+     * minutes"); null for Vosk, typed input and buttons, whose utterances are the text itself.
+     * GAR: [spoken] is true for speech (Whisper, Vosk, another app's recognizer), false for typed
+     * input and buttons, so that their answers are shown and not said.
      */
     data class Final(
-        val utterances: List<Pair<String, Float>>
+        val utterances: List<Pair<String, Float>>,
+        val written: String? = null, // GAR
+        val spoken: Boolean = false, // GAR
     ) : InputEvent
 
     /**

@@ -4,6 +4,8 @@ import org.dicio.skill.skill.Skill
 import org.dicio.skill.context.SkillContext
 import org.dicio.skill.skill.Specificity
 import org.dicio.skill.util.CleanableUp
+import org.stypox.dicio.gar.conversation.GarFollowUps // GAR
+import org.stypox.dicio.gar.voicelog.GarVoiceLog // GAR
 import java.util.Stack
 
 class SkillRanker(
@@ -67,6 +69,7 @@ class SkillRanker(
                 var bestSkillSoFar: SkillWithResult<*>? = null
                 for (skill in skills) {
                     val res = skill.scoreAndWrapResult(ctx, input)
+                    GarVoiceLog.scored(res) // GAR: the voice log's top candidates
                     if (bestSkillSoFar == null || res.score.isBetterThan(bestSkillSoFar.score)) {
                         bestSkillSoFar = res
                     }
@@ -100,10 +103,17 @@ class SkillRanker(
     fun getBest(
         ctx: SkillContext,
         input: String,
+        // GAR: whether to take a match of the default batch, asked before the other batches are
+        // dropped: a rejected match is no match here, and leaves the pending batches in place
+        // for the input's other alternatives (garMatchUtterances)
+        acceptDefault: (SkillWithResult<*>) -> Boolean = { true },
     ): SkillWithResult<*>? {
         for (i in batches.indices.reversed()) {
             val skillFromBatch = batches[i].getBest(ctx, input)
             if (skillFromBatch != null) {
+                // GAR: an answer that takes any words gives way to a command (GarFollowUps)
+                GarFollowUps.commandOverAnswer(skillFromBatch) { defaultBatch.getBest(ctx, input) }
+                    ?.let { return takeDefault(it, acceptDefault) }
                 // found a matching skill: remove all skills in batch above it
                 for (j in i + 1 until batches.size) {
                     removeTopBatch()
@@ -112,8 +122,17 @@ class SkillRanker(
             }
         }
 
-        val skillFromBatch = defaultBatch.getBest(ctx, input)
-        if (skillFromBatch != null) {
+        return takeDefault(defaultBatch.getBest(ctx, input), acceptDefault) // GAR: a function
+    }
+
+    // GAR: the default batch's part of getBest, also for a command that wins over an answer
+    private fun takeDefault(
+        match: SkillWithResult<*>?,
+        acceptDefault: (SkillWithResult<*>) -> Boolean,
+    ): SkillWithResult<*>? {
+        val skillFromBatch = match?.takeIf(acceptDefault)
+        // GAR: "repeat that" keeps a pending question (GarFollowUps.keepsBatches)
+        if (skillFromBatch != null && !GarFollowUps.keepsBatches(skillFromBatch)) {
             // found a matching skill in the default batch: remove all other skill batches
             removeAllBatches()
         }

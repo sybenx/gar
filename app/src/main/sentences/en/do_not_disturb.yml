@@ -1,0 +1,17 @@
+turn_on:
+  - turn|switch|put on the? do not disturb (mode)?
+  - turn|switch the? do not disturb (mode)? on
+  - enable|activate|start the? do not disturb (mode)?
+  - do not disturb (mode)? on
+  - (go into)|(put me in)|(put the? phone in)|(put my phone in) do not disturb (mode)?
+
+turn_off:
+  - turn|switch off the? do not disturb (mode)?
+  - turn|switch the? do not disturb (mode)? off
+  - disable|deactivate|stop|end|cancel the? do not disturb (mode)?
+  - do not disturb (mode)? off
+  - (get|take) (me|(the? phone)|(my phone))? out of do not disturb (mode)?
+
+query:
+  - is the? do not disturb (mode)? on|enabled|active|activated|(turned on)
+  - (am i)|(is the? phone)|(is my phone) (in|on) do not disturb (mode)?

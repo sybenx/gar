@@ -1,0 +1,15 @@
+until:
+  # GAR: only holidays, personal days and days the date resolver reads match (HolidaySkill)
+  - how many more? days|weeks|sleeps ((are (there|left)?)|(is it)|left|(do (we|i) have))? (until|till|til|before|to) .day.
+  - how long ((is it)|(is there)|(do (we|i) have)|left)? (until|till|til|before) .day.
+  - (count down)|countdown|days to|until|till .day.
+when:
+  - when is|s .day.
+  - whens .day.
+  - when does|will .day. (fall|be|come)
+date_of:
+  # the date skill keeps plain days ("what day is the fourth of july")
+  - what day|date is .day.
+  - what|(what s|is)|whats the date|day of .day.
+  - what day|date does .day. fall|land on
+  - what day of the week is .day.

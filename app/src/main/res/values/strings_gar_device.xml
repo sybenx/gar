@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR: strings of the device skills (volume, Do Not Disturb, Wi-Fi and Bluetooth). -->
+<resources>
+    <!-- volume -->
+    <string name="skill_name_volume">Volume</string>
+    <string name="skill_sentence_example_volume">Turn up the volume</string>
+    <string name="skill_volume_level_music">Volume at %1$d percent</string>
+    <string name="skill_volume_level_ring">Ring volume at %1$d percent</string>
+    <string name="skill_volume_level_alarm">Alarm volume at %1$d percent</string>
+    <string name="skill_volume_level_notification">Notification volume at %1$d percent</string>
+    <string name="skill_volume_muted_music">Volume muted</string>
+    <string name="skill_volume_muted_ring">Ring volume muted</string>
+    <string name="skill_volume_muted_alarm">Alarm volume muted</string>
+    <string name="skill_volume_muted_notification">Notification volume muted</string>
+    <string name="skill_volume_fixed">This phone\'s volume can\'t be changed</string>
+    <string name="skill_volume_not_allowed">Android needs Do Not Disturb access for that</string>
+    <string name="skill_volume_unavailable">Can\'t change the volume</string>
+
+    <!-- do_not_disturb -->
+    <string name="skill_name_do_not_disturb">Do Not Disturb</string>
+    <string name="skill_sentence_example_do_not_disturb">Turn on do not disturb</string>
+    <string name="skill_dnd_turned_on">Turned on Do Not Disturb</string>
+    <string name="skill_dnd_turned_off">Turned off Do Not Disturb</string>
+    <string name="skill_dnd_on">Do Not Disturb is on</string>
+    <string name="skill_dnd_off">Do Not Disturb is off</string>
+    <string name="skill_dnd_already_on">Do Not Disturb is already on</string>
+    <string name="skill_dnd_already_off">Do Not Disturb is already off</string>
+    <string name="skill_dnd_off_in_settings">Turn it off in settings</string>
+    <string name="skill_dnd_no_access">Allow Do Not Disturb access, then try again</string>
+    <string name="skill_dnd_failed">Couldn\'t change Do Not Disturb</string>
+
+    <!-- connectivity -->
+    <string name="skill_name_connectivity">Wi-Fi and Bluetooth</string>
+    <string name="skill_sentence_example_connectivity">Turn on Bluetooth</string>
+    <string name="perm_bluetooth_connect">turn on Bluetooth</string>
+    <string name="skill_connectivity_wifi_on_panel">Apps can\'t turn on Wi-Fi, so I opened the Wi-Fi panel</string>
+    <string name="skill_connectivity_wifi_off_panel">Apps can\'t turn off Wi-Fi, so I opened the Wi-Fi panel</string>
+    <string name="skill_connectivity_wifi_panel">Opened the Wi-Fi panel</string>
+    <string name="skill_connectivity_wifi_settings">Opened Wi-Fi settings</string>
+    <string name="skill_connectivity_bluetooth_asked">Tap Allow to turn on Bluetooth</string>
+    <string name="skill_connectivity_bluetooth_already_on">Bluetooth is already on</string>
+    <string name="skill_connectivity_bluetooth_already_off">Bluetooth is already off</string>
+    <string name="skill_connectivity_bluetooth_on_settings">Apps can\'t turn on Bluetooth here, so I opened Bluetooth settings</string>
+    <string name="skill_connectivity_bluetooth_off_settings">Apps can\'t turn off Bluetooth, so I opened Bluetooth settings</string>
+    <string name="skill_connectivity_bluetooth_settings">Opened Bluetooth settings</string>
+    <string name="skill_connectivity_no_bluetooth">This phone has no Bluetooth</string>
+    <string name="skill_connectivity_open_failed">Couldn\'t open the settings</string>
+</resources>

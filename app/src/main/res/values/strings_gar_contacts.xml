@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR: strings of contact details and new contacts (gar:contacts). -->
+<resources>
+    <string name="skill_name_contact_info">Contact details</string>
+    <string name="skill_sentence_example_contact_info">What\'s mom\'s number?</string>
+
+    <string name="gar_contacts_field_number">number</string>
+    <string name="gar_contacts_field_email">email</string>
+    <string name="gar_contacts_field_address">address</string>
+    <string name="gar_contacts_field_birthday">birthday</string>
+    <!-- %1$s a contact's name, %2$s a field like "number": "Mom's number" -->
+    <string name="gar_contacts_whose">%1$s\'s %2$s</string>
+    <string name="gar_contacts_your">Your %1$s</string>
+    <!-- %1$s "Mom's number", %2$s the number said digit by digit -->
+    <string name="gar_contacts_is">%1$s is %2$s.</string>
+    <string name="gar_contacts_fields_number">numbers</string>
+    <string name="gar_contacts_fields_email">email addresses</string>
+    <string name="gar_contacts_fields_address">addresses</string>
+    <string name="gar_contacts_fields_birthday">birthdays</string>
+    <!-- %1$s a name, %2$d how many (2 or more), %3$s the fields like "numbers", %4$s the
+         first ones with their labels: "Mom has 2 numbers. Mobile: 8 0 1, .... Home: ...." -->
+    <string name="gar_contacts_several">%1$s has %2$d %3$s. %4$s.</string>
+    <string name="gar_contacts_you_have">You have %1$d %2$s. %3$s.</string>
+    <string name="gar_contacts_none">%1$s has no %2$s saved.</string>
+    <string name="gar_contacts_own_none">Your contact has no %1$s saved.</string>
+    <string name="gar_contacts_not_found">I couldn\'t find %1$s in your contacts.</string>
+    <string name="gar_contacts_own_unknown">I don\'t know which contact is you yet. Say \"text myself\" once and I\'ll ask.</string>
+    <!-- %1$s the contacts found, like "Sarah Lee or Sarah Connor" -->
+    <string name="gar_contacts_which">Which one? %1$s?</string>
+    <!-- a number starting with +: "plus 1, 8 0 1, ..." -->
+    <string name="gar_contacts_plus">plus %1$s</string>
+
+    <!-- new contacts open in the contacts app; GAR never saves them itself -->
+    <string name="gar_contacts_new_name_number">Here\'s a new contact for %1$s with %2$s. Check it and tap Save.</string>
+    <string name="gar_contacts_new_name">Here\'s a new contact for %1$s. Add the details and tap Save.</string>
+    <string name="gar_contacts_new_number">Here\'s a new contact with %1$s. Add the name and tap Save.</string>
+    <string name="gar_contacts_new">Here\'s a new contact. Fill it in and tap Save.</string>
+    <string name="gar_contacts_no_app">I couldn\'t open your contacts app.</string>
+    <string name="gar_contacts_no_recent_call">I don\'t see a recent call with a number to save.</string>
+    <string name="gar_contacts_already_saved">That number is already saved as %1$s.</string>
+    <string name="gar_contacts_failed">I couldn\'t read your contacts.</string>
+</resources>

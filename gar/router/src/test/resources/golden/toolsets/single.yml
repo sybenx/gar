@@ -1,0 +1,5 @@
+# One tool without slots: the smallest prompt (that tool plus no_match).
+tools:
+  - name: current_time
+    skill: current_time
+    description: Tell the current time.

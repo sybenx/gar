@@ -1,0 +1,3 @@
+root ::= <tool_call> "\n" ( call-current-time | call-no-match ) "\n" </tool_call>
+call-current-time ::= "{\"name\": \"current_time\", \"arguments\": {}}"
+call-no-match ::= "{\"name\": \"no_match\", \"arguments\": {}}"

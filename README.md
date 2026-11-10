@@ -1,3 +1,42 @@
+<!-- GAR: fork notice -->
+# GAR
+
+GAR is an offline, Google Assistant style phone assistant for Android, a modified fork of
+[Dicio](https://github.com/DicioTeam/dicio-android). Commands that Dicio's sentences don't match
+go to a small language model running on the phone, speech is recognized on the phone with
+Whisper, and GAR can be the phone's digital assistant. How it works: [gar/DESIGN.md](gar/DESIGN.md).
+Building from source: [gar/BUILD.md](gar/BUILD.md).
+
+GAR is not affiliated with or supported by the Dicio project: please don't report GAR problems to
+Dicio.
+
+## Install
+
+GAR needs an arm64 phone on Android 9 or newer. Install it with
+[Obtainium](https://github.com/ImranR98/Obtainium): Add app, paste
+`https://github.com/sybenx/gar`, then Install. Obtainium picks up new releases from there. The
+APK is also attached to every [release](https://github.com/sybenx/gar/releases). The application
+id is `cc.aaro.gar`, so GAR installs next to Dicio.
+
+## First run
+
+- **Digital assistant**: Settings > Apps > Default apps > Digital assistant app > GAR. Apps can't
+  ask for this role, so GAR doesn't prompt for it.
+- **Speech**: the microphone button first asks for the microphone, then offers to download the
+  Whisper speech model (83 MB). Typed commands work without it.
+- **Language model**: nothing downloads by itself. Settings > Language model > Download fetches
+  Qwen3 0.6B (397 MB). Without it only the built-in sentences understand commands.
+- After the downloads GAR works without the network. If a permission such as notification access
+  stays grayed out, open App info > menu > Allow restricted settings.
+
+## License
+
+GPL-3.0, like Dicio, whose authors wrote most of this app. GAR statically links
+[llama.cpp](https://github.com/ggml-org/llama.cpp) and
+[whisper.cpp](https://github.com/ggml-org/whisper.cpp) (MIT License); their notices ship in the
+app under Settings > Language model > Open source licenses. Downloaded models come with their own
+licenses. The rest of this file is Dicio's README.
+
 # Dicio assistant
 
 Dicio is a *free and open source* **voice assistant** running on Android. It supports many different **skills** and input/output methods, and it provides both **speech** and **graphical** feedback to a question. It interprets user input and (when possible) generates user output entirely **on-device**, providing privacy by design. It has **multilanguage** support, and is currently available in these languages: Czech, Dutch, English, French, German, Greek, Italian, Polish, Russian, Slovenian, Spanish, Swedish, Turkish and Ukrainian. Open to contributions :-D

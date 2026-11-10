@@ -1,7 +1,9 @@
 package org.stypox.dicio.skills.notify
 
 import android.service.notification.NotificationListenerService
+import android.service.notification.StatusBarNotification
 import android.util.Log
+import org.stypox.dicio.skills.song.AudileResults
 
 open class NotifyHandler: NotificationListenerService() {
     companion object Companion {
@@ -17,6 +19,11 @@ open class NotifyHandler: NotificationListenerService() {
     override fun onDestroy() {
         super.onDestroy()
         Instance = null
+    }
+
+    // GAR: Audile's song results, which the song skill says (skills/song/SongAudileResult.kt)
+    override fun onNotificationPosted(sbn: StatusBarNotification?) {
+        sbn?.let(AudileResults::posted)
     }
 
     fun getActiveNotificationsList(): List<Notification> {

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR: strings of the next event, moving and deleting events, and listing and cancelling
+     reminders (gar:agenda). An event is said as "Dentist, tomorrow at 2:00 PM". -->
+<resources>
+    <string name="skill_name_agenda">Calendar changes</string>
+    <string name="skill_sentence_example_agenda">What\'s my next event?</string>
+    <string name="skill_name_reminders">Reminders</string>
+    <string name="skill_sentence_example_reminders">What are my reminders?</string>
+
+    <!-- %1$s an event's title, %2$s when it starts -->
+    <string name="gar_agenda_event">%1$s, %2$s</string>
+    <!-- "A, B or C": %1$s the options before the last, %2$s the last -->
+    <string name="gar_agenda_or">%1$s or %2$s</string>
+    <string name="gar_agenda_next">Your next event is %1$s.</string>
+    <!-- one event asked about by name: %1$s its title, %2$s when it starts -->
+    <string name="gar_agenda_when">%1$s is %2$s.</string>
+    <!-- "where is my meeting": %1$s the title, %2$s its place, %3$s when it starts -->
+    <string name="gar_agenda_where">%1$s is at %2$s, %3$s.</string>
+    <string name="gar_agenda_no_place">There\'s no place on it.</string>
+    <string name="gar_agenda_next_none">You have no events in the next %1$d days.</string>
+    <!-- %1$s what was asked about, like "dentist" -->
+    <string name="gar_agenda_next_none_about">I don\'t see %1$s on your calendar in the next %2$d days.</string>
+    <!-- %1$s the options, like "Lunch with John, Tuesday at noon or Meeting with John, Friday at 9:00 AM" -->
+    <string name="gar_agenda_which">Which one? %1$s?</string>
+    <!-- %1$s the title, %2$s when it is now, %3$s when it would be -->
+    <string name="gar_agenda_move_question">Move %1$s from %2$s to %3$s?</string>
+    <!-- %1$s the title, %2$s when it is now, read back from the calendar -->
+    <string name="gar_agenda_moved">Done. %1$s is now %2$s.</string>
+    <string name="gar_agenda_delete_question">Delete %1$s?</string>
+    <string name="gar_agenda_deleted">Deleted %1$s.</string>
+    <plurals name="gar_agenda_delete_many_question">
+        <item quantity="one">Delete the %d event that day?</item>
+        <item quantity="other">Delete all %d events that day?</item>
+    </plurals>
+    <plurals name="gar_agenda_deleted_many">
+        <item quantity="one">Deleted %d event.</item>
+        <item quantity="other">Deleted %d events.</item>
+    </plurals>
+    <plurals name="gar_agenda_skipped">
+        <item quantity="one">I left %d repeating or shared event alone.</item>
+        <item quantity="other">I left %d repeating or shared events alone.</item>
+    </plurals>
+    <!-- %1$s the event as said, like "meeting with john" -->
+    <string name="gar_agenda_not_found">I couldn\'t find %1$s on your calendar.</string>
+    <string name="gar_agenda_nothing_that_day">You have nothing on your calendar that day.</string>
+    <string name="gar_agenda_none_changeable">Those events repeat or are in calendars I can\'t change.</string>
+    <string name="gar_agenda_repeats">%1$s repeats, so change it in your calendar app.</string>
+    <string name="gar_agenda_repeats_opened">%1$s repeats, so I opened it in your calendar app to change it there.</string>
+    <!-- %2$s the calendar's name -->
+    <string name="gar_agenda_read_only">%1$s is in %2$s, which I can\'t change.</string>
+    <string name="gar_agenda_unclear_time">I didn\'t catch when to move %1$s to.</string>
+    <string name="gar_agenda_all_day_time">%1$s is an all-day event. Tell me which day to move it to.</string>
+    <string name="gar_agenda_already">%1$s is already then.</string>
+    <string name="gar_agenda_failed">I couldn\'t change your calendar.</string>
+
+    <!-- reminders; a reminder is said like an event: "call mom, today at 5:00 PM" -->
+    <string name="gar_reminders_none">You don\'t have any reminders.</string>
+    <!-- %1$s the day as said, like "today" -->
+    <string name="gar_reminders_none_day">You don\'t have any reminders %1$s.</string>
+    <plurals name="gar_reminders_list">
+        <item quantity="one">You have %1$d reminder: %2$s.</item>
+        <item quantity="other">You have %1$d reminders: %2$s.</item>
+    </plurals>
+    <string name="gar_reminders_which">Which reminder? %1$s?</string>
+    <!-- %1$s the reminder, like "call mom, today at 5:00 PM" -->
+    <string name="gar_reminders_cancel_question">Cancel your reminder: %1$s?</string>
+    <string name="gar_reminders_cancelled">Cancelled your reminder: %1$s.</string>
+    <plurals name="gar_reminders_cancel_many_question">
+        <item quantity="one">Cancel %1$d reminder: %2$s?</item>
+        <item quantity="other">Cancel %1$d reminders: %2$s?</item>
+    </plurals>
+    <plurals name="gar_reminders_cancelled_many">
+        <item quantity="one">Cancelled %d reminder.</item>
+        <item quantity="other">Cancelled %d reminders.</item>
+    </plurals>
+    <!-- %1$s what was asked about, like "the dentist" -->
+    <string name="gar_reminders_not_found">I don\'t see a reminder about %1$s.</string>
+</resources>

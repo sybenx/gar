@@ -15,7 +15,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton // GAR
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue // GAR
+import androidx.compose.runtime.mutableStateOf // GAR
+import androidx.compose.runtime.saveable.rememberSaveable // GAR
+import androidx.compose.runtime.setValue // GAR
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,8 +38,17 @@ import org.stypox.dicio.eval.SkillHandler
 import org.stypox.dicio.ui.theme.AppTheme
 import org.stypox.dicio.ui.util.SkillInfoPreviews
 
+/** GAR: how many skills the home screen's card shows before "See all". */
+const val GAR_HOME_SKILLS = 4
+
+/**
+ * GAR: [firstShown] skills are shown until the user taps "See all" (the home screen passes
+ * [GAR_HOME_SKILLS] so its first screen stays short and its first frame cheap, gar/DESIGN.md,
+ * "Frame rate"); the default shows every skill, as Dicio does.
+ */
 @Composable
-fun WhatICanDo(skills: List<SkillInfo>) {
+fun WhatICanDo(skills: List<SkillInfo>, firstShown: Int = Int.MAX_VALUE) {
+    var expanded by rememberSaveable { mutableStateOf(false) } // GAR
     MessageCard(containerColor = MaterialTheme.colorScheme.secondaryContainer) {
         if (skills.isEmpty()) {
             NoEnabledSkills()
@@ -49,11 +63,29 @@ fun WhatICanDo(skills: List<SkillInfo>) {
                     .padding(16.dp),
             )
 
-            for (skill in skills) {
+            // GAR: only the first few until expanded
+            val collapsible = skills.size > firstShown
+            for (skill in if (collapsible && !expanded) skills.take(firstShown) else skills) {
                 SkillRow(
                     skill = skill,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                 )
+            }
+            if (collapsible) {
+                TextButton(
+                    onClick = { expanded = !expanded },
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(horizontal = 16.dp),
+                ) {
+                    Text(
+                        text = if (expanded) {
+                            stringResource(R.string.gar_what_i_can_do_fewer)
+                        } else {
+                            stringResource(R.string.gar_what_i_can_do_all, skills.size)
+                        },
+                    )
+                }
             }
             Spacer(modifier = Modifier.height(8.dp))
         }
@@ -127,6 +159,18 @@ private fun WhatICanDoPreview() {
 private fun WhatICanDoAllPreview() {
     AppTheme {
         WhatICanDo(skills = SkillHandler.newForPreviews(LocalContext.current).allSkillInfoList)
+    }
+}
+
+// GAR: the home screen's collapsed card
+@Preview
+@Composable
+private fun WhatICanDoFirstPreview() {
+    AppTheme {
+        WhatICanDo(
+            skills = SkillHandler.newForPreviews(LocalContext.current).allSkillInfoList,
+            firstShown = GAR_HOME_SKILLS,
+        )
     }
 }
 

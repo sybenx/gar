@@ -230,11 +230,23 @@ class WakeService : Service() {
 
         // Start listening and pass STT events to the skill evaluator.
         // Note that this works even if the MainActivity is opened later!
-        sttInputDevice.tryLoad(skillEvaluator::processInputEvent)
+        // GAR: over the lock screen, forget what was said while unlocked before the turn starts
+        org.stypox.dicio.gar.sheet.GarSheet.beforeHotwordCapture(this, skillEvaluator)
+        org.stypox.dicio.gar.voicelog.GarVoiceLog.listen( // GAR: the voice log's start
+            org.stypox.dicio.gar.voicelog.GarVoiceStart.HOTWORD
+        ) {
+            sttInputDevice.tryLoad(skillEvaluator::processInputEvent)
+        }
 
         // Unload the STT after a while because it would be using RAM uselessly
         handler.removeCallbacks(releaseSttResourcesRunnable)
         handler.postDelayed(releaseSttResourcesRunnable, RELEASE_STT_RESOURCES_MILLIS)
+
+        // GAR: with the screen on, the assistant sheet shows over the current app instead (see
+        // GarSheet.showForHotword); with it off, MainActivity below turns the screen on
+        if (org.stypox.dicio.gar.sheet.GarSheet.showForHotword(this)) {
+            return
+        }
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || MainActivity.isInForeground > 0) {
             // start the activity directly on versions prior to Android 10,

@@ -1,0 +1,140 @@
+# GAR: media controls beyond Dicio's media skill, and the media sleep timer (gar/PARITY.md, batch
+# 4). MediaControlsSkill.score keeps a match only for an input that is one of MediaControlWords'
+# phrases as a whole. "Stop" and "pause it" while something plays have no sentences
+# (MediaControlWords.isBareStop). resume, pause, next and previous are Dicio's media keys in words
+# its media sentences don't have ("keep playing", "go back a song", "play something else").
+resume:
+  - resume
+  - resume (the|my)? playback|podcast|episode|audiobook|radio|playlist|chapter
+  - resume playing|listening (to)? ((the|my)? song|track|tune|video|episode|podcast|chapter|music|audio|playback|audiobook|radio|playlist)?
+  - keep playing ((the|my)? song|track|tune|video|episode|podcast|chapter|music|audio|playback|audiobook|radio|playlist)?
+  - continue (the|my)? song|track|tune|video|episode|podcast|chapter|music|audio|playback|audiobook|radio|playlist
+  - continue playing|listening (to)? (the|my)? playback|podcast|episode|audiobook|radio|playlist|chapter
+  - continue listening (to (the|my)? song|track|tune|video|episode|podcast|chapter|music|audio)?
+  - unpause (it|this)?
+
+pause:
+  - pause|hold|stop (the|this|my)? music|audio|song|songs|podcast|playback|media|radio|video|player|audiobook|episode|track|tune for a second|sec|moment|minute|bit
+  - paws (it|this|(the music)|(the song)|(the video))?
+
+next:
+  - next one
+  - skip (this one)|it|forward
+  - play something|anything else|different
+  - play another|(a different)|(some other)|(something other)|(a new) song|track|tune|video|episode|one
+
+previous:
+  - previous one
+  - (go|skip|jump)? back a|one song|track|tune
+  - go back to the previous|last one
+
+shuffle_on:
+  - (turn|switch|put|set) on the? shuffle mode?
+  - (turn|switch|put|set) the? shuffle mode? on
+  - shuffle mode? on
+  - enable|activate|start the? shuffle mode?
+  - start shuffling
+  - shuffle (the|this|my|all)? (playlist|album|queue|list|songs|tracks|music|it|them)?
+  - shuffle play
+  - play|put (it|them)? on|in shuffle mode?
+  - play|put (it|them)? in a? random order
+  - randomize|randomise it|them|(the order)|(the songs)|(the playlist)|(the queue)
+
+shuffle_off:
+  - (turn|switch|put|set) off the? shuffle mode?
+  - (turn|switch|put|set) the? shuffle mode? off
+  - shuffle mode? off
+  - disable|deactivate|stop|end|cancel the? shuffle mode?
+  - stop shuffling
+  - (don t)|(do not) shuffle (it|them)?
+  - no more? shuffle|shuffling
+  - unshuffle (it|them|(the songs)|(the playlist))?
+  - play (it|them)? in order
+
+repeat_one:
+  - repeat|loop (the|this|that|my)? current? song|track|tune|video|episode|podcast|chapter|music|audio
+  - repeat|loop this|one|(this one)
+  - repeat|loop|(on repeat)
+  - loop it
+  - put|set|play|keep (the|this|that)? song|track|it|(this one) on repeat|loop
+  - keep repeating|looping (the|this)? song|track
+
+repeat_all:
+  - repeat|loop all|everything|(it all)
+  - repeat|loop all|the|this|my|(the whole)|(all the) playlist|album|queue|list|songs|tracks|music
+  - put|set|play|keep the|this|my playlist|album|queue on repeat|loop
+  - (turn|switch|put|set) on the? repeat|loop|looping (mode|all)?
+  - (turn|switch|put|set) the? repeat|loop|looping mode? on
+  - repeat|loop mode? on
+  - enable|activate|start the? repeat|loop|looping mode?
+
+repeat_off:
+  - (turn|switch|put|set) off the? repeat|loop|looping mode?
+  - (turn|switch|put|set) the? repeat|loop|looping mode? off
+  - repeat|loop mode? off
+  - disable|deactivate|stop|end|cancel the? repeat|loop|looping mode?
+  - stop repeating|looping (it|this|(this song)|(the song)|(the playlist))?
+  - (don t)|(do not) repeat|loop (it|this|(this song)|(the song)|(the playlist))?
+  - no more? repeat|repeating|loop|looping
+
+seek_forward:
+  - skip|jump|go|move|scroll|seek|(fast forward)|forward ahead|forward|forwards by? .amount.
+  - (fast forward)|forward|advance|skip|jump by? .amount. (ahead|forward|forwards)?
+
+seek_back:
+  - skip|jump|go|move|scroll|seek back|backward|backwards by? .amount.
+  - rewind|(back up)|back by? .amount. (back|backward|backwards)?
+  - skip|jump|go|move .amount. back|backward|backwards
+  - replay the last .amount.
+
+restart:
+  - restart|replay (the|this|that|my)? current? song|track|tune|video|episode|podcast|chapter|music|audio
+  - restart it|this|that
+  - start (the|this|that)? song|track|it|this over|again
+  - start (the|this|that)? song|track|it|this from the beginning|start|top
+  - play|take it|this|that|(the song)|(this song)|(the track) from the beginning|start|top
+  - play it|this|that|(this song)|(the song) again|over|(one more time)
+  - (go|skip|jump|rewind)? back? to the beginning|start (of (the|this) song|track)?
+  - from the top|beginning|start
+  - rewind (the|this) song|track|video|episode
+
+like:
+  - i? really? like|love this|that|(the current) (song|track|tune|video|one)?
+  - like|love the|this|that song|track|tune|video
+  - thumbs up (for|on|to)? ((the|this|that) song|track|video)?
+  - give|put it|this|that|((the|this) song|track) a thumbs up
+  - heart|favorite|favourite|star it|this|that|((the|this) song|track)
+  - add|save it|this|that|((the|this) song|track) to (my|the)? (liked songs)|likes|favorites|favourites|library|collection
+  - save the|this song|track
+
+dislike:
+  - i? (don t)|(do not) like|love this|that|it (song|track|tune|video|one)?
+  - i? really? hate|dislike this|that|it (song|track|tune|video|one)?
+  - dislike ((the|this|that) song|track|video)?
+  - thumbs down (for|on|to)? ((the|this|that) song|track|video)?
+  - give|put it|this|that|((the|this) song|track) a thumbs down
+
+sleep_set:
+  - (set|start|make|create|add|begin|activate|(put on)|(turn on))? me? (a|the|my)? sleep timer (for|of|in|to)? .amount.
+  - (set|start|make|create|add|(put on))? me? (a|an)? .amount. sleep timer
+  - change|set|update|reset|make (the|my)? sleep timer to .amount.
+  - stop|pause|end|kill|cut|(turn off)|(shut off)|(switch off)|(fade out)|fade (the|my|this)? music|audio|song|songs|podcast|playback|media|radio|video|player|audiobook|episode playing? in|after .amount.
+  - stop|end|quit playing (the|my)? (music|audio|songs|podcast|radio|audiobook)? in|after .amount.
+  - turn (the|my|this)? music|audio|podcast|radio|audiobook off in|after .amount.
+  - (set|start|make|create|add|begin|activate|(put on)|(turn on)) me? (a|the|my)? sleep timer
+  - sleep timer
+
+sleep_cancel:
+  - cancel|stop|delete|remove|clear|end|kill|disable|deactivate|(turn off)|(switch off)|(get rid of)|reset (the|my|this)? sleep timer
+  - turn|switch (the|my)? sleep timer off
+  - no more? sleep timer
+
+sleep_query:
+  - how long|(much time) is? left|remaining on|in|for (the|my)? sleep timer
+  - how long|(much time) until|till|before (the|my)? (sleep timer)|music|audio|podcast|radio|playback stops|ends|(turns off)|(goes off)|pauses
+  - when will|does (the|my)? (sleep timer)|music|audio|podcast|radio|playback stop|end|(turn off)|pause
+  - is|are there (a|any)? sleep timer|timers (set|on|running|going)?
+  - is (the|my|a)? sleep timer set|on|running|going
+  - (what s)|(what is)|whats (left on)? (the|my)? sleep timer
+  - check|show (the|my)? sleep timer
+  - do i have (a|any)? sleep timer (set|on|running|going)?

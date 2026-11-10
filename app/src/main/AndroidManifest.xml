@@ -27,6 +27,45 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-feature android:name="android.hardware.telephony" android:required="false" />
 
+    <!-- GAR skills (Step 3) -->
+    <!-- alarm: set/dismiss alarms in the clock app -->
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+    <!-- calendar: read events, add events and reminders -->
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+    <!-- sms: send a text only after the user taps Send -->
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <!-- device: Do Not Disturb and Bluetooth -->
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-feature android:name="android.hardware.bluetooth" android:required="false" />
+    <!-- gar:settings: brightness, screen timeout and auto-rotate (the "Modify system settings"
+         access, which the user allows on Android's page) and whether Wi-Fi is on -->
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- song: tells offline from online before sending a recording to the user's service -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- gar:media: the media sleep timer's exact alarm (the permission the user can turn off before
+         Android 13, the one granted at install from 13 on; timers are the clock app's, set with
+         SET_ALARM above) -->
+    <uses-permission
+        android:name="android.permission.SCHEDULE_EXACT_ALARM"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <!-- gar:calls: who called and the numbers to call back (the call log), answering and ending
+         calls (Telecom's acceptRingingCall and endCall) and whether a call rings -->
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
+    <uses-permission android:name="android.permission.ANSWER_PHONE_CALLS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- gar:places: where am I, "use my current location" for home or work, and sharing the
+         location; asked only when one of those runs, precise or approximate as the user picks -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-feature android:name="android.hardware.location" android:required="false" />
+    <uses-feature android:name="android.hardware.location.gps" android:required="false" />
+    <!-- gar:weather: ACCESS_COARSE_LOCATION above, asked only when the user answers "use my
+         location" to "Which city are you in?" -->
+
     <!-- allowBackup=false because of a critical nasty bug: https://medium.com/p/924c91bafcac -->
     <application
         android:name=".App"
@@ -69,6 +108,16 @@
         <activity
             android:name=".error.ErrorActivity"
             android:exported="false" />
+
+        <!-- GAR: the assistant sheet's way out over the lock screen: asks to unlock, then starts
+             what a skill opened (gar/sheet/GarUnlockActivity). No UI; only GAR starts it. -->
+        <activity
+            android:name=".gar.sheet.GarUnlockActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:showWhenLocked="true"
+            android:taskAffinity=""
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <activity
             android:name=".io.input.stt_popup.SttPopupActivity"
@@ -131,5 +180,98 @@
             android:foregroundServiceType="microphone"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/wake_service_label" />
+
+        <!-- GAR skills (Step 3): each group replaces only its own marker line -->
+        <!-- gar:alarm -->
+
+        <!-- calendar: notifies for GAR's own reminders when no calendar app does -->
+        <receiver
+            android:name=".skills.calendar.CalendarReminderReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.EVENT_REMINDER" />
+                <data android:scheme="content" android:host="com.android.calendar" />
+            </intent-filter>
+        </receiver>
+
+        <!-- gar:sms -->
+
+        <!-- gar:device -->
+
+        <!-- gar:clock: the stopwatch notification's buttons, and the notification after a reboot -->
+        <receiver
+            android:name=".skills.stopwatch.StopwatchReceiver"
+            android:exported="false" />
+        <receiver
+            android:name=".skills.stopwatch.StopwatchBootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- gar:timer: none, timers are the clock app's -->
+
+        <!-- gar:media: the media sleep timer's exact alarm, which pauses what plays (the media
+             sessions use Dicio's notification listener) -->
+        <receiver
+            android:name=".gar.media.GarSleepTimerReceiver"
+            android:exported="false" />
+
+        <!-- gar:weather: Breezy Weather's shared forecasts, which Breezy sends only to the apps the
+             user picks in its Data sharing settings ("Send Gadgetbridge data"). Exported with no
+             permission as Breezy needs; the receiver ignores broadcasts while Breezy isn't
+             installed -->
+        <receiver
+            android:name=".skills.weather.BreezyWeatherReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="nodomain.freeyourgadget.gadgetbridge.ACTION_GENERIC_WEATHER" />
+            </intent-filter>
+        </receiver>
+
+        <!-- gar:screen: the optional screenshot service, off until the user turns it on in
+             Accessibility settings; it asks for no events and no window content -->
+        <service
+            android:name=".skills.screen.GarScreenshotService"
+            android:description="@string/gar_screenshot_service_description"
+            android:label="@string/gar_screenshot_service_label"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/gar_screenshot_service" />
+        </service>
+
+        <!-- gar:places: "Save as Home or Work" in the share sheet, for a place shared from a maps
+             app (GarPlaceShareActivity); not over the lock screen -->
+        <activity
+            android:name=".gar.settings.GarPlaceShareActivity"
+            android:label="@string/gar_places_share_label"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:theme="@style/SttPopupTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
+
+        <!-- GAR: "Share voice log" hands its zipped copy to the app the user picks
+             (GarVoiceLog.share); only the share folder in the cache is reachable -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.garvoicelog"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/gar_voice_log_paths" />
+        </provider>
     </application>
 </manifest>
