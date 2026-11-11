@@ -34,6 +34,7 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.first
 import org.stypox.dicio.MainActivity
 import org.stypox.dicio.R
+import org.stypox.dicio.gar.ui.setGarSmallIcon
 import java.util.Date
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.TimeUnit
@@ -226,7 +227,7 @@ class SongNotifications(private val context: Context) : SongQueueNotifier {
         val recordedAt = DateFormat.getTimeFormat(context).format(Date(clip.createdAtMillis))
         val body = context.getString(R.string.skill_song_notification_recorded_at, text, recordedAt)
         return NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_hearing_white)
+            .setGarSmallIcon(context)
             .setContentTitle(title)
             .setContentText(body)
             .setStyle(NotificationCompat.BigTextStyle().bigText(body))

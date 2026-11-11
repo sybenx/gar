@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR: the About screen's credit to Dicio, and GAR's own links in place of Dicio's -->
+<resources>
+    <string name="gar_about_based_on_title">Based on Dicio</string>
+    <string name="gar_about_based_on_description">By the Dicio contributors, licensed under GPL-3.0</string>
+    <string name="gar_about_based_on_link" translatable="false">https://github.com/DicioTeam/dicio-android</string>
+    <string name="gar_about_repository_link" translatable="false">https://github.com/sybenx/gar</string>
+    <string name="gar_about_issues_link" translatable="false">https://github.com/sybenx/gar/issues</string>
+    <string name="gar_about_privacy_link" translatable="false">https://github.com/sybenx/gar/blob/HEAD/PRIVACY.md</string>
+</resources>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR: the Tide glyph's voice wave alone, larger, for the speech to text popup (Dicio's popup
+     icon was its own glyph on the launcher icon's background too). 27.3 from the centre at 1.8,
+     inside the 66 dp safe circle. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:pivotX="54"
+        android:pivotY="54"
+        android:scaleX="1.8"
+        android:scaleY="1.8">
+        <path
+            android:pathData="M42 50 v6 M50 45 v16 M58 42 v22 M66 48 v10"
+            android:strokeColor="#A7F3D0"
+            android:strokeWidth="5"
+            android:strokeLineCap="round" />
+    </group>
+</vector>

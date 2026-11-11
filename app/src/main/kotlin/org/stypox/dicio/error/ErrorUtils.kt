@@ -14,6 +14,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import org.stypox.dicio.R
+import org.stypox.dicio.gar.ui.setGarSmallIcon
 import java.util.Locale
 
 /**
@@ -69,7 +70,7 @@ object ErrorUtils {
         val notificationBuilder = NotificationCompat.Builder(
             context, context.getString(R.string.error_report_channel_id)
         )
-            .setSmallIcon(R.drawable.ic_bug_report_white)
+            .setGarSmallIcon(context) // GAR: Tide, was ic_bug_report_white
             .setContentTitle(context.getString(R.string.error_report_notification_title))
             .setStyle(NotificationCompat.BigTextStyle().bigText(errorInfo.userAction.message))
             .setAutoCancel(true)

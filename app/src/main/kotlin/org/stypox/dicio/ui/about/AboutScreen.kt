@@ -20,7 +20,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.Code
-import androidx.compose.material.icons.filled.CollectionsBookmark
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Group
 import androidx.compose.material.icons.filled.Policy
@@ -43,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import org.stypox.dicio.BuildConfig
 import org.stypox.dicio.R
 import org.stypox.dicio.error.ErrorActivity
+import org.stypox.dicio.gar.ui.GarTideIcon
 import org.stypox.dicio.settings.ui.SettingsItem
 import org.stypox.dicio.ui.theme.AppTheme
 import org.stypox.dicio.util.ShareUtils
@@ -74,7 +74,7 @@ fun AboutScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Image(
-                        imageVector = DicioSquircleIcon,
+                        imageVector = GarTideIcon, // GAR: was DicioSquircleIcon
                         contentDescription = stringResource(R.string.app_name),
                         modifier = Modifier.size(64.dp)
                     )
@@ -120,34 +120,28 @@ fun AboutScreen(
                     title = R.string.about_repository_title,
                     icon = Icons.Default.Code,
                     description = R.string.about_repository_description,
-                    link = R.string.about_repository_link
+                    link = R.string.gar_about_repository_link // GAR: was Dicio's repository
                 )
             }
 
-            item {
-                AboutItem(
-                    title = R.string.about_wiki_title,
-                    icon = Icons.Default.CollectionsBookmark,
-                    description = R.string.about_wiki_description,
-                    link = R.string.about_wiki_link
-                )
-            }
+            // GAR: no "Documentation" item, Dicio's wiki doesn't describe GAR (the README does)
 
             item {
                 AboutItem(
                     title = R.string.about_issues_title,
                     icon = Icons.Default.BugReport,
                     description = R.string.about_issues_description,
-                    link = R.string.about_issues_link
+                    link = R.string.gar_about_issues_link // GAR: was Dicio's issues
                 )
             }
 
             item {
                 AboutItem(
-                    title = R.string.about_contributing_title,
+                    // GAR: the credit to Dicio, in place of Dicio's call for contributors
+                    title = R.string.gar_about_based_on_title,
                     icon = Icons.Default.Group,
-                    description = R.string.about_contributing_description,
-                    link = R.string.about_contributing_link
+                    description = R.string.gar_about_based_on_description,
+                    link = R.string.gar_about_based_on_link
                 )
             }
 
@@ -156,7 +150,7 @@ fun AboutScreen(
                     title = R.string.about_privacy_title,
                     icon = Icons.Default.Policy,
                     description = R.string.about_privacy_description,
-                    link = R.string.about_privacy_link
+                    link = R.string.gar_about_privacy_link // GAR: was Dicio's policy
                 )
             }
         }

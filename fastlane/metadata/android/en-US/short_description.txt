@@ -1,1 +1,1 @@
-Voice assistant: multilanguage, configurable and libre
+Offline phone assistant with on-device speech, a fork of Dicio

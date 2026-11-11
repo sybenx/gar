@@ -118,7 +118,7 @@ private fun DrawerHeader(modifier: Modifier = Modifier) {
             }
 
             Icon(
-                painter = painterResource(id = R.mipmap.ic_launcher_foreground),
+                painter = painterResource(id = R.drawable.ic_launcher_foreground), // GAR: Tide vector, was a mipmap PNG
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onPrimary,
                 modifier = Modifier

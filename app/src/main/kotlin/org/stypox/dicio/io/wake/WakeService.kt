@@ -35,6 +35,7 @@ import org.stypox.dicio.R
 import org.stypox.dicio.di.SttInputDeviceWrapper
 import org.stypox.dicio.di.WakeDeviceWrapper
 import org.stypox.dicio.eval.SkillEvaluator
+import org.stypox.dicio.gar.ui.setGarSmallIcon
 import java.time.Instant
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicReference
@@ -158,7 +159,7 @@ class WakeService : Service() {
         }
 
         val notification = NotificationCompat.Builder(this, FOREGROUND_NOTIFICATION_CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_hearing_white)
+            .setGarSmallIcon(this) // GAR: Tide, was ic_hearing_white
             .setContentTitle(
                 getString(
                     if (isHeyDicio) R.string.wake_service_foreground_notification
@@ -275,7 +276,7 @@ class WakeService : Service() {
             )
 
             val notification = NotificationCompat.Builder(this, TRIGGERED_NOTIFICATION_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_hearing_white)
+                .setGarSmallIcon(this) // GAR: Tide, was ic_hearing_white
                 .setContentTitle(getString(R.string.wake_service_triggered_notification))
                 .setStyle(NotificationCompat.BigTextStyle().bigText(
                     getString(R.string.wake_service_triggered_notification_summary)))
@@ -316,7 +317,7 @@ class WakeService : Service() {
             )
 
             val notification = NotificationCompat.Builder(context, START_NOTIFICATION_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_hearing_white)
+                .setGarSmallIcon(context) // GAR: Tide, was ic_hearing_white
                 .setContentTitle(context.getString(R.string.wake_service_start_notification))
                 .setStyle(NotificationCompat.BigTextStyle().bigText(
                     context.getString(R.string.wake_service_start_notification_summary)))

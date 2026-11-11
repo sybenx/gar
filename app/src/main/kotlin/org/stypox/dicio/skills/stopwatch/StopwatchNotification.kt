@@ -15,6 +15,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import org.stypox.dicio.MainActivity
 import org.stypox.dicio.R
+import org.stypox.dicio.gar.ui.setGarSmallIcon
 
 /**
  * What the stopwatch notification shows, or null for no notification (a reset stopwatch).
@@ -64,7 +65,7 @@ class StopwatchNotification(private val context: Context) {
 
         createChannel()
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_stopwatch_white)
+            .setGarSmallIcon(context)
             .setContentTitle(context.getString(R.string.skill_name_stopwatch))
             .setCategory(NotificationCompat.CATEGORY_STOPWATCH)
             .setPriority(NotificationCompat.PRIORITY_LOW)

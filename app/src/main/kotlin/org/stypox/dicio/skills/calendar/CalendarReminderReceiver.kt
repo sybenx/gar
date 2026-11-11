@@ -21,6 +21,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.stypox.dicio.R
+import org.stypox.dicio.gar.ui.setGarSmallIcon
 import java.util.Date
 
 /**
@@ -137,7 +138,7 @@ object CalendarReminderNotifier {
             CalendarStore.intentFor(CalendarStore.launchFor(context.packageManager, view), view)
         }
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_gar_calendar_event_white)
+            .setGarSmallIcon(context)
             .setContentTitle(alert.title ?: context.getString(R.string.skill_calendar_reminder_no_title))
             .setContentText(DateFormat.getTimeFormat(context).format(Date(alert.begin)))
             .setWhen(alert.begin)

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR: the Tide glyph for themed icons, same paths as ic_launcher_foreground.xml at 0.6 instead
+     of 0.9 (about 40 dp across), since launchers draw monochrome glyphs smaller than the colored
+     layer's. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:pivotX="54"
+        android:pivotY="54"
+        android:scaleX="0.6"
+        android:scaleY="0.6"
+        android:translateY="0.33">
+        <path
+            android:pathData="M32 34 h44 a8 8 0 0 1 8 8 v22 a8 8 0 0 1 -8 8 h-26 l-12 10 v-10 h-6 a8 8 0 0 1 -8 -8 v-22 a8 8 0 0 1 8 -8 z"
+            android:strokeColor="#A7F3D0"
+            android:strokeWidth="5"
+            android:strokeLineJoin="round" />
+        <path
+            android:pathData="M42 50 v6 M50 45 v16 M58 42 v22 M66 48 v10"
+            android:strokeColor="#A7F3D0"
+            android:strokeWidth="5"
+            android:strokeLineCap="round" />
+    </group>
+</vector>

@@ -14,6 +14,7 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.contentOrNull
 import org.stypox.dicio.R
+import org.stypox.dicio.gar.ui.setGarSmallIcon
 import org.stypox.dicio.util.checkPermissions
 import java.io.File
 
@@ -95,7 +96,7 @@ object GarOldTimers {
         val notification = NotificationCompat.Builder(
             context, context.getString(R.string.error_report_channel_id)
         )
-            .setSmallIcon(R.drawable.ic_gar_timer_white)
+            .setGarSmallIcon(context)
             .setContentTitle(context.getString(R.string.gar_old_timers_lost_title))
             .setContentText(text)
             .setStyle(NotificationCompat.BigTextStyle().bigText(text))
