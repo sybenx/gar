@@ -27,7 +27,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -54,6 +53,8 @@ import androidx.lifecycle.compose.LifecycleResumeEffect
 import org.stypox.dicio.R
 import org.stypox.dicio.gar.stt.GarSttOwnNameAsk
 import org.stypox.dicio.settings.ui.SettingsItem
+import org.stypox.dicio.gar.ui.garble.GarbleSecondaryButton // GAR
+import org.stypox.dicio.gar.ui.garble.LocalGarbleColors
 
 /**
  * "You": who GAR thinks the user is and where that came from ([GarYou.who]); a tap opens
@@ -239,7 +240,7 @@ private fun YouDialog(viewModel: GarSettingsViewModel, you: You?, onDismiss: () 
                                 Text(stringResource(R.string.gar_you_pick_contact))
                             }
                         }
-                        ElevatedButton(
+                        GarbleSecondaryButton( // GAR
                             onClick = { choose(YouChoice.Name(name)) },
                             enabled = canSave,
                             modifier = Modifier.padding(top = 8.dp),
@@ -266,7 +267,7 @@ private fun openAppInfo(context: Context) {
 
 /**
  * A contact's name, with its first number, its first address or "No number or email" below;
- * the current one ([selected]) in the primary color.
+ * the current one ([selected]) in bold, in the text color (the accent stays off labels).
  */
 @Composable
 private fun YouContactRow(contact: YouContact, selected: Boolean, onClick: () -> Unit) {
@@ -280,7 +281,7 @@ private fun YouContactRow(contact: YouContact, selected: Boolean, onClick: () ->
         Text(
             text = contact.name,
             style = MaterialTheme.typography.bodyLarge,
-            color = if (selected) MaterialTheme.colorScheme.primary else Color.Unspecified,
+            color = if (selected) LocalGarbleColors.current.text else Color.Unspecified,
             fontWeight = if (selected) FontWeight.Bold else null,
         )
         Text(

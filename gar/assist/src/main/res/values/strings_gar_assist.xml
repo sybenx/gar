@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Name of GAR's voice interaction service, shown in the system's assistant and voice input settings -->
-    <string name="gar_assist_label">GAR</string>
+    <string name="gar_assist_label">Garble</string>
 </resources>

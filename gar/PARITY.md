@@ -1,4 +1,7 @@
-# GAR and Google Assistant: parity plan
+# Garble (GAR) and Google Assistant: parity plan
+
+The app is called Garble since 2026-11. GAR stays the project's code name: the `gar/` modules,
+the `org.stypox.dicio.gar` package, the `// GAR` markers and the repository.
 
 Researched 2026-10-27: what Google Assistant (and Gemini's phone controls) do on an Android phone, what GAR does today, and what can work on GrapheneOS without root. Priority 1 matters most for everyday use. Status and the batch order drive phase 2; each batch updates this file as it lands.
 

@@ -26,7 +26,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
+import org.stypox.dicio.gar.ui.garble.GarbleSecondaryButton // GAR
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -363,7 +363,7 @@ private fun PlaceEditorContent(
 
 @Composable
 private fun EditorButton(icon: @Composable () -> Unit, text: String, enabled: Boolean, onClick: () -> Unit) {
-    OutlinedButton(
+    GarbleSecondaryButton( // GAR
         onClick = onClick,
         enabled = enabled,
         modifier = Modifier

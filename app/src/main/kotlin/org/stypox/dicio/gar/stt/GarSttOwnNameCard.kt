@@ -11,11 +11,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -65,6 +63,8 @@ import org.stypox.dicio.skills.sms.OwnContactAnswers
 import org.stypox.dicio.ui.home.MessageCard
 import org.stypox.dicio.ui.theme.AppTheme
 import javax.inject.Inject
+import org.stypox.dicio.gar.ui.garble.GarbleSecondaryButton // GAR
+import org.stypox.dicio.gar.ui.garble.GarbleTextButton // GAR
 
 /**
  * "What's your first name?", asked once on the home screen so that Whisper's prompt starts with
@@ -308,10 +308,10 @@ fun GarSttOwnNameCardImpl(onSave: (String) -> Unit, onSkip: () -> Unit) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            TextButton(onClick = onSkip) {
+            GarbleTextButton(onClick = onSkip) { // GAR
                 Text(text = stringResource(R.string.gar_stt_own_name_skip))
             }
-            ElevatedButton(onClick = { onSave(text) }, enabled = canSave) {
+            GarbleSecondaryButton(onClick = { onSave(text) }, enabled = canSave) { // GAR
                 Text(text = stringResource(R.string.gar_stt_own_name_save))
             }
         }
@@ -368,7 +368,7 @@ fun GarSttOwnContactOfferImpl(
 
         if (contacts.size > 1) {
             for (contact in contacts) {
-                TextButton(
+                GarbleTextButton( // GAR
                     onClick = { onChoose(contact.name) },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -394,11 +394,11 @@ fun GarSttOwnContactOfferImpl(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            TextButton(onClick = onDecline) {
+            GarbleTextButton(onClick = onDecline) { // GAR
                 Text(text = stringResource(R.string.gar_stt_own_contact_offer_no))
             }
             if (contacts.size == 1) {
-                ElevatedButton(onClick = { onChoose(contacts[0].name) }) {
+                GarbleSecondaryButton(onClick = { onChoose(contacts[0].name) }) { // GAR
                     Text(text = stringResource(R.string.gar_stt_own_contact_offer_yes))
                 }
             }

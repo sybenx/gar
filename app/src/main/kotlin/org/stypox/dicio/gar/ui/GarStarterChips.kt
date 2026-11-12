@@ -335,6 +335,7 @@ object GarStarterChips {
             ?.let { return it.chips }
 
         val defaults = defaults(appContext)
+        var known = defaults
         val chips = try {
             val turns = if (logOn) readTurns(appContext) else listOf()
             val candidates = learned(turns, System.currentTimeMillis(), defaults)
@@ -347,6 +348,7 @@ object GarStarterChips {
             }
             val stillMatching = candidates
                 .filter { (chip, skillId) -> stillMatches(skillContext, skills, skillId, chip.input) }
+            known = stillMatching + defaults
             fill(stillMatching, defaults)
         } catch (e: CancellationException) {
             throw e
@@ -354,8 +356,23 @@ object GarStarterChips {
             Log.w(TAG, "Could not read the starters from the voice log", t)
             defaults.map { it.first }
         }
+        skillIds = known.associate { (chip, skill) -> Pair(key(chip.input), skill) }
         cache = Cached(SystemClock.elapsedRealtime(), stamp, chips)
         return chips
+    }
+
+    /** The skill ids of the starters [get] last returned (and the defaults'), by [key]. */
+    @Volatile
+    private var skillIds: Map<String, String> = mapOf()
+
+    /**
+     * The skill [chip] (a starter) is for, so that home can show its icon and title: the one
+     * [get] found, else a default's, else null.
+     */
+    fun skillOf(context: Context, chip: GarChip): String? {
+        val chipKey = key(chip.input)
+        return skillIds[chipKey]
+            ?: defaults(context).firstOrNull { key(it.first.input) == chipKey }?.second
     }
 
     private fun indexFile(context: Context): File =

@@ -1,5 +1,6 @@
 package org.stypox.dicio.skills.sms
 
+import org.stypox.dicio.gar.ui.garble.GarblePrimaryButton // GAR
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,9 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,6 +40,7 @@ import org.stypox.dicio.io.graphical.Body
 import org.stypox.dicio.io.graphical.Headline
 import org.stypox.dicio.io.graphical.HeadlineSpeechSkillOutput
 import org.stypox.dicio.util.getString
+import org.stypox.dicio.gar.ui.garble.GarbleSecondaryButton // GAR
 
 /**
  * The confirmation card: recipient, number and message, with Send, Edit and Cancel buttons. Its
@@ -112,13 +112,13 @@ class SmsCardOutput(
                 horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                OutlinedButton(onClick = { draft.cancel() }, enabled = current && draft.isPending) {
+                GarbleSecondaryButton(onClick = { draft.cancel() }, enabled = current && draft.isPending) { // GAR
                     Text(text = stringResource(R.string.skill_sms_cancel))
                 }
-                OutlinedButton(onClick = { draft.edit(sender) }, enabled = current && draft.canEdit) {
+                GarbleSecondaryButton(onClick = { draft.edit(sender) }, enabled = current && draft.canEdit) { // GAR
                     Text(text = stringResource(R.string.skill_sms_edit))
                 }
-                Button(onClick = { draft.send(sender) }, enabled = current && draft.isPending) {
+                GarblePrimaryButton(onClick = { draft.send(sender) }, enabled = current && draft.isPending) { // GAR
                     Text(text = stringResource(R.string.skill_sms_send))
                 }
             }

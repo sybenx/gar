@@ -4,7 +4,7 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.OutlinedButton
+import org.stypox.dicio.gar.ui.garble.GarbleSecondaryButton // GAR
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -101,7 +101,7 @@ data class GarMediaOutput(
             when (button.takeIf { !cancelled }) {
                 MediaButton.ALLOW_ACCESS -> {
                     Spacer(modifier = Modifier.height(8.dp))
-                    OutlinedButton(
+                    GarbleSecondaryButton( // GAR
                         onClick = { openListenerSettings(context) },
                         modifier = Modifier.align(Alignment.CenterHorizontally),
                     ) {
@@ -110,7 +110,7 @@ data class GarMediaOutput(
                 }
                 MediaButton.CANCEL_SLEEP_TIMER -> {
                     Spacer(modifier = Modifier.height(8.dp))
-                    OutlinedButton(
+                    GarbleSecondaryButton( // GAR
                         onClick = {
                             GarSleepTimer.get(context).cancel()
                             cancelled = true

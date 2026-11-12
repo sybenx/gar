@@ -102,7 +102,7 @@
     <string name="gar_settings_access_timeout">Changing the screen timeout</string>
     <string name="gar_settings_access_auto_rotate">Switching auto-rotate</string>
     <string name="gar_settings_access_auto_brightness">Switching adaptive brightness</string>
-    <string name="gar_settings_access_detail">Android lists it under Settings, Apps, Special app access, Modify system settings. GAR only uses it for the brightness, the screen timeout and auto-rotate.</string>
+    <string name="gar_settings_access_detail">Android lists it under Settings, Apps, Special app access, Modify system settings. Garble only uses it for the brightness, the screen timeout and auto-rotate.</string>
     <string name="gar_settings_access_open">Open settings</string>
     <string name="gar_settings_access_not_now">Not now</string>
     <string name="gar_settings_access_opened">Turn on Allow modifying system settings, then ask me again.</string>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- GAR: Tide, all vector (minSdk 28), in place of Dicio's PNG layers -->
+<!-- GAR: the Garble mark, all vector (minSdk 28), in place of Dicio's PNG layers -->
 <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
   <background android:drawable="@color/ic_launcher_background"/>
   <foreground android:drawable="@drawable/ic_stt_popup_foreground"/>

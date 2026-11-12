@@ -30,7 +30,7 @@
     <!-- %1$s is when the alarm rings, e.g. "tomorrow at 6:00 AM", %2$s is the app that set it -->
     <string name="skill_alarm_other_app">Your next alarm, %1$s, was set by %2$s. Dismiss it in that app.</string>
     <string name="skill_alarm_ringing">An alarm is ringing. Turn it off on the clock screen.</string>
-    <string name="skill_alarm_needs_listener">With notification access, GAR can tell when the clock app\'s alarm rings, and stop or snooze it by voice.</string>
+    <string name="skill_alarm_needs_listener">With notification access, Garble can tell when the clock app\'s alarm rings, and stop or snooze it by voice.</string>
     <string name="skill_alarm_allow_access">Allow notification access</string>
 
     <!-- the clock app's ringing alarm, by voice -->

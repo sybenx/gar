@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR: the Garble home screen (gar/ui/garble/GarbleHome.kt) -->
+<resources>
+    <string name="gar_home_try_saying">Try saying</string>
+    <string name="gar_home_try_saying_offline">Everything here works without internet.</string>
+    <!-- A starter card's example; %s: the words the card sends -->
+    <string name="gar_home_try_example">“%s”</string>
+    <!-- Starter card titles, by skill -->
+    <string name="gar_home_starter_weather">Weather</string>
+    <string name="gar_home_starter_time">Time</string>
+    <string name="gar_home_starter_world_time">World clock</string>
+    <string name="gar_home_starter_date">Date</string>
+    <string name="gar_home_starter_battery">Battery</string>
+    <string name="gar_home_starter_calculator">Math</string>
+    <string name="gar_home_starter_units">Conversions</string>
+    <string name="gar_home_starter_timer">Timer</string>
+    <string name="gar_home_starter_other">Ask</string>
+</resources>

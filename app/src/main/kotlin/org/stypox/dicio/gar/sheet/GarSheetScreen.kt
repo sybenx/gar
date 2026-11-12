@@ -5,13 +5,12 @@ import android.content.res.Configuration
 import android.os.SystemClock
 import android.view.Window
 import androidx.activity.compose.LocalActivityResultRegistryOwner
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.gestures.AnchoredDraggableDefaults
 import androidx.compose.foundation.gestures.AnchoredDraggableState
 import androidx.compose.foundation.gestures.DraggableAnchors
@@ -20,15 +19,14 @@ import androidx.compose.foundation.gestures.anchoredDraggable
 import androidx.compose.foundation.gestures.animateTo
 import androidx.compose.foundation.gestures.snapTo
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
@@ -36,24 +34,20 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.union
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
-import androidx.compose.material.icons.filled.Keyboard
-import androidx.compose.material3.BottomSheetDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
@@ -62,6 +56,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -70,6 +65,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
@@ -94,10 +90,10 @@ import androidx.compose.ui.semantics.LiveRegionMode
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.isTraversalGroup
 import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.paneTitle
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -114,14 +110,16 @@ import org.stypox.dicio.di.SkillContextImpl
 import org.stypox.dicio.gar.GarKeepScreenOn
 import org.stypox.dicio.gar.perf.GarJank
 import org.stypox.dicio.gar.perf.GarStartupCache
-import org.stypox.dicio.gar.ui.GarAnswerCard
 import org.stypox.dicio.gar.ui.GarChip
 import org.stypox.dicio.gar.ui.GarChipRow
 import org.stypox.dicio.gar.ui.GarChips
-import org.stypox.dicio.gar.ui.GarMicIndicator
 import org.stypox.dicio.gar.ui.GarMicState
-import org.stypox.dicio.gar.ui.GarStateLabel
+import org.stypox.dicio.gar.ui.GarThinking
+import org.stypox.dicio.gar.ui.garElapsedNow
 import org.stypox.dicio.gar.ui.garTapStopsSpeech
+import org.stypox.dicio.gar.ui.garble.LocalGarbleColors
+import org.stypox.dicio.gar.ui.garble.garbleMarkStateFor
+import org.stypox.dicio.gar.ui.garble.garbleSheet
 import org.stypox.dicio.gar.ui.rememberGarMicState
 import org.stypox.dicio.gar.ui.rememberGarReducedMotion
 import org.stypox.dicio.gar.ui.rememberGarStarterChips
@@ -145,6 +143,8 @@ internal data class GarSheetContent(
     val answer: GarSheetTurn?,
     val chips: List<GarChip>,
     val chipsEnabled: Boolean,
+    /** Where [answer] came from (the provenance chips); null hides them. */
+    val provenance: GarSheetProvenance? = null,
 )
 
 /** What the sheet's parts do; the controller's in the app, nothing in previews. */
@@ -174,7 +174,12 @@ internal fun GarSheetRoot(controller: GarSheetController) {
     val settings by remember { controller.userSettings.data }
         .collectAsState(initial = GarStartupCache.userSettings)
     val userSettings = settings ?: return
-    AppTheme(theme = userSettings.theme, dynamicColors = userSettings.dynamicColors) {
+    AppTheme(
+        theme = userSettings.theme,
+        dynamicColors = userSettings.dynamicColors,
+        garColorSource = userSettings.garColorSource,
+        garSeedColor = userSettings.garSeedColor,
+    ) {
         NavigationBarAppearance(controller.host.window)
         val deps = controller.deps.value
         val locale = deps?.let { it.localeManager.locale.collectAsState().value }
@@ -274,6 +279,24 @@ private fun garSheetLive(
         controller.host.locked -> listOf()
         else -> starters
     }
+
+    // provenance: an answer is the model's if its routing ran since the question began
+    val routing by GarThinking.routing.collectAsState()
+    val provenanceTracker = remember { GarSheetProvenanceTracker() }
+    val pendingNow = turns.pending != null
+    SideEffect {
+        provenanceTracker.onRouting(routing?.startedAt, garElapsedNow())
+        provenanceTracker.onPending(pendingNow, routing != null)
+    }
+    val provenance = remember(latest?.answer) {
+        latest?.let {
+            GarSheetProvenance(
+                route = provenanceTracker.routeFor(it.answer, garElapsedNow()),
+                skillId = it.skill?.id,
+            )
+        }
+    }
+
     val content = GarSheetContent(
         micState = micState,
         transcript = turns.pending?.userInput ?: latest?.question,
@@ -281,6 +304,7 @@ private fun garSheetLive(
         answer = latest,
         chips = chips,
         chipsEnabled = latest != null || controller.startersEnabled.value,
+        provenance = provenance,
     )
 
     LaunchedEffect(latest) {
@@ -350,7 +374,6 @@ private fun garSheetLive(
  * The sheet itself, stateless: a scrim, and a bottom-anchored surface that grows upward with its
  * content (the action row stays put), slides in, and goes away when swiped down.
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun GarSheetLayout(
     content: GarSheetContent,
@@ -430,21 +453,24 @@ internal fun GarSheetLayout(
         val statusBar = with(density) { WindowInsets.statusBars.getTop(this).toDp() }
         val maxSheetHeight = (maxHeight - statusBar) * MAX_HEIGHT_SHARE
         val answerMaxHeight = maxHeight * ANSWER_HEIGHT_SHARE
-        val hiddenAt = dragState.anchors.positionOf(GarSheetAnchor.Hidden)
-        val shownFraction = when {
-            inspection -> 1f
-            sheetHeight == 0 || dragState.offset.isNaN() || hiddenAt.isNaN() || hiddenAt <= 0f -> 0f
-            else -> (1f - dragState.offset / hiddenAt).coerceIn(0f, 1f)
-        }
+        val scrim = MaterialTheme.colorScheme.scrim
 
-        // the scrim: a tap outside the sheet dismisses it (screen readers use the handle)
+        // the scrim: a tap outside the sheet dismisses it (screen readers use the handle). Its
+        // alpha follows the sheet's offset in the draw phase, so a drag or a resize doesn't
+        // recompose the host every frame.
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(
-                    MaterialTheme.colorScheme.scrim
-                        .copy(alpha = SCRIM_ALPHA * shownFraction * alpha)
-                )
+                .drawBehind {
+                    val hiddenAt = dragState.anchors.positionOf(GarSheetAnchor.Hidden)
+                    val offset = dragState.offset
+                    val shownFraction = when {
+                        inspection -> 1f
+                        sheetHeight == 0 || offset.isNaN() || hiddenAt.isNaN() || hiddenAt <= 0f -> 0f
+                        else -> (1f - offset / hiddenAt).coerceIn(0f, 1f)
+                    }
+                    drawRect(scrim, alpha = SCRIM_ALPHA * shownFraction * alpha)
+                }
                 .clickable(
                     interactionSource = remember { MutableInteractionSource() },
                     indication = null,
@@ -454,10 +480,9 @@ internal fun GarSheetLayout(
         )
 
         val title = stringResource(R.string.gar_sheet_title)
-        Surface(
-            shape = BottomSheetDefaults.ExpandedShape,
-            color = MaterialTheme.colorScheme.surfaceContainerLow,
-            tonalElevation = 1.dp,
+        // Garble: a neutral surface, 28dp top corners, a 1dp hairline and a soft upward shadow;
+        // no tonal elevation
+        Box(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .widthIn(max = MAX_WIDTH)
@@ -465,12 +490,16 @@ internal fun GarSheetLayout(
                 .heightIn(max = maxSheetHeight)
                 .onSizeChanged { size ->
                     sheetHeight = size.height
-                    dragState.updateAnchors(
-                        DraggableAnchors {
-                            GarSheetAnchor.Shown at 0f
-                            GarSheetAnchor.Hidden at size.height.toFloat()
-                        }
-                    )
+                    val hidden = size.height.toFloat()
+                    // no new anchors (an allocation) when the height is the same
+                    if (dragState.anchors.positionOf(GarSheetAnchor.Hidden) != hidden) {
+                        dragState.updateAnchors(
+                            DraggableAnchors {
+                                GarSheetAnchor.Shown at 0f
+                                GarSheetAnchor.Hidden at size.height.toFloat()
+                            }
+                        )
+                    }
                 }
                 .then(
                     if (inspection) {
@@ -495,6 +524,7 @@ internal fun GarSheetLayout(
                     transformOrigin = TransformOrigin(0.5f, 1f)
                     this.alpha = alpha
                 }
+                .garbleSheet()
                 .nestedScroll(nestedScroll)
                 .anchoredDraggable(
                     state = dragState,
@@ -508,26 +538,35 @@ internal fun GarSheetLayout(
                     speaking = { content.micState == GarMicState.Speaking },
                     stopSpeaking = { currentActions.onStopSpeaking() },
                 )
-                .semantics { paneTitle = title },
+                .semantics {
+                    paneTitle = title
+                    isTraversalGroup = true
+                }
+                // like a Surface: touches on the sheet never reach the scrim below
+                .pointerInput(Unit) {},
         ) {
-            GarSheetColumn(
-                content = content,
-                voiceActivity = voiceActivity,
-                ctx = ctx,
-                answerMaxHeight = answerMaxHeight,
-                actions = actions,
-                typing = typing,
-                onTypingChange = onTypingChange,
-            )
+            CompositionLocalProvider(LocalContentColor provides LocalGarbleColors.current.text) {
+                GarSheetColumn(
+                    content = content,
+                    voiceActivity = voiceActivity,
+                    ctx = ctx,
+                    answerMaxHeight = answerMaxHeight,
+                    actions = actions,
+                    typing = typing,
+                    onTypingChange = onTypingChange,
+                )
+            }
         }
     }
 }
 
 /**
- * The sheet's parts in their TalkBack order. [answerMaxHeight] caps the answer card; the request,
- * answer and chips scroll together when the sheet's own cap leaves them less.
+ * The sheet's parts in their TalkBack order (the Garble canvas): the handle, the header, then
+ * either the Listening layout (a new request: "LISTENING", the live transcript, the big mark,
+ * "Type instead" and stop) or the answer layout ("You said", the answer card, the provenance and
+ * suggestion chips, a confirmation's hint, the bottom row). [answerMaxHeight] caps the answer
+ * card; the middle scrolls when the sheet's own cap leaves it less.
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun GarSheetColumn(
     content: GarSheetContent,
@@ -541,6 +580,7 @@ private fun GarSheetColumn(
     val state = content.micState
     val stateFocus = remember { FocusRequester() }
     val inspection = LocalInspectionMode.current
+    val reduced = rememberGarReducedMotion()
     LaunchedEffect(Unit) {
         if (!inspection) {
             // after the first frame, so that TalkBack lands in the sheet
@@ -548,11 +588,53 @@ private fun GarSheetColumn(
             stateFocus.requestFocus()
         }
     }
+    // the endpointer hears a voice: changes rarely, unlike the level (read in the draw phase)
+    val voice = remember(voiceActivity) {
+        derivedStateOf { voiceActivity.value?.speaking == true }
+    }
+    // the user asked to listen again (a new request, from Idle or over a pending answer): the
+    // Listening layout stays up until that request is answered, even if an older answer lands
+    // meanwhile. A mic reopened by the answer itself keeps the answer on screen.
+    var userListening by remember { mutableStateOf(false) }
+    var userHeard by remember { mutableStateOf(false) }
+    val answer = content.answer
+    val onMic = { micState: GarMicState ->
+        if (micState == GarMicState.Idle || micState is GarMicState.Thinking) {
+            userListening = true
+            userHeard = false
+        }
+        actions.onMic(micState)
+    }
+    LaunchedEffect(state, userListening) {
+        if (!userListening) {
+            return@LaunchedEffect
+        }
+        when (state) {
+            is GarMicState.Listening, GarMicState.Starting -> userHeard = true
+            GarMicState.Transcribing, is GarMicState.Thinking -> Unit
+            // done (answered, cancelled or unavailable) once listening has begun
+            else -> if (userHeard) {
+                userListening = false
+                userHeard = false
+            }
+        }
+    }
+    // whether the Listening layout was up in the last composition (read, not observed)
+    val lastLayout = remember { GarSheetLayoutMemory() }
+    val listeningLayout = garSheetListeningLayout(
+        state = state,
+        typing = typing != null,
+        hasAnswer = answer != null,
+        userAsked = userListening,
+        wasListening = lastLayout.listening,
+    )
+    SideEffect { lastLayout.listening = listeningLayout }
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .windowInsetsPadding(WindowInsets.navigationBars.union(WindowInsets.ime)),
+            .windowInsetsPadding(WindowInsets.navigationBars.union(WindowInsets.ime))
+            .then(if (reduced || inspection) Modifier else Modifier.animateContentSize()),
     ) {
         // 1. the handle: tap (or TalkBack's "Close") dismisses
         val close = stringResource(R.string.gar_sheet_close)
@@ -564,145 +646,174 @@ private fun GarSheetColumn(
                 .clickable(role = Role.Button, onClick = actions.onDismiss)
                 .semantics { contentDescription = close },
         ) {
-            BottomSheetDefaults.DragHandle(modifier = Modifier.clearAndSetSemantics {})
+            GarSheetHandleBar()
         }
 
-        // 2. the state: display only, not a live region while listening (TalkBack would be
-        // transcribed); the earcon and the bars say it
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
+        // 2. the header, where TalkBack starts; the state line under it says what is going on
+        // (a live region only past listening: TalkBack would be transcribed)
+        Column(
             modifier = Modifier
                 .focusRequester(stateFocus)
                 .focusable()
-                .padding(horizontal = 16.dp, vertical = 4.dp),
+                .padding(horizontal = SIDE),
         ) {
-            GarMicIndicator(
-                state = state,
-                voiceActivity = voiceActivity,
-                onClick = null,
-                size = STATE_MIC_SIZE,
+            GarSheetHeader(state = state, listeningLayout = listeningLayout)
+            if (!listeningLayout) {
+                GarSheetStateLine(state = state, modifier = Modifier.padding(top = 6.dp))
+            }
+        }
+
+        if (listeningLayout) {
+            // 3L. listening for a new request
+            Column(
+                modifier = Modifier
+                    .weight(1f, fill = false)
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = SIDE + 4.dp, vertical = 18.dp),
+            ) {
+                GarSheetListeningBody(
+                    state = state,
+                    transcript = content.transcript.takeIf { content.transcriptPending },
+                    voice = voice,
+                )
+            }
+            GarSheetListeningButtons(
+                onTypeInstead = { onTypingChange(TextFieldValue()) },
+                onStop = { onMic(state) },
+                modifier = Modifier.padding(start = SIDE + 4.dp, end = SIDE + 4.dp, bottom = 24.dp),
             )
-            Spacer(modifier = Modifier.width(12.dp))
-            GarStateLabel(
-                state = state,
-                announce = state !is GarMicState.Listening && state !is GarMicState.Starting,
+        } else {
+            GarSheetAnswerLayout(
+                content = content,
+                voice = voice,
+                ctx = ctx,
+                answerMaxHeight = answerMaxHeight,
+                actions = actions,
+                typing = typing,
+                onTypingChange = onTypingChange,
+                onMic = onMic,
+            )
+        }
+    }
+}
+
+/** The answer layout: what GarSheetColumn shows below the header unless it listens anew. */
+@Composable
+private fun ColumnScope.GarSheetAnswerLayout(
+    content: GarSheetContent,
+    voice: State<Boolean>,
+    ctx: SkillContext?,
+    answerMaxHeight: Dp,
+    actions: GarSheetActions,
+    typing: TextFieldValue?,
+    onTypingChange: (TextFieldValue?) -> Unit,
+    onMic: (GarMicState) -> Unit,
+) {
+    val state = content.micState
+    val answer = content.answer
+    // 3 to 6 scroll between the fixed rows: with the keyboard up or in landscape the sheet's
+    // height cap would otherwise squeeze the bottom row out (a Column measures its weighted
+    // child last, so the handle, the header and the bottom row always get their height)
+    Column(
+        modifier = Modifier
+            .weight(1f, fill = false)
+            .verticalScroll(rememberScrollState())
+            .padding(vertical = 8.dp),
+    ) {
+        // 3. the request, or the text field
+        if (typing != null) {
+            TypingField(
+                value = typing,
+                onValueChange = { onTypingChange(it) },
+                onSend = { text ->
+                    onTypingChange(null)
+                    actions.onSend(text)
+                },
+                onFocused = actions.onStartTyping,
+            )
+        } else if (content.transcript != null) {
+            val text = content.transcript
+            GarSheetYouSaid(
+                text = text,
+                pending = content.transcriptPending,
+                onEdit = if (content.transcriptPending) {
+                    null
+                } else {
+                    {
+                        actions.onEdit(text)
+                        onTypingChange(TextFieldValue(text))
+                    }
+                },
             )
         }
 
-        // 3 to 5 scroll between the fixed rows: with the keyboard up or in landscape the sheet's
-        // height cap would otherwise squeeze the action row out (a Column measures its weighted
-        // child last, so the handle, the state and the action row always get their height)
-        Column(
-            modifier = Modifier
-                .weight(1f, fill = false)
-                .verticalScroll(rememberScrollState()),
-        ) {
-            // 3. the request, or the text field
-            if (typing != null) {
-                TypingField(
-                    value = typing,
-                    onValueChange = { onTypingChange(it) },
-                    onSend = { text ->
-                        onTypingChange(null)
-                        actions.onSend(text)
-                    },
-                    onFocused = actions.onStartTyping,
-                )
-            } else if (content.transcript != null) {
-                val edit = stringResource(R.string.gar_sheet_edit)
-                val text = content.transcript
-                Text(
-                    text = text,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontStyle = if (content.transcriptPending) {
-                        FontStyle.Italic
-                    } else {
-                        FontStyle.Normal
-                    },
-                    color = MaterialTheme.colorScheme.onSurface.copy(
-                        alpha = if (content.transcriptPending) PENDING_ALPHA else 1f
+        // 4. the answer, read out politely by screen readers when it arrives, unless TTS
+        // says it (two voices at once, and the barge-in recording would hear the reader)
+        if (answer != null && ctx != null && !content.transcriptPending) {
+            val confirm = remember(answer.answer) { garSheetConfirm(answer.answer) }
+            GarSheetAnswerCard(
+                skill = answer.skill,
+                output = answer.answer,
+                ctx = ctx,
+                status = garSheetAnswerStatus(confirm),
+                maxHeight = answerMaxHeight,
+                // room for the card's shadow inside the scrolling column
+                modifier = Modifier
+                    .padding(horizontal = SIDE, vertical = 8.dp)
+                    .then(
+                        if (answer.spoken) {
+                            Modifier
+                        } else {
+                            Modifier.semantics { liveRegion = LiveRegionMode.Polite }
+                        }
                     ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .then(
-                            if (content.transcriptPending) {
-                                Modifier
-                            } else {
-                                Modifier.clickable(onClickLabel = edit, role = Role.Button) {
-                                    actions.onEdit(text)
-                                    onTypingChange(TextFieldValue(text))
-                                }
-                            }
-                        )
-                        .heightIn(min = 48.dp)
-                        .padding(horizontal = 16.dp, vertical = 12.dp),
+            )
+
+            // 4b. a confirmation listening for its answer: what to say
+            val hint = confirm?.let { garSheetConfirmHint(it) }
+            if (hint != null && (state is GarMicState.Listening || state == GarMicState.Starting)) {
+                GarSheetConfirmHint(
+                    text = hint,
+                    markState = garbleMarkStateFor(state, voice.value),
+                    modifier = Modifier.padding(bottom = 4.dp),
                 )
             }
 
-            // 4. the answer, read out politely by screen readers when it arrives, unless TTS
-            // says it (two voices at once, and the barge-in recording would hear the reader)
-            val answer = content.answer
-            if (answer != null && ctx != null && !content.transcriptPending) {
-                GarAnswerCard(
-                    skill = answer.skill,
-                    output = answer.answer,
-                    ctx = ctx,
-                    maxHeight = answerMaxHeight,
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp, vertical = 4.dp)
-                        .then(
-                            if (answer.spoken) {
-                                Modifier
-                            } else {
-                                Modifier.semantics { liveRegion = LiveRegionMode.Polite }
-                            }
-                        ),
-                )
-            }
-
-            // 5. chips under the answer, or the starters before the first turn
-            if (content.chips.isNotEmpty()) {
-                GarChipRow(
-                    chips = content.chips,
-                    enabled = content.chipsEnabled,
-                    onChip = actions.onChip,
+            // 4c. where it came from
+            content.provenance?.let {
+                GarSheetProvenanceRow(
+                    provenance = it,
                     modifier = Modifier.padding(vertical = 4.dp),
                 )
             }
         }
 
-        // 6. the action row, at the bottom: keyboard, the mic, "Open GAR"
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 8.dp, vertical = 8.dp),
-        ) {
-            Box(contentAlignment = Alignment.CenterStart, modifier = Modifier.weight(1f)) {
-                IconButton(
-                    onClick = {
-                        onTypingChange(if (typing == null) TextFieldValue() else null)
-                    },
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Keyboard,
-                        contentDescription = stringResource(R.string.gar_sheet_type),
-                    )
-                }
-            }
-            GarMicIndicator(
-                state = state,
-                voiceActivity = voiceActivity,
-                onClick = { actions.onMic(state) },
+        // 5. chips under the answer, or the starters before the first turn
+        if (content.chips.isNotEmpty()) {
+            GarChipRow(
+                chips = content.chips,
+                enabled = content.chipsEnabled,
+                onChip = actions.onChip,
+                modifier = Modifier.padding(vertical = 4.dp),
             )
-            Box(contentAlignment = Alignment.CenterEnd, modifier = Modifier.weight(1f)) {
-                TextButton(onClick = actions.onOpenApp) {
-                    Text(text = stringResource(R.string.gar_sheet_open_app))
-                }
-            }
         }
     }
+
+    // 6. the bottom row: keyboard, the mic, "Open GAR"
+    GarSheetBottomRow(
+        state = state,
+        voice = voice,
+        onKeyboard = { onTypingChange(if (typing == null) TextFieldValue() else null) },
+        onMic = { onMic(state) },
+        onOpenApp = actions.onOpenApp,
+        modifier = Modifier.padding(start = SIDE, end = SIDE - 4.dp, top = 4.dp, bottom = 20.dp),
+    )
+}
+
+/** No mic tap yet in this show of the sheet (an answer may be null). */
+/** Plain memory of the last layout; not snapshot state, so writing it doesn't recompose. */
+private class GarSheetLayoutMemory {
+    var listening = false
 }
 
 @Composable
@@ -807,7 +918,7 @@ private fun garSheetNestedScroll(
 
 private val MAX_WIDTH = 640.dp
 private val HANDLE_HEIGHT = 48.dp
-private val STATE_MIC_SIZE = 32.dp
+private val SIDE = 20.dp
 private val VELOCITY_THRESHOLD = 125.dp // per second
 private val BACK_SLIDE = 24.dp
 private const val BACK_SCALE = 0.05f
@@ -815,7 +926,6 @@ private const val POSITIONAL_THRESHOLD = 0.4f
 private const val SCRIM_ALPHA = 0.32f
 private const val MAX_HEIGHT_SHARE = 0.85f
 private const val ANSWER_HEIGHT_SHARE = 0.5f
-private const val PENDING_ALPHA = 0.7f
 private const val FADE_MILLIS = 150
 private const val FIRST_FOCUS_DELAY_MILLIS = 100L
 
@@ -879,6 +989,7 @@ private fun GarSheetAnswerPreview() {
                 ),
                 chips = listOf(GarChip("Tomorrow"), GarChip("This weekend")),
                 chipsEnabled = true,
+                provenance = GarSheetProvenance(GarSheetRoute.Model(1_400), "weather"),
             ),
             voiceActivity = remember { mutableStateOf<VoiceActivity?>(null) },
             ctx = SkillContextImpl.newForPreviews(LocalContext.current),

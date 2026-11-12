@@ -10,10 +10,10 @@
     <string name="gar_online_ask_joke">The joke skill uses the internet: it asks the Official Joke API. Turn it on?</string>
 
     <!-- What the question's card adds below it -->
-    <string name="gar_online_detail_weather">It sends the place you name, or your default city, to Open-Meteo to find it, then its coordinates rounded to about 1 km. When you choose your location, only those rounded coordinates. While Breezy Weather shares a fresh forecast with GAR, GAR answers from it without the internet.</string>
+    <string name="gar_online_detail_weather">It sends the place you name, or your default city, to Open-Meteo to find it, then its coordinates rounded to about 1 km. When you choose your location, only those rounded coordinates. While Breezy Weather shares a fresh forecast with Garble, Garble answers from it without the internet.</string>
     <string name="gar_online_detail_search">It sends what you search for to DuckDuckGo.</string>
     <string name="gar_online_detail_lyrics">It sends the song you name to Genius.</string>
-    <string name="gar_online_detail_translation">It sends the text to translate to Lingva (lingva.ml), which gets the translation from Google Translate. With Offline Translator on the phone, GAR translates there instead, without the internet.</string>
+    <string name="gar_online_detail_translation">It sends the text to translate to Lingva (lingva.ml), which gets the translation from Google Translate. With Offline Translator on the phone, Garble translates there instead, without the internet.</string>
     <string name="gar_online_detail_joke">It gets a random joke from official-joke-api.appspot.com, or from JokeAPI (v2.jokeapi.dev) in other languages. Nothing you say is sent.</string>
 
     <!-- The question's buttons; saying them works too -->

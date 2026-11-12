@@ -2,7 +2,7 @@
 <!-- GAR: the "Keep the screen on while GAR is open" setting, see GarKeepScreenOn. -->
 <resources>
     <string name="gar_pref_screen_title">Screen</string>
-    <string name="gar_pref_keep_screen_on">Keep the screen on while GAR is open</string>
-    <string name="gar_pref_keep_screen_on_on">The phone doesn\'t fall asleep while GAR is on screen and unlocked</string>
+    <string name="gar_pref_keep_screen_on">Keep the screen on while Garble is open</string>
+    <string name="gar_pref_keep_screen_on_on">The phone doesn\'t fall asleep while Garble is on screen and unlocked</string>
     <string name="gar_pref_keep_screen_on_off">The screen turns off after the phone\'s usual timeout</string>
 </resources>

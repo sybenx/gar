@@ -1,13 +1,12 @@
 package org.stypox.dicio.gar.call
 
+import org.stypox.dicio.gar.ui.garble.GarblePrimaryButton // GAR
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -35,6 +34,7 @@ import org.stypox.dicio.io.input.InputEvent
 import org.stypox.dicio.sentences.Sentences
 import org.stypox.dicio.util.RecognizeYesNoSkill
 import org.stypox.dicio.util.getString
+import org.stypox.dicio.gar.ui.garble.GarbleSecondaryButton // GAR
 
 /**
  * Asks "<tool description>: <slot values>?" before running a call the model made. The user
@@ -102,10 +102,10 @@ class GarConfirmOutput(
                 horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                OutlinedButton(onClick = { send(no) }, enabled = enabled) {
+                GarbleSecondaryButton(onClick = { send(no) }, enabled = enabled) { // GAR
                     Text(text = no)
                 }
-                Button(onClick = { send(yes) }, enabled = enabled) {
+                GarblePrimaryButton(onClick = { send(yes) }, enabled = enabled) { // GAR
                     Text(text = yes)
                 }
             }

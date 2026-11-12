@@ -506,6 +506,7 @@ class GarWhisperInputDevice(
                 }
                 level = smoothLevel(level, levelOf(frame, read))
                 _voiceActivity.value = VoiceActivity(level, endpointer.speaking)
+                GarMicLevel.publish(level, frame, read, endpointer.speaking) // Garble's mark
 
                 if (frames % SILENCED_CHECK_FRAMES == 0 && source.isSilenced()) {
                     // GAR: another app's capture won the mic (the sheet isn't the top app, see
@@ -514,6 +515,7 @@ class GarWhisperInputDevice(
                     logInfo("The microphone is silenced by the system, waiting")
                     silencedFor = 0
                     _voiceActivity.value = SILENT
+                    GarMicLevel.clear()
                     continue
                 }
                 if (decision != Endpointer.Decision.Continue) {
@@ -528,6 +530,7 @@ class GarWhisperInputDevice(
             }
         } finally {
             _voiceActivity.value = SILENT
+            GarMicLevel.clear()
             try {
                 source.stop()
             } catch (e: Exception) {

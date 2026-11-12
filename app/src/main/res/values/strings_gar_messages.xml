@@ -25,7 +25,7 @@
     <string name="skill_messages_done">OK.</string>
     <string name="skill_messages_no_more">That\'s all your messages.</string>
     <string name="skill_messages_no_access">I can\'t see your notifications right now. Try again in a moment.</string>
-    <string name="skill_messages_needs_listener">GAR reads messages from your notifications, so it needs notification access.</string>
+    <string name="skill_messages_needs_listener">Garble reads messages from your notifications, so it needs notification access.</string>
     <string name="skill_messages_allow_access">Allow notification access</string>
 
     <!-- Replying through the notification's reply button -->

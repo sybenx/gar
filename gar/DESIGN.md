@@ -1,4 +1,7 @@
-# GAR design (Step 2: LLM fallback router)
+# Garble (GAR) design (Step 2: LLM fallback router)
+
+The app is called Garble since 2026-11. GAR stays the project's code name: the `gar/` modules,
+the `org.stypox.dicio.gar` package, the `// GAR` markers and the repository.
 
 GAR is a fork of Dicio. Dicio's sentence matcher stays the fast path. Only when it finds no confident
 match does GAR ask a small on-device model to map the transcript to one tool call with raw slot
@@ -850,7 +853,7 @@ wake word on a dark screen.
   3 to 5 sit in a weighted (`fill = false`), scrolling Column, so with the keyboard up or in
   landscape the 85% cap squeezes them and never the handle, the state row or the action row.
 
-  Pane and window title are "GAR".
+  Pane and window title are "Garble".
 - **Whose turns.** Only the session's turns are shown (`GarSheetState.baseline/select`, tested).
   - The baseline counts every answered turn at show, plus one for a route still in flight. A
     pending question from the wake word's own capture is not counted (`countPending = false`

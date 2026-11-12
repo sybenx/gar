@@ -1,5 +1,6 @@
 package org.stypox.dicio.ui.home
 
+import org.stypox.dicio.gar.ui.garble.GarbleShapes // GAR
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -81,6 +82,8 @@ fun InteractionList(
     // GAR: the thinking card's state (null: not thinking yet), and the latest answer's chips
     thinking: GarMicState.Thinking? = null,
     onChip: ((GarChip) -> Unit)? = null,
+    // GAR: shown instead of "Here is what I can do" when given (the empty home's starters)
+    garStarters: (@Composable () -> Unit)? = null,
 ) {
     var totalItemCount = 0
     var lastAnchorIndex = 0
@@ -137,7 +140,9 @@ fun InteractionList(
         }
 
         countedItem(canBeAnchor = false) {
-            if (skills != null) {
+            if (garStarters != null) { // GAR
+                garStarters()
+            } else if (skills != null) {
                 // avoid showing anything if skills are null, i.e. not ready yet
                 WhatICanDo(skills = skills, firstShown = GAR_HOME_SKILLS) // GAR: a few first
             }
@@ -393,8 +398,8 @@ fun MessageCard(
         .fillMaxWidth()
         .padding(horizontal = 16.dp) // GAR: the home screen's 16 dp gutter
     if (onClick == null) {
-        Card(colors = colors, modifier = modifier, content = content)
+        Card(colors = colors, modifier = modifier, shape = GarbleShapes.Card, content = content) // GAR
     } else {
-        Card(onClick = onClick, modifier = modifier, colors = colors, content = content)
+        Card(onClick = onClick, modifier = modifier, colors = colors, shape = GarbleShapes.Card, content = content) // GAR
     }
 }

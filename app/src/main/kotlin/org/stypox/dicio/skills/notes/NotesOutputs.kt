@@ -3,7 +3,7 @@ package org.stypox.dicio.skills.notes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.OutlinedButton
+import org.stypox.dicio.gar.ui.garble.GarbleSecondaryButton // GAR
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -79,7 +79,7 @@ object NotesSay {
 internal fun ShareButton(text: String) {
     val context = LocalContext.current
     Spacer(modifier = Modifier.height(8.dp))
-    OutlinedButton(onClick = { NotesApps.share(context, text) }) {
+    GarbleSecondaryButton(onClick = { NotesApps.share(context, text) }) { // GAR
         Text(text = stringResource(R.string.gar_lists_share))
     }
 }
@@ -212,7 +212,7 @@ sealed interface NotesOutput : SkillOutput {
                 Headline(text = getSpeechOutput(ctx))
                 if (app != null) {
                     Spacer(modifier = Modifier.height(8.dp))
-                    OutlinedButton(onClick = { NotesApps.send(context, app, text) }) {
+                    GarbleSecondaryButton(onClick = { NotesApps.send(context, app, text) }) { // GAR
                         Text(text = stringResource(R.string.gar_notes_save_in, app.label))
                     }
                 }

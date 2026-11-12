@@ -13,10 +13,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -50,6 +48,8 @@ import org.stypox.dicio.gar.settings.GarSettings
 import org.stypox.dicio.ui.home.MessageCard
 import org.stypox.dicio.ui.theme.AppTheme
 import javax.inject.Inject
+import org.stypox.dicio.gar.ui.garble.GarbleSecondaryButton // GAR
+import org.stypox.dicio.gar.ui.garble.GarbleTextButton // GAR
 
 /**
  * The home screen's "Make GAR your assistant" card (gar/DESIGN.md, "Assistant entry points"),
@@ -237,10 +237,10 @@ fun GarAssistantCardImpl(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            TextButton(onClick = onDismiss) {
+            GarbleTextButton(onClick = onDismiss) { // GAR
                 Text(text = stringResource(R.string.gar_assistant_card_dismiss))
             }
-            ElevatedButton(onClick = onOpenSettings) {
+            GarbleSecondaryButton(onClick = onOpenSettings) { // GAR
                 Text(text = stringResource(R.string.gar_assistant_card_open))
             }
         }

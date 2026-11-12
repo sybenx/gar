@@ -33,11 +33,11 @@
     <string name="skill_timer_cant_change_locked">I can\'t change Clock\'s timers by voice. Unlock your phone to see them.</string>
     <string name="skill_timer_cant_check_locked">I can\'t check Clock\'s timers by voice. Unlock your phone to see them.</string>
     <!-- Android blocks GAR's start of the clock app: GAR isn't on screen or the assistant -->
-    <string name="skill_timer_background">I can\'t reach Clock from the background. Open GAR and ask again.</string>
+    <string name="skill_timer_background">I can\'t reach Clock from the background. Open Garble and ask again.</string>
 
     <!-- The one notification after the update that moved GAR's timers to the clock app;
          %1$s is the lost timer's name, like "pasta", %1$d how many were lost -->
-    <string name="gar_old_timers_lost_title">GAR\'s timers moved to Clock</string>
+    <string name="gar_old_timers_lost_title">Garble\'s timers moved to Clock</string>
     <string name="gar_old_timers_lost">Your timer was stopped. Set it again.</string>
     <string name="gar_old_timers_lost_name">Your %1$s timer was stopped. Set it again.</string>
     <string name="gar_old_timers_lost_many">Your %1$d timers were stopped. Set them again.</string>

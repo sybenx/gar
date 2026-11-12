@@ -1,21 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- GAR: the Tide glyph's voice wave alone, larger, for the speech to text popup (Dicio's popup
-     icon was its own glyph on the launcher icon's background too). 27.3 from the centre at 1.8,
-     inside the 66 dp safe circle. -->
+<!-- GAR: the Garble mark upright (its speaking pose) for the speech to text popup shortcut, on the
+     launcher icon's background, inside the 33 unit safe circle -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-    <group
-        android:pivotX="54"
-        android:pivotY="54"
-        android:scaleX="1.8"
-        android:scaleY="1.8">
-        <path
-            android:pathData="M42 50 v6 M50 45 v16 M58 42 v22 M66 48 v10"
-            android:strokeColor="#A7F3D0"
-            android:strokeWidth="5"
-            android:strokeLineCap="round" />
-    </group>
+    <path
+        android:pathData="M30.27 48.81 L30.27 59.19"
+        android:strokeColor="#8B7CFF"
+        android:strokeWidth="7.42"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M42.13 39.54 L42.13 68.46"
+        android:strokeColor="#7E93FF"
+        android:strokeWidth="7.42"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M54.00 30.27 L54.00 77.73"
+        android:strokeColor="#70ABFF"
+        android:strokeWidth="7.42"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M65.87 39.54 L65.87 68.46"
+        android:strokeColor="#63C8FF"
+        android:strokeWidth="7.42"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M77.73 48.81 L77.73 59.19"
+        android:strokeColor="#5EE6FF"
+        android:strokeWidth="7.42"
+        android:strokeLineCap="round" />
 </vector>

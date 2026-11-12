@@ -1,5 +1,6 @@
 package org.stypox.dicio.gar.followup
 
+import org.stypox.dicio.gar.ui.garble.GarblePrimaryButton // GAR
 import android.app.KeyguardManager
 import android.content.Context
 import androidx.annotation.StringRes
@@ -11,8 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.History
-import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -61,6 +60,7 @@ import org.stypox.dicio.skills.calls.AndroidPhoneCalls
 import org.stypox.dicio.skills.calls.PhoneCallState
 import org.stypox.dicio.util.getString
 import java.time.LocalDateTime
+import org.stypox.dicio.gar.ui.garble.GarbleSecondaryButton // GAR
 
 /**
  * "Follow-ups" (gar/DESIGN.md, "Follow-ups"): "turn it off", "what about tomorrow", "call her",
@@ -411,10 +411,10 @@ class GarFollowUpConfirmOutput(
                 horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                OutlinedButton(onClick = { send(no) }, enabled = enabled) {
+                GarbleSecondaryButton(onClick = { send(no) }, enabled = enabled) { // GAR
                     Text(text = no)
                 }
-                Button(onClick = { send(yes) }, enabled = enabled) {
+                GarblePrimaryButton(onClick = { send(yes) }, enabled = enabled) { // GAR
                     Text(text = yes)
                 }
             }

@@ -1,5 +1,6 @@
 package org.stypox.dicio.skills.song
 
+import org.stypox.dicio.gar.ui.garble.GarblePrimaryButton // GAR
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -13,9 +14,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.Button
 import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.OutlinedButton
+import org.stypox.dicio.gar.ui.garble.GarbleSecondaryButton // GAR
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -254,7 +254,7 @@ class AudileMissingOutput(val nowPlaying: NowPlaying) : SkillOutput {
             Spacer(modifier = Modifier.height(8.dp))
             Body(text = stringResource(R.string.skill_song_install_services))
             Spacer(modifier = Modifier.height(8.dp))
-            OutlinedButton(
+            GarbleSecondaryButton( // GAR
                 onClick = { openAudileInstall(context) },
                 modifier = Modifier.align(Alignment.CenterHorizontally),
             ) {
@@ -345,10 +345,10 @@ class AudileInstallAskOutput(
                 horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                OutlinedButton(onClick = { send(no) }, enabled = enabled) {
+                GarbleSecondaryButton(onClick = { send(no) }, enabled = enabled) { // GAR
                     Text(text = no)
                 }
-                Button(onClick = { send(yes) }, enabled = enabled) {
+                GarblePrimaryButton(onClick = { send(yes) }, enabled = enabled) { // GAR
                     Text(text = yes)
                 }
             }
@@ -418,7 +418,7 @@ class SongListeningOutput(
                         .resolve(LocalContext.current))
                     Spacer(modifier = Modifier.height(8.dp))
                     val allow = rememberAllowSongNotifications {}
-                    OutlinedButton(
+                    GarbleSecondaryButton( // GAR
                         onClick = allow,
                         modifier = Modifier.align(Alignment.CenterHorizontally),
                     ) {
@@ -460,7 +460,7 @@ class SongAudileOutput(
             is AudileCardState.Found -> Column {
                 SongTrackCard(s.result.track, ctx.locale)
                 Spacer(modifier = Modifier.height(8.dp))
-                OutlinedButton(
+                GarbleSecondaryButton( // GAR
                     onClick = { openAudileTrack(context, s.result, packageName) },
                     modifier = Modifier.align(Alignment.CenterHorizontally),
                 ) {
@@ -482,7 +482,7 @@ private fun ColumnScope.AudileHintsCard(hints: AudileHints, packageName: String)
         Spacer(modifier = Modifier.height(8.dp))
         Body(text = stringResource(R.string.skill_song_audile_needs_listener))
         Spacer(modifier = Modifier.height(8.dp))
-        OutlinedButton(
+        GarbleSecondaryButton( // GAR
             onClick = { openListenerSettings(context) },
             modifier = Modifier.align(Alignment.CenterHorizontally),
         ) {
@@ -493,7 +493,7 @@ private fun ColumnScope.AudileHintsCard(hints: AudileHints, packageName: String)
         Spacer(modifier = Modifier.height(8.dp))
         Body(text = stringResource(R.string.skill_song_audile_foreground_hint))
         Spacer(modifier = Modifier.height(8.dp))
-        OutlinedButton(
+        GarbleSecondaryButton( // GAR
             onClick = { openAudileForegroundSettings(context, packageName) },
             modifier = Modifier.align(Alignment.CenterHorizontally),
         ) {
@@ -505,7 +505,7 @@ private fun ColumnScope.AudileHintsCard(hints: AudileHints, packageName: String)
 @Composable
 private fun ColumnScope.StopButton(onStop: () -> Unit) {
     Spacer(modifier = Modifier.height(8.dp))
-    OutlinedButton(onClick = onStop, modifier = Modifier.align(Alignment.CenterHorizontally)) {
+    GarbleSecondaryButton(onClick = onStop, modifier = Modifier.align(Alignment.CenterHorizontally)) { // GAR
         Text(stringResource(R.string.skill_song_stop))
     }
 }
@@ -528,12 +528,12 @@ fun SongTrackCard(track: SongTrack, locale: Locale) {
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 track.spotifyUrl?.let { url ->
-                    OutlinedButton(onClick = { openLink(context, url) }) {
+                    GarbleSecondaryButton(onClick = { openLink(context, url) }) { // GAR
                         Text(stringResource(R.string.skill_song_open_spotify))
                     }
                 }
                 track.youtubeUrl?.let { url ->
-                    OutlinedButton(onClick = { openLink(context, url) }) {
+                    GarbleSecondaryButton(onClick = { openLink(context, url) }) { // GAR
                         Text(stringResource(R.string.skill_song_open_youtube))
                     }
                 }

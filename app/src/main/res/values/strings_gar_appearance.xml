@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR: the Appearance settings screen (gar/settings/GarAppearanceScreen.kt) -->
+<resources>
+    <string name="gar_appearance_title">Appearance</string>
+    <string name="gar_appearance_summary">Theme and colors</string>
+    <!-- The preview card's sample button, in the theme color -->
+    <string name="gar_appearance_main_action">Main action</string>
+    <string name="gar_appearance_colors">Colors</string>
+    <string name="gar_appearance_garble">Garble</string>
+    <string name="gar_appearance_garble_summary">Indigo to cyan, the default</string>
+    <string name="gar_appearance_system">Match my wallpaper</string>
+    <string name="gar_appearance_system_summary">Material You colors from Android</string>
+    <string name="gar_appearance_custom">Pick a color</string>
+    <string name="gar_appearance_custom_summary">A full scheme made from one color</string>
+    <string name="gar_appearance_amber">Amber</string>
+    <string name="gar_appearance_coral">Coral</string>
+    <string name="gar_appearance_mint">Mint</string>
+    <!-- A swatch for a color the user picked; %s: its hex code, like #3A7BD5 -->
+    <string name="gar_appearance_your_color">Your color, %s</string>
+    <string name="gar_appearance_more_colors">Choose any color</string>
+    <string name="gar_appearance_theme">Theme</string>
+    <string name="gar_appearance_theme_system">System</string>
+    <string name="gar_appearance_theme_light">Light</string>
+    <string name="gar_appearance_theme_dark">Dark</string>
+    <string name="gar_appearance_theme_black">Black</string>
+    <!-- A switch under the theme control, shown while System is selected -->
+    <string name="gar_appearance_theme_black_in_dark">Black in dark mode</string>
+    <!-- The color picker dialog -->
+    <string name="gar_appearance_picker_title">Pick a color</string>
+    <string name="gar_appearance_picker_hue">Hue</string>
+    <string name="gar_appearance_picker_saturation">Saturation</string>
+    <string name="gar_appearance_picker_lightness">Lightness</string>
+    <string name="gar_appearance_picker_hex">Hex code</string>
+    <string name="gar_appearance_picker_use">Use this color</string>
+    <string name="gar_appearance_picker_cancel">Cancel</string>
+</resources>

@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
+import org.stypox.dicio.gar.ui.garble.GarbleSecondaryButton // GAR
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -111,7 +111,7 @@ private fun SharePlaceDialog(
                 )
                 for (kind in SavedPlaceKind.entries) {
                     Spacer(modifier = Modifier.height(12.dp))
-                    OutlinedButton(
+                    GarbleSecondaryButton( // GAR
                         onClick = { onSave(kind) },
                         modifier = Modifier
                             .fillMaxWidth()

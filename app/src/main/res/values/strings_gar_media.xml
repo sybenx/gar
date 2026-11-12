@@ -18,7 +18,7 @@
     <!-- %1$s is an app's name as the user said it -->
     <string name="skill_media_play_not_installed">%1$s isn\'t installed.</string>
     <string name="skill_media_play_cant">%1$s can\'t play by name.</string>
-    <string name="skill_media_play_cant_access">If %1$s is open, allow GAR notification access, and I can ask it.</string>
+    <string name="skill_media_play_cant_access">If %1$s is open, allow Garble notification access, and I can ask it.</string>
     <string name="skill_media_play_no_player">There\'s no app on this phone that plays music by name.</string>
     <string name="skill_media_play_no_player_hint">Install a music or podcast app, then ask again.</string>
     <string name="skill_media_play_failed">%1$s didn\'t open.</string>
@@ -29,7 +29,7 @@
 
     <!-- More media controls; %1$s is the name of the app that plays -->
     <string name="skill_media_controls_no_access">I need notification access to do that.</string>
-    <string name="skill_media_controls_no_access_detail">With notification access, GAR can shuffle, repeat, skip ahead and like what plays. Play, pause and next work without it.</string>
+    <string name="skill_media_controls_no_access_detail">With notification access, Garble can shuffle, repeat, skip ahead and like what plays. Play, pause and next work without it.</string>
     <string name="skill_media_controls_nothing_playing">Nothing is playing.</string>
     <string name="skill_media_controls_failed">%1$s didn\'t respond.</string>
     <string name="skill_media_controls_toggle_detail">%1$s only has a switch for it, so I can\'t tell whether it\'s on now.</string>

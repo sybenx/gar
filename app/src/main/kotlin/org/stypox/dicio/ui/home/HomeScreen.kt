@@ -2,16 +2,9 @@ package org.stypox.dicio.ui.home
 
 import androidx.activity.compose.LocalActivity // GAR
 import androidx.compose.foundation.layout.Arrangement // GAR
-import androidx.compose.foundation.layout.Column // GAR
 import androidx.compose.foundation.layout.Row // GAR
-import androidx.compose.foundation.layout.Spacer // GAR
 import androidx.compose.foundation.layout.fillMaxWidth // GAR
-import androidx.compose.foundation.layout.height // GAR
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size // GAR
-import androidx.compose.material.icons.filled.Keyboard // GAR
-import androidx.compose.material3.MaterialTheme // GAR
-import androidx.compose.material3.Surface // GAR
 import androidx.compose.runtime.LaunchedEffect // GAR
 import androidx.compose.runtime.MutableState // GAR
 import androidx.compose.runtime.State // GAR
@@ -53,15 +46,16 @@ import org.stypox.dicio.eval.SkillEvaluator
 import org.stypox.dicio.gar.perf.GarJank // GAR
 import org.stypox.dicio.gar.stt.rememberGarVoiceActivity // GAR
 import org.stypox.dicio.gar.ui.GarChip // GAR
-import org.stypox.dicio.gar.ui.GarChipRow // GAR
 import org.stypox.dicio.gar.ui.GarChips // GAR
-import org.stypox.dicio.gar.ui.GarMicIndicator // GAR
 import org.stypox.dicio.gar.ui.GarMicState // GAR
-import org.stypox.dicio.gar.ui.GarStateLabel // GAR
 import org.stypox.dicio.gar.ui.garTapStopsSpeech // GAR
 import org.stypox.dicio.gar.ui.rememberGarMicState // GAR
 import org.stypox.dicio.gar.ui.rememberGarStarterChips // GAR
 import org.stypox.dicio.gar.ui.tag // GAR
+import org.stypox.dicio.gar.ui.garble.GarbleHomeControls // GAR
+import org.stypox.dicio.gar.ui.garble.GarbleHomeTopBar // GAR
+import org.stypox.dicio.gar.ui.garble.GarbleKeyboardButton // GAR
+import org.stypox.dicio.gar.ui.garble.GarbleTrySaying // GAR
 import org.stypox.dicio.io.input.VoiceActivity // GAR
 import org.stypox.dicio.io.input.InputEvent
 import org.stypox.dicio.io.input.SttState
@@ -80,6 +74,7 @@ fun HomeScreen(
     navigationIcon: @Composable () -> Unit,
     // GAR: set by the sheet's EXTRA_TYPE hand-off (GarAppHandOffs); cleared here once handled
     typeRequested: MutableState<Boolean> = remember { mutableStateOf(false) },
+    onSettingsClick: () -> Unit = {}, // GAR: the top bar's settings button
 ) {
     val channel = remember { Channel<Boolean>() }
     val coroutineScope = rememberCoroutineScope()
@@ -172,6 +167,7 @@ fun HomeScreen(
         starterChips = starterChips,
         onChip = { GarChips.send(viewModel.skillEvaluator, it) },
         typeRequests = typeRequests,
+        onSettingsClick = onSettingsClick,
     )
 }
 
@@ -197,6 +193,7 @@ fun HomeScreen(
     onChip: (GarChip) -> Unit = {},
     typeRequests: Int = 0,
     voiceActivity: State<VoiceActivity?> = rememberGarVoiceActivity(),
+    onSettingsClick: () -> Unit = {}, // GAR
 ) {
     var searchString by rememberSaveable { mutableStateOf<String?>(null) }
     // GAR: the keyboard button, and the sheet's hand-off to typing (EXTRA_TYPE)
@@ -206,10 +203,22 @@ fun HomeScreen(
         }
     }
     val currentMicState by rememberUpdatedState(micState)
+    // GAR: the empty home's "Try saying" cards, in place of "Here is what I can do"
+    val garStarters: (@Composable () -> Unit)? =
+        if (starterChips.isNotEmpty() && interactionLog.interactions.isEmpty() &&
+            interactionLog.pendingQuestion == null
+        ) {
+            { GarbleTrySaying(starters = starterChips, onStarter = onChip) }
+        } else {
+            null
+        }
 
     Scaffold(
         topBar = {
-            SearchTopAppBar(
+            // GAR: Garble's top bar (mark, wordmark, settings) until the text field opens
+            if (searchString == null) {
+                GarbleHomeTopBar(navigationIcon = navigationIcon, onSettingsClick = onSettingsClick)
+            } else SearchTopAppBar(
                 searchString = searchString,
                 setSearchString = { searchString = it },
                 onSearch = onManualUserInput,
@@ -249,6 +258,8 @@ fun HomeScreen(
                 // GAR
                 thinking = micState as? GarMicState.Thinking,
                 onChip = onChip,
+                // GAR: the empty home's "Try saying" cards, in place of "Here is what I can do"
+                garStarters = garStarters,
             )
         },
         // GAR: the mic, its state and the keyboard in a bottom bar (with the starter chips on an
@@ -258,10 +269,6 @@ fun HomeScreen(
                 sttState = sttState,
                 micState = micState,
                 voiceActivity = voiceActivity,
-                starterChips = starterChips.takeIf {
-                    interactionLog.interactions.isEmpty() && interactionLog.pendingQuestion == null
-                } ?: listOf(),
-                onChip = onChip,
                 onSttClick = onSttClick,
                 onStopSpeaking = onStopSpeaking,
                 onType = { if (searchString == null) searchString = "" },
@@ -272,82 +279,42 @@ fun HomeScreen(
 }
 
 /**
- * GAR: the home screen's bottom bar: the starter chips (when given), then the mic's state in a
- * pill over the 72 dp mic with the keyboard button next to it. In the unavailable states Dicio's
- * button takes the mic's place (it has the permission launcher and the download states). A tap
- * on the mic while GAR speaks only stops the speech.
+ * GAR: the home screen's bottom bar: Garble's mic (84 dp, centered) with the keyboard button
+ * beside it and the mic's state above. In the unavailable states Dicio's button takes the mic's
+ * place (it has the permission launcher and the download states). A tap on the mic while GAR
+ * speaks only stops the speech.
  */
 @Composable
 private fun GarHomeBottomBar(
     sttState: SttState?,
     micState: GarMicState,
     voiceActivity: State<VoiceActivity?>,
-    starterChips: List<GarChip>,
-    onChip: (GarChip) -> Unit,
     onSttClick: () -> Unit,
     onStopSpeaking: () -> Unit,
     onType: () -> Unit,
 ) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 16.dp),
-    ) {
-        if (starterChips.isNotEmpty()) {
-            GarChipRow(
-                chips = starterChips,
-                enabled = true,
-                onChip = onChip,
-                modifier = Modifier.padding(bottom = 8.dp),
-            )
+    if (micState is GarMicState.Unavailable) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 16.dp),
+        ) {
+            // if the STT state is null, it means the user disabled the STT
+            if (sttState != null) {
+                SttFab(state = sttState, onClick = onSttClick)
+            }
+            GarbleKeyboardButton(onClick = onType)
         }
-        val keyboardButton = @Composable {
-            IconButton(onClick = onType) {
-                Icon(
-                    imageVector = Icons.Default.Keyboard,
-                    contentDescription = stringResource(R.string.gar_mic_type),
-                )
-            }
-        }
-        if (micState is GarMicState.Unavailable) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-            ) {
-                // if the STT state is null, it means the user disabled the STT
-                if (sttState != null) {
-                    SttFab(state = sttState, onClick = onSttClick)
-                }
-                keyboardButton()
-            }
-        } else {
-            Surface(
-                shape = MaterialTheme.shapes.extraLarge,
-                color = MaterialTheme.colorScheme.secondaryContainer,
-            ) {
-                GarStateLabel(
-                    state = micState,
-                    announce = micState !is GarMicState.Listening && micState != GarMicState.Starting,
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp),
-                )
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-            ) {
-                Spacer(modifier = Modifier.size(48.dp)) // balances the keyboard button
-                GarMicIndicator(
-                    state = micState,
-                    voiceActivity = voiceActivity,
-                    onClick = {
-                        if (micState == GarMicState.Speaking) onStopSpeaking() else onSttClick()
-                    },
-                )
-                keyboardButton()
-            }
-        }
+    } else {
+        GarbleHomeControls(
+            micState = micState,
+            voiceActivity = voiceActivity,
+            onMic = { if (micState == GarMicState.Speaking) onStopSpeaking() else onSttClick() },
+            onType = onType,
+            modifier = Modifier.padding(top = 8.dp, bottom = 20.dp),
+        )
     }
 }
 

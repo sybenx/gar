@@ -1,5 +1,6 @@
 package org.stypox.dicio.skills.calendar
 
+import org.stypox.dicio.gar.ui.garble.GarblePrimaryButton // GAR
 import android.content.Context
 import android.content.Intent
 import android.provider.Settings
@@ -11,11 +12,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -54,6 +53,7 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.time.format.TextStyle
 import java.time.temporal.ChronoUnit
+import org.stypox.dicio.gar.ui.garble.GarbleSecondaryButton // GAR
 
 /** Short answers without a card of their own. */
 object CalendarOutput {
@@ -201,10 +201,10 @@ class ConfirmAddOutput(
                 horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                OutlinedButton(onClick = { send(no) }, enabled = enabled) {
+                GarbleSecondaryButton(onClick = { send(no) }, enabled = enabled) { // GAR
                     Text(text = no)
                 }
-                Button(onClick = { send(yes) }, enabled = enabled) {
+                GarblePrimaryButton(onClick = { send(yes) }, enabled = enabled) { // GAR
                     Text(text = yes)
                 }
             }
@@ -283,12 +283,12 @@ class AddedOutput(
                     modifier = Modifier.fillMaxWidth(),
                 ) {
                     if (notificationsOff) {
-                        OutlinedButton(onClick = { openNotificationSettings(context) }) {
+                        GarbleSecondaryButton(onClick = { openNotificationSettings(context) }) { // GAR
                             Text(text = stringResource(R.string.skill_calendar_notification_settings))
                         }
                     }
                     if (canOpen) {
-                        Button(
+                        GarblePrimaryButton( // GAR
                             onClick = {
                                 CalendarStore.start(context, CalendarStore.viewEventIntent(eventId))
                             }

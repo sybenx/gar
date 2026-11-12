@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
+import org.stypox.dicio.gar.ui.garble.GarbleSecondaryButton // GAR
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -386,7 +386,7 @@ class MessagesNoAccessOutput : SkillOutput {
             Spacer(modifier = Modifier.height(8.dp))
             Body(text = stringResource(R.string.skill_messages_needs_listener))
             Spacer(modifier = Modifier.height(8.dp))
-            OutlinedButton(
+            GarbleSecondaryButton( // GAR
                 onClick = { openListenerSettings(context) },
                 modifier = Modifier.align(Alignment.CenterHorizontally),
             ) {

@@ -6,6 +6,7 @@ import "input_device.proto";
 import "speech_output_device.proto";
 import "wake_device.proto";
 import "stt_play_sound.proto";
+import "gar_color_source.proto"; // GAR
 
 option java_package = "org.stypox.dicio.settings.datastore";
 option java_multiple_files = true;
@@ -21,4 +22,6 @@ message UserSettings {
     WakeDevice wake_device = 8;
     SttPlaySound stt_play_sound = 9;
     int32 stt_silence_duration = 10;
+    GarColorSource gar_color_source = 100; // GAR
+    uint32 gar_seed_color = 101; // GAR: ARGB for GAR_COLOR_SOURCE_CUSTOM, 0 = unset (amber)
 }

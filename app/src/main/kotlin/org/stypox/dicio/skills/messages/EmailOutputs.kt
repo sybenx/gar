@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
+import org.stypox.dicio.gar.ui.garble.GarbleSecondaryButton // GAR
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -286,7 +286,7 @@ class EmailOpenedOutput(
             }
             if (opened) {
                 Spacer(modifier = Modifier.height(8.dp))
-                OutlinedButton(
+                GarbleSecondaryButton( // GAR
                     onClick = { flow.mailerFor(ctx).compose(draft) },
                     modifier = Modifier.align(Alignment.CenterHorizontally),
                 ) {

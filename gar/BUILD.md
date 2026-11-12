@@ -1,4 +1,7 @@
-# Building and installing GAR
+# Building and installing Garble (GAR)
+
+The app is called Garble since 2026-11. GAR stays the project's code name: the `gar/` modules,
+the `org.stypox.dicio.gar` package, the `// GAR` markers and the repository.
 
 How to build GAR from source on a Mac or Linux machine and install it on an arm64 Android phone
 over adb. The author uses a Pixel 9a on GrapheneOS 17 (Android 17). Run every command from the

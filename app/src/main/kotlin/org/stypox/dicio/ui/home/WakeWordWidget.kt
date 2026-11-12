@@ -8,10 +8,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -34,6 +32,8 @@ import org.stypox.dicio.io.wake.WakeState.NoMicOrNotificationPermission
 import org.stypox.dicio.ui.util.LoadingProgress
 import org.stypox.dicio.ui.util.WakeStatesPreviews
 import org.stypox.dicio.ui.util.loadingProgressString
+import org.stypox.dicio.gar.ui.garble.GarbleSecondaryButton // GAR
+import org.stypox.dicio.gar.ui.garble.GarbleTextButton // GAR
 
 val wakeWordPermissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     arrayOf(Manifest.permission.RECORD_AUDIO, Manifest.permission.POST_NOTIFICATIONS,
@@ -128,7 +128,7 @@ fun WakeWordWidgetImpl(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            TextButton(onClick = onWakeDisable) {
+            GarbleTextButton(onClick = onWakeDisable) { // GAR
                 Text(text = stringResource(R.string.disable))
             }
 
@@ -139,24 +139,24 @@ fun WakeWordWidgetImpl(
             }
             if (error != null) {
                 val context = LocalContext.current
-                TextButton(onClick = { ErrorUtils.openActivity(context, error) }) {
+                GarbleTextButton(onClick = { ErrorUtils.openActivity(context, error) }) { // GAR
                     Text(text = stringResource(R.string.error_report))
                 }
             }
 
             when {
                 wakeState == NoMicOrNotificationPermission ->
-                    ElevatedButton(onClick = onWakeGrantPermissions) {
+                    GarbleSecondaryButton(onClick = onWakeGrantPermissions) { // GAR
                         Text(text = stringResource(R.string.grant_permissions))
                     }
 
                 wakeState is WakeState.NotDownloaded ->
-                    ElevatedButton(onClick = onWakeDownload) {
+                    GarbleSecondaryButton(onClick = onWakeDownload) { // GAR
                         Text(text = stringResource(R.string.download))
                     }
 
                 error != null ->
-                    ElevatedButton(onClick = onWakeDownload) {
+                    GarbleSecondaryButton(onClick = onWakeDownload) { // GAR
                         Text(text = stringResource(R.string.retry))
                     }
 

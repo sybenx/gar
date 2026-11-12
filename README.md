@@ -1,37 +1,37 @@
 <!-- GAR: fork notice -->
-# GAR
+# Garble
 
-GAR is an offline, Google Assistant style phone assistant for Android, a modified fork of
-[Dicio](https://github.com/DicioTeam/dicio-android). Commands that Dicio's sentences don't match
-go to a small language model running on the phone, speech is recognized on the phone with
-Whisper, and GAR can be the phone's digital assistant. How it works: [gar/DESIGN.md](gar/DESIGN.md).
-Building from source: [gar/BUILD.md](gar/BUILD.md).
+Garble (formerly GAR) is an offline voice assistant for Android in the style of Google
+Assistant, a modified fork of [Dicio](https://github.com/DicioTeam/dicio-android). Commands that
+Dicio's sentences don't match go to a small language model running on the phone, speech is
+recognized on the phone with Whisper, and Garble can be the phone's digital assistant. How it
+works: [gar/DESIGN.md](gar/DESIGN.md). Building from source: [gar/BUILD.md](gar/BUILD.md).
 
-GAR is not affiliated with or supported by the Dicio project: please don't report GAR problems to
-Dicio.
+Garble is not affiliated with or supported by the Dicio project: please don't report Garble
+problems to Dicio.
 
 ## Install
 
-GAR needs an arm64 phone on Android 9 or newer. Install it with
+Garble needs an arm64 phone on Android 9 or newer. Install it with
 [Obtainium](https://github.com/ImranR98/Obtainium): Add app, paste
 `https://github.com/sybenx/gar`, then Install. Obtainium picks up new releases from there. The
 APK is also attached to every [release](https://github.com/sybenx/gar/releases). The application
-id is `cc.aaro.gar`, so GAR installs next to Dicio.
+id is `cc.aaro.gar`, so Garble installs next to Dicio.
 
 ## First run
 
-- **Digital assistant**: Settings > Apps > Default apps > Digital assistant app > GAR. Apps can't
-  ask for this role, so GAR doesn't prompt for it.
+- **Digital assistant**: Settings > Apps > Default apps > Digital assistant app > Garble. Apps can't
+  ask for this role, so Garble doesn't prompt for it.
 - **Speech**: the microphone button first asks for the microphone, then offers to download the
   Whisper speech model (83 MB). Typed commands work without it.
 - **Language model**: nothing downloads by itself. Settings > Language model > Download fetches
   Qwen3 0.6B (397 MB). Without it only the built-in sentences understand commands.
-- After the downloads GAR works without the network. If a permission such as notification access
+- After the downloads Garble works without the network. If a permission such as notification access
   stays grayed out, open App info > menu > Allow restricted settings.
 
 ## License
 
-GPL-3.0, like Dicio, whose authors wrote most of this app. GAR statically links
+GPL-3.0, like Dicio, whose authors wrote most of this app. Garble statically links
 [llama.cpp](https://github.com/ggml-org/llama.cpp) and
 [whisper.cpp](https://github.com/ggml-org/whisper.cpp) (MIT License); their notices ship in the
 app under Settings > Language model > Open source licenses. Downloaded models come with their own

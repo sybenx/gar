@@ -1,5 +1,6 @@
 package org.stypox.dicio.ui.home
 
+import org.stypox.dicio.gar.ui.garble.GarbleTextButton // GAR
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -15,7 +16,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton // GAR
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue // GAR
 import androidx.compose.runtime.mutableStateOf // GAR
@@ -72,7 +72,7 @@ fun WhatICanDo(skills: List<SkillInfo>, firstShown: Int = Int.MAX_VALUE) {
                 )
             }
             if (collapsible) {
-                TextButton(
+                GarbleTextButton( // GAR: neutral, not the accent
                     onClick = { expanded = !expanded },
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)

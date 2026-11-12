@@ -13,6 +13,9 @@ import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import org.stypox.dicio.gar.ui.garble.GarbleShapes
+import org.stypox.dicio.gar.ui.garble.LocalGarbleColors
+import org.stypox.dicio.gar.ui.garble.garbleCard
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -37,6 +40,7 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SuggestionChip
+import androidx.compose.material3.SuggestionChipDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.minimumInteractiveComponentSize
@@ -437,6 +441,7 @@ fun GarChipRow(
     }
     val shownAt = remember(chips) { garElapsedNow() }
     val currentEnabled by rememberUpdatedState(enabled)
+    val g = LocalGarbleColors.current
     Row(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -456,6 +461,14 @@ fun GarChipRow(
                     Text(text = chip.label, style = MaterialTheme.typography.labelLarge)
                 },
                 enabled = enabled,
+                shape = GarbleShapes.Chip,
+                colors = SuggestionChipDefaults.suggestionChipColors(
+                    containerColor = g.card,
+                    labelColor = g.text,
+                    disabledContainerColor = g.card,
+                    disabledLabelColor = g.muted,
+                ),
+                border = null,
                 modifier = Modifier
                     .minimumInteractiveComponentSize()
                     .semantics { role = Role.Button },
@@ -465,7 +478,7 @@ fun GarChipRow(
 }
 
 /**
- * An answer: [output]'s card on `surfaceContainerLow`, with [skill]'s icon and name on top (no
+ * An answer: [output]'s card on Garble's card fill, with [skill]'s icon and name on top (no
  * header when [skill] is null, e.g. for an error that no input caused). With [maxHeight] the card
  * is at most that tall and scrolls inside.
  */
@@ -477,11 +490,8 @@ fun GarAnswerCard(
     modifier: Modifier = Modifier,
     maxHeight: Dp = Dp.Unspecified,   // set: heightIn(max) + verticalScroll inside the card
 ) {
-    Surface(
-        shape = RoundedCornerShape(16.dp),
-        color = MaterialTheme.colorScheme.surfaceContainerLow,
-        modifier = modifier.fillMaxWidth(),
-    ) {
+    // the sheet's card: card fill, 24 dp corners, the soft card shadow
+    Box(modifier = modifier.fillMaxWidth().garbleCard()) {
         Column(
             modifier = (if (maxHeight.isSpecified) {
                 Modifier
@@ -489,7 +499,7 @@ fun GarAnswerCard(
                     .verticalScroll(rememberScrollState())
             } else {
                 Modifier
-            }).padding(16.dp),
+            }).padding(20.dp),
         ) {
             if (skill != null) {
                 SkillHeader(skill)
@@ -530,12 +540,8 @@ private fun SkillHeader(skill: SkillInfo) {
 @Composable
 fun GarThinkingCard(state: GarMicState.Thinking, modifier: Modifier = Modifier) {
     val reduced = rememberGarReducedMotion()
-    Surface(
-        shape = RoundedCornerShape(16.dp),
-        color = MaterialTheme.colorScheme.surfaceContainerLow,
-        modifier = modifier.fillMaxWidth(),
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
+    Box(modifier = modifier.fillMaxWidth().garbleCard()) {
+        Column(modifier = Modifier.padding(20.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 SkillHeaderIcon(state.skill)
                 Spacer(modifier = Modifier.width(8.dp))
@@ -562,7 +568,8 @@ fun GarThinkingCard(state: GarMicState.Thinking, modifier: Modifier = Modifier) 
 
 @Composable
 private fun SkillHeaderIcon(skill: SkillInfo?) {
-    val tint = MaterialTheme.colorScheme.primary
+    // icons are neutral: the accent is kept for the mark and the one main action
+    val tint = LocalGarbleColors.current.text
     if (skill != null) {
         Icon(skill.icon(), contentDescription = null, tint = tint, modifier = Modifier.size(20.dp))
     } else {

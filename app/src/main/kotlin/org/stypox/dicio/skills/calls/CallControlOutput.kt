@@ -3,7 +3,7 @@ package org.stypox.dicio.skills.calls
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.OutlinedButton
+import org.stypox.dicio.gar.ui.garble.GarbleSecondaryButton // GAR
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -87,7 +87,7 @@ sealed interface CallControlOutput : SkillOutput {
             Column {
                 Headline(text = getSpeechOutput(ctx))
                 Spacer(modifier = Modifier.height(8.dp))
-                OutlinedButton(
+                GarbleSecondaryButton( // GAR
                     onClick = { calls.showCallScreen() },
                     modifier = Modifier.align(Alignment.CenterHorizontally),
                 ) {

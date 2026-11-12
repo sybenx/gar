@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
+import org.stypox.dicio.gar.ui.garble.GarbleSecondaryButton // GAR
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -54,10 +54,10 @@ fun NotesScreen() {
         }
 
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(top = 8.dp)) {
-            OutlinedButton(onClick = { NotesApps.share(context, exportText(data)) }) {
+            GarbleSecondaryButton(onClick = { NotesApps.share(context, exportText(data)) }) { // GAR
                 Text(text = stringResource(R.string.gar_notes_screen_share_all))
             }
-            OutlinedButton(onClick = {
+            GarbleSecondaryButton(onClick = { // GAR
                 if (confirmDelete) {
                     data = notes.update { GarNotesData() }
                     confirmDelete = false

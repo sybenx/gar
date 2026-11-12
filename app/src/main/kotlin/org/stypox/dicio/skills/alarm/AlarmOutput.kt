@@ -3,7 +3,7 @@ package org.stypox.dicio.skills.alarm
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.OutlinedButton
+import org.stypox.dicio.gar.ui.garble.GarbleSecondaryButton // GAR
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -139,7 +139,7 @@ sealed interface AlarmOutput : SkillOutput {
                 Headline(text = text(ctx, speech = false))
                 if (open != null) {
                     Spacer(modifier = Modifier.height(8.dp))
-                    OutlinedButton(onClick = open) {
+                    GarbleSecondaryButton(onClick = open) { // GAR
                         Text(text = stringResource(R.string.skill_alarm_open_alarms))
                     }
                 }
@@ -233,7 +233,7 @@ sealed interface AlarmOutput : SkillOutput {
                     Spacer(modifier = Modifier.height(8.dp))
                     Body(text = stringResource(R.string.skill_alarm_needs_listener))
                     Spacer(modifier = Modifier.height(8.dp))
-                    OutlinedButton(
+                    GarbleSecondaryButton( // GAR
                         onClick = { openListenerSettings(context) },
                         modifier = Modifier.align(Alignment.CenterHorizontally),
                     ) {

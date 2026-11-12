@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+// GAR: where Garble's accent and mark colors come from (the neutrals never change)
+option java_package = "org.stypox.dicio.settings.datastore";
+option java_multiple_files = true;
+
+enum GarColorSource {
+  // never picked: Material You if dynamic_colors is on (Android 12+), else Garble
+  GAR_COLOR_SOURCE_DEFAULT = 0;
+  GAR_COLOR_SOURCE_GARBLE = 1;
+  // only the wallpaper's primary and tertiary
+  GAR_COLOR_SOURCE_SYSTEM = 2;
+  // gar_seed_color
+  GAR_COLOR_SOURCE_CUSTOM = 3;
+}

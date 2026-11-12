@@ -177,7 +177,7 @@
     <string name="wake_service_foreground_notification">\"வணக்கம் அகராதி\" விழித்தெழு சொல்லைக் கேட்பது</string>
     <string name="wake_service_start_notification">டிசியோ வேக் வேர்ட் சேவையைத் தொடங்க தட்டவும்</string>
     <string name="wake_service_triggered_notification">டிசியோ வேக் வேர்ட் தூண்டப்பட்டது, திறக்க தட்டவும்</string>
-    <string name="wake_service_start_notification_summary">ஆண்ட்ராய்டு 11+ இல் GAR பயனரிடமிருந்து ஒரு கையேடு தொடர்பு இல்லாமல் சேவையைத் தொடங்க முடியாது.</string>
+    <string name="wake_service_start_notification_summary">ஆண்ட்ராய்டு 11+ இல் Garble பயனரிடமிருந்து ஒரு கையேடு தொடர்பு இல்லாமல் சேவையைத் தொடங்க முடியாது.</string>
     <string name="wake_service_triggered_notification_summary">ஆண்ட்ராய்டு 10+ இல் ஒரு அறிவிப்பைக் காட்டாமல் ஒரு விழிப்புணர்வு சொல் கண்டறியப்படும்போது டிசியோ தொடங்க முடியாது.</string>
     <string name="wake_word_setup_title">விழித்தெழு வார்த்தையை அமைக்கவும்</string>
     <string name="wake_word_setup_description">நீங்கள் \"வணக்கம் அகராதி\" என்று சொல்லும்போதெல்லாம் அகராதி தானாகவே எழுந்திருக்கும், இது பின்னணியில் எப்போதும் கேட்கும் ஒரு சேவையைத் தொடங்குவதன் மூலம் இது செயல்படும். அனைத்து பேச்சு செயலாக்கமும் உள்நாட்டில் நடக்கிறது, அதனால்தான் நீங்கள் செநு மாதிரியை முன்கூட்டியே பதிவிறக்கம் செய்ய வேண்டும்.</string>

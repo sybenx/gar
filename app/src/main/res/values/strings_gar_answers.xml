@@ -129,7 +129,7 @@
     <string name="skill_small_talk_good_evening">Good evening! What can I do for you?</string>
     <string name="skill_small_talk_goodbye">Bye for now!</string>
     <string name="skill_small_talk_thanks">You\'re welcome!</string>
-    <string name="skill_small_talk_who">I\'m GAR, an assistant that runs right on your phone.</string>
+    <string name="skill_small_talk_who">I\'m Garble, an assistant that runs right on your phone.</string>
     <string name="skill_small_talk_how">I\'m doing well, thanks for asking! What can I do for you?</string>
     <string name="skill_small_talk_help">I can set timers and alarms, call and text, play music, and answer quick questions like the time, math and conversions. Here\'s all I can do.</string>
 </resources>

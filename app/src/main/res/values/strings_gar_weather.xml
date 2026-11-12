@@ -112,7 +112,7 @@
     <string name="gar_weather_ask_place_no_permission">I can\'t read your location. Which city are you in? Or say: use my location.</string>
     <string name="gar_weather_ask_place_no_location">I couldn\'t get your location. Is location on? Which city are you in?</string>
     <string name="gar_weather_ask_place_not_found">I couldn\'t find that city. Which city are you in?</string>
-    <string name="gar_weather_ask_place_detail">GAR remembers your city as the weather\'s default city (Settings, Skills, Weather). With your location, GAR reads it only for a forecast and sends it rounded to about 1 km.</string>
+    <string name="gar_weather_ask_place_detail">Garble remembers your city as the weather\'s default city (Settings, Skills, Weather). With your location, Garble reads it only for a forecast and sends it rounded to about 1 km.</string>
     <string name="gar_weather_use_location">Use my location</string>
 
     <!-- The card -->
@@ -125,7 +125,7 @@
     <string name="gar_weather_card_degrees">%1$d°</string>
 
     <!-- The weather skill's settings -->
-    <string name="gar_weather_default_city_empty">The city GAR uses when you don\'t name one. When it\'s empty, GAR asks the first time.</string>
+    <string name="gar_weather_default_city_empty">The city Garble uses when you don\'t name one. When it\'s empty, Garble asks the first time.</string>
     <string name="gar_weather_breezy_title">Breezy Weather</string>
-    <string name="gar_weather_breezy_summary">With Breezy Weather on the phone, GAR answers from its forecasts offline. In Breezy Weather, open Settings, Widgets &amp; Live Wallpaper, Data sharing, Send Gadgetbridge data, and pick GAR.</string>
+    <string name="gar_weather_breezy_summary">With Breezy Weather on the phone, Garble answers from its forecasts offline. In Breezy Weather, open Settings, Widgets &amp; Live Wallpaper, Data sharing, Send Gadgetbridge data, and pick Garble.</string>
 </resources>

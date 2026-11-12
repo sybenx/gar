@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- GAR: the Tide launcher icon's background -->
+<!-- GAR: the Garble launcher icon's background (the dark theme's bg), and the notification
+     accent, the middle of the default mark colors -->
 <resources>
-    <color name="ic_launcher_background">#0E4F4A</color>
+    <color name="ic_launcher_background">#121212</color>
+    <color name="gar_notification_accent">#7E93FF</color>
 </resources>

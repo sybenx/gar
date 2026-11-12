@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR: the Garble look of the assistant sheet (gar/sheet/GarSheetGarble.kt). -->
+<resources>
+    <!-- The pill in the sheet's header: everything runs on the device -->
+    <string name="gar_sheet_on_this_phone">on this phone</string>
+    <!-- Over the request on the sheet -->
+    <string name="gar_sheet_you_said">You said</string>
+    <!-- Over the live transcript while listening; shown in capitals -->
+    <string name="gar_sheet_overline_listening">Listening</string>
+    <string name="gar_sheet_overline_starting">Starting</string>
+    <!-- While listening: stops listening and opens the text field -->
+    <string name="gar_sheet_type_instead">Type instead</string>
+    <!-- Provenance chips under an answer -->
+    <string name="gar_sheet_provenance_instant">instant</string>
+    <!-- %1$s is seconds with one decimal, e.g. 1.4 -->
+    <string name="gar_sheet_provenance_model">on-device model, %1$s s</string>
+    <!-- Followed by the skill's id, e.g. "skill timer" -->
+    <string name="gar_sheet_provenance_skill">skill</string>
+    <!-- In the text message card's title row while it waits -->
+    <string name="gar_sheet_sms_not_sent">not sent yet</string>
+    <!-- Under the text message card while the mic listens for the answer -->
+    <string name="gar_sheet_sms_hint">Say \"send\", change the words, or \"cancel\"</string>
+    <!-- Under a yes/no confirmation while the mic listens; %1$s is yes, %2$s is no -->
+    <string name="gar_sheet_yes_no_hint">Say \"%1$s\" or \"%2$s\"</string>
+</resources>

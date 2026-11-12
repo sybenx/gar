@@ -13,21 +13,21 @@
     <string name="skill_camera_no_timer">It has no timer I can set, so use its timer button.</string>
     <string name="skill_camera_no_app">I couldn\'t find a camera app.</string>
     <string name="skill_camera_tap_shutter">Tap the shutter when you\'re ready.</string>
-    <string name="skill_camera_asked">GAR asked the camera app for this the way Google Assistant does. If it opens differently, switch it there.</string>
+    <string name="skill_camera_asked">Garble asked the camera app for this the way Google Assistant does. If it opens differently, switch it there.</string>
 
     <string name="skill_name_screenshot">Screenshot</string>
     <string name="skill_sentence_example_screenshot">Take a screenshot</string>
     <string name="skill_screenshot_taken">Screenshot taken.</string>
-    <string name="skill_screenshot_needs_service">Taking screenshots needs GAR\'s screenshot service, which is off. Open Accessibility settings?</string>
-    <string name="skill_screenshot_service_what">The service only takes a screenshot when you ask GAR for one. It doesn\'t read your screen, and Android saves the screenshot like the buttons do.</string>
-    <string name="skill_screenshot_service_how">Turn on GAR screenshots under Downloaded apps. If Android says it\'s a restricted setting, open GAR\'s app info, tap the menu and choose \"Allow restricted settings\", then try again.</string>
+    <string name="skill_screenshot_needs_service">Taking screenshots needs Garble\'s screenshot service, which is off. Open Accessibility settings?</string>
+    <string name="skill_screenshot_service_what">The service only takes a screenshot when you ask Garble for one. It doesn\'t read your screen, and Android saves the screenshot like the buttons do.</string>
+    <string name="skill_screenshot_service_how">Turn on Garble screenshots under Downloaded apps. If Android says it\'s a restricted setting, open Garble\'s app info, tap the menu and choose \"Allow restricted settings\", then try again.</string>
     <string name="skill_screenshot_open_settings">Open settings</string>
     <string name="skill_screenshot_not_now">Not now</string>
-    <string name="skill_screenshot_turn_on">Turn on GAR screenshots there, then ask again.</string>
+    <string name="skill_screenshot_turn_on">Turn on Garble screenshots there, then ask again.</string>
     <string name="skill_screenshot_no_settings">I couldn\'t open Accessibility settings.</string>
     <!-- the accessibility service, as Android's Accessibility settings show it -->
-    <string name="gar_screenshot_service_label">GAR screenshots</string>
-    <string name="gar_screenshot_service_description">Lets GAR take a screenshot when you ask it to (\"take a screenshot\"). It does nothing else: it doesn\'t read what is on your screen, doesn\'t see what you type or tap, and doesn\'t get the screenshot, which Android saves like the buttons do.</string>
+    <string name="gar_screenshot_service_label">Garble screenshots</string>
+    <string name="gar_screenshot_service_description">Lets Garble take a screenshot when you ask it to (\"take a screenshot\"). It does nothing else: it doesn\'t read what is on your screen, doesn\'t see what you type or tap, and doesn\'t get the screenshot, which Android saves like the buttons do.</string>
 
     <string name="skill_name_clear_notifications">Clear notifications</string>
     <string name="skill_sentence_example_clear_notifications">Clear my notifications</string>

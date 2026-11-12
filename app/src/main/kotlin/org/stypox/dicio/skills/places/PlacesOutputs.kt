@@ -7,7 +7,7 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.OutlinedButton
+import org.stypox.dicio.gar.ui.garble.GarbleSecondaryButton // GAR
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -343,7 +343,7 @@ fun accuracyText(ctx: SkillContext, fix: DeviceFix): String = when {
 fun MapButton(point: GeoPoint, label: String) {
     val context = LocalContext.current
     Spacer(modifier = Modifier.height(8.dp))
-    OutlinedButton(onClick = {
+    GarbleSecondaryButton(onClick = { // GAR
         try {
             context.startActivity(
                 Intent(Intent.ACTION_VIEW, Uri.parse(MapLinks.pin(point, label)))

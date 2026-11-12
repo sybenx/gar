@@ -24,6 +24,7 @@ import org.stypox.dicio.di.LocaleManager
 import org.stypox.dicio.di.LocaleManagerModule
 import org.stypox.dicio.gar.GarKeepScreenOn // GAR
 import org.stypox.dicio.gar.perf.garTrace // GAR
+import org.stypox.dicio.gar.ui.garble.GarThemeSettings // GAR
 import org.stypox.dicio.settings.datastore.UserSettings
 import org.stypox.dicio.ui.theme.AppTheme
 import java.util.Locale
@@ -100,21 +101,22 @@ abstract class BaseActivity : ComponentActivity() {
         setContent {
             val theme = remember {
                 dataStore.data
-                    .map { Pair(it.theme, it.dynamicColors) }
+                    .map { GarThemeSettings.of(it) } // GAR: with the Garble color source
             }
                 .collectAsState(
                     // run blocking, because we can't start the app if we don't know the theme
                     initial = garTrace("Gar:BaseActivity.theme") { // GAR
                         runBlocking {
-                            val data = dataStore.data.first()
-                            Pair(data.theme, data.dynamicColors)
+                            GarThemeSettings.of(dataStore.data.first()) // GAR
                         }
                     }
                 )
 
             AppTheme(
-                theme = theme.value.first,
-                dynamicColors = theme.value.second,
+                theme = theme.value.theme, // GAR
+                dynamicColors = theme.value.dynamicColors, // GAR
+                garColorSource = theme.value.colorSource, // GAR
+                garSeedColor = theme.value.seedColor, // GAR
                 content = content,
             )
         }

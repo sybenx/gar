@@ -23,8 +23,8 @@
     <string name="gar_places_clear_work">Clear work</string>
     <string name="gar_places_clear_ask_home">Clear your saved home?</string>
     <string name="gar_places_clear_ask_work">Clear your saved work?</string>
-    <string name="gar_places_no_access">GAR can\'t see your location. Allow it in App info.</string>
-    <string name="gar_places_approximate">GAR only has approximate location. Allow precise in App info.</string>
+    <string name="gar_places_no_access">Garble can\'t see your location. Allow it in App info.</string>
+    <string name="gar_places_approximate">Garble only has approximate location. Allow precise in App info.</string>
     <string name="gar_places_open_app_info">Open App info</string>
     <string name="gar_places_location_off">Location is off.</string>
     <string name="gar_places_open_location">Open location settings</string>

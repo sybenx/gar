@@ -1,13 +1,12 @@
 package org.stypox.dicio.gar.ask
 
+import org.stypox.dicio.gar.ui.garble.GarblePrimaryButton // GAR
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -47,6 +46,7 @@ import org.stypox.dicio.io.input.InputEvent
 import org.stypox.dicio.sentences.Sentences
 import org.stypox.dicio.util.RecognizeYesNoSkill
 import org.stypox.dicio.util.getString
+import org.stypox.dicio.gar.ui.garble.GarbleSecondaryButton // GAR
 
 /**
  * gar:notes. A question GAR asks before it changes something the user can't easily get back
@@ -110,10 +110,10 @@ class GarYesNoOutput(
                 horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                OutlinedButton(onClick = { send(no) }, enabled = enabled) {
+                GarbleSecondaryButton(onClick = { send(no) }, enabled = enabled) { // GAR
                     Text(text = no)
                 }
-                Button(onClick = { send(yes) }, enabled = enabled) {
+                GarblePrimaryButton(onClick = { send(yes) }, enabled = enabled) { // GAR
                     Text(text = yes)
                 }
             }

@@ -70,7 +70,7 @@ object ErrorUtils {
         val notificationBuilder = NotificationCompat.Builder(
             context, context.getString(R.string.error_report_channel_id)
         )
-            .setGarSmallIcon(context) // GAR: Tide, was ic_bug_report_white
+            .setGarSmallIcon(context) // GAR: Garble mark, was ic_bug_report_white
             .setContentTitle(context.getString(R.string.error_report_notification_title))
             .setStyle(NotificationCompat.BigTextStyle().bigText(errorInfo.userAction.message))
             .setAutoCancel(true)

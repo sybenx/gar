@@ -159,7 +159,7 @@ class WakeService : Service() {
         }
 
         val notification = NotificationCompat.Builder(this, FOREGROUND_NOTIFICATION_CHANNEL_ID)
-            .setGarSmallIcon(this) // GAR: Tide, was ic_hearing_white
+            .setGarSmallIcon(this) // GAR: Garble mark, was ic_hearing_white
             .setContentTitle(
                 getString(
                     if (isHeyDicio) R.string.wake_service_foreground_notification
@@ -276,7 +276,7 @@ class WakeService : Service() {
             )
 
             val notification = NotificationCompat.Builder(this, TRIGGERED_NOTIFICATION_CHANNEL_ID)
-                .setGarSmallIcon(this) // GAR: Tide, was ic_hearing_white
+                .setGarSmallIcon(this) // GAR: Garble mark, was ic_hearing_white
                 .setContentTitle(getString(R.string.wake_service_triggered_notification))
                 .setStyle(NotificationCompat.BigTextStyle().bigText(
                     getString(R.string.wake_service_triggered_notification_summary)))
@@ -317,7 +317,7 @@ class WakeService : Service() {
             )
 
             val notification = NotificationCompat.Builder(context, START_NOTIFICATION_CHANNEL_ID)
-                .setGarSmallIcon(context) // GAR: Tide, was ic_hearing_white
+                .setGarSmallIcon(context) // GAR: Garble mark, was ic_hearing_white
                 .setContentTitle(context.getString(R.string.wake_service_start_notification))
                 .setStyle(NotificationCompat.BigTextStyle().bigText(
                     context.getString(R.string.wake_service_start_notification_summary)))

@@ -11,12 +11,18 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider // GAR
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import org.stypox.dicio.gar.ui.garble.GarbleMode // GAR
+import org.stypox.dicio.gar.ui.garble.LocalGarbleColors // GAR
+import org.stypox.dicio.gar.ui.garble.rememberGarbleColors // GAR
+import org.stypox.dicio.gar.ui.garble.toColorScheme // GAR
+import org.stypox.dicio.settings.datastore.GarColorSource // GAR
 import org.stypox.dicio.settings.datastore.Theme
 import org.stypox.dicio.ui.theme.ThemeType.BLACK
 import org.stypox.dicio.ui.theme.ThemeType.DARK
@@ -273,6 +279,8 @@ fun AppTheme(
     theme: Theme = Theme.THEME_SYSTEM,
     // Dynamic color is available on Android 12+
     dynamicColors: Boolean = false,
+    garColorSource: GarColorSource = GarColorSource.GAR_COLOR_SOURCE_DEFAULT, // GAR
+    garSeedColor: Int = 0, // GAR
     content: @Composable () -> Unit
 ) {
     val themeType = when (theme) {
@@ -311,20 +319,24 @@ fun AppTheme(
         }
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme.let {
-            if (themeType == BLACK) {
-                it.copy(
-                    background = Color.Black,
-                    surface = Color.Black,
-                )
-            } else {
-                it
-            }
+    // GAR: Garble's neutral grays and accent; the Material scheme above only gives the error roles
+    val garble = rememberGarbleColors(
+        mode = when (themeType) {
+            LIGHT -> GarbleMode.LIGHT
+            DARK -> GarbleMode.DARK
+            BLACK -> GarbleMode.BLACK
         },
-        typography = AppTypography,
-        content = content
+        colorSource = garColorSource,
+        seedColor = garSeedColor,
+        dynamicColors = dynamicColors,
     )
+    CompositionLocalProvider(LocalGarbleColors provides garble) { // GAR
+        MaterialTheme(
+            colorScheme = garble.toColorScheme(colorScheme), // GAR: was the BLACK copy of it
+            typography = AppTypography,
+            content = content
+        )
+    }
 }
 
 // GAR: the Activity behind [this], if any (like ScreenshotSkill's findActivity)

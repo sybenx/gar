@@ -19,6 +19,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.launch
 import org.stypox.dicio.R
+import org.stypox.dicio.gar.settings.GarAppearance // GAR
+import org.stypox.dicio.gar.settings.GarAppearanceScreen // GAR
 import org.stypox.dicio.gar.settings.GarModelSettings // GAR
 import org.stypox.dicio.gar.settings.GarSettingsScreen // GAR
 import org.stypox.dicio.gar.ui.GarAppHandOffs // GAR
@@ -60,7 +62,11 @@ fun Navigation() {
                     context.startActivity(intent)
                 },
             ) {
-                HomeScreen(it, typeRequested = garTypeRequested) // GAR
+                HomeScreen(
+                    it,
+                    typeRequested = garTypeRequested, // GAR
+                    onSettingsClick = { navController.navigate(MainSettings) }, // GAR
+                )
             }
         }
 
@@ -69,6 +75,7 @@ fun Navigation() {
                 navigationIcon = backIcon,
                 navigateToSkillSettings = { navController.navigate(SkillSettings) },
                 navigateToGarSettings = { navController.navigate(GarModelSettings) }, // GAR
+                navigateToGarAppearance = { navController.navigate(GarAppearance) }, // GAR
             )
         }
 
@@ -78,6 +85,10 @@ fun Navigation() {
 
         composable<GarModelSettings> { // GAR
             GarSettingsScreen(navigationIcon = backIcon)
+        }
+
+        composable<GarAppearance> { // GAR
+            GarAppearanceScreen(navigationIcon = backIcon)
         }
 
         composable<About> {

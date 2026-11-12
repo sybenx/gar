@@ -42,7 +42,7 @@ import androidx.compose.ui.unit.dp
 import org.stypox.dicio.BuildConfig
 import org.stypox.dicio.R
 import org.stypox.dicio.error.ErrorActivity
-import org.stypox.dicio.gar.ui.GarTideIcon
+import org.stypox.dicio.gar.ui.GarbleIcon
 import org.stypox.dicio.settings.ui.SettingsItem
 import org.stypox.dicio.ui.theme.AppTheme
 import org.stypox.dicio.util.ShareUtils
@@ -74,7 +74,7 @@ fun AboutScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Image(
-                        imageVector = GarTideIcon, // GAR: was DicioSquircleIcon
+                        imageVector = GarbleIcon, // GAR: was DicioSquircleIcon
                         contentDescription = stringResource(R.string.app_name),
                         modifier = Modifier.size(64.dp)
                     )

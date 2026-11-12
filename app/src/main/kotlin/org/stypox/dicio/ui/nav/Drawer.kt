@@ -21,16 +21,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.stypox.dicio.R
+import org.stypox.dicio.gar.ui.garble.GarbleMark // GAR
+import org.stypox.dicio.gar.ui.garble.GarbleMarkState // GAR
+import org.stypox.dicio.gar.ui.garble.GarbleType // GAR
+import org.stypox.dicio.gar.ui.garble.LocalGarbleColors // GAR
+import androidx.compose.ui.unit.sp // GAR
 
 @Composable
 fun DrawerContent(
@@ -93,7 +96,7 @@ private fun DrawerContentPreview() {
 private fun DrawerHeader(modifier: Modifier = Modifier) {
     Surface(
         shape = MaterialTheme.shapes.extraLarge,
-        color = MaterialTheme.colorScheme.primary,
+        color = MaterialTheme.colorScheme.surfaceContainer, // GAR: neutral card, was primary
         modifier = modifier.clearAndSetSemantics {}
     ) {
         Row(
@@ -105,26 +108,20 @@ private fun DrawerHeader(modifier: Modifier = Modifier) {
                 modifier = Modifier.weight(1.0f)
             ) {
                 Text(
-                    text = stringResource(R.string.app_name),
-                    style = MaterialTheme.typography.headlineMedium,
-                    color = MaterialTheme.colorScheme.onPrimary,
+                    text = GarbleType.WORDMARK, // GAR: the lowercase wordmark, was app_name
+                    style = GarbleType.wordmark(28.sp), // GAR: was headlineMedium
+                    color = LocalGarbleColors.current.text, // GAR: was onPrimary
                     maxLines = 1,
                 )
                 Text(
                     text = stringResource(R.string.drawer_header_subtitle),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onPrimary,
+                    color = MaterialTheme.colorScheme.onSurface, // GAR: was onPrimary
                 )
             }
 
-            Icon(
-                painter = painterResource(id = R.drawable.ic_launcher_foreground), // GAR: Tide vector, was a mipmap PNG
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onPrimary,
-                modifier = Modifier
-                    .size(40.dp)
-                    .scale(2.4f)
-            )
+            // GAR: the Garble mark in its logo pose, was the launcher icon's glyph
+            GarbleMark(GarbleMarkState.Logo, Modifier.size(48.dp))
         }
     }
 }

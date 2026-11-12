@@ -91,6 +91,6 @@ object SmallTalkWords {
         "skills", "features", "this", "app", "need", "for", "do",
         // function words and fillers
         "i", "me", "you", "it", "is", "are", "have", "to", "a", "the", "oh", "ok", "okay",
-        "please", "just", "really", "gar", "dicio", "assistant", "google", "buddy", "friend",
+        "please", "just", "really", "gar", "garble", "dicio", "assistant", "google", "buddy", "friend",
     )
 }

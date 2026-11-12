@@ -1,5 +1,6 @@
 package org.stypox.dicio.skills.messages
 
+import org.stypox.dicio.gar.ui.garble.GarblePrimaryButton // GAR
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,9 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -49,6 +48,7 @@ import org.stypox.dicio.skills.sms.SmsCardOutput
 import org.stypox.dicio.skills.sms.SmsFlow
 import org.stypox.dicio.skills.sms.SmsInfo
 import org.stypox.dicio.util.getString
+import org.stypox.dicio.gar.ui.garble.GarbleSecondaryButton // GAR
 
 enum class ReplyState {
     /** Waiting for the user to say or tap send. */
@@ -190,10 +190,10 @@ class ReplyCardOutput(
                 horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                OutlinedButton(onClick = { draft.cancel() }, enabled = current && draft.isPending) {
+                GarbleSecondaryButton(onClick = { draft.cancel() }, enabled = current && draft.isPending) { // GAR
                     Text(text = stringResource(R.string.skill_messages_cancel))
                 }
-                Button(onClick = { draft.send(source) }, enabled = current && draft.isPending) {
+                GarblePrimaryButton(onClick = { draft.send(source) }, enabled = current && draft.isPending) { // GAR
                     Text(text = stringResource(R.string.skill_messages_send))
                 }
             }
@@ -364,7 +364,7 @@ class MessagesNoReplyOutput(val conversation: Conversation) : SkillOutput {
         Column {
             Headline(text = getSpeechOutput(ctx))
             Spacer(modifier = Modifier.height(8.dp))
-            OutlinedButton(
+            GarbleSecondaryButton( // GAR
                 onClick = { NotificationMessageSource(context).openApp(conversation.packageName) },
                 modifier = Modifier.align(Alignment.CenterHorizontally),
             ) {

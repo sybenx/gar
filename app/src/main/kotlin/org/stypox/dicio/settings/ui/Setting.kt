@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import kotlinx.coroutines.job
 import org.stypox.dicio.R
+import org.stypox.dicio.gar.ui.garble.garbleSwitchColors // GAR
 import kotlin.math.roundToInt
 
 interface SettingWithValue<T> {
@@ -76,6 +77,7 @@ class BooleanSetting(
                 Switch(
                     checked = value,
                     onCheckedChange = onValueChange,
+                    colors = garbleSwitchColors(), // GAR: neutral, no accent track
                 )
             },
         )

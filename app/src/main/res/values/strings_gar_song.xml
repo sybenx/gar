@@ -22,8 +22,8 @@
     <string name="skill_song_unreachable_queue_full">I couldn\'t reach %1$s, and %2$d recordings are already waiting. Try again later.</string>
     <string name="skill_song_queue_failed">You\'re offline, and I couldn\'t save the recording for later.</string>
     <string name="skill_song_unreachable_queue_failed">I couldn\'t reach %1$s, and I couldn\'t save the recording for later.</string>
-    <string name="skill_song_offline_no_notifications">You\'re offline, and GAR can\'t show notifications, so I couldn\'t tell you later. Allow them in the song skill\'s settings.</string>
-    <string name="skill_song_unreachable_no_notifications">I couldn\'t reach %1$s, and GAR can\'t show notifications, so I couldn\'t tell you later. Allow them in the song skill\'s settings.</string>
+    <string name="skill_song_offline_no_notifications">You\'re offline, and Garble can\'t show notifications, so I couldn\'t tell you later. Allow them in the song skill\'s settings.</string>
+    <string name="skill_song_unreachable_no_notifications">I couldn\'t reach %1$s, and Garble can\'t show notifications, so I couldn\'t tell you later. Allow them in the song skill\'s settings.</string>
     <string name="skill_song_allow_notifications">Allow notifications</string>
     <string name="skill_song_stop">Stop</string>
     <string name="skill_song_stopped">Stopped. Nothing was sent.</string>
@@ -31,7 +31,7 @@
     <string name="skill_song_silence">I couldn\'t hear anything.</string>
     <string name="skill_song_no_mic_permission">I need the microphone permission to listen.</string>
     <string name="skill_song_mic_unavailable">I can\'t use the microphone right now.</string>
-    <string name="skill_song_mic_silenced">Android didn\'t let me use the microphone. Open GAR and ask again.</string>
+    <string name="skill_song_mic_silenced">Android didn\'t let me use the microphone. Open Garble and ask again.</string>
     <string name="skill_song_already_listening">I\'m already listening.</string>
     <string name="skill_song_error">Something went wrong while recognizing the song.</string>
     <string name="skill_song_error_bad_token">%1$s didn\'t accept the token in the song skill\'s settings.</string>
@@ -48,9 +48,9 @@
     <string name="skill_song_opening_audile_locked">Opening Audile. Unlock your phone to see it.</string>
     <string name="skill_song_opening_audile_app">Opening Audile. Tap its button to recognize the song.</string>
     <string name="skill_song_audile_listening">Audile is listening. Its notification will show the song.</string>
-    <string name="skill_song_audile_background">I can\'t open Audile from the background. Open GAR and ask again.</string>
+    <string name="skill_song_audile_background">I can\'t open Audile from the background. Open Garble and ask again.</string>
     <string name="skill_song_audile_failed">I couldn\'t open Audile.</string>
-    <string name="skill_song_audile_needs_listener">Allow GAR notification access, and I\'ll say the song Audile finds.</string>
+    <string name="skill_song_audile_needs_listener">Allow Garble notification access, and I\'ll say the song Audile finds.</string>
     <string name="skill_song_allow_access">Allow access</string>
     <string name="skill_song_audile_foreground_hint">To hear songs Audile finds on its own screen, turn on its \"Song results found in the foreground\" notifications.</string>
     <string name="skill_song_turn_on">Turn on</string>
@@ -58,14 +58,14 @@
     <!-- nothing can recognize the song, and GAR doesn't ask about Audile (any more) -->
     <string name="skill_song_nothing_playing">Nothing is playing on this phone. To recognize other songs, I need Audile. You can get it from F-Droid or GitHub.</string>
     <string name="skill_song_untitled_playing">The app that\'s playing doesn\'t say what it is. To recognize the song, I need Audile. You can get it from F-Droid or GitHub.</string>
-    <string name="skill_song_no_listener_access">To name what\'s playing on this phone, allow GAR notification access. To recognize other songs, I need Audile. You can get it from F-Droid or GitHub.</string>
+    <string name="skill_song_no_listener_access">To name what\'s playing on this phone, allow Garble notification access. To recognize other songs, I need Audile. You can get it from F-Droid or GitHub.</string>
     <string name="skill_song_install_services">Or add an AudD or ACRCloud token in the song skill\'s settings. Those services get a 10 second recording over the internet.</string>
 
     <!-- asking to install Audile when nothing else can recognize the song; spoken and shown -->
     <string name="skill_song_install_ask">I can recognize songs with Audile, a free and open source app. Want to install it?</string>
     <!-- what the question's card adds below it -->
-    <string name="skill_song_install_detail">Audile is on F-Droid and GitHub. Once it\'s installed, GAR hands songs to it to recognize.</string>
-    <string name="skill_song_install_hint_listener">To name what\'s playing on this phone, GAR also needs notification access. You can allow it in the song skill\'s settings.</string>
+    <string name="skill_song_install_detail">Audile is on F-Droid and GitHub. Once it\'s installed, Garble hands songs to it to recognize.</string>
+    <string name="skill_song_install_hint_listener">To name what\'s playing on this phone, Garble also needs notification access. You can allow it in the song skill\'s settings.</string>
     <string name="skill_song_install_hint_untitled">The app that\'s playing doesn\'t say what it is.</string>
     <!-- the question's buttons; saying them works too -->
     <string name="skill_song_install_yes">Install Audile</string>
@@ -75,7 +75,7 @@
     <!-- %1$s is an F-Droid app, like "F-Droid" or "Droid-ify" -->
     <string name="skill_song_install_store">Opening Audile in %1$s.</string>
     <string name="skill_song_install_github">Opening Audile\'s download page on GitHub.</string>
-    <string name="skill_song_install_background">I can\'t open the download page from the background. Open GAR and ask again.</string>
+    <string name="skill_song_install_background">I can\'t open the download page from the background. Open Garble and ask again.</string>
     <string name="skill_song_install_failed">I couldn\'t open a download page. Audile is on F-Droid and GitHub.</string>
     <string name="skill_song_install_declined">OK, I won\'t ask again. You can get Audile from F-Droid or GitHub.</string>
     <!-- "not now", "maybe later": nothing is remembered -->
@@ -92,15 +92,15 @@
 
     <!-- settings -->
     <string name="pref_song_network_title">Uses the internet</string>
-    <string name="pref_song_network_summary">If nothing is playing on this phone, GAR can record 10 seconds and send them to AudD or ACRCloud over the internet to recognize the song. This stays off until you choose a service and add your own token. Without one, GAR opens Audile if it\'s installed.</string>
+    <string name="pref_song_network_summary">If nothing is playing on this phone, Garble can record 10 seconds and send them to AudD or ACRCloud over the internet to recognize the song. This stays off until you choose a service and add your own token. Without one, Garble opens Audile if it\'s installed.</string>
     <string name="pref_song_listener_title">Name what\'s playing on this phone</string>
     <string name="pref_song_listener_allowed">Notification access is on. Works offline.</string>
     <string name="pref_song_listener_missing">Needs notification access. Tap to allow it.</string>
-    <string name="pref_song_listener_restricted">Needs notification access. If its switch is grayed out, open GAR\'s App info, tap the menu, choose Allow restricted settings, then tap here again.</string>
+    <string name="pref_song_listener_restricted">Needs notification access. If its switch is grayed out, open Garble\'s App info, tap the menu, choose Allow restricted settings, then tap here again.</string>
     <string name="pref_song_audile_title">Say Audile\'s answers</string>
     <string name="pref_song_audile_install_title">Install Audile</string>
-    <string name="pref_song_audile_install_summary">A free and open source app that recognizes songs. Without a service, GAR hands songs to it. Tap to install it with Obtainium or F-Droid, or from GitHub.</string>
-    <string name="pref_song_audile_summary">GAR says the song Audile finds, with notification access. For songs found on Audile\'s own screen, turn on its \"Song results found in the foreground\" notifications. Tap to open them.</string>
+    <string name="pref_song_audile_install_summary">A free and open source app that recognizes songs. Without a service, Garble hands songs to it. Tap to install it with Obtainium or F-Droid, or from GitHub.</string>
+    <string name="pref_song_audile_summary">Garble says the song Audile finds, with notification access. For songs found on Audile\'s own screen, turn on its \"Song results found in the foreground\" notifications. Tap to open them.</string>
     <string name="pref_song_provider">Recognition service</string>
     <string name="pref_song_provider_none">Off</string>
     <string name="pref_song_provider_none_description">No recording is sent</string>
@@ -120,8 +120,8 @@
     <string name="pref_song_secret_hide">Hide</string>
     <string name="pref_song_acrcloud_host_invalid">That isn\'t a valid host, for example identify-eu-west-1.acrcloud.com</string>
     <string name="pref_song_notifications_title">Notifications for offline recordings</string>
-    <string name="pref_song_notifications_on">On. When you ask offline, GAR records and tells you the song once you\'re online.</string>
-    <string name="pref_song_notifications_off">Off, so GAR doesn\'t keep recordings made offline. Tap to allow them.</string>
+    <string name="pref_song_notifications_on">On. When you ask offline, Garble records and tells you the song once you\'re online.</string>
+    <string name="pref_song_notifications_off">Off, so Garble doesn\'t keep recordings made offline. Tap to allow them.</string>
     <string name="pref_song_queue_title">Waiting for the internet</string>
     <string name="pref_song_queue_summary">Recordings to recognize: %1$d. Tap to delete them.</string>
     <string name="pref_song_queue_delete_title">Delete the recordings?</string>

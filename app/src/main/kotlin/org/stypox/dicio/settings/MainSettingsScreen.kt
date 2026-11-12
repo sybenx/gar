@@ -32,6 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import org.stypox.dicio.R
+import org.stypox.dicio.gar.settings.GarAppearanceItem // GAR
 import org.stypox.dicio.gar.settings.GarSettingsItem // GAR
 import org.stypox.dicio.gar.stt.rememberResolvedInputDevice // GAR
 import org.stypox.dicio.io.input.SttInputDevice
@@ -52,6 +53,7 @@ fun MainSettingsScreen(
     navigationIcon: @Composable () -> Unit,
     navigateToSkillSettings: () -> Unit,
     navigateToGarSettings: () -> Unit = {}, // GAR
+    navigateToGarAppearance: () -> Unit = {}, // GAR
     viewModel: MainSettingsViewModel = hiltViewModel(),
 ) {
     Scaffold(
@@ -66,6 +68,7 @@ fun MainSettingsScreen(
         MainSettingsScreen(
             navigateToSkillSettings = navigateToSkillSettings,
             navigateToGarSettings = navigateToGarSettings, // GAR
+            navigateToGarAppearance = navigateToGarAppearance, // GAR
             viewModel = viewModel,
             modifier = Modifier.padding(it),
         )
@@ -76,6 +79,7 @@ fun MainSettingsScreen(
 private fun MainSettingsScreen(
     navigateToSkillSettings: () -> Unit,
     navigateToGarSettings: () -> Unit = {}, // GAR
+    navigateToGarAppearance: () -> Unit = {}, // GAR
     viewModel: MainSettingsViewModel,
     modifier: Modifier = Modifier,
 ) {
@@ -98,23 +102,8 @@ private fun MainSettingsScreen(
                 viewModel::setLanguage,
             )
         }
-        item {
-            themeSetting().Render(
-                when (val theme = settings.theme) {
-                    Theme.UNRECOGNIZED -> Theme.THEME_SYSTEM
-                    else -> theme
-                },
-                viewModel::setTheme,
-            )
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            item {
-                dynamicColors().Render(
-                    settings.dynamicColors,
-                    viewModel::setDynamicColors
-                )
-            }
-        }
+        // GAR: the theme and Material You rows moved to Appearance (theme, colors, preview)
+        item { GarAppearanceItem(onClick = navigateToGarAppearance) } // GAR
         item {
             SettingsItem(
                 title = stringResource(R.string.pref_skills_title),

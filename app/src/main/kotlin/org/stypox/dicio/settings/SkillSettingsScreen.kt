@@ -16,7 +16,6 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -61,6 +60,7 @@ import org.stypox.dicio.util.ShareUtils
 import org.stypox.dicio.util.getNonGrantedPermissions
 import org.stypox.dicio.util.commaJoinPermissions
 import org.stypox.dicio.util.requestAnyPermission
+import org.stypox.dicio.gar.ui.garble.GarbleSecondaryButton // GAR
 
 const val DICIO_NUMBERS_LINK = "https://github.com/Stypox/dicio-numbers"
 
@@ -307,7 +307,7 @@ fun SkillSettingsItemPermissionLine(
                     .padding(end = 8.dp),
             )
 
-            ElevatedButton(
+            GarbleSecondaryButton( // GAR
                 onClick = { requestAnyPermission(launcher, context, nonGrantedPermissions) },
             ) {
                 Text(text = stringResource(R.string.pref_skill_grant_permissions))

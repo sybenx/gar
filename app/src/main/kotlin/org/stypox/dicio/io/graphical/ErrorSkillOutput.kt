@@ -2,7 +2,6 @@ package org.stypox.dicio.io.graphical
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,6 +20,7 @@ import org.stypox.dicio.error.ErrorUtils
 import org.stypox.dicio.error.ExceptionUtils
 import org.stypox.dicio.error.UserAction
 import org.stypox.dicio.util.getString
+import org.stypox.dicio.gar.ui.garble.GarbleSecondaryButton // GAR
 
 data class ErrorSkillOutput(
     private val throwable: Throwable,
@@ -78,7 +78,7 @@ data class ErrorSkillOutput(
 @Composable
 fun ReportButton(throwable: Throwable, userAction: UserAction, modifier: Modifier = Modifier) {
     val context = LocalContext.current
-    ElevatedButton(
+    GarbleSecondaryButton( // GAR
         onClick = { ErrorUtils.openActivity(context, ErrorInfo(throwable, userAction)) },
         modifier = modifier,
     ) {

@@ -99,8 +99,8 @@
     </plurals>
 
     <!-- GAR's screen of everything it keeps (the skills' settings) -->
-    <string name="gar_notes_screen_title">What GAR keeps on this phone</string>
-    <string name="gar_notes_screen_description">Lists, notes and remembered facts stay in GAR\'s own storage and never leave the phone.</string>
+    <string name="gar_notes_screen_title">What Garble keeps on this phone</string>
+    <string name="gar_notes_screen_description">Lists, notes and remembered facts stay in Garble\'s own storage and never leave the phone.</string>
     <string name="gar_notes_screen_lists">Lists</string>
     <string name="gar_notes_screen_notes">Notes</string>
     <string name="gar_notes_screen_facts">Remembered</string>

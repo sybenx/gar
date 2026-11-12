@@ -78,7 +78,7 @@
     <string name="skill_places_ask_work">What\'s your work address?</string>
     <!-- spoken after the question: the user may not know the address by heart -->
     <string name="skill_places_ask_hint">Say the address or a place name, or \"here\" if you\'re there now.</string>
-    <string name="skill_places_ask_detail">You can also set it in Settings, under Home and work. GAR keeps it on this phone.</string>
+    <string name="skill_places_ask_detail">You can also set it in Settings, under Home and work. Garble keeps it on this phone.</string>
     <!-- nothing saved, but the user\'s own contact card has one; %1$s home or work, %2$s the address -->
     <string name="skill_places_card_offer">Use the %1$s address on your contact card, %2$s?</string>
     <string name="skill_places_card_offer_detail">A yes saves it for next time. You can change it in Settings, under Home and work.</string>
@@ -102,17 +102,17 @@
     <!-- where am I; %1$s is a place name like "12 Main Street, Springfield" -->
     <string name="skill_places_you_are_near">You\'re near %1$s.</string>
     <string name="skill_places_you_are_at">I can\'t name this place offline. Show it on the map?</string>
-    <string name="skill_places_no_names">This phone can\'t name places without a geocoder, so GAR shows the coordinates. The maps app shows the streets around them.</string>
+    <string name="skill_places_no_names">This phone can\'t name places without a geocoder, so Garble shows the coordinates. The maps app shows the streets around them.</string>
     <string name="skill_places_you_are_here">You are here</string>
-    <string name="skill_places_approximate">Approximate location: GAR can only see where you are to within about 2 kilometers.</string>
+    <string name="skill_places_approximate">Approximate location: Garble can only see where you are to within about 2 kilometers.</string>
     <!-- %1$d is a distance in meters -->
     <string name="skill_places_accuracy">Within about %1$d meters.</string>
     <string name="skill_places_show_on_map">Show on map</string>
 
     <!-- when the location can't be read -->
-    <string name="skill_places_no_access">I need location access for that. Open GAR\'s app info to allow it?</string>
+    <string name="skill_places_no_access">I need location access for that. Open Garble\'s app info to allow it?</string>
     <string name="skill_places_no_access_detail">Under Permissions, Location, choose \"Allow only while using the app\". Precise location is better for sharing, approximate is enough for the town.</string>
-    <string name="skill_places_approximate_save">GAR only has approximate location, which can be 2 kilometers off. Open GAR\'s app info to allow precise?</string>
+    <string name="skill_places_approximate_save">Garble only has approximate location, which can be 2 kilometers off. Open Garble\'s app info to allow precise?</string>
     <string name="skill_places_approximate_save_detail">Under Permissions, Location, turn on \"Use precise location\".</string>
     <string name="skill_places_location_off">Location is off. Open location settings?</string>
     <string name="skill_places_no_fix">I couldn\'t find where you are right now. Try again in a moment.</string>
