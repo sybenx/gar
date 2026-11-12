@@ -5,6 +5,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Icon
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.unit.Dp
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -112,4 +120,35 @@ fun GarblePrimaryButton(
         contentPadding = contentPadding,
         content = content,
     )
+}
+
+/**
+ * A secondary icon action (discard, stop): a borderless raised circle with the icon in the text
+ * color, [size] at least 48 dp. [contentDescription] is what TalkBack reads.
+ */
+@Composable
+fun GarbleIconButton(
+    icon: ImageVector,
+    contentDescription: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    size: Dp = 48.dp,
+) {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = modifier
+            .then(if (enabled) Modifier else Modifier.alpha(0.38f))
+            .size(size.coerceAtLeast(48.dp))
+            .garbleRaised(CircleShape)
+            .clickable(enabled = enabled, role = Role.Button, onClick = onClick)
+            .semantics { this.contentDescription = contentDescription },
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            tint = LocalGarbleColors.current.text,
+            modifier = Modifier.size(20.dp),
+        )
+    }
 }

@@ -1,27 +1,10 @@
 package org.stypox.dicio.skills.sms
 
-import org.stypox.dicio.gar.ui.garble.GarblePrimaryButton // GAR
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import dagger.hilt.android.EntryPointAccessors
 import org.dicio.skill.context.SkillContext
 import org.dicio.skill.skill.AlwaysBestScore
@@ -36,11 +19,8 @@ import org.stypox.dicio.gar.GarEntryPoint
 import org.stypox.dicio.gar.call.GarFollowUpOutput
 import org.stypox.dicio.gar.call.GarYesNo
 import org.stypox.dicio.gar.call.normalizeAnswer
-import org.stypox.dicio.io.graphical.Body
-import org.stypox.dicio.io.graphical.Headline
 import org.stypox.dicio.io.graphical.HeadlineSpeechSkillOutput
 import org.stypox.dicio.util.getString
-import org.stypox.dicio.gar.ui.garble.GarbleSecondaryButton // GAR
 
 /**
  * The confirmation card: recipient, number and message, with Send, Edit and Cancel buttons. Its
@@ -78,51 +58,13 @@ class SmsCardOutput(
             it.answer === this || (it.answer as? GarFollowUpOutput)?.output === this
         } == true
         val sender = remember { flow.senderFor(ctx) }
-        val state = draft.state
-
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Headline(text = stringResource(R.string.skill_sms_card_title, draft.recipient.name))
-            if (draft.recipient.isContact) {
-                Body(text = draft.recipient.number)
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            Surface(
-                shape = RoundedCornerShape(12.dp),
-                color = MaterialTheme.colorScheme.secondaryContainer,
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                Text(
-                    text = draft.message,
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(12.dp),
-                )
-            }
-
-            statusText(state)?.let {
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = stringResource(it),
-                    style = MaterialTheme.typography.bodyMedium,
-                    textAlign = TextAlign.Center,
-                )
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                GarbleSecondaryButton(onClick = { draft.cancel() }, enabled = current && draft.isPending) { // GAR
-                    Text(text = stringResource(R.string.skill_sms_cancel))
-                }
-                GarbleSecondaryButton(onClick = { draft.edit(sender) }, enabled = current && draft.canEdit) { // GAR
-                    Text(text = stringResource(R.string.skill_sms_edit))
-                }
-                GarblePrimaryButton(onClick = { draft.send(sender) }, enabled = current && draft.isPending) { // GAR
-                    Text(text = stringResource(R.string.skill_sms_send))
-                }
-            }
-        }
+        org.stypox.dicio.gar.sms.GarSmsConfirmCard( // GAR: the Garble confirm card
+            draft = draft,
+            enabled = current,
+            onSend = { draft.send(sender) },
+            onEdit = { draft.edit(sender) },
+            onDiscard = { draft.cancel() },
+        )
     }
 
     companion object {

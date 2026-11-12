@@ -14,12 +14,21 @@
     <string name="skill_sms_contacts_separator">", "</string>
 
     <!-- the confirmation card; %2$s is the message as sent, ending like a sentence -->
-    <string name="skill_sms_card_title">Text %1$s</string>
     <string name="skill_sms_read_back">Your message to %1$s says: %2$s Ready to send it?</string>
     <string name="skill_sms_ask_new_message">What should it say?</string>
     <string name="skill_sms_send">Send</string>
     <string name="skill_sms_edit">Edit</string>
+    <!-- also the confirm card's round X button, for screen readers: the word the answer parser and
+         the hint ("cancel") use -->
     <string name="skill_sms_cancel">Cancel</string>
+    <!-- under the recipient's name on the confirm card; %1$s is the number's type (Mobile, Home,
+         Work or the contact's own label), %2$s the number -->
+    <string name="gar_sms_type_from_contacts">%1$s, from your contacts</string>
+    <string name="gar_sms_type_and_number">%1$s, %2$s</string>
+    <!-- when the number's type is unknown; %1$s is the number -->
+    <string name="gar_sms_from_contacts_number">From your contacts, %1$s</string>
+    <string name="gar_sms_from_contacts">From your contacts</string>
+    <string name="gar_sms_not_in_contacts">Not in your contacts</string>
 
     <!-- what happened to the text, shown on the card -->
     <string name="skill_sms_sending">Sending…</string>

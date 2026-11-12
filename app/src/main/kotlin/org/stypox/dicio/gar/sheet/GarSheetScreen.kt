@@ -118,7 +118,6 @@ import org.stypox.dicio.gar.ui.GarThinking
 import org.stypox.dicio.gar.ui.garElapsedNow
 import org.stypox.dicio.gar.ui.garTapStopsSpeech
 import org.stypox.dicio.gar.ui.garble.LocalGarbleColors
-import org.stypox.dicio.gar.ui.garble.garbleMarkStateFor
 import org.stypox.dicio.gar.ui.garble.garbleSheet
 import org.stypox.dicio.gar.ui.rememberGarMicState
 import org.stypox.dicio.gar.ui.rememberGarReducedMotion
@@ -756,6 +755,7 @@ private fun ColumnScope.GarSheetAnswerLayout(
                 output = answer.answer,
                 ctx = ctx,
                 status = garSheetAnswerStatus(confirm),
+                title = garSheetAnswerTitle(confirm),
                 maxHeight = answerMaxHeight,
                 // room for the card's shadow inside the scrolling column
                 modifier = Modifier
@@ -771,10 +771,10 @@ private fun ColumnScope.GarSheetAnswerLayout(
 
             // 4b. a confirmation listening for its answer: what to say
             val hint = confirm?.let { garSheetConfirmHint(it) }
-            if (hint != null && (state is GarMicState.Listening || state == GarMicState.Starting)) {
+            if (confirm != null && hint != null && garSheetShowsConfirmHint(confirm, state)) {
                 GarSheetConfirmHint(
                     text = hint,
-                    markState = garbleMarkStateFor(state, voice.value),
+                    markState = garSheetConfirmHintMark(state, voice.value),
                     modifier = Modifier.padding(bottom = 4.dp),
                 )
             }

@@ -16,9 +16,11 @@
     <string name="gar_sheet_provenance_model">on-device model, %1$s s</string>
     <!-- Followed by the skill's id, e.g. "skill timer" -->
     <string name="gar_sheet_provenance_skill">skill</string>
+    <!-- The text message card's title -->
+    <string name="gar_sheet_sms_title">Text message</string>
     <!-- In the text message card's title row while it waits -->
     <string name="gar_sheet_sms_not_sent">not sent yet</string>
-    <!-- Under the text message card while the mic listens for the answer -->
+    <!-- Under the text message card while it waits for the answer, said or typed -->
     <string name="gar_sheet_sms_hint">Say \"send\", change the words, or \"cancel\"</string>
     <!-- Under a yes/no confirmation while the mic listens; %1$s is yes, %2$s is no -->
     <string name="gar_sheet_yes_no_hint">Say \"%1$s\" or \"%2$s\"</string>

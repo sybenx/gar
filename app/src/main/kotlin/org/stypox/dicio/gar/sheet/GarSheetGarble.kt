@@ -61,6 +61,7 @@ import org.dicio.skill.skill.SkillOutput
 import org.stypox.dicio.R
 import org.stypox.dicio.gar.call.GarConfirmOutput
 import org.stypox.dicio.gar.call.GarFollowUpOutput
+import org.stypox.dicio.gar.sms.LocalGarCardHasTitle
 import org.stypox.dicio.gar.ui.GarMicState
 import org.stypox.dicio.gar.ui.GarStateLabel
 import org.stypox.dicio.gar.ui.garble.GarbleMark
@@ -423,8 +424,8 @@ internal fun GarSheetYouSaid(
 
 /**
  * The answer card: card bg, 24dp corners, 20dp padding, a soft shadow; the title row (the skill's
- * icon and name in the text color, a muted [status] at the end), then the output. With
- * [maxHeight] the card is at most that tall and scrolls inside.
+ * icon and name in the text color, or [title] instead of the name, a muted [status] at the end),
+ * then the output. With [maxHeight] the card is at most that tall and scrolls inside.
  */
 @Composable
 internal fun GarSheetAnswerCard(
@@ -434,6 +435,7 @@ internal fun GarSheetAnswerCard(
     status: String?,
     modifier: Modifier = Modifier,
     maxHeight: Dp = Dp.Unspecified,
+    title: String? = null,
 ) {
     val g = LocalGarbleColors.current
     CompositionLocalProvider(LocalContentColor provides g.text) {
@@ -468,7 +470,7 @@ internal fun GarSheetAnswerCard(
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = skill.name(LocalContext.current),
+                            text = title ?: skill.name(LocalContext.current),
                             fontSize = 15.sp,
                             fontWeight = FontWeight.Medium,
                             color = g.text,
@@ -494,7 +496,10 @@ internal fun GarSheetAnswerCard(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                output.GraphicalOutput(ctx = ctx)
+                // the title row above says what the output is
+                CompositionLocalProvider(LocalGarCardHasTitle provides (skill != null)) {
+                    output.GraphicalOutput(ctx = ctx)
+                }
             }
         }
     }
@@ -613,6 +618,31 @@ internal fun garSheetConfirmHint(confirm: GarSheetConfirm): String? = when (conf
     }
 }
 
+/** The answer card's title instead of the skill's name: "Text message" on the SMS card. */
+@Composable
+internal fun garSheetAnswerTitle(confirm: GarSheetConfirm?): String? =
+    if (confirm is GarSheetConfirm.Sms) stringResource(R.string.gar_sheet_sms_title) else null
+
+/**
+ * Whether [GarSheetConfirmHint] shows under a card that waits ([garSheetConfirmHint] is not null).
+ * The SMS card's answer skill stays on top while the text waits, so "send" works said after a
+ * mic tap or typed, also once the reopened mic closed: the hint stays. A yes/no confirmation only
+ * listens once, so its hint shows while the mic is open.
+ */
+internal fun garSheetShowsConfirmHint(confirm: GarSheetConfirm, state: GarMicState): Boolean =
+    when (confirm) {
+        is GarSheetConfirm.Sms -> true
+        GarSheetConfirm.YesNo -> state is GarMicState.Listening || state == GarMicState.Starting
+    }
+
+/** The hint's mark: listening (or hearing a voice) while the mic is open, else the logo. */
+internal fun garSheetConfirmHintMark(state: GarMicState, voice: Boolean): GarbleMarkState =
+    if (state is GarMicState.Listening || state == GarMicState.Starting) {
+        garbleMarkStateFor(state, voice)
+    } else {
+        GarbleMarkState.Logo
+    }
+
 /** The muted status in the answer card's title row ("not sent yet"), or null. */
 @Composable
 internal fun garSheetAnswerStatus(confirm: GarSheetConfirm?): String? =
@@ -682,7 +712,7 @@ private fun garSheetMicDescription(state: GarMicState): String = when (state) {
 }
 
 private val HEADER_MARK = 32.dp
-private val HINT_MARK = 24.dp
+private val HINT_MARK = 20.dp
 private val BIG_MARK = 170.dp
 private val LISTENING_BUTTON = 52.dp
 private val SMALL_BUTTON = 48.dp
