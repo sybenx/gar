@@ -202,7 +202,7 @@ class OwnContactAnswerSkill(
 }
 
 /**
- * "OK, you're Aaron. You can change that in Settings, Language model, You." (GAR's settings
+ * "OK, you're Aaron. You can change that in Settings, You and places." (GAR's settings
  * page), then what [then] says.
  */
 class OwnContactRememberedOutput(

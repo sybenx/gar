@@ -40,9 +40,9 @@ jobs:
           export GAR_KEYSTORE_FILE="$RUNNER_TEMP/release.jks"
           export GAR_VERSION="${GITHUB_REF_NAME#v}"
           ./gradlew --no-daemon -PgarIdSuffix=ci :app:assembleRelease
-          cp app/build/outputs/apk/release/app-release.apk "gar-${GAR_VERSION}.apk"
+          cp app/build/outputs/apk/release/app-release.apk "garble-${GAR_VERSION}.apk"
 
       - name: Publish
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" gar-*.apk --title "GAR $GITHUB_REF_NAME" --notes-from-tag
+        run: gh release create "$GITHUB_REF_NAME" garble-*.apk --title "Garble $GITHUB_REF_NAME" --notes-from-tag
