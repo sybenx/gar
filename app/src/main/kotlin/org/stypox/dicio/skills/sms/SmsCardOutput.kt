@@ -16,7 +16,7 @@ import org.dicio.skill.skill.SkillOutput
 import org.dicio.skill.skill.Specificity
 import org.stypox.dicio.R
 import org.stypox.dicio.gar.GarEntryPoint
-import org.stypox.dicio.gar.call.GarFollowUpOutput
+import org.stypox.dicio.gar.call.showsOutput
 import org.stypox.dicio.gar.call.GarYesNo
 import org.stypox.dicio.gar.call.normalizeAnswer
 import org.stypox.dicio.io.graphical.HeadlineSpeechSkillOutput
@@ -55,7 +55,7 @@ class SmsCardOutput(
         val log by skillEvaluator.state.collectAsState()
         val current = log.interactions.lastOrNull()?.questionsAnswers?.any {
             // GAR wraps outputs run from its own follow-ups (e.g. after its confirmation)
-            it.answer === this || (it.answer as? GarFollowUpOutput)?.output === this
+            it.answer.showsOutput(this) // GAR
         } == true
         val sender = remember { flow.senderFor(ctx) }
         org.stypox.dicio.gar.sms.GarSmsConfirmCard( // GAR: the Garble confirm card

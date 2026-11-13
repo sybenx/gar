@@ -35,7 +35,7 @@ import org.dicio.skill.skill.SkillOutput
 import org.dicio.skill.skill.Specificity
 import org.stypox.dicio.R
 import org.stypox.dicio.gar.GarEntryPoint
-import org.stypox.dicio.gar.call.GarFollowUpOutput
+import org.stypox.dicio.gar.call.showsOutput
 import org.stypox.dicio.gar.call.GarYesNo
 import org.stypox.dicio.gar.call.isCancelPhrase
 import org.stypox.dicio.gar.call.normalizeAnswer
@@ -147,7 +147,7 @@ class ReplyCardOutput(
         // the buttons work while this card's conversation is the latest one (see SmsCardOutput)
         val log by skillEvaluator.state.collectAsState()
         val current = log.interactions.lastOrNull()?.questionsAnswers?.any {
-            it.answer === this || (it.answer as? GarFollowUpOutput)?.output === this
+            it.answer.showsOutput(this) // GAR
         } == true
         val source = remember { flow.sourceFor(ctx) }
         val conversation = draft.conversation

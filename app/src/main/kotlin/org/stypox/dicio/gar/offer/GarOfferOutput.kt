@@ -1,5 +1,6 @@
 package org.stypox.dicio.gar.offer
 
+import org.stypox.dicio.gar.call.showsOutput
 import org.stypox.dicio.gar.ui.garble.GarblePrimaryButton // GAR
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
@@ -93,7 +94,7 @@ class GarOfferOutput(
         }
         // the buttons only make sense while this card is the latest answer
         val log by skillEvaluator.state.collectAsState()
-        val isLatest = log.interactions.lastOrNull()?.questionsAnswers?.lastOrNull()?.answer === this
+        val isLatest = log.interactions.lastOrNull()?.questionsAnswers?.lastOrNull()?.answer.showsOutput(this)
         val enabled = isLatest && !answered && yesNoData != null
         val yes = stringResource(yesLabel)
         val no = stringResource(noLabel)

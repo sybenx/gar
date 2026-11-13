@@ -1,5 +1,6 @@
 package org.stypox.dicio.skills.device_settings
 
+import org.stypox.dicio.gar.call.showsOutput
 import org.stypox.dicio.gar.ui.garble.GarblePrimaryButton // GAR
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
@@ -304,7 +305,7 @@ class DeviceSettingsAccessOutput(
         }
         // the buttons only make sense while this card is the latest answer
         val log by skillEvaluator.state.collectAsState()
-        val isLatest = log.interactions.lastOrNull()?.questionsAnswers?.lastOrNull()?.answer === this
+        val isLatest = log.interactions.lastOrNull()?.questionsAnswers?.lastOrNull()?.answer.showsOutput(this) // GAR
         val enabled = isLatest && !answered
 
         val yes = stringResource(R.string.gar_settings_access_open)

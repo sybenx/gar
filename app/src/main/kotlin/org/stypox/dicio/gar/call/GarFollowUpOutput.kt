@@ -32,3 +32,11 @@ class GarFollowUpOutput(val output: SkillOutput) : SkillOutput {
         output.GraphicalOutput(ctx)
     }
 }
+
+/**
+ * Whether this answer from the interaction log is [output] itself or [output] wrapped in a
+ * [GarFollowUpOutput] (a question asked right after another one, such as the weather skill asking
+ * for a place after its online question got a yes). Cards use it to keep their buttons enabled.
+ */
+fun SkillOutput?.showsOutput(output: SkillOutput): Boolean =
+    this === output || (this as? GarFollowUpOutput)?.output === output

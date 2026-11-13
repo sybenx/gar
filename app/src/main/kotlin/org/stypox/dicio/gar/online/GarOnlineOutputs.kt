@@ -1,5 +1,6 @@
 package org.stypox.dicio.gar.online
 
+import org.stypox.dicio.gar.call.showsOutput
 import org.stypox.dicio.gar.ui.garble.GarblePrimaryButton // GAR
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -99,7 +100,7 @@ class GarOnlineAskOutput(
         val ranker by remember {
             settings.skillRankers ?: MutableStateFlow<SkillRanker?>(null)
         }.collectAsState()
-        val isLatest = log.interactions.lastOrNull()?.questionsAnswers?.lastOrNull()?.answer === this
+        val isLatest = log.interactions.lastOrNull()?.questionsAnswers?.lastOrNull()?.answer.showsOutput(this)
         val enabled = isLatest && !answered && ranker === askedRanker
 
         val yes = stringResource(R.string.gar_online_turn_on)

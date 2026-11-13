@@ -1,5 +1,6 @@
 package org.stypox.dicio.gar.followup
 
+import org.stypox.dicio.gar.call.showsOutput
 import org.stypox.dicio.gar.ui.garble.GarblePrimaryButton // GAR
 import android.app.KeyguardManager
 import android.content.Context
@@ -394,7 +395,7 @@ class GarFollowUpConfirmOutput(
         }
         // the buttons only make sense while this card is the latest answer
         val log by skillEvaluator.state.collectAsState()
-        val isLatest = log.interactions.lastOrNull()?.questionsAnswers?.lastOrNull()?.answer === this
+        val isLatest = log.interactions.lastOrNull()?.questionsAnswers?.lastOrNull()?.answer.showsOutput(this)
         val enabled = isLatest && !answered
 
         val yes = stringResource(R.string.gar_yes)

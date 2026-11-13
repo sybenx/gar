@@ -1,5 +1,6 @@
 package org.stypox.dicio.skills.weather
 
+import org.stypox.dicio.gar.call.showsOutput
 import android.text.format.DateFormat
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -472,7 +473,7 @@ class WeatherPlaceQuestionOutput(
         }
         // the button only makes sense while this card is the latest answer
         val log by skillEvaluator.state.collectAsState()
-        val isLatest = log.interactions.lastOrNull()?.questionsAnswers?.lastOrNull()?.answer === this
+        val isLatest = log.interactions.lastOrNull()?.questionsAnswers?.lastOrNull()?.answer.showsOutput(this) // GAR
         val useLocation = ctx.getString(R.string.gar_weather_use_location)
 
         Column {
