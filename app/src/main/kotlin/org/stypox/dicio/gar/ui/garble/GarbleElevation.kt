@@ -8,7 +8,6 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.geometry.isSimple
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Outline
-import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.asAndroidPath
 import androidx.compose.ui.graphics.drawOutline
@@ -117,7 +116,8 @@ private class GarbleSurfaceNode(
     var shape: Shape,
     var color: Color,
 ) : Modifier.Node(), DrawModifierNode, CompositionLocalConsumerModifierNode {
-    private val shadowPaint = Paint()
+    // a framework Paint for setShadowLayer (Compose's asFrameworkPaint is deprecated)
+    private val shadowPaint = android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG)
     private var outline: Outline? = null
 
     // reused while the size animates, so a resize doesn't allocate a path every frame
@@ -179,7 +179,7 @@ private class GarbleSurfaceNode(
         val o = outline!!
 
         drawIntoCanvas { canvas ->
-            val paint = shadowPaint.asFrameworkPaint()
+            val paint = shadowPaint
             paint.isAntiAlias = true
             paint.color = fill.toArgb()
             for (shadow in GarbleDepth.of(kind)) {
