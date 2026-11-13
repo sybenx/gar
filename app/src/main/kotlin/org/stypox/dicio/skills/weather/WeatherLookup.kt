@@ -96,11 +96,11 @@ class WeatherLookup(
                 }
                 else -> WeatherResult.AskPlace(AskReason.FIRST)
             }
-        } catch (_: IOException) {
-            WeatherResult.NoConnection
-        } catch (_: IllegalArgumentException) {
+        } catch (e: IOException) {
+            failed(e)
+        } catch (e: IllegalArgumentException) {
             // a response GAR can't read (kotlinx.serialization throws these)
-            WeatherResult.NoConnection
+            failed(e)
         }
     }
 
@@ -117,10 +117,10 @@ class WeatherLookup(
             places.setUseLocation(false)
             answer(request, openMeteo.forecast(place))
         }
-    } catch (_: IOException) {
-        WeatherResult.NoConnection
-    } catch (_: IllegalArgumentException) {
-        WeatherResult.NoConnection
+    } catch (e: IOException) {
+        failed(e)
+    } catch (e: IllegalArgumentException) {
+        failed(e)
     }
 
     /**
@@ -142,4 +142,11 @@ class WeatherLookup(
 
     private fun answer(request: WeatherRequest, forecast: WeatherForecast, nearYou: Boolean = false) =
         WeatherResult.Answer(forecast, WeatherAnswer.reply(request, forecast), nearYou)
+
+    /** Logs why the lookup failed (logcat tag GarWeather), which the spoken answer can't say. */
+    private fun failed(e: Exception): WeatherResult {
+        runCatching { android.util.Log.w("GarWeather", "weather lookup failed", e) }
+        return WeatherResult.NoConnection
+    }
+
 }
