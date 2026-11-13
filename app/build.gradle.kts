@@ -88,7 +88,14 @@ android {
             signingConfig = signingConfigs.getByName("debug")
             matchingFallbacks += listOf("release")
             isDebuggable = false
-            applicationIdSuffix = ".benchmark"
+            isMinifyEnabled = true // GAR: R8, as a shipped build would be (release isn't yet)
+            // GAR: -PgarIdSuffix=gar gives the debug build's id (cc.aaro.gar.gar), so this installs
+            // over it on the phone and keeps its data (same debug key); else its own id
+            applicationIdSuffix = providers.gradleProperty("garIdSuffix").orNull
+                ?.replaceFirst(Regex("^[^A-Za-z]+"), "")?.replace(Regex("[^0-9A-Za-z]+"), "")
+                ?.takeIf { it.isNotEmpty() }
+                ?.let { ".$it" }
+                ?: ".benchmark"
             versionNameSuffix = "-benchmark"
         }
     }

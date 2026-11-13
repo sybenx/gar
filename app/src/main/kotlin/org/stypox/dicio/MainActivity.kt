@@ -11,7 +11,7 @@ import android.util.Log
 import androidx.activity.compose.ReportDrawn // GAR
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.windowInsetsPadding // GAR
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.SideEffect // GAR
@@ -32,6 +32,7 @@ import org.stypox.dicio.di.SttInputDeviceWrapper
 import org.stypox.dicio.di.WakeDeviceWrapper
 import org.stypox.dicio.eval.SkillEvaluator
 import org.stypox.dicio.gar.perf.GarJank // GAR
+import org.stypox.dicio.gar.ui.GarInsets // GAR
 import org.stypox.dicio.gar.perf.garTrace // GAR
 import org.stypox.dicio.gar.perf.garTraceAsyncBegin // GAR
 import org.stypox.dicio.gar.perf.garTraceAsyncEnd // GAR
@@ -193,7 +194,9 @@ class MainActivity : BaseActivity() {
                 color = MaterialTheme.colorScheme.background
             ) {
                 Box(
-                    modifier = Modifier.safeDrawingPadding()
+                    // GAR: the bars and cutout only; each screen pads for the keyboard itself
+                    // (GarInsets.kt), so the keyboard's animation re-lays out only what moves
+                    modifier = Modifier.windowInsetsPadding(GarInsets.rootInsets())
                 ) {
                     Navigation()
                 }

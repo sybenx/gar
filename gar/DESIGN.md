@@ -1824,6 +1824,23 @@ build before and after a change and never stand for the Pixel.
   text field with the top bar's button (Dicio shows it only after that); `startup` waits for
   `Displayed` up to 30 s past `am start -W`'s timeout and reads API 35's "for user 0" form.
 
+- **Pixel 9a jank (garble-ui f040246e, debug build, simpleperf)**: 20% janky frames, p99
+  73 ms, GPU fine. App code was under 1% of samples. 60% was Compose's accessibility pass, which
+  runs whenever any accessibility service is on (an autofill or launcher service is enough): every
+  layout change, e.g. each scroll frame, rebuilds the semantics map and sorts it by geometry, and
+  the debug build's interpreter makes that about ten times slower. Fixes on garble-perf:
+  - Each chat-list item, answer card and chip row is its own traversal group
+    (`gar/ui/GarSemantics.kt`), so the sort runs per item instead of over the whole screen. The
+    reading order is unchanged. Skill rows and the card's skill header are one node each
+    (`clearAndSetSemantics`, reading as the merged texts did).
+  - The root pads for the bars and the cutout only; the keyboard's padding is on the home
+    screen's bottom bar and around the other screens (`gar/ui/GarInsets.kt`), so the keyboard's
+    animation no longer re-lays out the drawer, the NavHost and the top bar every frame.
+  - `garTapStopsSpeech` is a modifier node, not `composed {}`, so the chat list skips
+    recomposition when only the home screen's mic state changes.
+  - The `benchmark` build installs over the debug app with `-PgarIdSuffix=gar` (gar/BUILD.md),
+    for measuring on the phone without the interpreter.
+
 ## Routing speed
 
 On the Pixel 9a, builds with the sheet and the starter chips took 2-19 s from input to route for

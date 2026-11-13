@@ -1,6 +1,7 @@
 package org.stypox.dicio.ui.home
 
 import org.stypox.dicio.gar.ui.garble.GarbleTextButton // GAR
+import org.stypox.dicio.gar.ui.GarSemantics // GAR
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -26,7 +27,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.clearAndSetSemantics // GAR
+import androidx.compose.ui.semantics.contentDescription // GAR
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -98,8 +100,13 @@ private fun SkillRow(
     @PreviewParameter(SkillInfoPreviews::class) skill: SkillInfo,
     modifier: Modifier = Modifier,
 ) {
+    // GAR: one node that reads as the merged texts did, instead of a merged row of three nodes
+    // (gar/ui/GarSemantics.kt)
+    val description = GarSemantics.skillRowDescription(
+        skill.name(LocalContext.current), skill.sentenceExample(LocalContext.current)
+    )
     Row(
-        modifier = modifier.semantics(mergeDescendants = true) {},
+        modifier = modifier.clearAndSetSemantics { contentDescription = description }, // GAR
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(
