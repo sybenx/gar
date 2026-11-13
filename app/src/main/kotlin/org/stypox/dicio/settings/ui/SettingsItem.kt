@@ -69,6 +69,7 @@ fun SettingsItem(
                 Text(
                     text = description,
                     style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant, // GAR: secondary text
                 )
             }
             if (innerContent != null) {

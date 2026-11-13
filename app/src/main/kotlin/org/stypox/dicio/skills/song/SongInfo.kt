@@ -23,9 +23,11 @@ import androidx.compose.material.icons.filled.RecordVoiceOver
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -53,6 +55,7 @@ import org.dicio.skill.context.SkillContext
 import org.dicio.skill.skill.Skill
 import org.dicio.skill.skill.SkillInfo
 import org.stypox.dicio.R
+import org.stypox.dicio.gar.ui.garble.GarbleTextButton
 import org.stypox.dicio.sentences.Sentences
 import org.stypox.dicio.settings.ui.ListSetting
 import org.stypox.dicio.settings.ui.SettingsItem
@@ -275,9 +278,13 @@ private fun SongSettings() {
             AlertDialog(
                 onDismissRequest = { confirmDelete = false },
                 title = { Text(stringResource(R.string.pref_song_queue_delete_title)) },
-                text = { Text(stringResource(R.string.pref_song_queue_delete_text, waiting)) },
+                text = {
+                    Text(context.resources.getQuantityString(R.plurals.pref_song_queue_delete_text, waiting, waiting))
+                },
                 confirmButton = {
-                    TextButton(onClick = {
+                    TextButton(
+                        colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.error),
+                        onClick = {
                         confirmDelete = false
                         scope.launch {
                             withContext(Dispatchers.IO) { SongQueueWorker.discardQueue(context) }
@@ -288,7 +295,7 @@ private fun SongSettings() {
                     }
                 },
                 dismissButton = {
-                    TextButton(onClick = { confirmDelete = false }) {
+                    GarbleTextButton(onClick = { confirmDelete = false }) {
                         Text(stringResource(android.R.string.cancel))
                     }
                 },
@@ -384,14 +391,14 @@ private fun SecretDialog(
         dismissButton = {
             Row {
                 if (isSet) {
-                    TextButton(onClick = {
+                    GarbleTextButton(onClick = {
                         onSave("")
                         onDismiss()
                     }) {
                         Text(stringResource(R.string.pref_song_secret_clear))
                     }
                 }
-                TextButton(onClick = onDismiss) {
+                GarbleTextButton(onClick = onDismiss) {
                     Text(stringResource(android.R.string.cancel))
                 }
             }

@@ -1,5 +1,6 @@
 package org.stypox.dicio.settings
 
+import org.stypox.dicio.gar.ui.garble.garbleCheckboxColors // GAR
 import android.app.Application
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
@@ -241,6 +242,7 @@ private fun SkillSettingsItemHeader(
             checked = enabled,
             onCheckedChange = setEnabled,
             enabled = isAvailable,
+            colors = garbleCheckboxColors(), // GAR: neutral, about 40 of them
         )
         Text(
             text = skill.name(LocalContext.current),

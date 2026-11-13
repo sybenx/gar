@@ -21,6 +21,10 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.CheckboxColors
+import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.SliderColors
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.SwitchColors
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.TextButton
@@ -98,6 +102,31 @@ fun garbleSwitchColors(): SwitchColors {
         uncheckedTrackColor = g.raised,
         uncheckedThumbColor = g.muted,
         uncheckedBorderColor = g.line,
+    )
+}
+
+/** Neutral checkbox colors: a checked box in the text color, not the accent. */
+@Composable
+fun garbleCheckboxColors(): CheckboxColors {
+    val g = LocalGarbleColors.current
+    return CheckboxDefaults.colors(
+        checkedColor = g.text,
+        checkmarkColor = g.bg,
+        uncheckedColor = g.muted,
+    )
+}
+
+/** Neutral slider colors: a setting's slider is not progress, so no accent on it. */
+@Composable
+fun garbleSliderColors(): SliderColors {
+    val g = LocalGarbleColors.current
+    return SliderDefaults.colors(
+        thumbColor = g.text,
+        activeTrackColor = g.text,
+        // not g.raised: dialogs are drawn in about that gray, which hid the track in the color picker
+        inactiveTrackColor = g.muted.copy(alpha = 0.3f),
+        activeTickColor = g.bg,
+        inactiveTickColor = g.muted,
     )
 }
 

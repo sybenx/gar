@@ -51,6 +51,6 @@
     <string name="skill_own_contact_which">Which one is you? %1$s</string>
     <string name="skill_own_contact_no_number">%1$s has no number. Which contact is you?</string>
     <string name="skill_own_contact_no_email">%1$s has no email address. Which contact is you?</string>
-    <!-- the "You" setting, on GAR's page, "Language model" in Dicio's settings -->
-    <string name="skill_own_contact_remembered">OK, you\'re %1$s. You can change that in Settings, Language model, You.</string>
+    <!-- the "You" setting, on GAR's "You and places" page in Settings -->
+    <string name="skill_own_contact_remembered">OK, you\'re %1$s. You can change that in Settings, You and places.</string>
 </resources>

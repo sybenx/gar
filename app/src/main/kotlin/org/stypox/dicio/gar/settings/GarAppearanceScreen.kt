@@ -72,10 +72,12 @@ import org.stypox.dicio.gar.ui.garble.GarbleMark
 import org.stypox.dicio.gar.ui.garble.GarbleMarkState
 import org.stypox.dicio.gar.ui.garble.GarblePresets
 import org.stypox.dicio.gar.ui.garble.GarbleShapes
+import org.stypox.dicio.gar.ui.garble.GarbleTextButton
 import org.stypox.dicio.gar.ui.garble.GarbleType
 import org.stypox.dicio.gar.ui.garble.LocalGarbleColors
 import org.stypox.dicio.gar.ui.garble.garbleCard
 import org.stypox.dicio.gar.ui.garble.garbleRaised
+import org.stypox.dicio.gar.ui.garble.garbleSliderColors
 import org.stypox.dicio.gar.ui.garble.garbleSwitchColors
 import org.stypox.dicio.gar.ui.garble.setGarbleColors
 import org.stypox.dicio.settings.datastore.Theme
@@ -471,7 +473,6 @@ private fun GarColorPickerDialog(
     onPick: (Int) -> Unit,
     onDismiss: () -> Unit,
 ) {
-    val g = LocalGarbleColors.current
     val start = remember(initial) { GarbleColorMath.toHsl(Color(initial)) }
     var hue by rememberSaveable { mutableFloatStateOf(start.h) }
     var saturation by rememberSaveable { mutableFloatStateOf(start.s) }
@@ -488,9 +489,6 @@ private fun GarColorPickerDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        containerColor = g.surface,
-        titleContentColor = g.text,
-        textContentColor = g.text,
         title = { Text(stringResource(R.string.gar_appearance_picker_title)) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
@@ -548,8 +546,8 @@ private fun GarColorPickerDialog(
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text(stringResource(R.string.gar_appearance_picker_cancel), color = g.text)
+            GarbleTextButton(onClick = onDismiss) {
+                Text(stringResource(R.string.gar_appearance_picker_cancel))
             }
         },
     )
@@ -568,6 +566,7 @@ private fun PickerSlider(
             value = value.coerceIn(range.start, range.endInclusive),
             onValueChange = onChange,
             valueRange = range,
+            colors = garbleSliderColors(),
             modifier = Modifier.semantics { contentDescription = label },
         )
     }

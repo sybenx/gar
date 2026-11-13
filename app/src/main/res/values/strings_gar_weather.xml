@@ -83,16 +83,16 @@
     <!-- "Which weather app? Breezy Weather or Clima?" -->
     <string name="gar_weather_which_app">Which weather app? %1$s?</string>
     <string name="gar_weather_which_app_title">Which weather app?</string>
-    <string name="gar_weather_app_saved">Saved. Change it in Settings, Weather app.</string>
+    <string name="gar_weather_app_saved">Saved. Change it in Settings, Skills, Weather, Weather app.</string>
     <string name="gar_weather_app_open_failed">I couldn\'t open %1$s.</string>
     <string name="gar_weather_open_app">Open %1$s</string>
     <string name="gar_weather_open_any_app">Open weather app</string>
     <!-- Settings -->
     <string name="gar_weather_app">Weather app</string>
-    <string name="gar_weather_app_not_chosen">Not chosen yet</string>
+    <string name="gar_weather_app_not_chosen">Not chosen yet. Garble asks the first time.</string>
     <string name="gar_weather_app_none_found">No weather app found</string>
     <string name="gar_weather_app_off">Don\'t open an app</string>
-    <string name="gar_weather_app_detail">Opened when Open-Meteo isn\'t answering, and from the weather card</string>
+    <string name="gar_weather_app_detail">Opened when Open-Meteo isn\'t answering or the weather skill is off, and from the weather card</string>
 
     <!-- Days: at the start of an answer, and inline -->
     <string name="gar_weather_label_now">Right now</string>

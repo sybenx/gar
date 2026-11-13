@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GAR: Garble's settings pages and the rows that open them (Settings: You and places,
+     Assistant and voice, Skills, Appearance, Language model, About). Kept out of Dicio's
+     strings.xml; spoken lines that name these pages say "Settings, You and places". -->
+<resources>
+    <!-- a ListSetting's summary: %1$s its description, %2$s the chosen value; value first,
+         no dash. Replaces Dicio's settings_description_with_value in every language -->
+    <string name="gar_settings_description_with_value" translatable="false">%2$s\n%1$s</string>
+    <string name="gar_close">Close</string>
+
+    <!-- the rows of Settings -->
+    <string name="gar_you_places_title">You and places</string>
+    <string name="gar_you_places_summary">Your contact card, home, work and maps app</string>
+    <string name="gar_voice_title">Assistant and voice</string>
+    <string name="gar_voice_summary">Default assistant, language, speech recognition and the wake word</string>
+    <string name="gar_skills_summary">Turn skills on or off and change how they work</string>
+    <string name="gar_about_summary">Version, source code and privacy</string>
+
+    <!-- You and places -->
+    <string name="gar_you_section_title">Who you are</string>
+
+    <!-- Assistant and voice: sections -->
+    <string name="gar_voice_assistant_title">Assistant</string>
+    <string name="gar_voice_wake_title">Wake word</string>
+    <string name="gar_voice_listening_title">Listening</string>
+    <string name="gar_voice_spoken_title">Spoken answers</string>
+    <string name="gar_voice_diagnostics_title">Diagnostics</string>
+
+    <!-- Assistant and voice: the system's default digital assistant app -->
+    <string name="gar_voice_default_assistant">Default assistant app</string>
+    <string name="gar_voice_default_assistant_yes">Garble</string>
+    <string name="gar_voice_default_assistant_no">Another app or none. Tap to pick Garble in Android\'s settings.</string>
+
+    <!-- Assistant and voice: the wake word; "Hey Dicio" is what the built-in model listens for -->
+    <string name="gar_voice_wake_method">Wake word detection</string>
+    <string name="gar_voice_wake_on">On</string>
+    <string name="gar_voice_wake_off">Off</string>
+    <string name="gar_voice_wake_method_summary_hey_dicio">Listens in the background for \"Hey Dicio\"</string>
+    <string name="gar_voice_wake_method_summary_custom">Listens in the background for your custom wake word</string>
+    <string name="gar_voice_wake_method_summary_off">Garble doesn\'t listen in the background</string>
+    <string name="gar_voice_wake_import">Import custom wake word</string>
+    <string name="gar_voice_wake_import_summary">Replace \"Hey Dicio\" with a TFLite model, like the ones at github.com/dscripka/openWakeWord/releases</string>
+    <string name="gar_voice_wake_delete">Delete custom wake word</string>
+    <string name="gar_voice_wake_delete_summary">Go back to the built-in \"Hey Dicio\" wake word</string>
+
+    <!-- Assistant and voice: Dicio's input_device, its values as Dicio's factory has them -->
+    <string name="gar_voice_input">Input method</string>
+    <string name="gar_voice_input_vosk">Vosk (on-device, many languages)</string>
+    <string name="gar_voice_input_vosk_summary">Offline speech recognition on this phone. Downloads a model for your language and shows the words while you talk.</string>
+    <string name="gar_voice_input_external">Another app\'s voice input</string>
+    <string name="gar_voice_input_external_summary">Opens a voice input app you have installed, like FUTO Voice Input or Kõnele</string>
+    <string name="gar_voice_input_text">Typing only</string>
+
+    <!-- Assistant and voice: Dicio's stt_play_sound -->
+    <string name="gar_voice_sound">Play a sound when listening starts</string>
+    <string name="gar_voice_sound_notification">Notification volume</string>
+    <string name="gar_voice_sound_alarm">Alarm volume</string>
+    <string name="gar_voice_sound_media">Media volume</string>
+    <string name="gar_voice_sound_none">No sound</string>
+
+    <!-- Assistant and voice: Dicio's speech_output_device -->
+    <string name="gar_voice_answers">Answers</string>
+    <string name="gar_voice_answers_spoken">Spoken aloud</string>
+    <string name="gar_voice_answers_spoken_summary">With Android\'s text to speech voice</string>
+    <string name="gar_voice_answers_popup">Short popup</string>
+    <string name="gar_voice_answers_bottom">Message at the bottom</string>
+    <string name="gar_voice_answers_silent">Not spoken</string>
+    <string name="gar_voice_answers_silent_summary">Answers only show on the screen</string>
+
+    <!-- Assistant and voice: Dicio's stt_silence_duration, 1 to 7 -->
+    <string name="gar_voice_wait">Wait for speech</string>
+    <!-- Whisper: %1$d seconds, at least 3 -->
+    <plurals name="gar_voice_wait_whisper">
+        <item quantity="one">Stops listening if you don\'t start talking within %1$d second</item>
+        <item quantity="other">Stops listening if you don\'t start talking within %1$d seconds</item>
+    </plurals>
+    <!-- Vosk counts the silences it reports, which have no fixed length -->
+    <plurals name="gar_voice_wait_vosk">
+        <item quantity="one">Stops listening after %1$d silence before you start talking</item>
+        <item quantity="other">Stops listening after %1$d silences before you start talking</item>
+    </plurals>
+
+    <!-- the voice log's clear dialog -->
+    <string name="gar_voice_log_clear_question">Clear the voice log?</string>
+
+    <!-- asked before a model file is deleted; %1$s is the row title, like "Delete speech model" -->
+    <string name="gar_delete_confirm_title">%1$s?</string>
+    <!-- %1$s is a size like 83 MB -->
+    <string name="gar_delete_confirm_text">Frees %1$s. You can download it again here.</string>
+    <string name="gar_delete_confirm_text_import">Frees %1$s. To use it again, import the file again.</string>
+    <string name="gar_delete_confirm">Delete</string>
+</resources>

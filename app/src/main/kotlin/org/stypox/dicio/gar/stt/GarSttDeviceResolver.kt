@@ -96,7 +96,7 @@ class GarSttDeviceResolver(
     }
 }
 
-/** The input device that runs for [setting], as Settings > Input method shows it. */
+/** The input device that runs for [setting], as Settings > Assistant and voice > Input method shows it. */
 @Composable
 fun rememberResolvedInputDevice(setting: InputDevice): InputDevice {
     if (LocalInspectionMode.current) {

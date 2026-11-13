@@ -12,7 +12,6 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
 import org.stypox.dicio.gar.ui.garble.GarbleSecondaryButton // GAR
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -27,6 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
 import kotlinx.coroutines.launch
 import org.stypox.dicio.R
+import org.stypox.dicio.gar.ui.garble.GarbleTextButton
 import org.stypox.dicio.gar.GarEntryPoint
 import org.stypox.dicio.skills.places.GarSettingsSavedPlaces
 import org.stypox.dicio.skills.places.MapLinks
@@ -94,7 +94,7 @@ private fun SharePlaceDialog(
                 Text(stringResource(if (nameOnly) R.string.gar_places_share_name_only else R.string.gar_places_share_none))
             },
             confirmButton = {
-                TextButton(onClick = onDismiss) { Text(stringResource(R.string.gar_places_share_close)) }
+                GarbleTextButton(onClick = onDismiss) { Text(stringResource(R.string.gar_places_share_close)) }
             },
         )
         return
@@ -140,7 +140,7 @@ private fun SharePlaceDialog(
         },
         confirmButton = {},
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text(stringResource(android.R.string.cancel)) }
+            GarbleTextButton(onClick = onDismiss) { Text(stringResource(android.R.string.cancel)) }
         },
     )
 }

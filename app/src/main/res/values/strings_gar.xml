@@ -5,7 +5,7 @@
     <string name="gar_model_loading_wait">One moment.</string>
     <!-- Main settings entry and screen -->
     <string name="gar_pref_title">Language model</string>
-    <string name="gar_pref_summary">You, speech recognition and the language model</string>
+    <string name="gar_pref_summary">On-device model for commands Garble doesn\'t know</string>
     <string name="gar_pref_llm_enabled">Use the language model</string>
     <string name="gar_pref_llm_enabled_on">Commands that match no sentence go to the model</string>
     <string name="gar_pref_llm_enabled_off">Only the built-in sentences are used</string>
@@ -16,7 +16,7 @@
     <string name="gar_pref_model_custom_summary">A .gguf file from your device</string>
     <!-- %1$s is a size like "397 MB", %2$s a license name -->
     <string name="gar_pref_model_size_license">%1$s, %2$s</string>
-    <string name="gar_pref_status">Status</string>
+    <string name="gar_pref_status">Model status</string>
     <string name="gar_status_not_downloaded">Not downloaded</string>
     <string name="gar_status_no_custom_model">No model imported</string>
     <!-- %1$d is a percentage -->
@@ -37,6 +37,7 @@
     <!-- %1$s is a size like "397 MB" -->
     <string name="gar_pref_download_summary">%1$s from Hugging Face</string>
     <string name="gar_pref_download_cancel">Cancel download</string>
+    <string name="gar_pref_download_model">Download model</string>
     <string name="gar_pref_download_cancel_summary">The download continues from here next time</string>
     <string name="gar_pref_download_resume">Resume download</string>
     <!-- %1$s and %2$s are sizes like "120 MB" and "397 MB" -->
@@ -63,7 +64,7 @@
     <string name="gar_pref_confirm_on">Ask before actions like timers, opening apps, media or reading notifications</string>
     <string name="gar_pref_confirm_off">Run commands the model understood right away. Calls always ask first.</string>
     <string name="gar_pref_licenses">Open source licenses</string>
-    <string name="gar_pref_licenses_summary">llama.cpp (MIT License)</string>
+    <string name="gar_pref_licenses_summary">llama.cpp, whisper.cpp, Whisper and Silero VAD</string>
 
     <!-- Questions about missing or unclear details of a command -->
     <string name="gar_ask_not_understood">Sorry, I didn\'t get that.</string>

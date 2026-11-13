@@ -51,7 +51,7 @@
     <!-- the picker's switch, like Android's "Always" in "Open with" -->
     <string name="skill_places_always_use">Always use this app</string>
     <!-- after the picker saved the app; "Navigate with" is the setting's title -->
-    <string name="skill_places_app_saved">Saved. Change it in Settings, Navigate with.</string>
+    <string name="skill_places_app_saved">Saved. Change it in Settings, You and places, Navigate with.</string>
     <!-- a contact with several addresses; %1$s lists them: "Home, 12 Main St or Work, 4 Oak Ave" -->
     <string name="skill_places_which_address">Which address? %1$s?</string>
     <!-- the user's own card has several; %1$s home or work, %2$s the addresses -->
@@ -67,7 +67,7 @@
     <string name="skill_places_contact_go">Go</string>
     <!-- "Find addresses online", asked once -->
     <string name="skill_places_lookup_offer">Look up this address online to start the route?</string>
-    <string name="skill_places_lookup_offer_detail">It sends only the address to OpenStreetMap\'s Nominatim. You can change this in Settings, under Find addresses online.</string>
+    <string name="skill_places_lookup_offer_detail">It sends only the address to OpenStreetMap\'s Nominatim. You can change this in Settings, You and places, Find addresses online.</string>
     <string name="skill_places_lookup_yes">Look it up</string>
     <string name="skill_places_lookup_no">Not now</string>
     <string name="skill_places_lookup_not_found">I couldn\'t find that address online, so here\'s a map search.</string>
@@ -78,10 +78,10 @@
     <string name="skill_places_ask_work">What\'s your work address?</string>
     <!-- spoken after the question: the user may not know the address by heart -->
     <string name="skill_places_ask_hint">Say the address or a place name, or \"here\" if you\'re there now.</string>
-    <string name="skill_places_ask_detail">You can also set it in Settings, under Home and work. Garble keeps it on this phone.</string>
+    <string name="skill_places_ask_detail">You can also set it in Settings, You and places. Garble keeps it on this phone.</string>
     <!-- nothing saved, but the user\'s own contact card has one; %1$s home or work, %2$s the address -->
     <string name="skill_places_card_offer">Use the %1$s address on your contact card, %2$s?</string>
-    <string name="skill_places_card_offer_detail">A yes saves it for next time. You can change it in Settings, under Home and work.</string>
+    <string name="skill_places_card_offer_detail">A yes saves it for next time. You can change it in Settings, You and places.</string>
     <string name="skill_places_card_use">Use it</string>
     <string name="skill_places_card_no">No</string>
     <string name="skill_places_saved_address">Saved your %1$s address.</string>

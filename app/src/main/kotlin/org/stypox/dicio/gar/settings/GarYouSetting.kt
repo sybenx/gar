@@ -27,6 +27,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -53,7 +54,9 @@ import androidx.lifecycle.compose.LifecycleResumeEffect
 import org.stypox.dicio.R
 import org.stypox.dicio.gar.stt.GarSttOwnNameAsk
 import org.stypox.dicio.settings.ui.SettingsItem
-import org.stypox.dicio.gar.ui.garble.GarbleSecondaryButton // GAR
+import org.stypox.dicio.gar.ui.garble.GarblePrimaryButton
+import org.stypox.dicio.gar.ui.garble.GarbleSecondaryButton
+import org.stypox.dicio.gar.ui.garble.GarbleTextButton
 import org.stypox.dicio.gar.ui.garble.LocalGarbleColors
 
 /**
@@ -148,16 +151,20 @@ private fun YouDialog(viewModel: GarSettingsViewModel, you: You?, onDismiss: () 
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(R.string.gar_you)) },
+        // Clear is destructive (the error color, as in the places editor); Cancel stays quiet
         confirmButton = {
-            TextButton(onClick = onDismiss) {
-                Text(stringResource(android.R.string.cancel))
+            if (GarYou.canClear(you) && !askFirstName) {
+                TextButton(
+                    onClick = { choose(YouChoice.Clear) },
+                    colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.error),
+                ) {
+                    Text(stringResource(R.string.gar_you_clear))
+                }
             }
         },
         dismissButton = {
-            if (GarYou.canClear(you) && !askFirstName) {
-                TextButton(onClick = { choose(YouChoice.Clear) }) {
-                    Text(stringResource(R.string.gar_you_clear))
-                }
+            GarbleTextButton(onClick = onDismiss) {
+                Text(stringResource(android.R.string.cancel))
             }
         },
         text = {
@@ -168,7 +175,8 @@ private fun YouDialog(viewModel: GarSettingsViewModel, you: You?, onDismiss: () 
                 }
                 if (!granted) {
                     Text(stringResource(R.string.gar_you_no_access))
-                    TextButton(
+                    // secondary: Save below stays the dialog's one primary action
+                    GarbleSecondaryButton(
                         onClick = { permissionLauncher.launch(Manifest.permission.READ_CONTACTS) },
                     ) {
                         Text(stringResource(R.string.gar_you_grant))
@@ -200,7 +208,7 @@ private fun YouDialog(viewModel: GarSettingsViewModel, you: You?, onDismiss: () 
                             }
                         }
                     }
-                    TextButton(onClick = { nameMode = true }) {
+                    GarbleTextButton(onClick = { nameMode = true }) {
                         Text(stringResource(R.string.gar_you_name_only_button))
                     }
                 } else if (askFirstName) {
@@ -230,7 +238,7 @@ private fun YouDialog(viewModel: GarSettingsViewModel, you: You?, onDismiss: () 
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         if (granted) {
-                            TextButton(
+                            GarbleTextButton(
                                 onClick = {
                                     nameMode = false
                                     askFirstName = false
@@ -240,7 +248,7 @@ private fun YouDialog(viewModel: GarSettingsViewModel, you: You?, onDismiss: () 
                                 Text(stringResource(R.string.gar_you_pick_contact))
                             }
                         }
-                        GarbleSecondaryButton( // GAR
+                        GarblePrimaryButton( // the dialog's one primary action, also while access is asked for
                             onClick = { choose(YouChoice.Name(name)) },
                             enabled = canSave,
                             modifier = Modifier.padding(top = 8.dp),

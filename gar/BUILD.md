@@ -315,14 +315,14 @@ which the wake word uses to turn the screen on *(untested)*.
 ### Models
 
 - **Speech**: the home screen's microphone button first asks for the microphone. In English,
-  Settings > Input method left at its default means Whisper, so on a new install the button reads
+  Settings > Assistant and voice > Input method left at its default means Whisper, so on a new install the button reads
   "Download speech model (83 MB)" and a tap downloads FUTO's ACFT base.en (82 MB) from
   dl.voiceinput.futo.org plus the Silero VAD file (0.9 MB) from huggingface.co, both checked for
-  size and sha256. A home screen card offers the same download once. Settings > Language model >
-  Speech recognition picks base.en or tiny.en (44 MB; a switch downloads the new one before it
+  size and sha256. A home screen card offers the same download once. Settings > Assistant and voice >
+  Speech recognition (shown while Whisper is the input method) picks base.en or tiny.en (44 MB; a switch downloads the new one before it
   deletes the old), shows progress, and has Cancel and Delete. A phone that already has Vosk's
   model keeps Vosk until a Whisper model is downloaded, then switches by itself. Choosing Vosk or
-  Whisper under Settings > Input method sticks; other languages always get Vosk (about 50 MB from
+  Whisper under Settings > Assistant and voice > Input method sticks; other languages always get Vosk (about 50 MB from
   alphacephei.com). There is no way to import either. Typed commands work without them.
 - **Language model**: on by default, but nothing downloads by itself. Download in Settings >
   Language model fetches Qwen3 0.6B (397 MB from Hugging Face, at a pinned revision, checked for

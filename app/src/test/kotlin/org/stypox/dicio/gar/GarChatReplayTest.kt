@@ -209,7 +209,7 @@ class GarChatReplayTest : StringSpec({
         val remembered = phone.say("it's aaron").shouldBeInstanceOf<OwnContactRememberedOutput>()
         remembered.name shouldBe "Aaron"
         smsString("skill_own_contact_remembered", remembered.name) shouldBe
-            "OK, you're Aaron. You can change that in Settings, Language model, You."
+            "OK, you're Aaron. You can change that in Settings, You and places."
         remembered.then.shouldBeInstanceOf<GarFollowUpOutput>().output.shouldBeInstanceOf<SmsAskOutput>().let {
             it.question shouldBe SmsQuestion.MESSAGE
             it.recipient shouldBe SmsRecipient("Aaron", "+14355550167")

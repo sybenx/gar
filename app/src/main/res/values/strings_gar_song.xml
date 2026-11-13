@@ -125,6 +125,9 @@
     <string name="pref_song_queue_title">Waiting for the internet</string>
     <string name="pref_song_queue_summary">Recordings to recognize: %1$d. Tap to delete them.</string>
     <string name="pref_song_queue_delete_title">Delete the recordings?</string>
-    <string name="pref_song_queue_delete_text">%1$d recordings are waiting for the internet. Deleted, they won\'t be sent.</string>
+    <plurals name="pref_song_queue_delete_text">
+        <item quantity="one">One recording is waiting for the internet. Deleted, it won\'t be sent.</item>
+        <item quantity="other">%1$d recordings are waiting for the internet. Deleted, they won\'t be sent.</item>
+    </plurals>
     <string name="pref_song_queue_delete">Delete</string>
 </resources>

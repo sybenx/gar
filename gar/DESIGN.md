@@ -1230,9 +1230,9 @@ tap / wake word / assist / SttService
   empty, as on the Pixel). The typed name is before the profile since the user chose it. A
   placeholder the user saved their own number as ("Me", "My number", "Home" and a few more)
   gives none, so the next source counts and it takes no prompt slot.
-- **"You"**, the first row of GAR's settings page, is the one place that sets who the user is
-  (`GarYou`, `GarYouSetting`); the page's entry in Dicio's settings says so ("You, speech
-  recognition and the language model"). Its summary says who GAR thinks they are and where that
+- **"You"**, the first row of Settings > You and places (`GarYouPlacesScreen`), is the one place
+  that sets who the user is (`GarYou`, `GarYouSetting`); the page's entry in Settings says so
+  ("Your contact card, home, work and maps app"). Its summary says who GAR thinks they are and where that
   came from, in the hint's order (`GarYou.who`, `GarYou.summary`): "Alex Herbert, 435-555-0100"
   (the contact and its first number), "Me (Alex), 435-555-0100" (a contact that names nobody,
   and the typed name), "Alex (name only)", "Alex Herbert (your card in Contacts)" or "Not set".
@@ -1346,7 +1346,7 @@ tap / wake word / assist / SttService
 nothing stay as chosen. The default (UNSET) gives Vosk for a non-English locale, else Whisper
 once its files are installed, else Vosk if Vosk's model is already unzipped (phones that used it
 before), else Whisper (new installs never download Vosk). The input device wrapper rebuilds the
-device when the result changes (locale, Whisper files), and Settings > Input method shows the
+device when the result changes (locale, Whisper files), and Settings > Assistant and voice > Input method shows the
 resolved device for the default.
 
 The device's states (`WhisperState`, shown as Dicio's `SttState` plus `Transcribing`):
@@ -1397,9 +1397,15 @@ native load at a time (each `GarLoadGuard`'s begin to end, the LLM's warm-up inc
 loads first, so a process death during a load leaves only the loading model's marker. The first
 load also warms `SpokenForm` (dicio-numbers loads its English data once).
 
-Settings: GAR's settings page (Settings > Language model) starts with "You" (above), then "Home
-and work" ("Places, camera and screen"), then "Speech recognition": the model (base.en, tiny.en), status and progress, Download, Cancel, Delete, "Runs
-on this phone; audio never leaves it.", and in debug builds "Keep recordings" (the last 50 clips
+Settings (2026-11-13 layout): Settings lists You and places, Assistant and voice, Skills,
+Appearance, Language model and About, with no headers. "Assistant and voice" (`GarVoiceScreen`)
+holds Dicio's Language row and its "Input and output methods" values (same values, saved by
+Dicio; GAR's own row builders with plain names: Input method, Wake word detection On or Off with
+a description that matches, "Play a sound when listening starts", "Answers") with GAR's rows:
+"Speech recognition" has Input method, then while Whisper is chosen (or a model is on the
+phone) the model (base.en, tiny.en), status and progress, Download, Cancel, Delete, "Privacy" and
+"Help recognize contact names"; "Diagnostics" has the voice log and in debug builds "Keep
+recordings" (the last 50 clips
 with their raw and spoken text in `filesDir/gar-stt-recordings/`, off by default).
 `gar_settings.proto`: `stt_model = 10`, `stt_keep_recordings = 11`, `stt_offer_hidden = 12` (9
 was already `own_contact_name`), `stt_contact_names = 13` (DEFAULT, ON, OFF: DEFAULT follows
@@ -3756,7 +3762,7 @@ Texts and calls need a card with a number, email one with an address. Without on
   for email) gets "Aaron has no number. Which contact is you?" ("no email address" for email)
   and isn't remembered.
 - Once found, GAR remembers it by display name (`GarYou.set`, so the name hint gets its first
-  name too) and says "OK, you're Aaron. You can change that in Settings, Language model, You." It
+  name too) and says "OK, you're Aaron. You can change that in Settings, You and places." It
   then goes on as if that name had been said (`OwnContactRememberedOutput`, which wraps the
   target's output in `GarFollowUpOutput`). Only a sure answer is remembered
   (`OwnAnswer.One.sure`): picked from the options, or said as the whole name or one of its words.
@@ -4259,7 +4265,7 @@ the input (`PlaceWords`, `WebAddress.parse`, `ShareLocationWords`, `CameraWords`
   OsmAnd, Vela or CoMaps?", answered by name ("osm and", "vella", "co maps", "use vela";
   `MapAppChoice.spokenNames`, each spelling matched on its own) or position; a spoken answer reads
   the switch too, so it saves unless the user turned Always off. A save adds "Saved. Change it in
-  Settings, Navigate with." before the action's speech and under its card (`MapAppSavedOutput`),
+  Settings, You and places, Navigate with." before the action's speech and under its card (`MapAppSavedOutput`),
   that once only. The rows take taps also when an earlier question led to the card ("Show it on
   the map?", "Which address?"), where the log holds it in a `GarFollowUpOutput` (`isLatest`).
   With "Ask every time" the switch isn't shown. The card lists apps only, so it
@@ -4347,7 +4353,7 @@ the input (`PlaceWords`, `WebAddress.parse`, `ShareLocationWords`, `CameraWords`
   your phone first." (the card isn't read, no address is said); a yes given after the phone locked
   saves nothing. A saved place always wins and the card isn't read then.
 - **"Home and work" setting** (`GarPlacesSetting`, `GarPlacesViewModel`, `PlaceEditor`), right
-  under "You" on GAR's settings page: a row each for Home and Work showing the address, "Current
+  under "You" on Settings > You and places: a row each for Home and Work showing the address, "Current
   location (40.71278, -74.00597)" for a point, or "Not set". A tap opens an editor: a field to type
   or paste an address or place name (Save; pasted lines are joined with ", "), "Use where I am
   now" (`LocationLookup.locate` as "here" by voice, asking with Android's location dialog; no

@@ -23,6 +23,10 @@ import org.stypox.dicio.gar.settings.GarAppearance // GAR
 import org.stypox.dicio.gar.settings.GarAppearanceScreen // GAR
 import org.stypox.dicio.gar.settings.GarModelSettings // GAR
 import org.stypox.dicio.gar.settings.GarSettingsScreen // GAR
+import org.stypox.dicio.gar.settings.GarVoiceScreen // GAR
+import org.stypox.dicio.gar.settings.GarVoiceSettings // GAR
+import org.stypox.dicio.gar.settings.GarYouPlacesScreen // GAR
+import org.stypox.dicio.gar.settings.GarYouPlacesSettings // GAR
 import org.stypox.dicio.gar.ui.GarAppHandOffs // GAR
 import org.stypox.dicio.io.input.stt_popup.SttPopupActivity
 import org.stypox.dicio.settings.MainSettingsScreen
@@ -76,6 +80,9 @@ fun Navigation() {
                 navigateToSkillSettings = { navController.navigate(SkillSettings) },
                 navigateToGarSettings = { navController.navigate(GarModelSettings) }, // GAR
                 navigateToGarAppearance = { navController.navigate(GarAppearance) }, // GAR
+                navigateToGarYouPlaces = { navController.navigate(GarYouPlacesSettings) }, // GAR
+                navigateToGarVoice = { navController.navigate(GarVoiceSettings) }, // GAR
+                navigateToAbout = { navController.navigate(About) }, // GAR
             )
         }
 
@@ -85,6 +92,14 @@ fun Navigation() {
 
         composable<GarModelSettings> { // GAR
             GarSettingsScreen(navigationIcon = backIcon)
+        }
+
+        composable<GarYouPlacesSettings> { // GAR
+            GarYouPlacesScreen(navigationIcon = backIcon)
+        }
+
+        composable<GarVoiceSettings> { // GAR
+            GarVoiceScreen(navigationIcon = backIcon)
         }
 
         composable<GarAppearance> { // GAR

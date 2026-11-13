@@ -3,31 +3,22 @@ package org.stypox.dicio.gar.settings
 import android.app.Application
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Directions
 import androidx.compose.material.icons.filled.TravelExplore
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.datastore.core.DataStore
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -42,7 +33,10 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.stypox.dicio.R
+import org.stypox.dicio.gar.ui.garble.GarbleChoice
+import org.stypox.dicio.gar.ui.garble.GarbleTextButton
 import org.stypox.dicio.settings.ui.BooleanSetting
+import org.stypox.dicio.settings.ui.SettingsCategoryTitle
 import org.stypox.dicio.settings.ui.SettingsItem
 import org.stypox.dicio.skills.places.AndroidMapLauncher
 import org.stypox.dicio.skills.places.MapApp
@@ -100,14 +94,17 @@ fun GarNavigationSetting(viewModel: GarNavigationViewModel = hiltViewModel()) {
     val state = apps
 
     // nothing chosen (or an app uninstalled since): Android's default when set, else GAR asks
-    val summary = when {
-        current.first == MapAppChoice.ASK -> stringResource(R.string.gar_navigate_with_ask)
-        state != null && state.apps.isEmpty() -> stringResource(R.string.gar_navigate_with_none)
-        else -> state?.apps?.firstOrNull { it.pkg == current.first }?.label
-            ?: state?.androidDefault?.let { stringResource(R.string.gar_navigate_with_android_default, it.label) }
-            ?: stringResource(R.string.gar_navigate_with_not_chosen)
+    val summary = when (val value = GarSettingsSummaries.navigateWith(current.first, state)) {
+        NavigateWithSummary.Loading -> null
+        NavigateWithSummary.Ask -> stringResource(R.string.gar_navigate_with_ask)
+        NavigateWithSummary.NoneFound -> stringResource(R.string.gar_navigate_with_none)
+        NavigateWithSummary.NotChosen -> stringResource(R.string.gar_navigate_with_not_chosen)
+        is NavigateWithSummary.App -> value.label
+        is NavigateWithSummary.AndroidDefault ->
+            stringResource(R.string.gar_navigate_with_android_default, value.label)
     }
     Column {
+        SettingsCategoryTitle(stringResource(R.string.gar_getting_around_title))
         SettingsItem(
             title = stringResource(R.string.gar_navigate_with),
             icon = Icons.Default.Directions,
@@ -146,7 +143,7 @@ private fun NavigateWithDialog(
         title = { Text(stringResource(R.string.gar_navigate_with)) },
         confirmButton = {},
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text(stringResource(android.R.string.cancel)) }
+            GarbleTextButton(onClick = onDismiss) { Text(stringResource(android.R.string.cancel)) }
         },
         text = {
             Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
@@ -156,33 +153,14 @@ private fun NavigateWithDialog(
                     } else {
                         app.label
                     }
-                    Choice(title, stringResource(app.doesText()), chosen == app.pkg) { onPick(app.pkg) }
+                    GarbleChoice(title, chosen == app.pkg, onClick = { onPick(app.pkg) }, detail = stringResource(app.doesText()))
                 }
-                Choice(stringResource(R.string.gar_navigate_with_ask), null, chosen == MapAppChoice.ASK) {
-                    onPick(MapAppChoice.ASK)
-                }
+                GarbleChoice(
+                    stringResource(R.string.gar_navigate_with_ask),
+                    chosen == MapAppChoice.ASK,
+                    onClick = { onPick(MapAppChoice.ASK) },
+                )
             }
         },
     )
-}
-
-@Composable
-private fun Choice(title: String, detail: String?, selected: Boolean, onClick: () -> Unit) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 48.dp)
-            .selectable(selected = selected, role = Role.RadioButton, onClick = onClick)
-            .padding(vertical = 4.dp),
-    ) {
-        // one stop for TalkBack: the row is the radio button
-        RadioButton(selected = selected, onClick = null)
-        Column {
-            Text(title, style = MaterialTheme.typography.bodyLarge)
-            detail?.let {
-                Text(it, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            }
-        }
-    }
 }

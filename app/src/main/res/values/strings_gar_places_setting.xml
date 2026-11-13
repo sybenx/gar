@@ -42,10 +42,12 @@
     <!-- a Google Maps place link (cid=, maps.app.goo.gl) names the place but has no location in it -->
     <string name="gar_places_share_name_only">This Google Maps link has no location in it. Share the place as a geo: pin or as coordinates instead (in Vela: Share, then geo: pin).</string>
     <string name="gar_places_share_close">Close</string>
+    <!-- the section with Navigate with and Find addresses online -->
+    <string name="gar_getting_around_title">Getting around</string>
     <!-- Navigate with -->
     <string name="gar_navigate_with">Navigate with</string>
     <!-- nothing picked yet: GAR asks the first time it needs a maps app -->
-    <string name="gar_navigate_with_not_chosen">Not chosen yet</string>
+    <string name="gar_navigate_with_not_chosen">Not chosen yet. Garble asks the first time.</string>
     <!-- %1$s is the app set in Android as the default for maps links, like Vela -->
     <string name="gar_navigate_with_android_default">%1$s (Android default)</string>
     <string name="gar_navigate_with_ask">Ask every time</string>

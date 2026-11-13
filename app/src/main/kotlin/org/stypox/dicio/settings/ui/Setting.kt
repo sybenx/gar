@@ -37,7 +37,6 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -46,6 +45,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import kotlinx.coroutines.job
 import org.stypox.dicio.R
+import org.stypox.dicio.gar.ui.garble.GarbleTextButton // GAR
+import org.stypox.dicio.gar.ui.garble.garbleSliderColors // GAR
 import org.stypox.dicio.gar.ui.garble.garbleSwitchColors // GAR
 import kotlin.math.roundToInt
 
@@ -109,7 +110,8 @@ class IntSetting(
                     value = value.toFloat(),
                     onValueChange = { onValueChange(it.roundToInt()) },
                     steps = maximum - minimum - 1,
-                    valueRange = minimum.toFloat()..maximum.toFloat()
+                    valueRange = minimum.toFloat()..maximum.toFloat(),
+                    colors = garbleSliderColors(), // GAR: neutral, a setting is not progress
                 )
             },
         )
@@ -148,7 +150,7 @@ class ListSetting<T>(
                 description
             } else {
                 stringResource(
-                    R.string.settings_description_with_value,
+                    R.string.gar_settings_description_with_value, // GAR: value first, no dash
                     description,
                     currentValueName
                 )
@@ -178,7 +180,7 @@ class ListSetting<T>(
                 Text(
                     text = title,
                     style = MaterialTheme.typography.titleLarge,
-                    textAlign = TextAlign.Center,
+                    textAlign = TextAlign.Start, // GAR: like GAR's AlertDialogs
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 8.dp),
@@ -201,9 +203,10 @@ class ListSetting<T>(
                         )
                     }
                 }
-                TextButton(
+                GarbleTextButton( // GAR: Cancel is not the accent action
                     onClick = onDismissRequest,
                     modifier = Modifier
+                        .align(Alignment.End) // GAR: on the right, like GAR's AlertDialogs
                         .padding(horizontal = 16.dp, vertical = 8.dp)
                 ) {
                     Text(stringResource(android.R.string.cancel))
@@ -245,7 +248,8 @@ fun ListSettingChooserDialogItem(
             if (description != null) {
                 Text(
                     text = description,
-                    style = MaterialTheme.typography.bodySmall.copy(fontStyle = FontStyle.Italic),
+                    style = MaterialTheme.typography.bodySmall, // GAR: muted, not italic
+                    color = MaterialTheme.colorScheme.onSurfaceVariant, // GAR
                     modifier = Modifier.fillMaxWidth(),
                 )
             }
@@ -303,7 +307,7 @@ class StringSetting(
                 value
             } else {
                 stringResource(
-                    R.string.settings_description_with_value,
+                    R.string.gar_settings_description_with_value, // GAR: value first, no dash
                     description,
                     value
                 )
@@ -336,7 +340,7 @@ class StringSetting(
                 Text(
                     text = title,
                     style = MaterialTheme.typography.titleLarge,
-                    textAlign = TextAlign.Center,
+                    textAlign = TextAlign.Start, // GAR: like GAR's AlertDialogs
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 8.dp),
@@ -366,7 +370,7 @@ class StringSetting(
                     modifier = Modifier
                         .padding(horizontal = 16.dp, vertical = 8.dp)
                 ) {
-                    TextButton(onClick = onDismissRequest) {
+                    GarbleTextButton(onClick = onDismissRequest) { // GAR: OK is the accent action
                         Text(stringResource(android.R.string.cancel))
                     }
                     Spacer(modifier = Modifier.weight(1.0f))

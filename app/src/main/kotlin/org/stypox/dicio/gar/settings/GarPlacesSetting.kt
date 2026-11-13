@@ -27,6 +27,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import org.stypox.dicio.gar.ui.garble.GarbleSecondaryButton // GAR
+import org.stypox.dicio.gar.ui.garble.GarbleTextButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -251,7 +252,7 @@ private fun PlaceEditorContent(
                 }
             },
             dismissButton = {
-                TextButton(onClick = { askingClear = false }) {
+                GarbleTextButton(onClick = { askingClear = false }) {
                     Text(stringResource(android.R.string.cancel))
                 }
             },
@@ -268,7 +269,7 @@ private fun PlaceEditorContent(
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) {
+            GarbleTextButton(onClick = onDismiss) {
                 Text(stringResource(android.R.string.cancel))
             }
         },
@@ -288,7 +289,7 @@ private fun PlaceEditorContent(
                                 .padding(vertical = 12.dp),
                         )
                     }
-                    TextButton(onClick = { picking = false }) {
+                    GarbleTextButton(onClick = { picking = false }) {
                         Text(stringResource(R.string.gar_places_back))
                     }
                     return@Column
@@ -341,7 +342,7 @@ private fun PlaceEditorContent(
                         color = MaterialTheme.colorScheme.error,
                     )
                     error.action?.let {
-                        TextButton(onClick = onErrorAction) {
+                        GarbleTextButton(onClick = onErrorAction) {
                             Text(stringResource(it))
                         }
                     }

@@ -73,6 +73,8 @@ object WeatherInfo : SkillInfo("weather") {
                 title = stringResource(R.string.gar_weather_breezy_title),
                 description = stringResource(R.string.gar_weather_breezy_summary),
             )
+            // GAR: the app GAR opens when Open-Meteo isn't answering or the skill is off (gar:weather)
+            org.stypox.dicio.gar.settings.GarWeatherAppSetting() // GAR
 
             StringSetting(
                 title = stringResource(R.string.pref_weather_default_city),
