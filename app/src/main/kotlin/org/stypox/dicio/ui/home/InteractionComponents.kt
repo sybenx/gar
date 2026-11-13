@@ -94,7 +94,11 @@ fun InteractionList(
         if (canBeAnchor) {
             lastAnchorIndex = totalItemCount
         }
-        item(content = content)
+        item {
+            // GAR: each item its own traversal group, so the accessibility pass's geometry sort
+            // stays per item while scrolling (gar/ui/GarSemantics.kt)
+            org.stypox.dicio.gar.ui.GarTraversalGroup { content() }
+        }
         totalItemCount += 1
     }
 

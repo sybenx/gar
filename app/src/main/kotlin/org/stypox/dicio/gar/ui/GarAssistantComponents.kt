@@ -58,7 +58,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.withFrameMillis
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
@@ -67,7 +66,10 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.PointerEventPass
-import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.input.pointer.SuspendingPointerInputModifierNode
+import androidx.compose.ui.node.DelegatingNode
+import androidx.compose.ui.node.ModifierNodeElement
+import androidx.compose.ui.platform.InspectorInfo
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.LiveRegionMode
@@ -447,6 +449,7 @@ fun GarChipRow(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .fillMaxWidth()
+            .garTraversalGroup()
             .horizontalScroll(rememberScrollState())
             .padding(horizontal = 16.dp),
     ) {
@@ -491,7 +494,8 @@ fun GarAnswerCard(
     maxHeight: Dp = Dp.Unspecified,   // set: heightIn(max) + verticalScroll inside the card
 ) {
     // the sheet's card: card fill, 24 dp corners, the soft card shadow
-    Box(modifier = modifier.fillMaxWidth().garbleCard()) {
+    // its own traversal group: the accessibility pass sorts the card's rows on their own
+    Box(modifier = modifier.fillMaxWidth().garbleCard().garTraversalGroup()) {
         Column(
             modifier = (if (maxHeight.isSpecified) {
                 Modifier
@@ -517,14 +521,16 @@ fun GarAnswerCard(
 
 @Composable
 private fun SkillHeader(skill: SkillInfo) {
+    // one node that reads as the merged name did (the icon has no description)
+    val name = skill.name(LocalContext.current)
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.semantics(mergeDescendants = true) {},
+        modifier = Modifier.clearAndSetSemantics { contentDescription = name },
     ) {
         SkillHeaderIcon(skill)
         Spacer(modifier = Modifier.width(8.dp))
         Text(
-            text = skill.name(LocalContext.current),
+            text = name,
             style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             maxLines = 1,
@@ -634,32 +640,58 @@ fun GarUserBubble(
  * (the list still scrolls, the sheet still swipes), and nothing is consumed while GAR is silent.
  */
 fun Modifier.garTapStopsSpeech(speaking: () -> Boolean, stopSpeaking: () -> Unit): Modifier =
-    composed {
-        val isSpeaking by rememberUpdatedState(speaking)
-        val stop by rememberUpdatedState(stopSpeaking)
-        pointerInput(Unit) {
-            awaitEachGesture {
-                val down = awaitFirstDown(requireUnconsumed = false, pass = PointerEventPass.Initial)
-                if (!isSpeaking()) {
-                    return@awaitEachGesture
+    this then GarTapStopsSpeechElement(speaking, stopSpeaking)
+
+/**
+ * [garTapStopsSpeech] as a modifier node rather than `composed {}`: a composed modifier is a new,
+ * unequal object at every recomposition, so the home screen's chat list (which takes it) was
+ * recomposed whenever the home screen was, e.g. at each mic state change. This element is equal
+ * while its two lambdas are the same, and an update only swaps them in the node.
+ */
+internal data class GarTapStopsSpeechElement(
+    val speaking: () -> Boolean,
+    val stopSpeaking: () -> Unit,
+) : ModifierNodeElement<GarTapStopsSpeechNode>() {
+    override fun create() = GarTapStopsSpeechNode(speaking, stopSpeaking)
+
+    override fun update(node: GarTapStopsSpeechNode) {
+        node.speaking = speaking
+        node.stopSpeaking = stopSpeaking
+    }
+
+    override fun InspectorInfo.inspectableProperties() {
+        name = "garTapStopsSpeech"
+    }
+}
+
+internal class GarTapStopsSpeechNode(
+    var speaking: () -> Boolean,
+    var stopSpeaking: () -> Unit,
+) : DelegatingNode() {
+    @Suppress("unused") // receives the pointer events as a delegate
+    private val input = delegate(SuspendingPointerInputModifierNode {
+        awaitEachGesture {
+            val down = awaitFirstDown(requireUnconsumed = false, pass = PointerEventPass.Initial)
+            if (!speaking()) {
+                return@awaitEachGesture
+            }
+            stopSpeaking()
+            down.consume()
+            val slop = viewConfiguration.touchSlop
+            while (true) {
+                val event = awaitPointerEvent(PointerEventPass.Initial)
+                val change = event.changes.firstOrNull { it.id == down.id } ?: break
+                if (!change.pressed) {
+                    change.consume() // the up of the stopping tap
+                    break
                 }
-                stop()
-                down.consume()
-                val slop = viewConfiguration.touchSlop
-                while (true) {
-                    val event = awaitPointerEvent(PointerEventPass.Initial)
-                    val change = event.changes.firstOrNull { it.id == down.id } ?: break
-                    if (!change.pressed) {
-                        change.consume() // the up of the stopping tap
-                        break
-                    }
-                    if ((change.position - down.position).getDistance() > slop) {
-                        break // a drag: scrolling and swiping go on as usual
-                    }
+                if ((change.position - down.position).getDistance() > slop) {
+                    break // a drag: scrolling and swiping go on as usual
                 }
             }
         }
-    }
+    })
+}
 
 private val BASE_SIZE = 72.dp
 private const val ICON_SHARE = 0.45f

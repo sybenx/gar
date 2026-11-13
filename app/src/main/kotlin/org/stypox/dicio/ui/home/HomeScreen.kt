@@ -48,6 +48,7 @@ import org.stypox.dicio.gar.stt.rememberGarVoiceActivity // GAR
 import org.stypox.dicio.gar.ui.GarChip // GAR
 import org.stypox.dicio.gar.ui.GarChips // GAR
 import org.stypox.dicio.gar.ui.GarMicState // GAR
+import org.stypox.dicio.gar.ui.GarImePadded // GAR
 import org.stypox.dicio.gar.ui.garTapStopsSpeech // GAR
 import org.stypox.dicio.gar.ui.rememberGarMicState // GAR
 import org.stypox.dicio.gar.ui.rememberGarStarterChips // GAR
@@ -265,14 +266,18 @@ fun HomeScreen(
         // GAR: the mic, its state and the keyboard in a bottom bar (with the starter chips on an
         // empty home), instead of Dicio's floating button, which stays for the unavailable states
         bottomBar = {
-            GarHomeBottomBar(
-                sttState = sttState,
-                micState = micState,
-                voiceActivity = voiceActivity,
-                onSttClick = onSttClick,
-                onStopSpeaking = onStopSpeaking,
-                onType = { if (searchString == null) searchString = "" },
-            )
+            // GAR: the keyboard's padding is here, not at the app's root (gar/ui/GarInsets.kt):
+            // the bar rides up and the list shrinks, but the top bar isn't re-laid out
+            GarImePadded {
+                GarHomeBottomBar(
+                    sttState = sttState,
+                    micState = micState,
+                    voiceActivity = voiceActivity,
+                    onSttClick = onSttClick,
+                    onStopSpeaking = onStopSpeaking,
+                    onType = { if (searchString == null) searchString = "" },
+                )
+            }
         },
         snackbarHost = snackbarHost,
     )

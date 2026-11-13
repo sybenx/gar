@@ -24,6 +24,7 @@ import org.stypox.dicio.gar.settings.GarAppearanceScreen // GAR
 import org.stypox.dicio.gar.settings.GarModelSettings // GAR
 import org.stypox.dicio.gar.settings.GarSettingsScreen // GAR
 import org.stypox.dicio.gar.ui.GarAppHandOffs // GAR
+import org.stypox.dicio.gar.ui.GarImePadded // GAR
 import org.stypox.dicio.io.input.stt_popup.SttPopupActivity
 import org.stypox.dicio.settings.MainSettingsScreen
 import org.stypox.dicio.settings.SkillSettingsScreen
@@ -71,28 +72,30 @@ fun Navigation() {
         }
 
         composable<MainSettings> {
-            MainSettingsScreen(
-                navigationIcon = backIcon,
-                navigateToSkillSettings = { navController.navigate(SkillSettings) },
-                navigateToGarSettings = { navController.navigate(GarModelSettings) }, // GAR
-                navigateToGarAppearance = { navController.navigate(GarAppearance) }, // GAR
-            )
+            GarImePadded { // GAR
+                MainSettingsScreen(
+                    navigationIcon = backIcon,
+                    navigateToSkillSettings = { navController.navigate(SkillSettings) },
+                    navigateToGarSettings = { navController.navigate(GarModelSettings) }, // GAR
+                    navigateToGarAppearance = { navController.navigate(GarAppearance) }, // GAR
+                )
+            }
         }
 
         composable<SkillSettings> {
-            SkillSettingsScreen(navigationIcon = backIcon)
+            GarImePadded { SkillSettingsScreen(navigationIcon = backIcon) } // GAR
         }
 
         composable<GarModelSettings> { // GAR
-            GarSettingsScreen(navigationIcon = backIcon)
+            GarImePadded { GarSettingsScreen(navigationIcon = backIcon) }
         }
 
         composable<GarAppearance> { // GAR
-            GarAppearanceScreen(navigationIcon = backIcon)
+            GarImePadded { GarAppearanceScreen(navigationIcon = backIcon) }
         }
 
         composable<About> {
-            AboutScreen(navigationIcon = backIcon)
+            GarImePadded { AboutScreen(navigationIcon = backIcon) } // GAR
         }
     }
 }

@@ -268,6 +268,14 @@ The output should be `app/build/outputs/apk/benchmark/app-benchmark.apk`. `profi
 installs the profile at the first start, or right away with
 `adb shell cmd package compile -f -m speed-profile cc.aaro.gar.benchmark`.
 
+**On the phone, over the debug build.** `./gradlew :app:assembleBenchmark -PgarIdSuffix=gar`
+gives the benchmark build the debug build's id, `cc.aaro.gar.gar` (the suffix is cleaned the way
+the debug type cleans it; without the property it stays `.benchmark`). It is R8-minified, not
+debuggable, has the baseline profile and is signed with the debug key, so
+`adb install -r app/build/outputs/apk/benchmark/app-benchmark.apk` updates the debug app in place
+and keeps its data. Debug builds run Compose in the interpreter, about ten times slower, so
+measure frame times on this build, not on debug.
+
 ## 4. Install with adb
 
 Turn on Developer options on the phone (Settings > About phone, tap Build number seven times).
