@@ -153,6 +153,11 @@ private fun GarSettingsScreen(
             GarNavigationSetting()
         }
 
+        // which weather app GAR opens when Open-Meteo isn't answering (gar:weather)
+        item {
+            GarWeatherAppSetting()
+        }
+
         item {
             SttSettings(viewModel, settings, formatSize)
         }

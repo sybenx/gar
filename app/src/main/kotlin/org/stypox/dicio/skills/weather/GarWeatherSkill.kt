@@ -54,6 +54,7 @@ class GarWeatherSkill(
     private val unitsFor: suspend (SkillContext) -> WeatherUnits = ::defaultUnits,
     private val today: () -> LocalDate = { LocalDate.now() },
     private val isLocked: (SkillContext) -> Boolean = ::isPhoneLocked,
+    private val appsFor: (SkillContext) -> WeatherAppAccess = WeatherAppAccess::of,
 ) : Skill<WeatherRequest?>(correspondingSkillInfo, data.specificity), GarToolSkill, GarOfflineFirstSkill {
 
     override fun score(ctx: SkillContext, input: String): Pair<Score, WeatherRequest?> {
@@ -87,6 +88,15 @@ class GarWeatherSkill(
         return WeatherAnswerOutput(answer, unitsFor(ctx))
     }
 
+    /**
+     * The skill is off (the user chose so, or just said to keep it off): the user's weather app,
+     * "The weather skill is off, so I opened Breezy Weather.", or null for the gate's own answer.
+     */
+    override suspend fun offOutput(ctx: SkillContext, inputData: Any?, justDeclined: Boolean): SkillOutput? {
+        val reason = if (justDeclined) WeatherAppReason.STAYS_OFF else WeatherAppReason.SKILL_OFF
+        return withContext(Dispatchers.IO) { WeatherAppFallback.output(appsFor(ctx), reason, isLocked(ctx)) }
+    }
+
     override suspend fun generateOutput(ctx: SkillContext, inputData: WeatherRequest?): SkillOutput {
         val request = inputData ?: WeatherRequest(WeatherTopic.GENERAL, WeatherWhen.Now, null)
         val lookup = lookupFor(ctx)
@@ -95,7 +105,7 @@ class GarWeatherSkill(
         if (result is WeatherResult.AskPlace && isLocked(ctx)) {
             return GarLockedOutput()
         }
-        return weatherOutput(result, request, lookup, units)
+        return weatherOutputOrApp(ctx, result, request, lookup, units, appsFor, isLocked)
     }
 
     companion object {
@@ -139,6 +149,7 @@ class WeatherLocationAnswerSkill(
     private val units: WeatherUnits,
     private val isLocked: (SkillContext) -> Boolean = ::isPhoneLocked,
     private val onAnswered: () -> Unit = {},
+    private val appsFor: (SkillContext) -> WeatherAppAccess = WeatherAppAccess::of,
 ) : Skill<Unit>(WeatherLocationInfo, Specificity.HIGH) {
 
     override fun score(ctx: SkillContext, input: String): Pair<Score, Unit> =
@@ -150,7 +161,7 @@ class WeatherLocationAnswerSkill(
             return GarFollowUpOutput(GarLockedOutput())
         }
         val result = withContext(Dispatchers.IO) { lookup.useLocation(request) }
-        return GarFollowUpOutput(weatherOutput(result, request, lookup, units))
+        return GarFollowUpOutput(weatherOutputOrApp(ctx, result, request, lookup, units, appsFor, isLocked))
     }
 }
 
@@ -164,6 +175,7 @@ class WeatherCityAnswerSkill(
     private val units: WeatherUnits,
     private val isLocked: (SkillContext) -> Boolean = ::isPhoneLocked,
     private val onAnswered: () -> Unit = {},
+    private val appsFor: (SkillContext) -> WeatherAppAccess = WeatherAppAccess::of,
 ) : Skill<String?>(WeatherInfo, Specificity.HIGH) {
 
     override fun score(ctx: SkillContext, input: String): Pair<Score, String?> {
@@ -177,9 +189,30 @@ class WeatherCityAnswerSkill(
             return GarFollowUpOutput(GarLockedOutput())
         }
         val city = inputData ?: return GarFollowUpOutput(
-            WeatherPlaceQuestionOutput(request, AskReason.NOT_FOUND, lookup, units),
+            WeatherPlaceQuestionOutput(request, AskReason.NOT_FOUND, lookup, units, appsFor, isLocked),
         )
         val result = withContext(Dispatchers.IO) { lookup.answerCity(request, city) }
-        return GarFollowUpOutput(weatherOutput(result, request, lookup, units))
+        return GarFollowUpOutput(weatherOutputOrApp(ctx, result, request, lookup, units, appsFor, isLocked))
     }
+}
+
+/**
+ * [weatherOutput], except that when Open-Meteo isn't answering GAR opens the user's weather app
+ * ([WeatherAppFallback]): "Open-Meteo isn't answering, so I opened Breezy Weather."
+ */
+suspend fun weatherOutputOrApp(
+    ctx: SkillContext,
+    result: WeatherResult,
+    request: WeatherRequest,
+    lookup: WeatherLookup,
+    units: WeatherUnits,
+    appsFor: (SkillContext) -> WeatherAppAccess,
+    isLocked: (SkillContext) -> Boolean,
+): SkillOutput {
+    if (result == WeatherResult.NoConnection) {
+        withContext(Dispatchers.IO) {
+            WeatherAppFallback.output(appsFor(ctx), WeatherAppReason.UNREACHABLE, isLocked(ctx))
+        }?.let { return it }
+    }
+    return weatherOutput(result, request, lookup, units, appsFor, isLocked)
 }

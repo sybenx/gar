@@ -12,4 +12,11 @@ import org.dicio.skill.skill.SkillOutput
 interface GarOfflineFirstSkill {
     /** The answer to [inputData] (from the skill's own score) without the network, or null. */
     suspend fun offlineOutput(ctx: SkillContext, inputData: Any?): SkillOutput?
+
+    /**
+     * The answer to [inputData] while the skill is off, in place of GAR's "it's off" (gar:weather:
+     * the user's weather app), or null to keep it. [justDeclined]: the user just said to keep the
+     * skill off, else they chose so before.
+     */
+    suspend fun offOutput(ctx: SkillContext, inputData: Any?, justDeclined: Boolean): SkillOutput? = null
 }

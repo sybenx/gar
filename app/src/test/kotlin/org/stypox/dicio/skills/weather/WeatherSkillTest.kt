@@ -12,6 +12,7 @@ import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 import io.kotest.matchers.types.shouldBeTypeOf
 import org.dicio.skill.skill.AlwaysWorstScore
+import org.dicio.skill.skill.InteractionPlan
 import org.stypox.dicio.gar.FakeSkillContext
 import org.stypox.dicio.gar.GarMatchCheck
 import org.stypox.dicio.gar.ENGLISH_PARSER_FORMATTER
@@ -78,6 +79,7 @@ private fun skill(fresh: Boolean) = GarWeatherSkill(
     unitsFor = { UNITS },
     today = { NOW.toLocalDate() },
     isLocked = { false },
+    appsFor = { FakeWeatherApps() },
 )
 
 private fun gate(fresh: Boolean) = GarOnlineGateSkill(
@@ -218,6 +220,25 @@ class WeatherSkillTest : StringSpec({
             WeatherInfo, Sentences.Weather["en"]!!, lookupFor = { lookup }, unitsFor = { UNITS },
             today = { NOW.toLocalDate() }, isLocked = { false },
         ).generateOutput(FakeSkillContext(), request).shouldBeInstanceOf<WeatherPlaceQuestionOutput>()
+    }
+
+    "a city answer while Open-Meteo isn't answering opens the user's weather app" {
+        val apps = FakeWeatherApps(listOf(WeatherApp("org.breezyweather", "Breezy Weather")))
+        val ctx = FakeSkillContext()
+        val question = GarWeatherSkill(
+            WeatherInfo, Sentences.Weather["en"]!!,
+            lookupFor = { WeatherLookup(OpenMeteo(NO_NETWORK), NoPlaces, { null }) { NOW } },
+            unitsFor = { UNITS }, today = { NOW.toLocalDate() }, isLocked = { false }, appsFor = { apps },
+        ).generateOutput(ctx, WeatherRequest(WeatherTopic.GENERAL, WeatherWhen.Now, null))
+            .shouldBeInstanceOf<WeatherPlaceQuestionOutput>()
+        val next = question.getInteractionPlan(ctx).shouldBeInstanceOf<InteractionPlan.StartSubInteraction>()
+            .nextSkills
+        val city = next.filterIsInstance<WeatherCityAnswerSkill>().single()
+        val (score, answer) = city.score(ctx, "salt lake city")
+        score shouldNotBe AlwaysWorstScore
+        city.generateOutput(ctx, answer).shouldBeInstanceOf<GarFollowUpOutput>()
+            .output.shouldBeInstanceOf<WeatherAppOpenedOutput>().reason shouldBe WeatherAppReason.UNREACHABLE
+        apps.opened shouldBe listOf("org.breezyweather")
     }
 })
 

@@ -113,7 +113,8 @@ open class GarCheckedOnlineSkill(
  * - the user hasn't chosen about the skill yet: GAR asks whether to turn it on, naming what it
  *   contacts ([GarOnlineAskOutput]); a yes turns it on and answers the input with it right away;
  * - the user already chose (said no, or switched it off in Settings > Skills): GAR says that it is
- *   off and where to turn it on ([GarOnlineIsOffOutput]), without asking;
+ *   off and where to turn it on ([GarOnlineIsOffOutput]), without asking, unless the skill has
+ *   its own answer for that ([GarOfflineFirstSkill.offOutput], gar:weather: the user's weather app);
  * - it was turned on in the meantime: it just runs.
  *
  * @param isDeviceLocked whether the phone is locked (with a PIN, pattern, ...): then GAR doesn't
@@ -131,13 +132,18 @@ class GarOnlineGateSkill(
 
     override val takesOtherLanguages: Boolean = false
 
+    /** What the skill answers while off instead of "it's off" (gar:weather: the user's weather app). */
+    suspend fun offOutput(ctx: SkillContext, inputData: Any?, justDeclined: Boolean): SkillOutput? =
+        (wrapped as? GarOfflineFirstSkill)?.offOutput(ctx, inputData, justDeclined)
+
     override suspend fun generateOutput(ctx: SkillContext, inputData: Any?): SkillOutput {
         // gar:weather: an answer from an app on the phone needs no internet, so no question
         (wrapped as? GarOfflineFirstSkill)?.offlineOutput(ctx, inputData)?.let { return it }
         val settings = settingsFor(ctx)
         return when {
             settings.isEnabled(online.id) -> runWrapped(ctx, inputData)
-            settings.wasAsked(online.id) -> GarOnlineIsOffOutput(online)
+            settings.wasAsked(online.id) -> offOutput(ctx, inputData, justDeclined = false)
+                ?: GarOnlineIsOffOutput(online)
             isDeviceLocked(ctx) -> GarLockedOutput()
             else -> GarOnlineAskOutput(this, inputData, settings)
         }

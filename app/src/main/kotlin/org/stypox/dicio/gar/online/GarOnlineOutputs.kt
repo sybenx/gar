@@ -162,7 +162,8 @@ class GarOnlineAnswerSkill(
         return when {
             inputData != true -> {
                 settings.markAsked(listOf(id))
-                GarOnlineStaysOffOutput(gate.online)
+                gate.offOutput(ctx, askedInputData, justDeclined = true)?.let(::GarFollowUpOutput)
+                    ?: GarOnlineStaysOffOutput(gate.online)
             }
             // nothing is remembered: GAR asks again once the phone is unlocked
             gate.isDeviceLocked(ctx) -> GarLockedOutput()

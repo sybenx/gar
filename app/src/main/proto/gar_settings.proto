@@ -105,6 +105,10 @@ message GarSettings {
   // "Open the full app for the assistant" (GarSheet): the assist gesture and the wake word open
   // MainActivity as before instead of the assistant sheet over the current app; off by default
   bool assist_full_screen = 66;
+  // gar:weather: the "Weather app" GAR opens when Open-Meteo isn't answering or the weather skill
+  // is off, and from the forecast card: "" not chosen yet (the only one, else GAR asks once,
+  // WeatherApps.choose), "none" for no app, else a package
+  string weather_app = 70; // GAR
 }
 
 // gar:places: a place the user saved, as an address said or typed, or as a spot on the map (the

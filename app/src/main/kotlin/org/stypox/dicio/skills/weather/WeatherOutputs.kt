@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import org.stypox.dicio.gar.ui.garble.GarbleSecondaryButton // GAR
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,6 +37,7 @@ import org.stypox.dicio.io.graphical.Headline
 import org.stypox.dicio.io.graphical.HeadlineSpeechSkillOutput
 import org.stypox.dicio.io.graphical.Subtitle
 import org.stypox.dicio.io.input.InputEvent
+import org.stypox.dicio.skills.notes.isPhoneLocked
 import org.stypox.dicio.util.getString
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -276,6 +278,8 @@ class WeatherAnswerOutput(
             }
             Spacer(modifier = Modifier.height(8.dp))
             Subtitle(text = source(ctx))
+            // the user's own weather app, when there is one
+            WeatherAppButton(modifier = Modifier.padding(top = 8.dp).align(Alignment.CenterHorizontally))
         }
     }
 
@@ -433,13 +437,16 @@ class WeatherMessageOutput(private val message: (SkillContext) -> String) : Head
  * no place and neither a home city nor "use my location" is set. The answer is a city
  * ([WeatherCityAnswerSkill], remembered as the weather skill's default city) or "use my location"
  * ([WeatherLocationAnswerSkill], for which Dicio asks for the approximate location first); the
- * card has a button for the location. Either answers [request] right away.
+ * card has a button for the location. Either answers [request] right away, and opens the user's
+ * weather app when Open-Meteo isn't answering ([appsFor], [isLocked]: fakes in tests).
  */
 class WeatherPlaceQuestionOutput(
     val request: WeatherRequest,
     val reason: AskReason,
     private val lookup: WeatherLookup,
     private val units: WeatherUnits,
+    private val appsFor: (SkillContext) -> WeatherAppAccess = WeatherAppAccess::of,
+    private val isLocked: (SkillContext) -> Boolean = ::isPhoneLocked,
 ) : SkillOutput {
 
     /** Set once the user answered, to disable the button. */
@@ -458,8 +465,12 @@ class WeatherPlaceQuestionOutput(
         InteractionPlan.StartSubInteraction(
             reopenMicrophone = true,
             nextSkills = listOf(
-                WeatherLocationAnswerSkill(request, lookup, units, onAnswered = { answered = true }),
-                WeatherCityAnswerSkill(request, lookup, units, onAnswered = { answered = true }),
+                WeatherLocationAnswerSkill(
+                    request, lookup, units, isLocked, onAnswered = { answered = true }, appsFor = appsFor,
+                ),
+                WeatherCityAnswerSkill(
+                    request, lookup, units, isLocked, onAnswered = { answered = true }, appsFor = appsFor,
+                ),
                 GarCancelSkill(WeatherInfo) { answered = true },
             ),
         )
@@ -505,9 +516,12 @@ fun weatherOutput(
     request: WeatherRequest,
     lookup: WeatherLookup,
     units: WeatherUnits,
+    appsFor: (SkillContext) -> WeatherAppAccess = WeatherAppAccess::of,
+    isLocked: (SkillContext) -> Boolean = ::isPhoneLocked,
 ): SkillOutput = when (result) {
     is WeatherResult.Answer -> WeatherAnswerOutput(result, units)
-    is WeatherResult.AskPlace -> WeatherPlaceQuestionOutput(request, result.reason, lookup, units)
+    is WeatherResult.AskPlace ->
+        WeatherPlaceQuestionOutput(request, result.reason, lookup, units, appsFor, isLocked)
     is WeatherResult.PlaceNotFound ->
         WeatherMessageOutput { it.getString(R.string.gar_weather_not_found, result.name) }
     WeatherResult.NoConnection ->
